@@ -1,0 +1,27 @@
+---
+interface Props {
+  label: string;
+  screenshots: Array<{
+    url: string;
+    caption?: string | undefined;
+  }>;
+}
+
+const { label, screenshots } = Astro.props;
+---
+
+<section class="my-8 flex snap-x snap-mandatory gap-4 overflow-x-auto" aria-label={label}>
+  {
+    screenshots.map((screenshot, index) => (
+      <figure class="m-0 w-full max-w-3xl shrink-0 snap-start">
+        <img
+          class="block max-h-[36rem] max-w-full rounded-xl"
+          src={screenshot.url}
+          alt={screenshot.caption ?? ""}
+          loading={index === 0 ? "eager" : "lazy"}
+        />
+        {screenshot.caption && <figcaption class="mt-2">{screenshot.caption}</figcaption>}
+      </figure>
+    ))
+  }
+</section>

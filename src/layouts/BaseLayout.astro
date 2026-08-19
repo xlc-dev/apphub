@@ -1,0 +1,58 @@
+---
+import "@/global.css";
+import "@fontsource-variable/inter";
+import { ClientRouter } from "astro:transitions";
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  transitions?: boolean;
+  transitionFallback?: "animate" | "swap" | "none";
+}
+
+const {
+  title,
+  description,
+  image,
+  transitions = false,
+  transitionFallback = "animate",
+} = Astro.props;
+const pageTitle = title === "AppHub" ? title : `${title} - AppHub`;
+---
+
+<!doctype html>
+<html lang="en" class="scheme-light dark:scheme-dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="application-name" content="AppHub" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#09090b" media="(prefers-color-scheme: dark)" />
+    <meta property="og:site_name" content="AppHub" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content={image ? "summary_large_image" : "summary"} />
+    <meta name="twitter:title" content={pageTitle} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="alternate" type="application/json" href="/catalog.json" title="AppHub catalog" />
+    <title>{pageTitle}</title>
+    {description && <meta name="description" content={description} />}
+    {description && <meta property="og:description" content={description} />}
+    {description && <meta name="twitter:description" content={description} />}
+    {image && <meta property="og:image" content={image} />}
+    {image && <meta name="twitter:image" content={image} />}
+    {transitions && <ClientRouter fallback={transitionFallback} />}
+  </head>
+  <body class="m-0 bg-white font-sans text-zinc-950 dark:bg-zinc-950 dark:text-zinc-50">
+    <header class="mx-auto max-w-6xl p-6">
+      <a class="text-xl font-bold no-underline" href="/">AppHub</a>
+    </header>
+    <main class="mx-auto max-w-6xl p-6">
+      <slot />
+    </main>
+  </body>
+</html>
