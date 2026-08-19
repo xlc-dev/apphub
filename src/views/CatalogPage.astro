@@ -2,12 +2,36 @@
 import AppCard from "@/components/AppCard.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { getCatalog } from "@/lib/catalog";
+import { categoryPath } from "@/lib/categories";
 
-const apps = await getCatalog();
+interface Props {
+  category?: string;
+}
+
+const { category } = Astro.props;
+const catalog = await getCatalog();
+const apps = category ? catalog.filter((app) => app.categories.includes(category)) : catalog;
+const categories = [...new Set(catalog.flatMap((app) => app.categories))].sort((a, b) =>
+  a.localeCompare(b)
+);
+const heading = category ? `${category} Apps` : "AppImages for Linux";
 ---
 
-<BaseLayout title="AppHub" description="AppImages for Linux.">
-  <h1 class="text-3xl font-bold">AppImages for Linux</h1>
+<BaseLayout title={category ? heading : "AppHub"} description={`${heading}.`}>
+  <h1 class="text-3xl font-bold">{heading}</h1>
+  <nav class="mt-4 flex flex-wrap gap-x-4 gap-y-2" aria-label="Categories">
+    <a class="hover:text-zinc-600 dark:hover:text-zinc-300" href="/">All</a>
+    {
+      categories.map((name) => (
+        <a
+          class="hover:text-zinc-600 dark:hover:text-zinc-300"
+          href={categoryPath(name)}
+          aria-current={name === category ? "page" : undefined}>
+          {name}
+        </a>
+      ))
+    }
+  </nav>
   <div class="mt-8 grid gap-6">
     {apps.map((app) => <AppCard app={app} />)}
   </div>

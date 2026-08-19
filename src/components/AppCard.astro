@@ -1,10 +1,13 @@
 ---
+import { categoryPath } from "@/lib/categories";
+
 interface Props {
   app: {
     slug: string;
     name: string;
     summary: string;
     icon: string;
+    categories: string[];
   };
 }
 
@@ -20,5 +23,16 @@ const { app } = Astro.props;
       </a>
     </h2>
     <p>{app.summary}</p>
+    {
+      app.categories.length > 0 && (
+        <p class="flex flex-wrap gap-x-3 gap-y-1 text-sm text-zinc-500 dark:text-zinc-400">
+          {app.categories.map((category) => (
+            <a class="hover:text-zinc-950 dark:hover:text-zinc-50" href={categoryPath(category)}>
+              {category}
+            </a>
+          ))}
+        </p>
+      )
+    }
   </div>
 </article>

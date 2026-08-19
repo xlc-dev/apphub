@@ -1,6 +1,7 @@
 ---
 import ScreenshotCarousel from "@/components/ScreenshotCarousel.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import { categoryPath } from "@/lib/categories";
 
 interface Props {
   app: {
@@ -9,6 +10,7 @@ interface Props {
     summary: string;
     description: string;
     icon: string;
+    categories: string[];
     screenshots: Array<{ url: string; caption?: string | undefined }>;
   };
 }
@@ -22,6 +24,17 @@ const { app } = Astro.props;
     <div>
       <h1 class="text-3xl font-bold">{app.name}</h1>
       <p>{app.summary}</p>
+      {
+        app.categories.length > 0 && (
+          <p class="flex flex-wrap gap-x-3 gap-y-1 text-sm text-zinc-500 dark:text-zinc-400">
+            {app.categories.map((category) => (
+              <a class="hover:text-zinc-950 dark:hover:text-zinc-50" href={categoryPath(category)}>
+                {category}
+              </a>
+            ))}
+          </p>
+        )
+      }
     </div>
   </div>
   <p>{app.description}</p>

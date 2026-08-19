@@ -1,0 +1,25 @@
+---
+import type { GetStaticPaths } from "astro";
+import { getCatalog } from "@/lib/catalog";
+import { categorySlug } from "@/lib/categories";
+import CatalogPage from "@/views/CatalogPage.astro";
+
+export const getStaticPaths = (async () => {
+  const apps = await getCatalog();
+  const categories = [...new Set(apps.flatMap((app) => app.categories))];
+  const slugs = new Set<string>();
+
+  return categories.map((category) => {
+    const slug = categorySlug(category);
+
+    if (slugs.has(slug)) throw new Error(`Duplicate category URL slug: ${slug}`);
+    slugs.add(slug);
+
+    return { params: { category: slug }, props: { category } };
+  });
+}) satisfies GetStaticPaths;
+
+const { category } = Astro.props;
+---
+
+<CatalogPage category={category} />
