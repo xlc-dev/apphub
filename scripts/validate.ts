@@ -20,10 +20,10 @@ for (const { app, directory, hasLock, lock } of entries) {
 }
 
 const publicSchema = JSON.parse(
-  await readFile(new URL("app.schema.json", root), "utf8")
+  await readFile(new URL("catalog/app.schema.json", root), "utf8")
 ) as unknown;
 
 if (!isDeepStrictEqual(publicSchema, appJsonSchema()))
-  throw new Error("app.schema.json is stale; run bun run schema");
+  throw new Error("catalog/app.schema.json is stale; run bun run schema");
 
 console.log(`Validated ${entries.length} application${entries.length === 1 ? "" : "s"}.`);

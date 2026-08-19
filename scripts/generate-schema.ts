@@ -2,4 +2,7 @@ import { writeFile } from "node:fs/promises";
 import { root } from "@catalog/core";
 import { appJsonSchema } from "@catalog/schema";
 
-await writeFile(new URL("app.schema.json", root), `${JSON.stringify(appJsonSchema(), null, 2)}\n`);
+await writeFile(
+  new URL("catalog/app.schema.json", root),
+  `${JSON.stringify(appJsonSchema(), null, 2)}\n`
+);

@@ -13,7 +13,7 @@
     "format:check": "prettier --check .",
     "check": "astro check",
     "test": "bun test",
-    "schema": "bun scripts/generate-schema.ts && prettier --write app.schema.json",
+    "schema": "bun scripts/generate-schema.ts && prettier --write catalog/app.schema.json",
     "update-releases": "bun scripts/update-releases.ts",
     "validate:catalog": "bun scripts/validate.ts",
     "verify:downloads": "bun scripts/verify-downloads.ts",
