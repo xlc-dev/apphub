@@ -63,8 +63,18 @@ async function readOptionalLock(url: URL, appId: string) {
   }
 }
 
-export async function readApps() {
-  const directories = (await readdir(appsDirectory, { withFileTypes: true }))
+export async function readApps(directory = appsDirectory) {
+  let contents;
+
+  try {
+    contents = await readdir(directory, { withFileTypes: true });
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === "ENOENT") return [];
+
+    throw error;
+  }
+
+  const directories = contents
     .filter((entry) => entry.isDirectory())
     .map((entry) => entry.name)
     .sort();
@@ -73,20 +83,23 @@ export async function readApps() {
   for (const slug of directories) {
     if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) throw new Error(`${slug}: invalid slug`);
 
-    const directory = new URL(`${slug}/`, appsDirectory);
-    const names = await readdir(directory);
+    const appDirectory = new URL(`${slug}/`, directory);
+    const names = await readdir(appDirectory);
 
     for (const name of names) {
       if (!allowedFiles.has(name)) throw new Error(`${slug}: unexpected file ${name}`);
     }
 
-    const app = appSchema.parse(await readJson(new URL("app.json", directory)));
-    const { lock, exists } = await readOptionalLock(new URL("releases.json", directory), app.id);
+    const app = appSchema.parse(await readJson(new URL("app.json", appDirectory)));
+    const { lock, exists } = await readOptionalLock(
+      new URL("releases.json", appDirectory),
+      app.id
+    );
 
     if (lock.appId !== app.id)
       throw new Error(`${slug}: release lock has the wrong application id`);
 
-    entries.push({ slug, directory, app, lock, hasLock: exists });
+    entries.push({ slug, directory: appDirectory, app, lock, hasLock: exists });
   }
 
   const ids = new Set<string>();
