@@ -9,31 +9,34 @@ interface Props {
 
 const { security } = Astro.props;
 const capabilities = {
-  network: ["Internet access", "Expected to connect to services on the internet."],
-  "home-files": ["Home files", "Expected to read or write files in your home directory."],
-  "removable-media": ["Removable media", "Expected to access connected removable storage."],
-  devices: ["Devices", "Expected to communicate with connected hardware."],
-  "session-bus": ["Desktop services", "Expected to communicate with services in your session."],
-  "system-bus": ["System services", "Expected to communicate with system services."],
+  network: ["Internet access", "Connects to services on the internet."],
+  "home-files": ["Home files", "Reads or writes files in your home directory."],
+  "removable-media": ["Removable media", "Accesses connected removable storage."],
+  devices: ["Devices", "Communicates with connected hardware."],
+  "session-bus": ["Desktop services", "Communicates with services in your session."],
+  "system-bus": ["System services", "Communicates with system services."],
 } as const;
 ---
 
 <Section
+  spaced={false}
   title="Capabilities"
   headingId="capabilities-heading"
   aria-labelledby="capabilities-heading">
-  <p class="leading-7 text-zinc-700 dark:text-zinc-300">
-    AppImages run unsandboxed with your user permissions. The following describes expected app
-    behavior, not enforced restrictions.
+  <p class="text-sm leading-6 text-zinc-500 dark:text-zinc-400">
+    AppImages run unsandboxed. These are expected behaviors, not enforced restrictions.
   </p>
   {
     security.expectedAccess.length > 0 ? (
-      <ul class="grid gap-3">
+      <ul class="mt-4 grid list-none gap-3 p-0 sm:grid-cols-2">
         {security.expectedAccess.map((access) => (
-          <li>
-            <strong>{capabilities[access][0]}</strong>
-            <span class="block leading-7 text-zinc-700 dark:text-zinc-300">
-              {capabilities[access][1]}
+          <li class="flex gap-3 rounded-xl border border-zinc-200 p-4 dark:border-zinc-800">
+            <span class="mt-2 size-2 shrink-0 rounded-full bg-amber-500" aria-hidden="true" />
+            <span>
+              <strong class="block">{capabilities[access][0]}</strong>
+              <span class="mt-1 block text-sm leading-5 text-zinc-600 dark:text-zinc-400">
+                {capabilities[access][1]}
+              </span>
             </span>
           </li>
         ))}
