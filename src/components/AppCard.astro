@@ -15,7 +15,9 @@ const { app } = Astro.props;
   <img class="rounded-xl" src={app.icon} alt="" width="64" height="64" loading="lazy" />
   <div>
     <h2 class="text-lg font-semibold">
-      <a class="hover:underline" href={`/apps/${app.slug}`}>{app.name}</a>
+      <a class="hover:text-zinc-600 dark:hover:text-zinc-300" href={`/apps/${app.slug}`}>
+        {app.name}
+      </a>
     </h2>
     <p>{app.summary}</p>
   </div>
