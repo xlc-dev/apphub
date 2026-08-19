@@ -8,16 +8,16 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "check": "astro check",
+    "preview": "astro preview",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "preview": "astro preview",
-    "schema": "bun scripts/generate-schema.ts && prettier --write app.schema.json",
+    "check": "astro check",
     "test": "bun test",
+    "schema": "bun scripts/generate-schema.ts && prettier --write app.schema.json",
+    "update-releases": "bun scripts/update-releases.ts",
     "validate:catalog": "bun scripts/validate.ts",
     "verify:downloads": "bun scripts/verify-downloads.ts",
-    "validate": "prettier --check . && astro check && bun test && astro build && bun scripts/validate.ts",
-    "update-releases": "bun scripts/update-releases.ts"
+    "validate": "prettier --check . && astro check && bun test && astro build && bun scripts/validate.ts"
   },
   "dependencies": {
     "@fontsource-variable/inter": "^5.3.0",
