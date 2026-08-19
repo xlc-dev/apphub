@@ -12,8 +12,8 @@ const { accent = false, class: className, ...attributes } = Astro.props;
   {...attributes}
   class:list={[
     accent
-      ? "text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
-      : "hover:text-zinc-600 aria-[current=page]:font-semibold aria-[current=page]:text-zinc-950 dark:hover:text-zinc-300 dark:aria-[current=page]:text-zinc-50",
+      ? "rounded-sm text-blue-600 hover:text-blue-800 focus-visible:outline-2 focus-visible:outline-offset-2 dark:text-blue-400 dark:hover:text-blue-300"
+      : "rounded-sm hover:text-zinc-600 focus-visible:outline-2 focus-visible:outline-offset-2 aria-[current=page]:font-semibold aria-[current=page]:text-zinc-950 dark:hover:text-zinc-300 dark:aria-[current=page]:text-zinc-50",
     className,
   ]}><slot /></a
 >

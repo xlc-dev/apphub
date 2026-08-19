@@ -2,8 +2,8 @@
 import "@/global.css";
 import "@fontsource-variable/inter";
 import { ClientRouter } from "astro:transitions";
+import Footer from "@/components/Footer.astro";
 import Header from "@/components/Header.astro";
-import Link from "@/components/ui/Link.astro";
 
 interface Props {
   title: string;
@@ -51,23 +51,16 @@ const pageTitle = title === "AppHub" ? title : `${title} - AppHub`;
   </head>
   <body
     class="relative m-0 flex min-h-screen flex-col bg-white font-sans text-zinc-950 dark:bg-zinc-950 dark:text-zinc-50">
+    <a
+      class="fixed top-2 left-2 z-[100] -translate-y-20 rounded-lg bg-zinc-950 px-4 py-2 text-white focus:translate-y-0 dark:bg-white dark:text-zinc-950"
+      href="#main-content">Skip to content</a
+    >
     <Header />
-    <main class="relative z-10 mx-auto w-full max-w-6xl grow px-4 sm:px-6">
+    <main
+      class="relative z-10 mx-auto w-full max-w-6xl grow px-4 outline-none sm:px-6"
+      id="main-content">
       <slot />
     </main>
-    <footer class="relative z-10 mt-12 border-t border-zinc-200 dark:border-zinc-800">
-      <div
-        class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-5 px-4 py-6 sm:flex-row sm:px-6">
-        <a class="flex items-center gap-2 font-bold" href="/">
-          <img src="/favicon.svg" alt="" width="32" height="32" />
-          AppHub
-        </a>
-        <nav class="flex flex-wrap justify-center gap-x-4 gap-y-2" aria-label="Footer navigation">
-          <Link href="/privacy/">Privacy</Link>
-          <Link href="#">AppHub repository</Link>
-          <Link href="https://github.com/kem-a/AppManager">AppManager</Link>
-        </nav>
-      </div>
-    </footer>
+    <Footer />
   </body>
 </html>
