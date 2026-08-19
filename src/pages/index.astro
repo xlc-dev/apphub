@@ -1,5 +1,96 @@
 ---
-import CatalogPage from "@/views/CatalogPage.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import StoreAppCard from "@/components/StoreAppCard.astro";
+import EmptyState from "@/components/ui/EmptyState.astro";
+import Link from "@/components/ui/Link.astro";
+import Page from "@/components/ui/Page.astro";
+import Section from "@/components/ui/Section.astro";
+import { categoryPath } from "@/lib/categories";
+import { getCatalog } from "@/lib/catalog";
+import { getDownloadRanking } from "@/lib/downloads";
+
+const catalog = await getCatalog();
+const recentlyUpdated = catalog
+  .filter((app) => app.releases[0])
+  .sort(
+    (left, right) =>
+      Date.parse(right.releases[0]!.publishedAt) - Date.parse(left.releases[0]!.publishedAt)
+  )
+  .slice(0, 3);
+const trending = (await getDownloadRanking(7))?.slice(0, 3) ?? null;
+const categoryCounts = new Map<string, number>();
+
+for (const app of catalog) {
+  for (const category of app.categories)
+    categoryCounts.set(category, (categoryCounts.get(category) ?? 0) + 1);
+}
+
+const categories = [...categoryCounts].sort(([left], [right]) => left.localeCompare(right));
+const releaseDate = new Intl.DateTimeFormat("en", { dateStyle: "medium" });
 ---
 
-<CatalogPage />
+<BaseLayout title="AppHub" description="The Universal AppImage Store.">
+  <Page>
+    <header>
+      <h1 class="text-3xl font-bold sm:text-4xl">The Universal AppImage Store</h1>
+    </header>
+
+    <Section title="Recently updated">
+      <Link slot="actions" href="/apps/" aria-label="More recently updated apps">More</Link>
+      {
+        recentlyUpdated.length > 0 ? (
+          <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {recentlyUpdated.map((app, index) => (
+              <StoreAppCard
+                app={app}
+                detail={`${app.releases[0]!.version} · ${releaseDate.format(new Date(app.releases[0]!.publishedAt))}`}
+                priority={index < 3}
+              />
+            ))}
+          </div>
+        ) : (
+          <EmptyState>No releases are available.</EmptyState>
+        )
+      }
+    </Section>
+
+    <Section title="Trending this week">
+      <Link slot="actions" href="/trending/" aria-label="More trending apps">More</Link>
+      {
+        trending === null ? (
+          <EmptyState>Download history is not available yet.</EmptyState>
+        ) : trending.length === 0 ? (
+          <EmptyState>No download data is available.</EmptyState>
+        ) : (
+          <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {trending.map(({ app, downloads }) => (
+              <StoreAppCard app={app} detail={`${downloads.toLocaleString("en")} downloads`} />
+            ))}
+          </div>
+        )
+      }
+    </Section>
+
+    <Section title="Categories">
+      <Link slot="actions" href="/categories/" aria-label="More categories">More</Link>
+      {
+        categories.length > 0 ? (
+          <ul class="grid list-none gap-3 p-0 sm:grid-cols-2 lg:grid-cols-3">
+            {categories.map(([category, count]) => (
+              <li>
+                <a
+                  class="dark:border-control dark:hover:bg-surface-raised flex min-h-16 items-center justify-between rounded-xl border border-zinc-200 px-5 py-3 font-semibold hover:bg-zinc-50 focus-visible:outline-2 focus-visible:outline-offset-2"
+                  href={categoryPath(category)}>
+                  <span>{category}</span>
+                  <span class="text-sm font-normal text-zinc-500 dark:text-zinc-400">{count}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <EmptyState>No categories are available.</EmptyState>
+        )
+      }
+    </Section>
+  </Page>
+</BaseLayout>

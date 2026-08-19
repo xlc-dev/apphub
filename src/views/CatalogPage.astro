@@ -21,11 +21,11 @@ const categories = [...new Set(catalog.flatMap((app) => app.categories))].sort((
 const heading = category ? `${category} Apps` : "AppImages for Linux";
 ---
 
-<BaseLayout title={category ? heading : "AppHub"} description={`${heading}.`}>
+<BaseLayout title={category ? heading : "Apps"} description={`${heading}.`}>
   <Page>
     <PageHeader title={heading} />
     <nav class="flex flex-wrap gap-3" aria-label="Categories">
-      <Link filter href="/" aria-current={category ? undefined : "page"}>All</Link>
+      <Link filter href="/apps/" aria-current={category ? undefined : "page"}>All</Link>
       {
         categories.map((name) => (
           <Link
