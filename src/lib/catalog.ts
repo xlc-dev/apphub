@@ -24,7 +24,7 @@ export async function getCatalog() {
 
   return entries
     .map(({ slug, app: manifest, lock }) => {
-      const { assets: _assets, releaseSource, ...app } = manifest;
+      const { assets: _assets, iconSource: _iconSource, releaseSource, ...app } = manifest;
       const sourceHomepage =
         releaseSource.type === "github"
           ? `https://github.com/${releaseSource.repository}`

@@ -29,6 +29,10 @@
       "type": "string",
       "format": "uri"
     },
+    "iconSource": {
+      "type": "string",
+      "format": "uri"
+    },
     "categories": {
       "minItems": 1,
       "type": "array",
@@ -127,7 +131,7 @@
       }
     }
   },
-  "required": ["id", "name", "summary", "releaseSource", "screenshots", "security"],
+  "required": ["id", "name", "summary", "iconSource", "releaseSource", "screenshots", "security"],
   "additionalProperties": false,
   "title": "AppHub application"
 }

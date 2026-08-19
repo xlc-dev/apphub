@@ -51,6 +51,7 @@ export const appSchema = z
     description: z.string().min(1).optional(),
     license: z.string().min(1).optional(),
     homepage: z.url().optional(),
+    iconSource: z.url(),
     categories: z.array(z.string().min(1)).min(1).optional(),
     releaseSource: releaseSourceSchema,
     screenshots: z

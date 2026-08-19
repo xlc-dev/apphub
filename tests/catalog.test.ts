@@ -14,6 +14,7 @@ const app: App = {
   id: "org.example.App",
   name: "Example",
   summary: "An example app",
+  iconSource: "https://example.org/icon.png",
   releaseSource: { type: "github", repository: "example/app" },
   screenshots: [{ file: "screenshot-1.png", caption: "Main window" }],
   security: { isolation: "none", expectedAccess: [] },

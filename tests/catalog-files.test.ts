@@ -41,6 +41,7 @@ describe("catalog files", () => {
         id: "org.example.App",
         name: "Example App",
         summary: "A synthetic fixture",
+        iconSource: "https://example.org/icon.png",
         releaseSource: { type: "github", repository: "example/app" },
         screenshots: [{ file: "screenshot-1.png" }],
         security: { isolation: "none", expectedAccess: [] },
