@@ -1,0 +1,32 @@
+import { describe, expect, test } from "bun:test";
+import { catalogSearchValue, matchesSearch } from "@/lib/search";
+
+const app = {
+  name: "Example Notes",
+  summary: "Organize ideas locally",
+  description: "An offline plain-text notebook",
+  categories: ["Office", "Utility"],
+};
+const value = catalogSearchValue(app);
+
+describe("catalog search", () => {
+  test("includes all searchable app metadata", () => {
+    expect(value).toContain("example notes");
+    expect(value).toContain("organize ideas locally");
+    expect(value).toContain("offline plain-text notebook");
+    expect(value).toContain("office utility");
+  });
+
+  test("matches case-insensitively", () => {
+    expect(matchesSearch(value, "EXAMPLE")).toBe(true);
+  });
+
+  test("matches multiple terms in any order", () => {
+    expect(matchesSearch(value, "utility offline")).toBe(true);
+    expect(matchesSearch(value, "offline missing")).toBe(false);
+  });
+
+  test("matches an empty query", () => {
+    expect(matchesSearch(value, "  ")).toBe(true);
+  });
+});

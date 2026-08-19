@@ -1,20 +1,23 @@
 ---
 import { categoryPath } from "@/lib/categories";
+import { catalogSearchValue } from "@/lib/search";
 
 interface Props {
   app: {
     slug: string;
     name: string;
     summary: string;
+    description: string;
     icon: string;
     categories: string[];
   };
 }
 
 const { app } = Astro.props;
+const searchValue = catalogSearchValue(app);
 ---
 
-<article class="flex items-center gap-4">
+<article class="flex items-center gap-4" data-catalog-app data-search-value={searchValue}>
   <img class="rounded-xl" src={app.icon} alt="" width="64" height="64" loading="lazy" />
   <div>
     <h2 class="text-lg font-semibold">
