@@ -1,0 +1,20 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"div"> {
+  narrow?: boolean;
+  padding?: "normal" | "large";
+}
+
+const { narrow = false, padding = "normal", class: className, ...attributes } = Astro.props;
+---
+
+<div
+  {...attributes}
+  class:list={[
+    padding === "large" ? "py-16" : "py-8 sm:py-12",
+    narrow && "mx-auto max-w-2xl",
+    className,
+  ]}>
+  <slot />
+</div>

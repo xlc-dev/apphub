@@ -1,0 +1,20 @@
+---
+import { categoryPath } from "@/lib/categories";
+import Link from "@/components/ui/Link.astro";
+
+interface Props {
+  categories: string[];
+}
+
+const { categories } = Astro.props;
+---
+
+{
+  categories.length > 0 && (
+    <p class="flex flex-wrap gap-x-3 gap-y-1 text-sm text-zinc-500 dark:text-zinc-400">
+      {categories.map((category) => (
+        <Link href={categoryPath(category)}>{category}</Link>
+      ))}
+    </p>
+  )
+}

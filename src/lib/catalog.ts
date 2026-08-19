@@ -30,3 +30,5 @@ export async function getCatalog() {
     })
     .sort((a, b) => a.name.localeCompare(b.name));
 }
+
+export type CatalogApp = Awaited<ReturnType<typeof getCatalog>>[number];

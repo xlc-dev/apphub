@@ -1,0 +1,45 @@
+---
+import type { App } from "@catalog/schema";
+import EmptyState from "@/components/ui/EmptyState.astro";
+import Section from "@/components/ui/Section.astro";
+
+interface Props {
+  security: App["security"];
+}
+
+const { security } = Astro.props;
+const capabilities = {
+  network: ["Internet access", "Expected to connect to services on the internet."],
+  "home-files": ["Home files", "Expected to read or write files in your home directory."],
+  "removable-media": ["Removable media", "Expected to access connected removable storage."],
+  devices: ["Devices", "Expected to communicate with connected hardware."],
+  "session-bus": ["Desktop services", "Expected to communicate with services in your session."],
+  "system-bus": ["System services", "Expected to communicate with system services."],
+} as const;
+---
+
+<Section
+  title="Capabilities"
+  headingId="capabilities-heading"
+  aria-labelledby="capabilities-heading">
+  <p class="leading-7 text-zinc-700 dark:text-zinc-300">
+    AppImages run unsandboxed with your user permissions. The following describes expected app
+    behavior, not enforced restrictions.
+  </p>
+  {
+    security.expectedAccess.length > 0 ? (
+      <ul class="grid gap-3">
+        {security.expectedAccess.map((access) => (
+          <li>
+            <strong>{capabilities[access][0]}</strong>
+            <span class="block leading-7 text-zinc-700 dark:text-zinc-300">
+              {capabilities[access][1]}
+            </span>
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <EmptyState>No additional capabilities are expected.</EmptyState>
+    )
+  }
+</Section>

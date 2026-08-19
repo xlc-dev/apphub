@@ -1,4 +1,6 @@
 ---
+import Section from "@/components/ui/Section.astro";
+
 interface Props {
   label: string;
   screenshots: Array<{
@@ -11,8 +13,8 @@ const { label, screenshots } = Astro.props;
 const id = `${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-carousel`;
 ---
 
-<section class="my-8" aria-label={label} data-carousel>
-  <div class="relative">
+<Section title={label} headingId={`${id}-heading`} aria-labelledby={`${id}-heading`} data-carousel>
+  <div class="relative mt-4">
     <div
       class="flex snap-x snap-mandatory overflow-x-auto scroll-smooth rounded-xl"
       data-carousel-track>
@@ -87,7 +89,7 @@ const id = `${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-carousel`;
       </nav>
     )
   }
-</section>
+</Section>
 
 <script>
   function initializeCarousels() {

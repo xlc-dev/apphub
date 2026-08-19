@@ -1,0 +1,57 @@
+---
+import type { CatalogApp } from "@/lib/catalog";
+import { formatBytes } from "@/lib/format";
+import ButtonLink from "@/components/ui/ButtonLink.astro";
+import EmptyState from "@/components/ui/EmptyState.astro";
+import Link from "@/components/ui/Link.astro";
+import Section from "@/components/ui/Section.astro";
+
+interface Props {
+  releases: CatalogApp["releases"];
+}
+
+const { releases } = Astro.props;
+const latest = releases[0];
+const releaseDate = latest
+  ? new Date(latest.publishedAt).toLocaleDateString("en", { dateStyle: "long", timeZone: "UTC" })
+  : undefined;
+---
+
+<Section title="Downloads" headingId="downloads-heading" aria-labelledby="downloads-heading">
+  {
+    latest ? (
+      <>
+        <p class="text-zinc-500 dark:text-zinc-400">
+          <Link href={latest.page}>Version {latest.version}</Link>
+          {releaseDate && (
+            <>
+              {" · "}
+              <time datetime={latest.publishedAt}>{releaseDate}</time>
+            </>
+          )}
+        </p>
+        <div class="mt-4 grid gap-4">
+          {latest.artifacts.map((artifact) => (
+            <div class="rounded-xl border border-zinc-200 p-5 dark:border-zinc-800">
+              <div class="flex flex-wrap items-center justify-between gap-4">
+                <div>
+                  <p class="m-0 font-semibold">{artifact.architecture}</p>
+                  <p class="m-0 mt-1 text-sm text-zinc-500 dark:text-zinc-400">
+                    {formatBytes(artifact.size)}
+                  </p>
+                </div>
+                <ButtonLink href={artifact.url}>Download</ButtonLink>
+              </div>
+              <details class="mt-3 text-sm">
+                <summary class="cursor-pointer text-zinc-500 dark:text-zinc-400">SHA-256</summary>
+                <code class="mt-2 block break-all">{artifact.sha256}</code>
+              </details>
+            </div>
+          ))}
+        </div>
+      </>
+    ) : (
+      <EmptyState>No downloads are available.</EmptyState>
+    )
+  }
+</Section>

@@ -1,0 +1,48 @@
+---
+import type { CatalogApp } from "@/lib/catalog";
+import Link from "@/components/ui/Link.astro";
+
+interface Props {
+  app: CatalogApp;
+}
+
+const { app } = Astro.props;
+const source =
+  app.source.type === "github" ? `https://github.com/${app.source.repository}` : undefined;
+---
+
+<aside
+  class="self-start rounded-xl border border-zinc-200 p-5 dark:border-zinc-800"
+  aria-labelledby="details-heading">
+  <h2 class="m-0 text-xl font-bold" id="details-heading">Details</h2>
+  <dl class="mb-0 grid gap-4">
+    {
+      app.license && (
+        <div>
+          <dt class="text-sm text-zinc-500 dark:text-zinc-400">License</dt>
+          <dd class="m-0 mt-1">{app.license}</dd>
+        </div>
+      )
+    }
+    {
+      app.homepage && (
+        <div>
+          <dt class="text-sm text-zinc-500 dark:text-zinc-400">Website</dt>
+          <dd class="m-0 mt-1">
+            <Link href={app.homepage}>Project website</Link>
+          </dd>
+        </div>
+      )
+    }
+    {
+      source && (
+        <div>
+          <dt class="text-sm text-zinc-500 dark:text-zinc-400">Source</dt>
+          <dd class="m-0 mt-1">
+            <Link href={source}>Source repository</Link>
+          </dd>
+        </div>
+      )
+    }
+  </dl>
+</aside>
