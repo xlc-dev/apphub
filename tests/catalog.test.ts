@@ -1,6 +1,14 @@
 import { describe, expect, test } from "bun:test";
-import { globRegex, matchesArchitecture, selectAssets, validatePng } from "@catalog/core";
+import {
+  globRegex,
+  hashDownload,
+  matchesArchitecture,
+  selectAssets,
+  sha256,
+  validatePng,
+} from "@catalog/core";
 import { appSchema, releaseLockSchema, type App } from "@catalog/schema";
+
 const app: App = {
   id: "org.example.App",
   name: "Example",
@@ -21,6 +29,16 @@ function png(width = 128, height = width) {
   data.writeUInt32BE(height, 20);
 
   return data;
+}
+
+async function errorMessage(promise: Promise<unknown>) {
+  try {
+    await promise;
+  } catch (error) {
+    return (error as Error).message;
+  }
+
+  throw new Error("Expected promise to reject");
 }
 
 describe("catalog schema", () => {
@@ -60,6 +78,12 @@ describe("catalog schema", () => {
       })
     ).toThrow();
   });
+
+  test("rejects unsafe asset patterns", () => {
+    expect(() =>
+      appSchema.parse({ ...app, assets: { x86_64: "downloads/Example.AppImage" } })
+    ).toThrow("filename pattern");
+  });
 });
 
 describe("release lock schema", () => {
@@ -88,6 +112,23 @@ describe("release lock schema", () => {
 
     expect(() => releaseLockSchema.parse({ appId: app.id, releases: [older, release] })).toThrow(
       "Releases must be ordered newest first"
+    );
+  });
+
+  test("rejects duplicate release versions", () => {
+    expect(() => releaseLockSchema.parse({ appId: app.id, releases: [release, release] })).toThrow(
+      "Release versions must be unique"
+    );
+  });
+
+  test("rejects duplicate architectures in a release", () => {
+    const duplicate = {
+      ...release,
+      artifacts: [release.artifacts[0], { ...release.artifacts[0], name: "Other.AppImage" }],
+    };
+
+    expect(() => releaseLockSchema.parse({ appId: app.id, releases: [duplicate] })).toThrow(
+      "Release architectures must be unique"
     );
   });
 });
@@ -133,6 +174,38 @@ describe("asset matching", () => {
       ])
     ).toThrow("expected one x86_64 asset, found 2");
   });
+
+  test("does not select one asset for multiple architectures", () => {
+    expect(() =>
+      selectAssets(
+        { ...app, assets: { x86_64: "Example.AppImage", aarch64: "Example.AppImage" } },
+        [{ name: "Example.AppImage" }]
+      )
+    ).toThrow("selected the same asset");
+  });
+});
+
+describe("download hashing", () => {
+  const url = "data:application/octet-stream;base64,YXBwaHVi";
+
+  test("hashes an exact-size download", async () => {
+    expect(await hashDownload({ name: "fixture", url, size: 6 })).toEqual({
+      size: 6,
+      sha256: sha256(Buffer.from("apphub")),
+    });
+  });
+
+  test("rejects downloads with a different published size", async () => {
+    expect(await errorMessage(hashDownload({ name: "fixture", url, size: 7 }))).toContain(
+      "differs from published size"
+    );
+  });
+
+  test("stops downloads that exceed their published size", async () => {
+    expect(await errorMessage(hashDownload({ name: "fixture", url, size: 5 }))).toContain(
+      "exceeds published size"
+    );
+  });
 });
 
 describe("PNG validation", () => {
@@ -146,5 +219,10 @@ describe("PNG validation", () => {
 
   test("rejects non-PNG files", () => {
     expect(() => validatePng(Buffer.from("not a PNG"), app.id)).toThrow("icon is not a PNG");
+  });
+
+  test("rejects icons outside the supported dimensions", () => {
+    expect(() => validatePng(png(64), app.id)).toThrow("between 128 and 1024 pixels");
+    expect(() => validatePng(png(2048), app.id)).toThrow("between 128 and 1024 pixels");
   });
 });
