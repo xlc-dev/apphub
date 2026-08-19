@@ -1,6 +1,10 @@
 ---
 import AppCard from "@/components/AppCard.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import EmptyState from "@/components/ui/EmptyState.astro";
+import Link from "@/components/ui/Link.astro";
+import Page from "@/components/ui/Page.astro";
+import PageHeader from "@/components/ui/PageHeader.astro";
 import { getCatalog } from "@/lib/catalog";
 import { categoryPath } from "@/lib/categories";
 
@@ -18,38 +22,42 @@ const heading = category ? `${category} Apps` : "AppImages for Linux";
 ---
 
 <BaseLayout title={category ? heading : "AppHub"} description={`${heading}.`}>
-  <h1 class="text-3xl font-bold">{heading}</h1>
-  <nav class="mt-4 flex flex-wrap gap-x-4 gap-y-2" aria-label="Categories">
-    <a class="hover:text-zinc-600 dark:hover:text-zinc-300" href="/">All</a>
-    {
-      categories.map((name) => (
-        <a
-          class="hover:text-zinc-600 dark:hover:text-zinc-300"
-          href={categoryPath(name)}
-          aria-current={name === category ? "page" : undefined}>
-          {name}
-        </a>
-      ))
-    }
-  </nav>
-  <form class="mt-6" role="search" hidden data-catalog-search>
-    <label class="sr-only" for="catalog-search">Search apps</label>
-    <input
-      class="w-full max-w-md rounded-lg border border-zinc-300 bg-transparent px-3 py-2 outline-none focus:border-zinc-950 dark:border-zinc-700 dark:focus:border-zinc-50"
-      id="catalog-search"
-      type="search"
-      name="q"
-      placeholder={category ? `Search ${category} apps` : "Search apps"}
-      autocomplete="off"
-      data-catalog-search-input
-    />
-    <p class="mt-2 text-sm text-zinc-500 dark:text-zinc-400" aria-live="polite" data-search-status>
-    </p>
-  </form>
-  <div class="mt-8 grid gap-6">
-    {apps.map((app) => <AppCard app={app} />)}
-  </div>
-  <p class="mt-8" hidden data-search-empty>No apps match your search.</p>
+  <Page>
+    <PageHeader title={heading} />
+    <nav class="flex flex-wrap gap-x-4 gap-y-2" aria-label="Categories">
+      <Link href="/">All</Link>
+      {
+        categories.map((name) => (
+          <Link href={categoryPath(name)} aria-current={name === category ? "page" : undefined}>
+            {name}
+          </Link>
+        ))
+      }
+    </nav>
+    <form class="mt-6" role="search" hidden data-catalog-search>
+      <label class="sr-only" for="catalog-search">Search apps</label>
+      <input
+        class="w-full max-w-md rounded-lg border border-zinc-300 bg-transparent px-3 py-2 outline-none focus:border-zinc-950 dark:border-zinc-700 dark:focus:border-zinc-50"
+        id="catalog-search"
+        type="search"
+        name="q"
+        placeholder={category ? `Search ${category} apps` : "Search apps"}
+        autocomplete="off"
+        data-catalog-search-input
+      />
+      <p
+        class="mt-2 text-sm text-zinc-500 dark:text-zinc-400"
+        aria-live="polite"
+        data-search-status>
+      </p>
+    </form>
+    <div class="mt-8 grid gap-6">
+      {apps.map((app) => <AppCard app={app} />)}
+    </div>
+    <div class="mt-8" hidden data-search-empty>
+      <EmptyState>No apps match your search.</EmptyState>
+    </div>
+  </Page>
 </BaseLayout>
 
 <script>
