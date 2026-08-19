@@ -17,7 +17,7 @@ const releaseDate = latest
 ---
 
 <section
-  class="rounded-xl border border-zinc-200 p-5 dark:border-zinc-800"
+  class="dark:border-control rounded-xl border border-zinc-200 p-5"
   aria-labelledby="downloads-heading">
   <h2 class="text-xl font-bold" id="downloads-heading">Downloads</h2>
   {
@@ -32,7 +32,7 @@ const releaseDate = latest
             </>
           )}
         </p>
-        <div class="mt-4 divide-y divide-zinc-200 dark:divide-zinc-800">
+        <div class="dark:divide-control mt-4 divide-y divide-zinc-200">
           {latest.artifacts.map((artifact) => (
             <div class="py-4 first:pt-0 last:pb-0">
               <div class="grid gap-3">

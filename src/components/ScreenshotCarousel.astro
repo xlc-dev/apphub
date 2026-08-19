@@ -26,7 +26,7 @@ const id = `${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-carousel`;
     screenshots.length > 1 && (
       <button
         slot="actions"
-        class="focus-visible:outline-accent hidden size-11 shrink-0 cursor-pointer items-center justify-center rounded-lg bg-zinc-950/75 text-white hover:bg-zinc-950 focus-visible:outline-2 focus-visible:outline-offset-2 dark:bg-white/75 dark:text-zinc-950 dark:hover:bg-white"
+        class="focus-visible:outline-accent bg-surface/75 text-foreground hover:bg-surface dark:bg-foreground/75 dark:text-surface dark:hover:bg-foreground hidden size-11 shrink-0 cursor-pointer items-center justify-center rounded-lg focus-visible:outline-2 focus-visible:outline-offset-2"
         type="button"
         aria-label="Enlarge screenshots"
         data-carousel-fullscreen>
@@ -88,7 +88,7 @@ const id = `${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-carousel`;
       screenshots.length > 1 && (
         <>
           <button
-            class="absolute top-1/2 left-2 hidden size-11 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-zinc-950/75 text-white shadow-sm hover:bg-zinc-950 focus-visible:outline-2 focus-visible:outline-offset-2 sm:static sm:col-start-1 sm:row-start-1 sm:translate-y-0 dark:bg-white/75 dark:text-zinc-950 dark:hover:bg-white"
+            class="bg-surface/75 text-foreground hover:bg-surface dark:bg-foreground/75 dark:text-surface dark:hover:bg-foreground absolute top-1/2 left-2 hidden size-11 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 sm:static sm:col-start-1 sm:row-start-1 sm:translate-y-0"
             type="button"
             aria-label="Previous screenshot"
             data-carousel-previous>
@@ -103,7 +103,7 @@ const id = `${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-carousel`;
             </svg>
           </button>
           <button
-            class="absolute top-1/2 right-2 hidden size-11 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-zinc-950/75 text-white shadow-sm hover:bg-zinc-950 focus-visible:outline-2 focus-visible:outline-offset-2 sm:static sm:col-start-3 sm:row-start-1 sm:translate-y-0 dark:bg-white/75 dark:text-zinc-950 dark:hover:bg-white"
+            class="bg-surface/75 text-foreground hover:bg-surface dark:bg-foreground/75 dark:text-surface dark:hover:bg-foreground absolute top-1/2 right-2 hidden size-11 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 sm:static sm:col-start-3 sm:row-start-1 sm:translate-y-0"
             type="button"
             aria-label="Next screenshot"
             data-carousel-next>
@@ -326,8 +326,8 @@ const id = `${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-carousel`;
     display: flex;
     flex-direction: column;
     padding: 1rem;
-    background: white;
-    color: #101010;
+    background: var(--color-foreground);
+    color: var(--color-surface);
   }
 
   :global(body:has([data-carousel-expanded]) main) {
@@ -336,8 +336,8 @@ const id = `${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-carousel`;
 
   @media (prefers-color-scheme: dark) {
     [data-carousel-expanded] {
-      background: black;
-      color: white;
+      background: var(--color-canvas);
+      color: var(--color-foreground);
     }
   }
 

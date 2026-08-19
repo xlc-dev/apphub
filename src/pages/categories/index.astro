@@ -24,7 +24,7 @@ const categories = [...counts].sort(([left], [right]) => left.localeCompare(righ
       categories.length > 0 ? (
         <ul class="grid list-none gap-4 p-0 sm:grid-cols-2 md:grid-cols-3">
           {categories.map(([category, count]) => (
-            <li class="rounded-xl border border-zinc-200 dark:border-zinc-800">
+            <li class="dark:border-control rounded-xl border border-zinc-200">
               <Link class="block min-h-11 p-5" href={categoryPath(category)}>
                 {category} ({count})
               </Link>

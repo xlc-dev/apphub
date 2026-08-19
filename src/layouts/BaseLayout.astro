@@ -50,9 +50,9 @@ const pageTitle = title === "AppHub" ? title : `${title} - AppHub`;
     {transitions && <ClientRouter fallback={transitionFallback} />}
   </head>
   <body
-    class="relative m-0 flex min-h-screen flex-col bg-white font-sans text-zinc-950 dark:bg-black dark:text-zinc-50">
+    class="text-surface dark:bg-canvas dark:text-foreground relative m-0 flex min-h-screen flex-col bg-white font-sans">
     <a
-      class="fixed top-2 left-2 z-[100] -translate-y-20 rounded-lg bg-zinc-950 px-4 py-2 text-white focus:translate-y-0 dark:bg-white dark:text-zinc-950"
+      class="bg-surface text-foreground dark:bg-foreground dark:text-surface fixed top-2 left-2 z-[100] -translate-y-20 rounded-lg px-4 py-2 focus:translate-y-0"
       href="#main-content">Skip to content</a
     >
     <Header />

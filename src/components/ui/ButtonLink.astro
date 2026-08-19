@@ -8,7 +8,7 @@ const { class: className, ...attributes } = Astro.props;
 <a
   {...attributes}
   class:list={[
-    "inline-block min-h-11 rounded-lg bg-zinc-950 px-4 py-2.5 font-semibold text-white hover:bg-zinc-700 focus-visible:outline-2 focus-visible:outline-offset-2 dark:bg-white dark:text-zinc-950 dark:hover:bg-zinc-200",
+    "bg-surface text-foreground dark:bg-foreground dark:text-surface inline-block min-h-11 rounded-lg px-4 py-2.5 font-semibold hover:bg-zinc-700 focus-visible:outline-2 focus-visible:outline-offset-2 dark:hover:bg-zinc-200",
     className,
   ]}><slot /></a
 >

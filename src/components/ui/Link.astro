@@ -20,9 +20,9 @@ const {
   {...attributes}
   class:list={[
     filter
-      ? "focus-visible:outline-accent aria-[current=page]:border-accent aria-[current=page]:text-accent flex min-h-11 items-center rounded-lg border border-zinc-200 bg-white px-5 py-2.5 text-base font-medium hover:bg-zinc-100 focus-visible:outline-2 focus-visible:outline-offset-2 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:bg-zinc-800"
+      ? "focus-visible:outline-accent aria-[current=page]:border-accent aria-[current=page]:text-accent dark:border-control dark:bg-surface-raised dark:hover:bg-control flex min-h-11 items-center rounded-lg border border-zinc-200 bg-white px-5 py-2.5 text-base font-medium hover:bg-zinc-100 focus-visible:outline-2 focus-visible:outline-offset-2"
       : chip
-        ? "focus-visible:outline-accent aria-[current=page]:bg-accent dark:aria-[current=page]:bg-accent rounded-full bg-zinc-100 px-2.5 py-1 text-xs font-medium text-zinc-700 hover:bg-zinc-200 focus-visible:outline-2 focus-visible:outline-offset-2 aria-[current=page]:text-white dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-900 dark:aria-[current=page]:text-white"
+        ? "focus-visible:outline-accent aria-[current=page]:bg-accent dark:aria-[current=page]:bg-accent aria-[current=page]:text-foreground dark:bg-control dark:hover:bg-surface-raised dark:aria-[current=page]:text-foreground rounded-full bg-zinc-100 px-2.5 py-1 text-xs font-medium text-zinc-700 hover:bg-zinc-200 focus-visible:outline-2 focus-visible:outline-offset-2 dark:text-zinc-300"
         : accent
           ? "text-accent hover:text-accent/75 focus-visible:outline-accent rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2"
           : "focus-visible:outline-accent aria-[current=page]:border-accent rounded-sm border-b-2 border-transparent hover:text-zinc-600 focus-visible:outline-2 focus-visible:outline-offset-2 dark:hover:text-zinc-300",

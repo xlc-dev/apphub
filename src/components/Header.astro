@@ -6,7 +6,7 @@ const path = Astro.url.pathname;
 ---
 
 <header
-  class="relative top-0 z-50 w-full border-b border-zinc-200/80 bg-white/90 shadow-sm shadow-zinc-950/5 backdrop-blur-md md:sticky dark:border-zinc-800/80 dark:bg-zinc-950/90 dark:shadow-black/20">
+  class="shadow-surface/5 dark:border-control/80 dark:bg-surface/90 relative top-0 z-50 w-full border-b border-zinc-200/80 bg-white/90 shadow-sm backdrop-blur-md md:sticky dark:shadow-black/20">
   <div
     class="mx-auto grid w-full max-w-6xl grid-cols-[1fr_auto] items-center gap-4 px-4 py-4 md:grid-cols-[auto_minmax(12rem,32rem)_auto] md:px-6">
     <a
@@ -32,7 +32,7 @@ const path = Astro.url.pathname;
       data-catalog-search>
       <label class="sr-only" for="catalog-search">Search apps</label>
       <input
-        class="min-h-11 w-full rounded-lg border border-zinc-300 bg-transparent px-3 py-2 outline-none focus-visible:border-zinc-950 focus-visible:ring-2 focus-visible:ring-zinc-950/20 dark:border-zinc-700 dark:bg-zinc-800 dark:focus-visible:border-zinc-50 dark:focus-visible:ring-zinc-50/20"
+        class="focus-visible:border-surface focus-visible:ring-surface/20 dark:bg-control dark:focus-visible:border-foreground dark:focus-visible:ring-foreground/20 min-h-11 w-full rounded-lg border border-zinc-300 bg-transparent px-3 py-2 outline-none focus-visible:ring-2 dark:border-zinc-700"
         id="catalog-search"
         type="search"
         name="q"
