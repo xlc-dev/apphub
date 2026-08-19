@@ -18,7 +18,7 @@ const apps = category ? catalog.filter((app) => app.categories.includes(category
 const categories = [...new Set(catalog.flatMap((app) => app.categories))].sort((a, b) =>
   a.localeCompare(b)
 );
-const heading = category ? `${category} Apps` : "AppImages for Linux";
+const heading = category ? `${category} Apps` : "All apps";
 ---
 
 <BaseLayout title={category ? heading : "Apps"} description={`${heading}.`}>
