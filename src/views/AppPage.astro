@@ -38,26 +38,30 @@ const { app } = Astro.props;
       </div>
     </div>
     <div class="mt-10 grid gap-8 lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-10">
-      <div class="lg:col-start-1 lg:row-start-1">
-        <Section
-          spaced={false}
-          title="About"
-          headingId="about-heading"
-          aria-labelledby="about-heading">
-          <p class="text-lg leading-7 text-zinc-700 dark:text-zinc-300">{app.description}</p>
-        </Section>
+      <div class="contents lg:block">
+        <div class="order-1">
+          <Section
+            spaced={false}
+            title="About"
+            headingId="about-heading"
+            aria-labelledby="about-heading">
+            <p class="text-lg leading-7 text-zinc-700 dark:text-zinc-300">{app.description}</p>
+          </Section>
+        </div>
+        <div class="order-3 min-w-0 lg:mt-10">
+          <ScreenshotCarousel label="Screenshots" screenshots={app.screenshots} />
+        </div>
+        <div class="order-4 lg:mt-10">
+          <Capabilities security={app.security} />
+        </div>
       </div>
-      <div class="self-start lg:col-start-2 lg:row-start-1">
-        <AppDownloads releases={app.releases} />
-      </div>
-      <div class="min-w-0 lg:col-span-2 lg:row-start-2">
-        <ScreenshotCarousel label="Screenshots" screenshots={app.screenshots} />
-      </div>
-      <div class="self-start lg:col-start-2 lg:row-start-3">
-        <AppDetails app={app} />
-      </div>
-      <div class="lg:col-start-1 lg:row-start-3">
-        <Capabilities security={app.security} />
+      <div class="contents lg:block">
+        <div class="order-2 self-start">
+          <AppDownloads releases={app.releases} />
+        </div>
+        <div class="order-5 self-start lg:mt-8">
+          <AppDetails app={app} />
+        </div>
       </div>
     </div>
   </Page>

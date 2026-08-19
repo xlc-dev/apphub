@@ -46,9 +46,18 @@ const releaseDate = latest
                   Download
                 </ButtonLink>
               </div>
-              <details class="mt-3 text-sm">
-                <summary class="flex min-h-11 cursor-pointer items-center rounded-sm text-zinc-500 focus-visible:outline-2 focus-visible:outline-offset-2 dark:text-zinc-400">
-                  SHA-256
+              <details class="group mt-3 text-sm">
+                <summary class="focus-visible:outline-accent flex min-h-11 cursor-pointer list-none items-center justify-between gap-2 rounded-sm text-zinc-500 focus-visible:outline-2 focus-visible:outline-offset-2 dark:text-zinc-400">
+                  SHA-256 checksum
+                  <svg
+                    class="size-4 shrink-0 transition-transform group-open:rotate-180 motion-reduce:transition-none"
+                    aria-hidden="true"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5">
+                    <path d="m6 9 6 6 6-6" />
+                  </svg>
                 </summary>
                 <code class="mt-2 block break-all">{artifact.sha256}</code>
               </details>
