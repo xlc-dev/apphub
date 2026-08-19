@@ -4,6 +4,10 @@
     "exactOptionalPropertyTypes": true,
     "noImplicitOverride": true,
     "noUncheckedIndexedAccess": true,
+    "paths": {
+      "@/*": ["./src/*"],
+      "@catalog/*": ["./catalog/*"]
+    },
     "types": ["bun"]
   },
   "include": [".astro/types.d.ts", "**/*"],
