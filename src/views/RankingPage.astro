@@ -15,15 +15,23 @@ interface Props {
 
 const { title, description, days } = Astro.props;
 const ranking = await getDownloadRanking(days);
+const path = Astro.url.pathname;
 ---
 
 <BaseLayout title={title} description={description}>
   <Page>
     <PageHeader title={title} description={description} />
     <nav class="flex flex-wrap gap-x-4 gap-y-2" aria-label="Download rankings">
-      <Link href="/trending/">This week</Link>
-      <Link href="/trending/month/">This month</Link>
-      <Link href="/trending/all-time/">All time</Link>
+      <Link href="/trending/" aria-current={path === "/trending/" ? "page" : undefined}
+        >This week</Link
+      >
+      <Link href="/trending/month/" aria-current={path === "/trending/month/" ? "page" : undefined}
+        >This month</Link
+      >
+      <Link
+        href="/trending/all-time/"
+        aria-current={path === "/trending/all-time/" ? "page" : undefined}>All time</Link
+      >
     </nav>
     {
       ranking === null ? (
@@ -36,9 +44,9 @@ const ranking = await getDownloadRanking(days);
         </div>
       ) : (
         <ol class="mt-8 grid gap-6 pl-6 sm:pl-8">
-          {ranking.map(({ app, downloads }) => (
+          {ranking.map(({ app, downloads }, index) => (
             <li>
-              <AppCard app={app} />
+              <AppCard app={app} priority={index < 4} />
               <p class="text-sm text-zinc-500 dark:text-zinc-400">
                 {downloads.toLocaleString("en")} downloads
               </p>

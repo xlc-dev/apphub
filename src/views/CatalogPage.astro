@@ -25,7 +25,7 @@ const heading = category ? `${category} Apps` : "AppImages for Linux";
   <Page>
     <PageHeader title={heading} />
     <nav class="flex flex-wrap gap-x-4 gap-y-2" aria-label="Categories">
-      <Link href="/">All</Link>
+      <Link href="/" aria-current={category ? undefined : "page"}>All</Link>
       {
         categories.map((name) => (
           <Link href={categoryPath(name)} aria-current={name === category ? "page" : undefined}>
@@ -34,9 +34,19 @@ const heading = category ? `${category} Apps` : "AppImages for Linux";
         ))
       }
     </nav>
-    <div class="mt-8 grid gap-6">
-      {apps.map((app) => <AppCard app={app} />)}
-    </div>
+    {
+      apps.length > 0 ? (
+        <div class="mt-8 grid gap-6">
+          {apps.map((app, index) => (
+            <AppCard app={app} priority={index < 4} />
+          ))}
+        </div>
+      ) : (
+        <div class="mt-8">
+          <EmptyState>No apps are available.</EmptyState>
+        </div>
+      )
+    }
     <div class="mt-8" hidden data-search-empty>
       <EmptyState>No apps match your search.</EmptyState>
     </div>

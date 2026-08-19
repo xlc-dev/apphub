@@ -3,12 +3,14 @@ import type { CatalogApp } from "@/lib/catalog";
 import CategoryLinks from "@/components/CategoryLinks.astro";
 import { catalogSearchValue } from "@/lib/search";
 import Link from "@/components/ui/Link.astro";
+import { Image } from "astro:assets";
 
 interface Props {
   app: CatalogApp;
+  priority?: boolean;
 }
 
-const { app } = Astro.props;
+const { app, priority = false } = Astro.props;
 const searchValue = catalogSearchValue(app);
 ---
 
@@ -16,15 +18,16 @@ const searchValue = catalogSearchValue(app);
   class="flex items-start gap-4 sm:items-center"
   data-catalog-app
   data-search-value={searchValue}>
-  <img
+  <Image
     class="size-14 shrink-0 rounded-xl sm:size-16"
     src={app.icon}
     alt=""
-    width="64"
-    height="64"
-    loading="lazy"
+    width={64}
+    height={64}
+    loading={priority ? "eager" : "lazy"}
+    fetchpriority={priority ? "high" : "auto"}
   />
-  <div class="min-w-0">
+  <div class="min-w-0 break-words">
     <h2 class="text-lg font-semibold">
       <Link href={`/apps/${app.slug}`}>{app.name}</Link>
     </h2>
