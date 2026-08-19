@@ -1,5 +1,6 @@
 ---
 import Section from "@/components/ui/Section.astro";
+import { Image } from "astro:assets";
 
 interface Props {
   label: string;
@@ -13,22 +14,37 @@ const { label, screenshots } = Astro.props;
 const id = `${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-carousel`;
 ---
 
-<Section title={label} headingId={`${id}-heading`} aria-labelledby={`${id}-heading`} data-carousel>
-  <div class="relative mt-4">
+<Section
+  spaced={false}
+  title={label}
+  headingId={`${id}-heading`}
+  aria-labelledby={`${id}-heading`}
+  aria-roledescription="carousel"
+  role="region"
+  data-carousel>
+  <div
+    class="relative mt-4 sm:grid sm:grid-cols-[2.75rem_minmax(0,1fr)_2.75rem] sm:items-center sm:gap-3">
     <div
-      class="flex snap-x snap-mandatory overflow-x-auto scroll-smooth rounded-xl"
+      class="flex aspect-video snap-x snap-mandatory items-center overflow-x-auto overscroll-x-contain scroll-smooth rounded-xl motion-reduce:scroll-auto sm:col-start-2 sm:row-start-1"
+      aria-live="off"
       data-carousel-track>
       {
         screenshots.map((screenshot, index) => (
           <figure
-            class="m-0 flex w-full shrink-0 snap-center flex-col items-center"
+            class="m-0 flex h-full w-full shrink-0 snap-center flex-col items-center justify-center"
             id={`${id}-${index + 1}`}
+            role="group"
+            aria-roledescription="slide"
+            aria-label={`${index + 1} of ${screenshots.length}`}
             data-carousel-slide>
-            <img
-              class="block max-h-[36rem] max-w-full rounded-xl"
+            <Image
+              class="block max-h-full min-h-0 max-w-full rounded-xl object-contain"
               src={screenshot.url}
               alt={screenshot.caption ?? ""}
+              width={1920}
+              height={1080}
               loading={index === 0 ? "eager" : "lazy"}
+              fetchpriority={index === 0 ? "high" : "auto"}
             />
             {screenshot.caption && <figcaption class="mt-2">{screenshot.caption}</figcaption>}
           </figure>
@@ -40,7 +56,7 @@ const id = `${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-carousel`;
       screenshots.length > 1 && (
         <>
           <button
-            class="absolute top-1/2 left-2 hidden -translate-y-1/2 cursor-pointer rounded-full bg-zinc-950/75 p-2.5 text-white shadow-sm hover:bg-zinc-950 disabled:cursor-not-allowed disabled:opacity-30 sm:left-3 sm:p-3 dark:bg-white/75 dark:text-zinc-950 dark:hover:bg-white"
+            class="absolute top-1/2 left-2 hidden size-11 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-zinc-950/75 text-white shadow-sm hover:bg-zinc-950 focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-30 sm:static sm:col-start-1 sm:row-start-1 sm:translate-y-0 dark:bg-white/75 dark:text-zinc-950 dark:hover:bg-white"
             type="button"
             aria-label="Previous screenshot"
             data-carousel-previous>
@@ -55,7 +71,7 @@ const id = `${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-carousel`;
             </svg>
           </button>
           <button
-            class="absolute top-1/2 right-2 hidden -translate-y-1/2 cursor-pointer rounded-full bg-zinc-950/75 p-2.5 text-white shadow-sm hover:bg-zinc-950 disabled:cursor-not-allowed disabled:opacity-30 sm:right-3 sm:p-3 dark:bg-white/75 dark:text-zinc-950 dark:hover:bg-white"
+            class="absolute top-1/2 right-2 hidden size-11 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-zinc-950/75 text-white shadow-sm hover:bg-zinc-950 focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-30 sm:static sm:col-start-3 sm:row-start-1 sm:translate-y-0 dark:bg-white/75 dark:text-zinc-950 dark:hover:bg-white"
             type="button"
             aria-label="Next screenshot"
             data-carousel-next>
@@ -76,17 +92,38 @@ const id = `${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-carousel`;
 
   {
     screenshots.length > 1 && (
-      <nav class="mt-4 flex justify-center gap-2" aria-label="Choose screenshot">
-        {screenshots.map((_, index) => (
-          <a
-            class="size-2.5 cursor-pointer rounded-full bg-zinc-300 hover:bg-zinc-500 dark:bg-zinc-700 dark:hover:bg-zinc-500"
-            href={`#${id}-${index + 1}`}
-            aria-label={`Show screenshot ${index + 1} of ${screenshots.length}`}
-            aria-current={index === 0 ? "true" : undefined}
-            data-carousel-dot
-          />
-        ))}
-      </nav>
+      <div class="relative mt-2 flex min-h-11 items-center justify-center">
+        <nav class="flex" aria-label="Choose screenshot">
+          {screenshots.map((_, index) => (
+            <a
+              class="group flex size-8 cursor-pointer items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-[-0.25rem]"
+              href={`#${id}-${index + 1}`}
+              aria-label={`Show screenshot ${index + 1} of ${screenshots.length}`}
+              aria-current={index === 0 ? "true" : undefined}
+              data-carousel-dot>
+              <span
+                class="size-2.5 rounded-full bg-zinc-300 group-hover:bg-zinc-500 dark:bg-zinc-700 dark:group-hover:bg-zinc-500"
+                aria-hidden="true"
+              />
+            </a>
+          ))}
+        </nav>
+        <button
+          class="absolute right-0 hidden size-11 cursor-pointer items-center justify-center rounded-lg hover:bg-zinc-100 focus-visible:outline-2 focus-visible:outline-offset-2 dark:hover:bg-zinc-900"
+          type="button"
+          aria-label="Enlarge screenshots"
+          data-carousel-fullscreen>
+          <svg
+            aria-hidden="true"
+            viewBox="0 0 24 24"
+            class="size-5"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2">
+            <path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5" />
+          </svg>
+        </button>
+      </div>
     )
   }
 </Section>
@@ -101,14 +138,48 @@ const id = `${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-carousel`;
       const dots = Array.from(carousel.querySelectorAll<HTMLAnchorElement>("[data-carousel-dot]"));
       const previous = carousel.querySelector<HTMLButtonElement>("[data-carousel-previous]");
       const next = carousel.querySelector<HTMLButtonElement>("[data-carousel-next]");
+      const fullscreen = carousel.querySelector<HTMLButtonElement>("[data-carousel-fullscreen]");
 
       if (!track || !previous || !next) continue;
 
       carousel.dataset.initialized = "true";
-      previous.classList.remove("hidden");
-      next.classList.remove("hidden");
+      previous.classList.replace("hidden", "flex");
+      next.classList.replace("hidden", "flex");
+      if (fullscreen) fullscreen.classList.replace("hidden", "flex");
 
       let current = 0;
+      let timer: number | undefined;
+      let manualUntil = 0;
+      let pointerInside = false;
+      let focusInside = false;
+      const events = new AbortController();
+      const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
+
+      const canRotate = () =>
+        !reducedMotion.matches &&
+        !pointerInside &&
+        !focusInside &&
+        !document.hidden &&
+        Date.now() >= manualUntil;
+
+      const schedule = () => {
+        window.clearTimeout(timer);
+
+        const delay = Math.max(7000, manualUntil - Date.now());
+        timer = window.setTimeout(() => {
+          if (!carousel.isConnected) return;
+
+          if (canRotate()) show((current + 1) % slides.length);
+          schedule();
+        }, delay);
+
+        track.setAttribute("aria-live", canRotate() ? "off" : "polite");
+      };
+
+      const takeOver = () => {
+        manualUntil = Date.now() + 60000;
+        schedule();
+      };
 
       const update = () => {
         current = slides.reduce(
@@ -137,11 +208,81 @@ const id = `${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-carousel`;
         });
       };
 
-      previous.addEventListener("click", () => show(current - 1));
-      next.addEventListener("click", () => show(current + 1));
+      previous.addEventListener("click", () => {
+        takeOver();
+        show(current - 1);
+      });
+      next.addEventListener("click", () => {
+        takeOver();
+        show(current + 1);
+      });
+      dots.forEach((dot, index) =>
+        dot.addEventListener("click", (event) => {
+          event.preventDefault();
+          takeOver();
+          show(index);
+        })
+      );
+      fullscreen?.addEventListener("click", () => {
+        takeOver();
+
+        const expanded = carousel.toggleAttribute("data-carousel-expanded");
+        carousel.setAttribute("role", expanded ? "dialog" : "region");
+        if (expanded) carousel.setAttribute("aria-modal", "true");
+        else carousel.removeAttribute("aria-modal");
+        document.body.classList.toggle("overflow-hidden", expanded);
+        fullscreen.setAttribute(
+          "aria-label",
+          expanded ? "Close enlarged screenshots" : "Enlarge screenshots"
+        );
+      });
+      track.addEventListener("pointerdown", takeOver, { passive: true });
+      track.addEventListener("keydown", takeOver);
       track.addEventListener("scrollend", update);
       track.addEventListener("scroll", update, { passive: true });
+      carousel.addEventListener("pointerenter", () => {
+        pointerInside = true;
+        schedule();
+      });
+      carousel.addEventListener("pointerleave", () => {
+        pointerInside = false;
+        schedule();
+      });
+      carousel.addEventListener("focusin", () => {
+        focusInside = true;
+        schedule();
+      });
+      carousel.addEventListener("focusout", () => {
+        focusInside = carousel.contains(document.activeElement);
+        schedule();
+      });
+      document.addEventListener("visibilitychange", schedule, { signal: events.signal });
+      document.addEventListener(
+        "keydown",
+        (event) => {
+          if (event.key !== "Escape" || !carousel.hasAttribute("data-carousel-expanded")) return;
+
+          carousel.removeAttribute("data-carousel-expanded");
+          carousel.setAttribute("role", "region");
+          carousel.removeAttribute("aria-modal");
+          document.body.classList.remove("overflow-hidden");
+          fullscreen?.setAttribute("aria-label", "Enlarge screenshots");
+          fullscreen?.focus();
+        },
+        { signal: events.signal }
+      );
+      reducedMotion.addEventListener("change", schedule, { signal: events.signal });
+      document.addEventListener(
+        "astro:before-swap",
+        () => {
+          window.clearTimeout(timer);
+          document.body.classList.remove("overflow-hidden");
+          events.abort();
+        },
+        { once: true }
+      );
       update();
+      schedule();
     }
   }
 
@@ -157,7 +298,59 @@ const id = `${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-carousel`;
     display: none;
   }
 
-  [data-carousel-dot][aria-current="true"] {
+  [data-carousel-dot][aria-current="true"] span {
     background: currentColor;
+  }
+
+  [data-carousel-expanded] {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    background: white;
+    color: #09090b;
+  }
+
+  :global(.dark) [data-carousel-expanded] {
+    background: #09090b;
+    color: #fafafa;
+  }
+
+  [data-carousel-expanded] > div:first-of-type {
+    display: grid;
+    min-height: 0;
+    flex: 1;
+    grid-template-columns: 2.75rem minmax(0, 1fr) 2.75rem;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  [data-carousel-expanded] [data-carousel-track] {
+    grid-row: 1;
+    grid-column: 2;
+    height: 100%;
+    aspect-ratio: auto;
+  }
+
+  [data-carousel-expanded] [data-carousel-slide] {
+    height: 100%;
+  }
+
+  [data-carousel-expanded] [data-carousel-previous],
+  [data-carousel-expanded] [data-carousel-next] {
+    position: static;
+    grid-row: 1;
+    transform: none;
+  }
+
+  [data-carousel-expanded] [data-carousel-previous] {
+    grid-column: 1;
+  }
+
+  [data-carousel-expanded] [data-carousel-next] {
+    grid-column: 3;
   }
 </style>
