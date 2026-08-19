@@ -6,7 +6,7 @@ import { getCatalog } from "@/lib/catalog";
 const apps = await getCatalog();
 ---
 
-<BaseLayout title="AppHub" description="AppImages for Linux." transitions>
+<BaseLayout title="AppHub" description="AppImages for Linux.">
   <h1 class="text-3xl font-bold">AppImages for Linux</h1>
   <div class="mt-8 grid gap-6">
     {apps.map((app) => <AppCard app={app} />)}

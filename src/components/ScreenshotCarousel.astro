@@ -8,20 +8,154 @@ interface Props {
 }
 
 const { label, screenshots } = Astro.props;
+const id = `${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-carousel`;
 ---
 
-<section class="my-8 flex snap-x snap-mandatory gap-4 overflow-x-auto" aria-label={label}>
+<section class="my-8" aria-label={label} data-carousel>
+  <div class="relative">
+    <div
+      class="flex snap-x snap-mandatory overflow-x-auto scroll-smooth rounded-xl"
+      data-carousel-track>
+      {
+        screenshots.map((screenshot, index) => (
+          <figure
+            class="m-0 flex w-full shrink-0 snap-center flex-col items-center"
+            id={`${id}-${index + 1}`}
+            data-carousel-slide>
+            <img
+              class="block max-h-[36rem] max-w-full rounded-xl"
+              src={screenshot.url}
+              alt={screenshot.caption ?? ""}
+              loading={index === 0 ? "eager" : "lazy"}
+            />
+            {screenshot.caption && <figcaption class="mt-2">{screenshot.caption}</figcaption>}
+          </figure>
+        ))
+      }
+    </div>
+
+    {
+      screenshots.length > 1 && (
+        <>
+          <button
+            class="absolute top-1/2 left-3 hidden -translate-y-1/2 cursor-pointer rounded-full bg-zinc-950/75 p-3 text-white shadow-sm hover:bg-zinc-950 disabled:cursor-default disabled:opacity-30 dark:bg-white/75 dark:text-zinc-950 dark:hover:bg-white"
+            type="button"
+            aria-label="Previous screenshot"
+            data-carousel-previous>
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 24 24"
+              class="size-5"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5">
+              <path d="m15 18-6-6 6-6" />
+            </svg>
+          </button>
+          <button
+            class="absolute top-1/2 right-3 hidden -translate-y-1/2 cursor-pointer rounded-full bg-zinc-950/75 p-3 text-white shadow-sm hover:bg-zinc-950 disabled:cursor-default disabled:opacity-30 dark:bg-white/75 dark:text-zinc-950 dark:hover:bg-white"
+            type="button"
+            aria-label="Next screenshot"
+            data-carousel-next>
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 24 24"
+              class="size-5"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5">
+              <path d="m9 18 6-6-6-6" />
+            </svg>
+          </button>
+        </>
+      )
+    }
+  </div>
+
   {
-    screenshots.map((screenshot, index) => (
-      <figure class="m-0 w-full max-w-3xl shrink-0 snap-start">
-        <img
-          class="block max-h-[36rem] max-w-full rounded-xl"
-          src={screenshot.url}
-          alt={screenshot.caption ?? ""}
-          loading={index === 0 ? "eager" : "lazy"}
-        />
-        {screenshot.caption && <figcaption class="mt-2">{screenshot.caption}</figcaption>}
-      </figure>
-    ))
+    screenshots.length > 1 && (
+      <nav class="mt-4 flex justify-center gap-2" aria-label="Choose screenshot">
+        {screenshots.map((_, index) => (
+          <a
+            class="size-2.5 cursor-pointer rounded-full bg-zinc-300 hover:bg-zinc-500 dark:bg-zinc-700 dark:hover:bg-zinc-500"
+            href={`#${id}-${index + 1}`}
+            aria-label={`Show screenshot ${index + 1} of ${screenshots.length}`}
+            aria-current={index === 0 ? "true" : undefined}
+            data-carousel-dot
+          />
+        ))}
+      </nav>
+    )
   }
 </section>
+
+<script>
+  function initializeCarousels() {
+    for (const carousel of document.querySelectorAll<HTMLElement>("[data-carousel]")) {
+      if (carousel.dataset.initialized) continue;
+
+      const track = carousel.querySelector<HTMLElement>("[data-carousel-track]");
+      const slides = Array.from(carousel.querySelectorAll<HTMLElement>("[data-carousel-slide]"));
+      const dots = Array.from(carousel.querySelectorAll<HTMLAnchorElement>("[data-carousel-dot]"));
+      const previous = carousel.querySelector<HTMLButtonElement>("[data-carousel-previous]");
+      const next = carousel.querySelector<HTMLButtonElement>("[data-carousel-next]");
+
+      if (!track || !previous || !next) continue;
+
+      carousel.dataset.initialized = "true";
+      previous.classList.remove("hidden");
+      next.classList.remove("hidden");
+
+      let current = 0;
+
+      const update = () => {
+        current = slides.reduce(
+          (nearest, slide, index) =>
+            Math.abs(track.scrollLeft - slide.offsetLeft) <
+            Math.abs(track.scrollLeft - slides[nearest]!.offsetLeft)
+              ? index
+              : nearest,
+          0
+        );
+
+        previous.disabled = current === 0;
+        next.disabled = current === slides.length - 1;
+
+        dots.forEach((dot, index) => {
+          if (index === current) dot.setAttribute("aria-current", "true");
+          else dot.removeAttribute("aria-current");
+        });
+      };
+
+      const show = (index: number) => {
+        slides[index]?.scrollIntoView({
+          behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+          block: "nearest",
+          inline: "center",
+        });
+      };
+
+      previous.addEventListener("click", () => show(current - 1));
+      next.addEventListener("click", () => show(current + 1));
+      track.addEventListener("scrollend", update);
+      track.addEventListener("scroll", update, { passive: true });
+      update();
+    }
+  }
+
+  document.addEventListener("astro:page-load", initializeCarousels);
+</script>
+
+<style>
+  [data-carousel-track] {
+    scrollbar-width: none;
+  }
+
+  [data-carousel-track]::-webkit-scrollbar {
+    display: none;
+  }
+
+  [data-carousel-dot][aria-current="true"] {
+    background: currentColor;
+  }
+</style>
