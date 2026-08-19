@@ -1,7 +1,7 @@
 import { isDeepStrictEqual } from "node:util";
 import { readFile } from "node:fs/promises";
 import { downloadHistorySchema } from "@catalog/downloads";
-import { readApps, root, sha256, validatePng } from "@catalog/core";
+import { readApps, root, sha256, validatePng, validateScreenshot } from "@catalog/core";
 import { appJsonSchema } from "@catalog/schema";
 
 const entries = await readApps();
@@ -18,6 +18,14 @@ for (const { app, directory, hasLock, lock } of entries) {
   validatePng(icon, app.id);
   if (icon.byteLength !== lock.icon.size || sha256(icon) !== lock.icon.sha256)
     throw new Error(`${app.id}: generated icon does not match its lock`);
+
+  for (const screenshot of app.screenshots) {
+    validateScreenshot(
+      await readFile(new URL(screenshot.file, directory)),
+      screenshot.file,
+      app.id
+    );
+  }
 }
 
 const publicSchema = JSON.parse(

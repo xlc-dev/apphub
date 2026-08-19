@@ -217,3 +217,28 @@ export function validatePng(data: Buffer, appId: string) {
   if (width !== height || width < 128 || width > 1024)
     throw new Error(`${appId}: icon must be square and between 128 and 1024 pixels`);
 }
+
+export function validateScreenshot(data: Buffer, file: string, appId: string) {
+  const extension = file.toLowerCase().split(".").at(-1);
+  const png =
+    data.length >= 8 && data.subarray(0, 8).equals(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]));
+  const jpeg =
+    data.length >= 4 &&
+    data[0] === 0xff &&
+    data[1] === 0xd8 &&
+    data.at(-2) === 0xff &&
+    data.at(-1) === 0xd9;
+  const webp =
+    data.length >= 12 &&
+    data.toString("ascii", 0, 4) === "RIFF" &&
+    data.toString("ascii", 8, 12) === "WEBP";
+
+  if (
+    (extension === "png" && png) ||
+    ((extension === "jpg" || extension === "jpeg") && jpeg) ||
+    (extension === "webp" && webp)
+  )
+    return;
+
+  throw new Error(`${appId}: ${file} does not match its image format`);
+}

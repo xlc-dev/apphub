@@ -6,6 +6,7 @@ import {
   selectAssets,
   sha256,
   validatePng,
+  validateScreenshot,
 } from "@catalog/core";
 import { appSchema, releaseLockSchema, type App } from "@catalog/schema";
 
@@ -228,5 +229,26 @@ describe("PNG validation", () => {
   test("rejects icons outside the supported dimensions", () => {
     expect(() => validatePng(png(64), app.id)).toThrow("between 128 and 1024 pixels");
     expect(() => validatePng(png(2048), app.id)).toThrow("between 128 and 1024 pixels");
+  });
+});
+
+describe("screenshot validation", () => {
+  test("accepts images that match their extension", () => {
+    const jpeg = Buffer.from([0xff, 0xd8, 0xff, 0xd9]);
+    const webp = Buffer.from("RIFF0000WEBP");
+
+    expect(() => validateScreenshot(png(), "screenshot-1.png", app.id)).not.toThrow();
+    expect(() => validateScreenshot(jpeg, "screenshot-1.jpg", app.id)).not.toThrow();
+    expect(() => validateScreenshot(jpeg, "screenshot-1.jpeg", app.id)).not.toThrow();
+    expect(() => validateScreenshot(webp, "screenshot-1.webp", app.id)).not.toThrow();
+  });
+
+  test("rejects images that do not match their extension", () => {
+    expect(() =>
+      validateScreenshot(Buffer.from("not an image"), "screenshot-1.png", app.id)
+    ).toThrow("does not match its image format");
+    expect(() => validateScreenshot(png(), "screenshot-1.jpg", app.id)).toThrow(
+      "does not match its image format"
+    );
   });
 });

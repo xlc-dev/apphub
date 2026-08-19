@@ -10,7 +10,7 @@ import Section from "@/components/ui/Section.astro";
   <Page narrow>
     <PageHeader
       title="Privacy"
-      description="AppHub does not track individual visitors. We only use anonymous, aggregate page-visit and download counts."
+      description="AppHub does not track individual visitors. We only use aggregate download counts."
       meta="Last updated August 19, 2026"
     />
 
@@ -20,9 +20,9 @@ import Section from "@/components/ui/Section.astro";
         class="dark:border-control border-t border-zinc-200 pt-8"
         title="What AppHub collects">
         <p class="leading-7 text-zinc-700 dark:text-zinc-300">
-          AppHub only uses anonymous, aggregate page-visit and download counts. These totals help
-          us understand which pages are useful and generate the trending lists. They are not used
-          to identify you or build a profile about you.
+          AppHub records aggregate AppImage download totals published by release providers. These
+          totals generate the trending lists. They are not used to identify you or build a profile
+          about you.
         </p>
       </Section>
 
@@ -41,9 +41,9 @@ import Section from "@/components/ui/Section.astro";
         class="dark:border-control border-t border-zinc-200 pt-8"
         title="Hosting and downloads">
         <p class="leading-7 text-zinc-700 dark:text-zinc-300">
-          AppHub is hosted by GitHub Pages, and app downloads are provided through GitHub. GitHub
-          processes requests to provide and secure those services, including logging visitor IP
-          addresses for security. That processing is governed by the{" "}
+          AppHub is hosted by GitHub Pages. App downloads are provided by their publishers,
+          including through GitHub. Those services process requests under their own privacy
+          policies. GitHub's processing is governed by the{" "}
           <Link
             accent
             href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement"
@@ -58,8 +58,8 @@ import Section from "@/components/ui/Section.astro";
         title="Data retention">
         <p class="leading-7 text-zinc-700 dark:text-zinc-300">
           AppHub keeps aggregate download snapshots for trending calculations. We do not store
-          individual visit or download records. GitHub controls the retention of data it processes
-          as the hosting and download provider.
+          individual visit or download records. Hosting and release providers control the retention
+          of data they process.
         </p>
       </Section>
 
