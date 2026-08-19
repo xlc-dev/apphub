@@ -14,8 +14,7 @@ const app: App = {
   name: "Example",
   summary: "An example app",
   releaseSource: { type: "github", repository: "example/app" },
-  icon: "https://example.org/icon.png",
-  screenshots: [{ url: "https://example.org/screenshot.png", caption: "Main window" }],
+  screenshots: [{ file: "screenshot-1.png", caption: "Main window" }],
   security: { isolation: "none", expectedAccess: [] },
 };
 
@@ -50,18 +49,23 @@ describe("catalog schema", () => {
     expect(() => appSchema.parse({ ...app, unknown: true })).toThrow();
   });
 
-  test("rejects unsafe icon URLs", () => {
-    expect(() => appSchema.parse({ ...app, icon: "http://example.org/icon.png" })).toThrow();
-  });
-
   test("requires at least one screenshot", () => {
     expect(() => appSchema.parse({ ...app, screenshots: [] })).toThrow();
   });
 
-  test("rejects unsafe screenshot URLs", () => {
+  test("rejects screenshot paths", () => {
     expect(() =>
-      appSchema.parse({ ...app, screenshots: [{ url: "http://example.org/screenshot.png" }] })
+      appSchema.parse({ ...app, screenshots: [{ file: "../screenshot.png" }] })
     ).toThrow();
+  });
+
+  test("rejects duplicate screenshots", () => {
+    expect(() =>
+      appSchema.parse({
+        ...app,
+        screenshots: [{ file: "screenshot-1.png" }, { file: "screenshot-1.png" }],
+      })
+    ).toThrow("Screenshot files must be unique");
   });
 
   test("accepts directly maintained releases", () => {

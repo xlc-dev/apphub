@@ -145,15 +145,16 @@ if (requestedSlug && selectedEntries.length === 0)
 
 for (const { app, directory, lock } of selectedEntries) {
   const updatedLock = structuredClone(lock);
-  const icon = await fetchBytes(app.icon, 1024 * 1024);
+  if (!lock.icon) throw new Error(`${app.id}: release lock has no icon metadata`);
+
+  const icon = await fetchBytes(lock.icon.source, 1024 * 1024);
   const iconDigest = sha256(icon);
 
   validatePng(icon, app.id);
 
-  if (lock.icon?.source === app.icon && lock.icon.sha256 !== iconDigest)
-    throw new Error(`${app.id}: published icon changed`);
+  if (lock.icon.sha256 !== iconDigest) throw new Error(`${app.id}: published icon changed`);
 
-  updatedLock.icon = { source: app.icon, size: icon.byteLength, sha256: iconDigest };
+  updatedLock.icon = { ...lock.icon, size: icon.byteLength, sha256: iconDigest };
 
   if (app.releaseSource.type === "direct") {
     changes.push(

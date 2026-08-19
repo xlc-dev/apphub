@@ -37,7 +37,7 @@ const expectedAccess = [
 
 const screenshotSchema = z
   .object({
-    url: z.url().regex(/^https:\/\/.*\.(?:png|jpe?g|webp)(?:\?.*)?$/i),
+    file: z.string().regex(/^screenshot-[1-9][0-9]*\.(?:png|jpe?g|webp)$/i),
     caption: z.string().min(1).optional(),
   })
   .strict();
@@ -53,8 +53,14 @@ export const appSchema = z
     homepage: z.url().optional(),
     categories: z.array(z.string().min(1)).min(1).optional(),
     releaseSource: releaseSourceSchema,
-    icon: z.url().regex(/^https:\/\/.*\.png(?:\?.*)?$/),
-    screenshots: z.array(screenshotSchema).min(1).max(10),
+    screenshots: z
+      .array(screenshotSchema)
+      .min(1)
+      .max(10)
+      .refine(
+        (screenshots) => new Set(screenshots.map(({ file }) => file)).size === screenshots.length,
+        "Screenshot files must be unique"
+      ),
     security: z
       .object({
         isolation: z.literal("none"),

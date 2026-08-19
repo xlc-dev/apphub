@@ -9,6 +9,9 @@ interface Props {
   title: string;
   description?: string;
   image?: string;
+  imageAlt?: string;
+  imageType?: "image/jpeg" | "image/png" | "image/webp";
+  pageType?: "website" | "product";
   transitions?: boolean;
   transitionFallback?: "animate" | "swap" | "none";
 }
@@ -17,6 +20,9 @@ const {
   title,
   description,
   image,
+  imageAlt,
+  imageType,
+  pageType = "website",
   transitions = true,
   transitionFallback = "animate",
 } = Astro.props;
@@ -34,8 +40,9 @@ const pageTitle = title === "AppHub" ? title : `${title} - AppHub`;
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
     <meta property="og:site_name" content="AppHub" />
+    <meta property="og:locale" content="en_US" />
     <meta property="og:title" content={pageTitle} />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={pageType} />
     <meta name="twitter:card" content={image ? "summary_large_image" : "summary"} />
     <meta name="twitter:title" content={pageTitle} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -46,7 +53,10 @@ const pageTitle = title === "AppHub" ? title : `${title} - AppHub`;
     {description && <meta property="og:description" content={description} />}
     {description && <meta name="twitter:description" content={description} />}
     {image && <meta property="og:image" content={image} />}
+    {image && imageType && <meta property="og:image:type" content={imageType} />}
+    {image && imageAlt && <meta property="og:image:alt" content={imageAlt} />}
     {image && <meta name="twitter:image" content={image} />}
+    {image && imageAlt && <meta name="twitter:image:alt" content={imageAlt} />}
     {transitions && <ClientRouter fallback={transitionFallback} />}
   </head>
   <body

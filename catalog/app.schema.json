@@ -68,10 +68,6 @@
         }
       ]
     },
-    "icon": {
-      "type": "string",
-      "pattern": "^https:\\/\\/.*\\.png(?:\\?.*)?$"
-    },
     "screenshots": {
       "minItems": 1,
       "maxItems": 10,
@@ -79,16 +75,16 @@
       "items": {
         "type": "object",
         "properties": {
-          "url": {
+          "file": {
             "type": "string",
-            "pattern": "^https:\\/\\/.*\\.(?:png|jpe?g|webp)(?:\\?.*)?$"
+            "pattern": "^screenshot-[1-9][0-9]*\\.(?:png|jpe?g|webp)$"
           },
           "caption": {
             "type": "string",
             "minLength": 1
           }
         },
-        "required": ["url"],
+        "required": ["file"],
         "additionalProperties": false
       }
     },
@@ -131,7 +127,7 @@
       }
     }
   },
-  "required": ["id", "name", "summary", "releaseSource", "icon", "screenshots", "security"],
+  "required": ["id", "name", "summary", "releaseSource", "screenshots", "security"],
   "additionalProperties": false,
   "title": "AppHub application"
 }

@@ -37,6 +37,7 @@ interface SelectedAsset<T extends SelectableAsset> {
 export const root = pathToFileURL(`${process.cwd()}/`);
 const appsDirectory = new URL("apps/", root);
 const allowedFiles = new Set(["app.json", "icon.png", "releases.json"]);
+const screenshotFile = /^screenshot-[1-9][0-9]*\.(?:png|jpe?g|webp)$/i;
 const architectureMatchers: Array<[Architecture, RegExp]> = [
   ["x86_64", /(?:^|[^a-z0-9])(?:x86[_-]?64|amd64)(?:[^a-z0-9]|$)/i],
   ["i686", /(?:^|[^a-z0-9])(?:i[3-6]86|x86[_-]?32)(?:[^a-z0-9]|$)/i],
@@ -87,10 +88,25 @@ export async function readApps(directory = appsDirectory) {
     const names = await readdir(appDirectory);
 
     for (const name of names) {
-      if (!allowedFiles.has(name)) throw new Error(`${slug}: unexpected file ${name}`);
+      if (!allowedFiles.has(name) && !screenshotFile.test(name))
+        throw new Error(`${slug}: unexpected file ${name}`);
     }
 
     const app = appSchema.parse(await readJson(new URL("app.json", appDirectory)));
+
+    if (!names.includes("icon.png")) throw new Error(`${slug}: missing icon.png`);
+
+    for (const screenshot of app.screenshots) {
+      if (!names.includes(screenshot.file))
+        throw new Error(`${slug}: missing screenshot ${screenshot.file}`);
+    }
+
+    const referencedScreenshots = new Set(app.screenshots.map(({ file }) => file));
+
+    for (const name of names) {
+      if (screenshotFile.test(name) && !referencedScreenshots.has(name))
+        throw new Error(`${slug}: unreferenced screenshot ${name}`);
+    }
     const { lock, exists } = await readOptionalLock(
       new URL("releases.json", appDirectory),
       app.id

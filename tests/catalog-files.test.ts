@@ -33,6 +33,8 @@ describe("catalog files", () => {
     const directory = join(root, "example-app");
 
     await mkdir(directory);
+    await writeFile(join(directory, "icon.png"), "fixture");
+    await writeFile(join(directory, "screenshot-1.png"), "fixture");
     await writeFile(
       join(directory, "app.json"),
       JSON.stringify({
@@ -40,8 +42,7 @@ describe("catalog files", () => {
         name: "Example App",
         summary: "A synthetic fixture",
         releaseSource: { type: "github", repository: "example/app" },
-        icon: "https://example.org/icon.png",
-        screenshots: [{ url: "https://example.org/screenshot.png" }],
+        screenshots: [{ file: "screenshot-1.png" }],
         security: { isolation: "none", expectedAccess: [] },
       })
     );
