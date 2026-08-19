@@ -32,7 +32,7 @@ const pageTitle = title === "AppHub" ? title : `${title} - AppHub`;
     <meta name="application-name" content="AppHub" />
     <meta name="color-scheme" content="light dark" />
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#09090b" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
     <meta property="og:site_name" content="AppHub" />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:type" content="website" />
@@ -50,7 +50,7 @@ const pageTitle = title === "AppHub" ? title : `${title} - AppHub`;
     {transitions && <ClientRouter fallback={transitionFallback} />}
   </head>
   <body
-    class="relative m-0 flex min-h-screen flex-col bg-white font-sans text-zinc-950 dark:bg-zinc-950 dark:text-zinc-50">
+    class="relative m-0 flex min-h-screen flex-col bg-white font-sans text-zinc-950 dark:bg-black dark:text-zinc-50">
     <a
       class="fixed top-2 left-2 z-[100] -translate-y-20 rounded-lg bg-zinc-950 px-4 py-2 text-white focus:translate-y-0 dark:bg-white dark:text-zinc-950"
       href="#main-content">Skip to content</a

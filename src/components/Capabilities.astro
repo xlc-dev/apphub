@@ -31,7 +31,7 @@ const capabilities = {
       <ul class="mt-4 grid list-none gap-3 p-0 sm:grid-cols-2">
         {security.expectedAccess.map((access) => (
           <li class="flex gap-3 rounded-xl border border-zinc-200 p-4 dark:border-zinc-800">
-            <span class="mt-2 size-2 shrink-0 rounded-full bg-amber-500" aria-hidden="true" />
+            <span class="bg-accent mt-2 size-2 shrink-0 rounded-full" aria-hidden="true" />
             <span>
               <strong class="block">{capabilities[access][0]}</strong>
               <span class="mt-1 block text-sm leading-5 text-zinc-600 dark:text-zinc-400">

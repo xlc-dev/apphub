@@ -24,11 +24,14 @@ const heading = category ? `${category} Apps` : "AppImages for Linux";
 <BaseLayout title={category ? heading : "AppHub"} description={`${heading}.`}>
   <Page>
     <PageHeader title={heading} />
-    <nav class="flex flex-wrap gap-x-4 gap-y-2" aria-label="Categories">
-      <Link href="/" aria-current={category ? undefined : "page"}>All</Link>
+    <nav class="flex flex-wrap gap-3" aria-label="Categories">
+      <Link filter href="/" aria-current={category ? undefined : "page"}>All</Link>
       {
         categories.map((name) => (
-          <Link href={categoryPath(name)} aria-current={name === category ? "page" : undefined}>
+          <Link
+            filter
+            href={categoryPath(name)}
+            aria-current={name === category ? "page" : undefined}>
             {name}
           </Link>
         ))
