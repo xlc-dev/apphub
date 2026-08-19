@@ -14,6 +14,7 @@
     "check": "astro check",
     "test": "bun test",
     "schema": "bun scripts/generate-schema.ts && prettier --write catalog/app.schema.json",
+    "update-downloads": "bun scripts/update-downloads.ts",
     "update-releases": "bun scripts/update-releases.ts",
     "validate:catalog": "bun scripts/validate.ts",
     "verify:downloads": "bun scripts/verify-downloads.ts",

@@ -1,5 +1,6 @@
 import { isDeepStrictEqual } from "node:util";
 import { readFile } from "node:fs/promises";
+import { downloadHistorySchema } from "@catalog/downloads";
 import { readApps, root, sha256, validatePng } from "@catalog/core";
 import { appJsonSchema } from "@catalog/schema";
 
@@ -25,5 +26,9 @@ const publicSchema = JSON.parse(
 
 if (!isDeepStrictEqual(publicSchema, appJsonSchema()))
   throw new Error("catalog/app.schema.json is stale; run bun run schema");
+
+downloadHistorySchema.parse(
+  JSON.parse(await readFile(new URL("catalog/downloads.json", root), "utf8"))
+);
 
 console.log(`Validated ${entries.length} application${entries.length === 1 ? "" : "s"}.`);

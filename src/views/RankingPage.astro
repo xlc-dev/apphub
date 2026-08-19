@@ -1,0 +1,51 @@
+---
+import AppCard from "@/components/AppCard.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import EmptyState from "@/components/ui/EmptyState.astro";
+import Link from "@/components/ui/Link.astro";
+import Page from "@/components/ui/Page.astro";
+import PageHeader from "@/components/ui/PageHeader.astro";
+import { getDownloadRanking } from "@/lib/downloads";
+
+interface Props {
+  title: string;
+  description: string;
+  days?: number;
+}
+
+const { title, description, days } = Astro.props;
+const ranking = await getDownloadRanking(days);
+---
+
+<BaseLayout title={title} description={description}>
+  <Page>
+    <PageHeader title={title} description={description} />
+    <nav class="flex flex-wrap gap-x-4 gap-y-2" aria-label="Download rankings">
+      <Link href="/trending/">This week</Link>
+      <Link href="/trending/month/">This month</Link>
+      <Link href="/trending/all-time/">All time</Link>
+    </nav>
+    {
+      ranking === null ? (
+        <div class="mt-8">
+          <EmptyState>Download history is not available yet.</EmptyState>
+        </div>
+      ) : ranking.length === 0 ? (
+        <div class="mt-8">
+          <EmptyState>No download data is available.</EmptyState>
+        </div>
+      ) : (
+        <ol class="mt-8 grid gap-6 pl-8">
+          {ranking.map(({ app, downloads }) => (
+            <li>
+              <AppCard app={app} />
+              <p class="text-sm text-zinc-500 dark:text-zinc-400">
+                {downloads.toLocaleString("en")} downloads
+              </p>
+            </li>
+          ))}
+        </ol>
+      )
+    }
+  </Page>
+</BaseLayout>
