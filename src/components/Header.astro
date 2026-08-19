@@ -1,0 +1,48 @@
+---
+import Link from "@/components/ui/Link.astro";
+---
+
+<header
+  class="sticky top-0 z-50 mx-auto grid w-full max-w-6xl grid-cols-[1fr_auto] items-center gap-4 px-4 py-5 backdrop-blur-sm md:grid-cols-[auto_minmax(12rem,32rem)_auto] md:px-6">
+  <a
+    class="col-start-1 row-start-1 flex items-center gap-2 justify-self-start text-xl font-bold"
+    href="/">
+    <img src="/favicon.svg" alt="" width="32" height="32" />
+    <span class="hidden sm:inline">AppHub</span>
+  </a>
+  <form
+    class="col-span-2 col-start-1 row-start-2 w-full md:col-span-1 md:col-start-2 md:row-start-1"
+    action="/"
+    method="get"
+    role="search"
+    hidden
+    data-catalog-search>
+    <label class="sr-only" for="catalog-search">Search apps</label>
+    <input
+      class="w-full rounded-lg border border-zinc-300 bg-transparent px-3 py-2 outline-none focus:border-zinc-950 dark:border-zinc-700 dark:focus:border-zinc-50"
+      id="catalog-search"
+      type="search"
+      name="q"
+      placeholder="Search apps"
+      autocomplete="off"
+      data-catalog-search-input
+    />
+    <p class="sr-only" aria-live="polite" data-search-status></p>
+  </form>
+  <nav
+    class="col-span-2 col-start-1 row-start-3 flex flex-wrap justify-center gap-x-4 gap-y-2 text-sm md:col-span-1 md:col-start-3 md:row-start-1 md:justify-end md:text-base"
+    aria-label="Main navigation">
+    <Link href="/">Home</Link>
+    <Link href="/categories/">Categories</Link>
+    <Link href="/trending/">Trending</Link>
+  </nav>
+</header>
+
+<script>
+  function showHeaderSearch() {
+    const search = document.querySelector<HTMLFormElement>("[data-catalog-search]");
+    if (search) search.hidden = false;
+  }
+
+  document.addEventListener("astro:page-load", showHeaderSearch);
+</script>
