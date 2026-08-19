@@ -22,8 +22,40 @@ const id = `${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-carousel`;
   aria-roledescription="carousel"
   role="region"
   data-carousel>
+  {
+    screenshots.length > 1 && (
+      <button
+        slot="actions"
+        class="focus-visible:outline-accent hidden size-11 shrink-0 cursor-pointer items-center justify-center rounded-lg bg-zinc-950/75 text-white hover:bg-zinc-950 focus-visible:outline-2 focus-visible:outline-offset-2 dark:bg-white/75 dark:text-zinc-950 dark:hover:bg-white"
+        type="button"
+        aria-label="Enlarge screenshots"
+        data-carousel-fullscreen>
+        <svg
+          data-carousel-expand-icon
+          aria-hidden="true"
+          viewBox="0 0 24 24"
+          class="size-5"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2">
+          <path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5" />
+        </svg>
+        <svg
+          class="hidden size-5"
+          data-carousel-close-icon
+          aria-hidden="true"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2">
+          <path d="m6 6 12 12M18 6 6 18" />
+        </svg>
+      </button>
+    )
+  }
   <div
-    class="relative mt-4 sm:grid sm:grid-cols-[2.75rem_minmax(0,1fr)_2.75rem] sm:items-center sm:gap-3">
+    class="relative sm:grid sm:grid-cols-[2.75rem_minmax(0,1fr)_2.75rem] sm:items-center sm:gap-3"
+    data-carousel-frame>
     <div
       class="flex aspect-video snap-x snap-mandatory items-center overflow-x-auto overscroll-x-contain scroll-smooth rounded-xl motion-reduce:scroll-auto sm:col-start-2 sm:row-start-1"
       aria-live="off"
@@ -56,7 +88,7 @@ const id = `${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-carousel`;
       screenshots.length > 1 && (
         <>
           <button
-            class="absolute top-1/2 left-2 hidden size-11 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-zinc-950/75 text-white shadow-sm hover:bg-zinc-950 focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-30 sm:static sm:col-start-1 sm:row-start-1 sm:translate-y-0 dark:bg-white/75 dark:text-zinc-950 dark:hover:bg-white"
+            class="absolute top-1/2 left-2 hidden size-11 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-zinc-950/75 text-white shadow-sm hover:bg-zinc-950 focus-visible:outline-2 focus-visible:outline-offset-2 sm:static sm:col-start-1 sm:row-start-1 sm:translate-y-0 dark:bg-white/75 dark:text-zinc-950 dark:hover:bg-white"
             type="button"
             aria-label="Previous screenshot"
             data-carousel-previous>
@@ -71,7 +103,7 @@ const id = `${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-carousel`;
             </svg>
           </button>
           <button
-            class="absolute top-1/2 right-2 hidden size-11 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-zinc-950/75 text-white shadow-sm hover:bg-zinc-950 focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-30 sm:static sm:col-start-3 sm:row-start-1 sm:translate-y-0 dark:bg-white/75 dark:text-zinc-950 dark:hover:bg-white"
+            class="absolute top-1/2 right-2 hidden size-11 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full bg-zinc-950/75 text-white shadow-sm hover:bg-zinc-950 focus-visible:outline-2 focus-visible:outline-offset-2 sm:static sm:col-start-3 sm:row-start-1 sm:translate-y-0 dark:bg-white/75 dark:text-zinc-950 dark:hover:bg-white"
             type="button"
             aria-label="Next screenshot"
             data-carousel-next>
@@ -92,7 +124,7 @@ const id = `${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-carousel`;
 
   {
     screenshots.length > 1 && (
-      <div class="relative mt-2 flex min-h-11 items-center justify-center">
+      <div class="mt-2 flex min-h-11 items-center justify-center">
         <nav class="flex" aria-label="Choose screenshot">
           {screenshots.map((_, index) => (
             <a
@@ -108,21 +140,6 @@ const id = `${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-carousel`;
             </a>
           ))}
         </nav>
-        <button
-          class="absolute right-0 hidden size-11 cursor-pointer items-center justify-center rounded-lg hover:bg-zinc-100 focus-visible:outline-2 focus-visible:outline-offset-2 dark:hover:bg-zinc-900"
-          type="button"
-          aria-label="Enlarge screenshots"
-          data-carousel-fullscreen>
-          <svg
-            aria-hidden="true"
-            viewBox="0 0 24 24"
-            class="size-5"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2">
-            <path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5" />
-          </svg>
-        </button>
       </div>
     )
   }
@@ -191,9 +208,6 @@ const id = `${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-carousel`;
           0
         );
 
-        previous.disabled = current === 0;
-        next.disabled = current === slides.length - 1;
-
         dots.forEach((dot, index) => {
           if (index === current) dot.setAttribute("aria-current", "true");
           else dot.removeAttribute("aria-current");
@@ -201,7 +215,9 @@ const id = `${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-carousel`;
       };
 
       const show = (index: number) => {
-        slides[index]?.scrollIntoView({
+        const wrappedIndex = (index + slides.length) % slides.length;
+
+        slides[wrappedIndex]?.scrollIntoView({
           behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
           block: "nearest",
           inline: "center",
@@ -311,15 +327,21 @@ const id = `${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-carousel`;
     flex-direction: column;
     padding: 1rem;
     background: white;
-    color: #09090b;
+    color: #101010;
   }
 
-  :global(.dark) [data-carousel-expanded] {
-    background: #09090b;
-    color: #fafafa;
+  :global(body:has([data-carousel-expanded]) main) {
+    z-index: 60;
   }
 
-  [data-carousel-expanded] > div:first-of-type {
+  @media (prefers-color-scheme: dark) {
+    [data-carousel-expanded] {
+      background: black;
+      color: white;
+    }
+  }
+
+  [data-carousel-expanded] [data-carousel-frame] {
     display: grid;
     min-height: 0;
     flex: 1;
@@ -337,6 +359,21 @@ const id = `${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-carousel`;
 
   [data-carousel-expanded] [data-carousel-slide] {
     height: 100%;
+  }
+
+  [data-carousel-expanded] [data-carousel-fullscreen] {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 1;
+  }
+
+  [data-carousel-expanded] [data-carousel-expand-icon] {
+    display: none;
+  }
+
+  [data-carousel-expanded] [data-carousel-close-icon] {
+    display: block;
   }
 
   [data-carousel-expanded] [data-carousel-previous],

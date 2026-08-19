@@ -11,6 +11,9 @@ const { title, headingId, spaced = true, class: className, ...attributes } = Ast
 ---
 
 <section {...attributes} class:list={[spaced && "mt-10", className]}>
-  <h2 class="mb-3 text-2xl font-bold" id={headingId}>{title}</h2>
+  <div class="mb-3 flex items-center justify-between gap-4">
+    <h2 class="text-2xl font-bold" id={headingId}>{title}</h2>
+    <slot name="actions" />
+  </div>
   <slot />
 </section>
