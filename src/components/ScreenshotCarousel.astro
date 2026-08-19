@@ -40,7 +40,7 @@ const id = `${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-carousel`;
       screenshots.length > 1 && (
         <>
           <button
-            class="absolute top-1/2 left-3 hidden -translate-y-1/2 cursor-pointer rounded-full bg-zinc-950/75 p-3 text-white shadow-sm hover:bg-zinc-950 disabled:cursor-not-allowed disabled:opacity-30 dark:bg-white/75 dark:text-zinc-950 dark:hover:bg-white"
+            class="absolute top-1/2 left-2 hidden -translate-y-1/2 cursor-pointer rounded-full bg-zinc-950/75 p-2.5 text-white shadow-sm hover:bg-zinc-950 disabled:cursor-not-allowed disabled:opacity-30 sm:left-3 sm:p-3 dark:bg-white/75 dark:text-zinc-950 dark:hover:bg-white"
             type="button"
             aria-label="Previous screenshot"
             data-carousel-previous>
@@ -55,7 +55,7 @@ const id = `${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-carousel`;
             </svg>
           </button>
           <button
-            class="absolute top-1/2 right-3 hidden -translate-y-1/2 cursor-pointer rounded-full bg-zinc-950/75 p-3 text-white shadow-sm hover:bg-zinc-950 disabled:cursor-not-allowed disabled:opacity-30 dark:bg-white/75 dark:text-zinc-950 dark:hover:bg-white"
+            class="absolute top-1/2 right-2 hidden -translate-y-1/2 cursor-pointer rounded-full bg-zinc-950/75 p-2.5 text-white shadow-sm hover:bg-zinc-950 disabled:cursor-not-allowed disabled:opacity-30 sm:right-3 sm:p-3 dark:bg-white/75 dark:text-zinc-950 dark:hover:bg-white"
             type="button"
             aria-label="Next screenshot"
             data-carousel-next>

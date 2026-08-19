@@ -35,7 +35,7 @@ const ranking = await getDownloadRanking(days);
           <EmptyState>No download data is available.</EmptyState>
         </div>
       ) : (
-        <ol class="mt-8 grid gap-6 pl-8">
+        <ol class="mt-8 grid gap-6 pl-6 sm:pl-8">
           {ranking.map(({ app, downloads }) => (
             <li>
               <AppCard app={app} />

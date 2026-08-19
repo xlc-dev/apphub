@@ -12,9 +12,19 @@ const { app } = Astro.props;
 const searchValue = catalogSearchValue(app);
 ---
 
-<article class="flex items-center gap-4" data-catalog-app data-search-value={searchValue}>
-  <img class="rounded-xl" src={app.icon} alt="" width="64" height="64" loading="lazy" />
-  <div>
+<article
+  class="flex items-start gap-4 sm:items-center"
+  data-catalog-app
+  data-search-value={searchValue}>
+  <img
+    class="size-14 shrink-0 rounded-xl sm:size-16"
+    src={app.icon}
+    alt=""
+    width="64"
+    height="64"
+    loading="lazy"
+  />
+  <div class="min-w-0">
     <h2 class="text-lg font-semibold">
       <Link href={`/apps/${app.slug}`}>{app.name}</Link>
     </h2>
