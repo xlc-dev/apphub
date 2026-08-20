@@ -4,7 +4,6 @@ import { routePath, sitePath } from "@/lib/paths";
 import { Image } from "astro:assets";
 
 const path = routePath(Astro.url.pathname);
-const home = sitePath("/");
 const logo = sitePath("/logo.svg");
 const links = [
   { href: "/apps/", label: "Apps", current: path.startsWith("/apps/") },
@@ -18,13 +17,14 @@ const links = [
   class="shadow-surface/5 dark:border-control/80 dark:bg-surface/90 sticky top-0 z-50 w-full border-b border-zinc-200/80 bg-white/90 shadow-sm backdrop-blur-md dark:shadow-black/20">
   <div
     class="mx-auto grid w-full max-w-6xl grid-cols-[1fr_auto] items-center gap-4 px-4 py-4 md:grid-cols-[auto_minmax(12rem,32rem)_auto] md:px-6">
-    <a
+    <Link
+      unstyled
       class="col-start-1 row-start-1 flex items-center gap-2 justify-self-start rounded-sm text-xl font-bold focus-visible:outline-2 focus-visible:outline-offset-2"
       aria-label="AppHub home"
-      href={home}>
+      href="/">
       <Image src={logo} alt="" width={32} height={32} loading="eager" fetchpriority="high" />
       <span class="hidden sm:inline">AppHub</span>
-    </a>
+    </Link>
     <div class="col-start-2 row-start-1 md:hidden">
       <button
         class="group focus-visible:outline-accent flex min-h-11 min-w-11 items-center justify-center rounded-lg border border-zinc-300 focus-visible:outline-2 focus-visible:outline-offset-2 dark:border-zinc-700"

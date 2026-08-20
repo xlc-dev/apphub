@@ -3,19 +3,19 @@ import Link from "@/components/ui/Link.astro";
 import { sitePath } from "@/lib/paths";
 import { Image } from "astro:assets";
 
-const home = sitePath("/");
 const logo = sitePath("/logo.svg");
 ---
 
 <footer class="dark:border-control relative z-10 mt-12 border-t border-zinc-200">
   <div
     class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-5 px-4 py-6 sm:flex-row sm:px-6">
-    <a
+    <Link
+      unstyled
       class="flex items-center gap-2 rounded-sm font-bold focus-visible:outline-2 focus-visible:outline-offset-2"
-      href={home}>
+      href="/">
       <Image src={logo} alt="" width={32} height={32} loading="eager" />
       AppHub
-    </a>
+    </Link>
     <nav class="flex flex-wrap justify-center gap-x-4 gap-y-2" aria-label="Footer navigation">
       <Link href="/privacy/">Privacy Policy</Link>
       <Link href="https://github.com/xlc-dev/apphub">AppHub repository</Link>
