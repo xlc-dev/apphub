@@ -31,5 +31,16 @@
       "source": "https://github.com/flxzt/rnote/blob/main/crates/rnote-ui/data/screenshots/overview.png"
     }
   ],
-  "expectedAccess": ["home-files", "devices", "session-bus"]
+  "sandbox": {
+    "network": "none",
+    "display": "wayland-and-x11",
+    "audio": "none",
+    "processes": "isolated",
+    "ipc": false,
+    "filesystem": [],
+    "devices": ["gpu", "input"],
+    "portals": ["file-chooser", "open-uri", "printing"],
+    "sessionBus": [],
+    "systemBus": []
+  }
 }
