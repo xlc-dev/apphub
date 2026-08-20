@@ -10,9 +10,9 @@
 
 ---
 
-AppHub is an open source store for discovering and downloading AppImages. It
-keeps releases, checksums, screenshots, capabilities, and download information
-together in a catalog for people and other applications.
+AppHub is a catalog and storefront for AppImages. It brings release metadata,
+checksums, screenshots, sandbox requirements, and direct upstream downloads
+into one place without repackaging applications.
 
 ## Features
 
