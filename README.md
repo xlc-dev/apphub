@@ -36,11 +36,11 @@ into one place without repackaging applications.
 The site and public API use the same Zod-typed catalog service. The static build
 generates endpoints for apps, categories, new apps, and download rankings:
 
-- `/api/v1/apps` and `/api/v1/apps/{slug}`
-- `/api/v1/categories` and `/api/v1/categories/{slug}`
-- `/api/v1/new`
-- `/api/v1/trending/week`, `/api/v1/trending/month`, and
-  `/api/v1/trending/all-time`
+- `/api/v1/apps.json` and `/api/v1/apps/{slug}.json`
+- `/api/v1/categories.json` and `/api/v1/categories/{slug}.json`
+- `/api/v1/new.json`
+- `/api/v1/trending/week.json`, `/api/v1/trending/month.json`, and
+  `/api/v1/trending/all-time.json`
 
 App manifests use `source: "official"` for listings maintained by the original
 developers and `source: "community"` for third-party listings. Contributors
