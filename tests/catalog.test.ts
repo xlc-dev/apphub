@@ -76,13 +76,33 @@ describe("catalog schema", () => {
     }
   });
 
-  test("uses AppStream-style category identifiers", () => {
-    expect(appSchema.parse({ ...app, categories: ["2DGraphics"] }).categories).toEqual([
-      "2DGraphics",
-    ]);
+  test("uses registered category identifiers", () => {
+    expect(appSchema.parse({ ...app, categories: ["Graphics", "2DGraphics"] }).categories).toEqual(
+      ["Graphics", "2DGraphics"]
+    );
     expect(() => appSchema.parse({ ...app, categories: ["Audio & Video"] })).toThrow();
+    expect(() => appSchema.parse({ ...app, categories: ["MadeUpCategory"] })).toThrow();
     expect(() => appSchema.parse({ ...app, categories: ["Utility", "Utility"] })).toThrow(
       "Categories must be unique"
+    );
+  });
+
+  test("requires a main category", () => {
+    expect(() => appSchema.parse({ ...app, categories: ["TextEditor"] })).toThrow(
+      "At least one main category is required"
+    );
+    expect(appSchema.parse({ ...app, categories: ["Utility", "TextEditor"] }).categories).toEqual([
+      "Utility",
+      "TextEditor",
+    ]);
+  });
+
+  test("requires an SPDX project license expression", () => {
+    expect(appSchema.parse({ ...app, projectLicense: "MIT OR Apache-2.0" }).projectLicense).toBe(
+      "MIT OR Apache-2.0"
+    );
+    expect(() => appSchema.parse({ ...app, projectLicense: "MadeUpLicense" })).toThrow(
+      "Must be a valid SPDX license expression"
     );
   });
 

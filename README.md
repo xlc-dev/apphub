@@ -21,7 +21,7 @@ together in a catalog for people and other applications.
 
 - **Direct downloads:** Download original AppImages from their publishers without repackaging.
 
-- **Verified artifacts:** Every artifact includes its architecture, file size,
+- **Checksummed artifacts:** Every artifact includes its architecture, file size,
   and SHA-256 checksum.
 
 - **Clear capabilities:** Listings describe the files, devices, services, and
@@ -48,20 +48,20 @@ provide the icon and screenshots; AppHub does not fetch remote images. Images
 are decoded and validated when the catalog is loaded.
 
 Application metadata follows useful AppStream conventions: reverse-DNS IDs,
-project license expressions, developer attribution, AppStream-style categories,
-search keywords, and optional MIME types or URI handlers.
+SPDX project license expressions, developer attribution, registered Freedesktop
+categories, search keywords, and optional MIME types or URI handlers.
 
 AppHub adds provenance, catalog addition dates, expected access, artifact
-checksums, and release-source configuration. Internal release and health-check
-details are not exposed by the public API.
+checksums, and release-source configuration. Internal release-source details are
+not exposed by the public API.
 
 Release metadata can come from GitHub Releases, an HTTPS JSON feed, or a
 maintained `releases.json`. AppHub uses published checksums when available. It
 downloads a new artifact once when it must calculate the checksum itself.
 
-Automated checks record health separately from release history. One or two
-failures mark an app as degraded; three mark it unavailable. A successful check
-restores it to healthy without discarding valid releases.
+Release synchronization compares upstream metadata with recorded releases and
+fails without changing the catalog when a source cannot be processed. A manual
+deep audit can download stored artifacts and verify their checksums.
 
 ## Submitting apps
 

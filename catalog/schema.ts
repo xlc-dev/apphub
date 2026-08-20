@@ -1,4 +1,6 @@
 import { z } from "zod";
+import parseSpdxExpression from "spdx-expression-parse";
+import { mainCategories, registeredCategories } from "@catalog/categories";
 
 const httpsUrlSchema = z.url().refine((value) => new URL(value).protocol === "https:", {
   message: "Must use HTTPS",
@@ -45,8 +47,16 @@ const expectedAccess = [
 
 const categorySchema = z
   .string()
-  .regex(/^[A-Z0-9][A-Za-z0-9]+$/)
-  .describe("AppStream-style category identifier");
+  .refine((category) => registeredCategories.has(category), "Must be a registered category");
+
+function isSpdxExpression(value: string) {
+  try {
+    parseSpdxExpression(value);
+    return true;
+  } catch {
+    return false;
+  }
+}
 
 const mimeTypeSchema = z
   .string()
@@ -69,7 +79,11 @@ export const appSchema = z
     name: z.string().min(1).max(100),
     summary: z.string().min(1).max(200),
     description: z.string().min(1).max(10_000),
-    projectLicense: z.string().min(1).max(100).describe("Project license expression"),
+    projectLicense: z
+      .string()
+      .min(1)
+      .max(100)
+      .refine(isSpdxExpression, "Must be a valid SPDX license expression"),
     developer: z
       .object({
         name: z.string().min(1).max(100),
@@ -95,6 +109,10 @@ export const appSchema = z
       .refine(
         (categories) => new Set(categories).size === categories.length,
         "Categories must be unique"
+      )
+      .refine(
+        (categories) => categories.some((category) => mainCategories.has(category)),
+        "At least one main category is required"
       ),
     mimeTypes: z
       .array(mimeTypeSchema)
@@ -182,26 +200,7 @@ export const releaseLockSchema = z
     "Release versions must be unique"
   );
 
-export const healthStatusSchema = z.enum(["healthy", "degraded", "unavailable"]);
-
-export const healthSchema = z
-  .object({
-    status: healthStatusSchema,
-    checkedAt: z.iso.datetime(),
-    consecutiveFailures: z.number().int().nonnegative(),
-    error: z.string().min(1).max(500).optional(),
-  })
-  .strict()
-  .refine(
-    ({ status, consecutiveFailures }) =>
-      (status === "healthy" && consecutiveFailures === 0) ||
-      (status === "degraded" && consecutiveFailures > 0 && consecutiveFailures < 3) ||
-      (status === "unavailable" && consecutiveFailures >= 3),
-    "Health status does not match its failure count"
-  );
-
 export type App = z.infer<typeof appSchema>;
 export type Architecture = z.infer<typeof architectureSchema>;
 export type Artifact = z.infer<typeof artifactSchema>;
 export type ReleaseLock = z.infer<typeof releaseLockSchema>;
-export type Health = z.infer<typeof healthSchema>;

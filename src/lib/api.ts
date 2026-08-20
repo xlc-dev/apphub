@@ -1,7 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { downloadCounts, downloadHistorySchema } from "@catalog/downloads";
 import { imageType, readApps, root } from "@catalog/core";
-import { appSchema, healthStatusSchema, releaseSchema } from "@catalog/schema";
+import { appSchema, releaseSchema } from "@catalog/schema";
 import { categoryName, categorySlug } from "@/lib/categories";
 import { newApps, newAppWindowDays } from "@/lib/new-apps";
 import { z } from "zod";
@@ -16,13 +16,6 @@ const apiScreenshotSchema = z
   })
   .strict();
 
-const publicHealthSchema = z
-  .object({
-    status: healthStatusSchema,
-    checkedAt: z.iso.datetime(),
-  })
-  .strict();
-
 const apiAppSchema = appSchema
   .omit({ assets: true, releaseSource: true, screenshots: true })
   .extend({
@@ -30,7 +23,6 @@ const apiAppSchema = appSchema
     icon: z.object({ url: z.string().min(1), type: imageTypeSchema }).strict(),
     screenshots: z.array(apiScreenshotSchema).min(1).max(10),
     releases: z.array(releaseSchema),
-    health: publicHealthSchema.optional(),
   })
   .strict();
 
@@ -83,7 +75,7 @@ let appsPromise: Promise<ApiApp[]> | undefined;
 async function loadApps() {
   const entries = await readApps();
   const apps = entries
-    .map(({ slug, iconFile, app, health, lock }) => {
+    .map(({ slug, iconFile, app, lock }) => {
       const { assets: _assets, releaseSource: _releaseSource, ...manifest } = app;
 
       return {
@@ -99,7 +91,6 @@ async function loadApps() {
           type: imageType(file),
         })),
         releases: lock.releases,
-        ...(health ? { health: { status: health.status, checkedAt: health.checkedAt } } : {}),
       };
     })
     .sort((left, right) => left.name.localeCompare(right.name));

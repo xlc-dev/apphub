@@ -20,14 +20,6 @@ const repositoryLabel =
   aria-labelledby="details-heading">
   <h2 class="m-0 text-xl font-bold" id="details-heading">Details</h2>
   <dl class="mb-0 grid gap-4">
-    {
-      app.health && (
-        <div>
-          <dt class="text-sm text-zinc-500 dark:text-zinc-400">Availability</dt>
-          <dd class="m-0 mt-1 capitalize">{app.health.status}</dd>
-        </div>
-      )
-    }
     <div>
       <dt class="text-sm text-zinc-500 dark:text-zinc-400">Developer</dt>
       <dd class="m-0 mt-1">

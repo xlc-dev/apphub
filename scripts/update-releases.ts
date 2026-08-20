@@ -1,6 +1,5 @@
 import { writeFile } from "node:fs/promises";
 import { z } from "zod";
-import { failed, healthy } from "@catalog/health";
 import {
   hashDownload,
   readApps,
@@ -210,23 +209,6 @@ async function recordRelease(release: SourceRelease): Promise<ReleaseLock["relea
   return { ...release, artifacts };
 }
 
-async function checkDirect(lock: ReleaseLock) {
-  const latest = lock.releases[0];
-
-  if (!latest) throw new Error(`${lock.appId}: no directly maintained release`);
-
-  for (const artifact of latest.artifacts) {
-    const response = await fetch(artifact.url, {
-      method: "HEAD",
-      redirect: "follow",
-      signal: AbortSignal.timeout(30_000),
-    });
-
-    if (response.status === 404 || response.status === 410 || response.status >= 500)
-      throw new Error(`${artifact.name}: availability check returned ${response.status}`);
-  }
-}
-
 async function main() {
   const requestedSlug = process.argv[2];
   if (process.argv.length > 3) throw new Error("Usage: bun run update-releases [slug]");
@@ -239,37 +221,29 @@ async function main() {
   if (requestedSlug && selectedEntries.length === 0)
     throw new Error(`Unknown application: ${requestedSlug}`);
 
-  const checkedAt = new Date().toISOString();
   const changes: Array<{ url: URL; data: unknown }> = [];
 
-  for (const { app, directory, health, lock } of selectedEntries) {
+  for (const { app, directory, lock } of selectedEntries) {
     const updatedLock = structuredClone(lock);
+    const releases =
+      app.releaseSource.type === "github"
+        ? await githubReleases(app, lock)
+        : app.releaseSource.type === "feed"
+          ? await feedReleases(app, lock)
+          : undefined;
 
-    try {
-      const releases =
-        app.releaseSource.type === "github"
-          ? await githubReleases(app, lock)
-          : app.releaseSource.type === "feed"
-            ? await feedReleases(app, lock)
-            : undefined;
+    if (releases) {
+      for (const release of releases.reverse()) {
+        if (!verifyRecorded(app.id, release, lock))
+          updatedLock.releases.unshift(await recordRelease(release));
+      }
+    }
 
-      if (releases) {
-        for (const release of releases.reverse()) {
-          if (!verifyRecorded(app.id, release, lock))
-            updatedLock.releases.unshift(await recordRelease(release));
-        }
-      } else await checkDirect(lock);
-
-      if (updatedLock.releases.length !== lock.releases.length)
-        changes.push({ url: new URL("releases.json", directory), data: updatedLock });
-      changes.push({ url: new URL("health.json", directory), data: healthy(checkedAt) });
-
-      console.log(`${app.id}: healthy`);
-    } catch (error) {
-      const nextHealth = failed(health, checkedAt, error);
-
-      changes.push({ url: new URL("health.json", directory), data: nextHealth });
-      console.error(`${app.id}: ${nextHealth.status}: ${nextHealth.error}`);
+    if (updatedLock.releases.length !== lock.releases.length) {
+      changes.push({ url: new URL("releases.json", directory), data: updatedLock });
+      console.log(`${app.id}: found new releases`);
+    } else {
+      console.log(`${app.id}: releases are current`);
     }
   }
 

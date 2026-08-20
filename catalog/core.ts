@@ -4,11 +4,9 @@ import { pathToFileURL } from "node:url";
 import sharp from "sharp";
 import {
   appSchema,
-  healthSchema,
   releaseLockSchema,
   type App,
   type Architecture,
-  type Health,
   type ReleaseLock,
 } from "@catalog/schema";
 
@@ -21,7 +19,6 @@ interface AppEntry {
   app: App;
   lock: ReleaseLock;
   hasLock: boolean;
-  health: Health | undefined;
 }
 
 interface SelectableAsset {
@@ -45,7 +42,7 @@ const manifestSizeLimit = 64 * 1024;
 const releaseLockSizeLimit = 1024 * 1024;
 const iconSizeLimit = 2 * 1024 * 1024;
 const screenshotSizeLimit = 10 * 1024 * 1024;
-const allowedFiles = new Set(["app.json", "releases.json", "health.json"]);
+const allowedFiles = new Set(["app.json", "releases.json"]);
 const imageExtension = "(?:png|jpe?g|webp|avif)";
 const iconFile = new RegExp(`^icon\\.${imageExtension}$`, "i");
 const screenshotFile = new RegExp(`^screenshot-[1-9][0-9]*\\.${imageExtension}$`, "i");
@@ -82,16 +79,6 @@ async function readOptionalLock(url: URL, appId: string) {
     if ((error as NodeJS.ErrnoException).code === "ENOENT") {
       return { lock: { appId, releases: [] }, exists: false };
     }
-
-    throw error;
-  }
-}
-
-async function readOptionalHealth(url: URL) {
-  try {
-    return healthSchema.parse(await readJson(url, manifestSizeLimit));
-  } catch (error) {
-    if ((error as NodeJS.ErrnoException).code === "ENOENT") return undefined;
 
     throw error;
   }
@@ -162,8 +149,6 @@ export async function readApps(directory = appsDirectory) {
       new URL("releases.json", appDirectory),
       app.id
     );
-    const health = await readOptionalHealth(new URL("health.json", appDirectory));
-
     if (lock.appId !== app.id)
       throw new Error(`${slug}: release lock has the wrong application id`);
 
@@ -174,7 +159,6 @@ export async function readApps(directory = appsDirectory) {
       app,
       lock,
       hasLock: exists,
-      health,
     });
   }
 
