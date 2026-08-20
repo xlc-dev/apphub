@@ -1,0 +1,50 @@
+{
+  "id": "org.DolphinEmu.dolphin-emu",
+  "name": "Dolphin Emulator",
+  "summary": "GameCube and Wii emulator",
+  "description": "Dolphin is an emulator for Nintendo GameCube and Wii games. It supports high-definition rendering, controllers, save states, network play, and other enhancements.",
+  "projectLicense": "GPL-2.0-or-later",
+  "developer": {
+    "name": "Dolphin Emulator Project",
+    "url": "https://dolphin-emu.org/"
+  },
+  "homepage": "https://dolphin-emu.org/",
+  "repository": "https://github.com/dolphin-emu/dolphin",
+  "addedAt": "2026-08-20",
+  "keywords": ["emulator", "gamecube", "wii"],
+  "categories": ["Game", "Emulator"],
+  "source": "community",
+  "releaseSource": {
+    "type": "github",
+    "repository": "pkgforge-dev/Dolphin-emu-AppImage"
+  },
+  "icon": {
+    "license": "GPL-2.0-or-later",
+    "source": "https://github.com/dolphin-emu/dolphin/blob/master/Data/dolphin-emu.png"
+  },
+  "screenshots": [
+    {
+      "file": "screenshot-1.png",
+      "caption": "Game library",
+      "license": "CC-BY-SA-3.0",
+      "source": "https://github.com/flathub/org.DolphinEmu.dolphin-emu/blob/master/screenshots/1.png"
+    }
+  ],
+  "sandbox": {
+    "network": "client-and-server",
+    "display": "wayland-and-x11",
+    "audio": "playback",
+    "processes": "isolated",
+    "ipc": false,
+    "filesystem": [
+      {
+        "location": "removable-media",
+        "access": "read-only"
+      }
+    ],
+    "devices": ["gpu", "input", "usb"],
+    "portals": ["file-chooser", "inhibit", "notifications", "open-uri"],
+    "sessionBus": [],
+    "systemBus": []
+  }
+}
