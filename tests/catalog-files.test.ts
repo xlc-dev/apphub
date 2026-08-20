@@ -11,10 +11,16 @@ const app = {
   id: "org.example.App",
   name: "Example App",
   summary: "A synthetic fixture",
+  description: "A synthetic application used to test catalog files.",
+  projectLicense: "MIT",
+  developer: { name: "Example Developers" },
+  homepage: "https://example.org/",
+  addedAt: "2026-08-20",
+  categories: ["Utility"],
   source: "community",
   releaseSource: { type: "github", repository: "example/app" },
   screenshots: [{ file: "screenshot-1.webp", caption: "Main window" }],
-  security: { isolation: "none", expectedAccess: [] },
+  expectedAccess: [],
 };
 
 async function temporaryDirectory() {

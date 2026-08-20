@@ -10,13 +10,14 @@ import { categoryPath } from "@/lib/categories";
 
 interface Props {
   category?: string;
+  categoryName?: string;
 }
 
-const { category } = Astro.props;
+const { category, categoryName } = Astro.props;
 const catalog = await getApps();
 const apps = category ? catalog.filter((app) => app.categories.includes(category)) : catalog;
 const categories = await getCategories();
-const heading = category ? `${category} Apps` : "All apps";
+const heading = category ? `${categoryName} Apps` : "All apps";
 ---
 
 <BaseLayout title={category ? heading : "Apps"} description={`${heading}.`}>
@@ -25,11 +26,8 @@ const heading = category ? `${category} Apps` : "All apps";
     <nav class="flex flex-wrap gap-3" aria-label="Categories">
       <Link filter href="/apps/" aria-current={category ? undefined : "page"}>All</Link>
       {
-        categories.map(({ name }) => (
-          <Link
-            filter
-            href={categoryPath(name)}
-            aria-current={name === category ? "page" : undefined}>
+        categories.map(({ id, name }) => (
+          <Link filter href={categoryPath(id)} aria-current={id === category ? "page" : undefined}>
             {name}
           </Link>
         ))

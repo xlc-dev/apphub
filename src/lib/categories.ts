@@ -1,5 +1,13 @@
+const categoryNames: Record<string, string> = {
+  AudioVideo: "Audio & Video",
+};
+
+export function categoryName(category: string) {
+  return categoryNames[category] ?? category.replace(/([a-z0-9])([A-Z])/g, "$1 $2");
+}
+
 export function categorySlug(category: string) {
-  const slug = category
+  const slug = categoryName(category)
     .normalize("NFKD")
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")

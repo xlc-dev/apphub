@@ -6,13 +6,13 @@ import CatalogPage from "@/views/CatalogPage.astro";
 export const getStaticPaths = (async () => {
   const categories = await getCategories();
 
-  return categories.map(({ name, slug }) => ({
+  return categories.map(({ id, name, slug }) => ({
     params: { category: slug },
-    props: { category: name },
+    props: { category: id, categoryName: name },
   }));
 }) satisfies GetStaticPaths;
 
-const { category } = Astro.props;
+const { category, categoryName } = Astro.props;
 ---
 
-<CatalogPage category={category} />
+<CatalogPage category={category} categoryName={categoryName} />

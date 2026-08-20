@@ -43,6 +43,15 @@ const expectedAccess = [
   "system-bus",
 ] as const;
 
+const categorySchema = z
+  .string()
+  .regex(/^[A-Z0-9][A-Za-z0-9]+$/)
+  .describe("Freedesktop registered category identifier");
+
+const mimeTypeSchema = z
+  .string()
+  .regex(/^[a-z0-9][a-z0-9!#$&^_.+-]*\/[a-z0-9][a-z0-9!#$&^_.+-]*$/i);
+
 const screenshotSchema = z
   .object({
     file: z.string().regex(/^screenshot-[1-9][0-9]*\.(?:png|jpe?g|webp|avif)$/i),
@@ -59,9 +68,43 @@ export const appSchema = z
       .regex(/^[A-Za-z0-9][A-Za-z0-9._-]+$/),
     name: z.string().min(1).max(100),
     summary: z.string().min(1).max(200),
-    description: z.string().min(1).max(10_000).optional(),
-    license: z.string().min(1).max(100).optional(),
-    homepage: httpsUrlSchema.optional(),
+    description: z.string().min(1).max(10_000),
+    projectLicense: z.string().min(1).max(100).describe("SPDX project license expression"),
+    developer: z
+      .object({
+        name: z.string().min(1).max(100),
+        url: httpsUrlSchema.optional(),
+      })
+      .strict(),
+    homepage: httpsUrlSchema,
+    repository: httpsUrlSchema.optional(),
+    addedAt: z.iso.date(),
+    keywords: z
+      .array(z.string().min(1).max(100))
+      .max(50)
+      .refine(
+        (keywords) =>
+          new Set(keywords.map((keyword) => keyword.toLowerCase())).size === keywords.length,
+        "Keywords must be unique"
+      )
+      .optional(),
+    categories: z
+      .array(categorySchema)
+      .min(1)
+      .max(20)
+      .refine(
+        (categories) => new Set(categories).size === categories.length,
+        "Categories must be unique"
+      ),
+    mimeTypes: z
+      .array(mimeTypeSchema)
+      .max(100)
+      .refine(
+        (mimeTypes) =>
+          new Set(mimeTypes.map((mimeType) => mimeType.toLowerCase())).size === mimeTypes.length,
+        "MIME types must be unique"
+      )
+      .optional(),
     source: z.enum(["official", "community"]),
     deprecated: z.boolean().optional(),
     replacedBy: z
@@ -70,7 +113,6 @@ export const appSchema = z
       .max(255)
       .regex(/^[A-Za-z0-9][A-Za-z0-9._-]+$/)
       .optional(),
-    categories: z.array(z.string().min(1).max(100)).min(1).max(20).optional(),
     releaseSource: releaseSourceSchema,
     screenshots: z
       .array(screenshotSchema)
@@ -80,18 +122,10 @@ export const appSchema = z
         (screenshots) => new Set(screenshots.map(({ file }) => file)).size === screenshots.length,
         "Screenshot files must be unique"
       ),
-    security: z
-      .object({
-        isolation: z.literal("none"),
-        expectedAccess: z
-          .array(z.enum(expectedAccess))
-          .max(expectedAccess.length)
-          .refine(
-            (access) => new Set(access).size === access.length,
-            "Access entries must be unique"
-          ),
-      })
-      .strict()
+    expectedAccess: z
+      .array(z.enum(expectedAccess))
+      .max(expectedAccess.length)
+      .refine((access) => new Set(access).size === access.length, "Access entries must be unique")
       .describe(
         "Expected application behavior, not enforced permissions; AppImages run unsandboxed as the user"
       ),
@@ -148,9 +182,11 @@ export const releaseLockSchema = z
     "Release versions must be unique"
   );
 
+export const healthStatusSchema = z.enum(["healthy", "degraded", "unavailable"]);
+
 export const healthSchema = z
   .object({
-    status: z.enum(["healthy", "degraded", "unavailable"]),
+    status: healthStatusSchema,
     checkedAt: z.iso.datetime(),
     consecutiveFailures: z.number().int().nonnegative(),
     error: z.string().min(1).max(500).optional(),

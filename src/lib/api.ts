@@ -1,8 +1,8 @@
 import { readFile } from "node:fs/promises";
 import { downloadCounts, downloadHistorySchema } from "@catalog/downloads";
 import { imageType, readApps, root } from "@catalog/core";
-import { appSchema, healthSchema, releaseSchema } from "@catalog/schema";
-import { categorySlug } from "@/lib/categories";
+import { appSchema, healthStatusSchema, releaseSchema } from "@catalog/schema";
+import { categoryName, categorySlug } from "@/lib/categories";
 import { newApps, newAppWindowDays } from "@/lib/new-apps";
 import { z } from "zod";
 
@@ -16,22 +16,27 @@ const apiScreenshotSchema = z
   })
   .strict();
 
+const publicHealthSchema = z
+  .object({
+    status: healthStatusSchema,
+    checkedAt: z.iso.datetime(),
+  })
+  .strict();
+
 const apiAppSchema = appSchema
-  .omit({ assets: true, screenshots: true })
+  .omit({ assets: true, releaseSource: true, screenshots: true })
   .extend({
     slug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
-    description: z.string().min(1),
-    homepage: z.url().optional(),
-    categories: z.array(z.string().min(1)),
     icon: z.object({ url: z.string().min(1), type: imageTypeSchema }).strict(),
     screenshots: z.array(apiScreenshotSchema).min(1).max(10),
     releases: z.array(releaseSchema),
-    health: healthSchema.optional(),
+    health: publicHealthSchema.optional(),
   })
   .strict();
 
 const apiCategorySchema = z
   .object({
+    id: z.string().min(1),
     name: z.string().min(1),
     slug: z.string().min(1),
     count: z.number().int().nonnegative(),
@@ -79,19 +84,10 @@ async function loadApps() {
   const entries = await readApps();
   const apps = entries
     .map(({ slug, iconFile, app, health, lock }) => {
-      const { assets: _assets, ...manifest } = app;
-      const sourceHomepage =
-        app.releaseSource.type === "github"
-          ? `https://github.com/${app.releaseSource.repository}`
-          : app.releaseSource.type === "feed"
-            ? app.releaseSource.url
-            : lock.releases[0]?.page;
+      const { assets: _assets, releaseSource: _releaseSource, ...manifest } = app;
 
       return {
         ...manifest,
-        description: app.description ?? app.summary,
-        homepage: app.homepage ?? sourceHomepage,
-        categories: app.categories ?? [],
         slug,
         icon: {
           url: icons[`/apps/${slug}/${iconFile}`]!,
@@ -103,7 +99,7 @@ async function loadApps() {
           type: imageType(file),
         })),
         releases: lock.releases,
-        health,
+        ...(health ? { health: { status: health.status, checkedAt: health.checkedAt } } : {}),
       };
     })
     .sort((left, right) => left.name.localeCompare(right.name));
@@ -124,7 +120,7 @@ export async function getCategories() {
   }
 
   const categories = [...counts]
-    .map(([name, count]) => ({ name, slug: categorySlug(name), count }))
+    .map(([id, count]) => ({ id, name: categoryName(id), slug: categorySlug(id), count }))
     .sort((a, b) => a.name.localeCompare(b.name));
 
   for (const category of categories) {
@@ -141,9 +137,10 @@ export async function getCategory(slug: string) {
   if (!category) return undefined;
 
   return apiCategoryDetailsSchema.parse({
+    id: category.id,
     name: category.name,
     slug,
-    apps: (await getApps()).filter((app) => app.categories.includes(category.name)),
+    apps: (await getApps()).filter((app) => app.categories.includes(category.id)),
   });
 }
 

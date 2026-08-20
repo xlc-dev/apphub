@@ -4,10 +4,10 @@ import EmptyState from "@/components/ui/EmptyState.astro";
 import Section from "@/components/ui/Section.astro";
 
 interface Props {
-  security: App["security"];
+  expectedAccess: App["expectedAccess"];
 }
 
-const { security } = Astro.props;
+const { expectedAccess } = Astro.props;
 const capabilities = {
   network: ["Internet access", "Connects to services on the internet."],
   "home-files": ["Home files", "Reads or writes files in your home directory."],
@@ -27,9 +27,9 @@ const capabilities = {
     AppImages run unsandboxed. These are expected behaviors, not enforced restrictions.
   </p>
   {
-    security.expectedAccess.length > 0 ? (
+    expectedAccess.length > 0 ? (
       <ul class="mt-4 grid list-none gap-3 p-0 sm:grid-cols-2">
-        {security.expectedAccess.map((access) => (
+        {expectedAccess.map((access) => (
           <li class="dark:border-control flex gap-3 rounded-xl border border-zinc-200 p-4">
             <span class="bg-accent mt-2 size-2 shrink-0 rounded-full" aria-hidden="true" />
             <span>

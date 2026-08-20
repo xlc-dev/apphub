@@ -14,10 +14,16 @@ const app: App = {
   id: "org.example.App",
   name: "Example",
   summary: "An example app",
+  description: "An example application for tests.",
+  projectLicense: "MIT",
+  developer: { name: "Example Developers" },
+  homepage: "https://example.org/",
+  addedAt: "2026-08-20",
+  categories: ["Utility"],
   source: "official",
   releaseSource: { type: "github", repository: "example/app" },
   screenshots: [{ file: "screenshot-1.png", caption: "Main window" }],
-  security: { isolation: "none", expectedAccess: [] },
+  expectedAccess: [],
 };
 
 function image(width = 128, height = width) {
@@ -37,7 +43,7 @@ async function errorMessage(promise: Promise<unknown>) {
 }
 
 describe("catalog schema", () => {
-  test("accepts the minimal developer manifest", () => {
+  test("accepts a complete application manifest", () => {
     expect(appSchema.parse(app)).toEqual(app);
   });
 
@@ -54,6 +60,45 @@ describe("catalog schema", () => {
   test("requires HTTPS URLs", () => {
     expect(() => appSchema.parse({ ...app, homepage: "http://example.org" })).toThrow(
       "Must use HTTPS"
+    );
+  });
+
+  test("requires core AppStream metadata", () => {
+    for (const field of [
+      "description",
+      "projectLicense",
+      "developer",
+      "homepage",
+      "addedAt",
+      "categories",
+    ] as const) {
+      expect(() => appSchema.parse({ ...app, [field]: undefined })).toThrow();
+    }
+  });
+
+  test("uses registered category identifiers", () => {
+    expect(appSchema.parse({ ...app, categories: ["2DGraphics"] }).categories).toEqual([
+      "2DGraphics",
+    ]);
+    expect(() => appSchema.parse({ ...app, categories: ["Audio & Video"] })).toThrow();
+    expect(() => appSchema.parse({ ...app, categories: ["Utility", "Utility"] })).toThrow(
+      "Categories must be unique"
+    );
+  });
+
+  test("accepts MIME types and URI handlers", () => {
+    expect(
+      appSchema.parse({
+        ...app,
+        mimeTypes: ["video/mp4", "x-scheme-handler/magnet"],
+      }).mimeTypes
+    ).toEqual(["video/mp4", "x-scheme-handler/magnet"]);
+    expect(() => appSchema.parse({ ...app, mimeTypes: ["not-a-mime-type"] })).toThrow();
+  });
+
+  test("rejects duplicate keywords", () => {
+    expect(() => appSchema.parse({ ...app, keywords: ["example", "Example"] })).toThrow(
+      "Keywords must be unique"
     );
   });
 
@@ -117,7 +162,7 @@ describe("catalog schema", () => {
     expect(() =>
       appSchema.parse({
         ...app,
-        security: { isolation: "none", expectedAccess: ["network", "network"] },
+        expectedAccess: ["network", "network"],
       })
     ).toThrow();
   });

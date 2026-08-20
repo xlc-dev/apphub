@@ -5,7 +5,10 @@ const app = {
   name: "Example Notes",
   summary: "Organize ideas locally",
   description: "An offline plain-text notebook",
+  developer: { name: "Example Developers" },
+  keywords: ["notes", "writing"],
   categories: ["Office", "Utility"],
+  mimeTypes: ["text/plain"],
   source: "community" as const,
 };
 const value = catalogSearchValue(app);
@@ -16,6 +19,9 @@ describe("catalog search", () => {
     expect(value).toContain("organize ideas locally");
     expect(value).toContain("offline plain-text notebook");
     expect(value).toContain("office utility");
+    expect(value).toContain("example developers");
+    expect(value).toContain("notes writing");
+    expect(value).toContain("text/plain");
     expect(value).toContain("community");
   });
 

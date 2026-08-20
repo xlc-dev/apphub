@@ -1,5 +1,5 @@
 ---
-import { categoryPath } from "@/lib/categories";
+import { categoryName, categoryPath } from "@/lib/categories";
 import Link from "@/components/ui/Link.astro";
 
 interface Props {
@@ -14,7 +14,7 @@ const { categories } = Astro.props;
     <p class="flex flex-wrap gap-2">
       {categories.map((category) => (
         <Link chip href={categoryPath(category)}>
-          {category}
+          {categoryName(category)}
         </Link>
       ))}
     </p>
