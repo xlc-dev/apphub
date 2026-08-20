@@ -16,7 +16,7 @@ const apiScreenshotSchema = z
   })
   .strict();
 
-export const apiAppSchema = appSchema
+const apiAppSchema = appSchema
   .omit({ assets: true, screenshots: true })
   .extend({
     slug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
@@ -29,7 +29,7 @@ export const apiAppSchema = appSchema
   })
   .strict();
 
-export const apiCategorySchema = z
+const apiCategorySchema = z
   .object({
     name: z.string().min(1),
     slug: z.string().min(1),
@@ -42,11 +42,11 @@ export const apiCategoryDetailsSchema = apiCategorySchema
   .extend({ apps: z.array(apiAppSchema) })
   .strict();
 
-export const apiNewAppsSchema = z
+const apiNewAppsSchema = z
   .object({ windowDays: z.number().int().positive(), apps: z.array(apiAppSchema) })
   .strict();
 
-export const rankingPeriodSchema = z.enum(["week", "month", "all-time"]);
+const rankingPeriodSchema = z.enum(["week", "month", "all-time"]);
 
 export const apiRankingSchema = z
   .object({
@@ -58,7 +58,6 @@ export const apiRankingSchema = z
   .strict();
 
 export type ApiApp = z.infer<typeof apiAppSchema>;
-export type ApiCategory = z.infer<typeof apiCategorySchema>;
 export type RankingPeriod = z.infer<typeof rankingPeriodSchema>;
 
 const icons = import.meta.glob("/apps/*/icon.*", {
@@ -110,10 +109,6 @@ async function loadApps() {
 
 export function getApps() {
   return (appsPromise ??= loadApps());
-}
-
-export async function getApp(slug: string) {
-  return (await getApps()).find((app) => app.slug === slug);
 }
 
 export async function getCategories() {

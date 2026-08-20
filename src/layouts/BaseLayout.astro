@@ -12,20 +12,9 @@ interface Props {
   imageAlt?: string;
   imageType?: "image/avif" | "image/jpeg" | "image/png" | "image/webp";
   pageType?: "website" | "product";
-  transitions?: boolean;
-  transitionFallback?: "animate" | "swap" | "none";
 }
 
-const {
-  title,
-  description,
-  image,
-  imageAlt,
-  imageType,
-  pageType = "website",
-  transitions = true,
-  transitionFallback = "animate",
-} = Astro.props;
+const { title, description, image, imageAlt, imageType, pageType = "website" } = Astro.props;
 const pageTitle = title === "AppHub" ? title : `${title} - AppHub`;
 ---
 
@@ -57,7 +46,7 @@ const pageTitle = title === "AppHub" ? title : `${title} - AppHub`;
     {image && imageAlt && <meta property="og:image:alt" content={imageAlt} />}
     {image && <meta name="twitter:image" content={image} />}
     {image && imageAlt && <meta name="twitter:image:alt" content={imageAlt} />}
-    {transitions && <ClientRouter fallback={transitionFallback} />}
+    <ClientRouter fallback="animate" />
   </head>
   <body
     class="text-surface dark:bg-canvas dark:text-foreground relative m-0 flex min-h-screen flex-col bg-white font-sans">

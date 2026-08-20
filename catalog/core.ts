@@ -12,7 +12,7 @@ import {
 
 export type { Artifact, ReleaseLock } from "@catalog/schema";
 
-export interface AppEntry {
+interface AppEntry {
   slug: string;
   directory: URL;
   iconFile: string;
@@ -224,7 +224,7 @@ export async function hashDownload(file: Download) {
   return { size, sha256: hash.digest("hex") };
 }
 
-export type ImageType = "image/avif" | "image/jpeg" | "image/png" | "image/webp";
+type ImageType = "image/avif" | "image/jpeg" | "image/png" | "image/webp";
 
 export function imageType(file: string): ImageType {
   const extension = file.toLowerCase().split(".").at(-1);

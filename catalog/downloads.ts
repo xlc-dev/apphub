@@ -18,7 +18,7 @@ export const downloadHistorySchema = z
     "Download snapshots must be unique and ordered oldest first"
   );
 
-export type DownloadHistory = z.infer<typeof downloadHistorySchema>;
+type DownloadHistory = z.infer<typeof downloadHistorySchema>;
 
 interface GitHubReleaseDownloads {
   draft: boolean;
