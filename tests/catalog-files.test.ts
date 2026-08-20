@@ -28,7 +28,18 @@ const app = {
       source: "https://example.org/screenshot.webp",
     },
   ],
-  expectedAccess: [],
+  sandbox: {
+    network: "none",
+    display: "wayland",
+    audio: "none",
+    processes: "isolated",
+    ipc: false,
+    filesystem: [],
+    devices: [],
+    portals: ["file-chooser"],
+    sessionBus: [],
+    systemBus: [],
+  },
 };
 
 async function temporaryDirectory() {
