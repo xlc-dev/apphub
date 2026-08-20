@@ -1,48 +1,56 @@
 ---
 import type { App } from "@catalog/schema";
-import EmptyState from "@/components/ui/EmptyState.astro";
 import Section from "@/components/ui/Section.astro";
 
 interface Props {
-  expectedAccess: App["expectedAccess"];
+  sandbox: App["sandbox"];
 }
 
-const { expectedAccess } = Astro.props;
-const capabilities = {
-  network: ["Internet access", "Connects to services on the internet."],
-  "home-files": ["Home files", "Reads or writes files in your home directory."],
-  "removable-media": ["Removable media", "Accesses connected removable storage."],
-  devices: ["Devices", "Communicates with connected hardware."],
-  "session-bus": ["Desktop services", "Communicates with services in your session."],
-  "system-bus": ["System services", "Communicates with system services."],
-} as const;
+const { sandbox } = Astro.props;
+const labels = (values: string[]) => values.map((value) => value.replaceAll("-", " ")).join(", ");
+const capabilities = [
+  ["Network", sandbox.network],
+  ["Display", sandbox.display],
+  ["Audio", sandbox.audio],
+  ["Processes", sandbox.processes],
+  ["Host IPC", sandbox.ipc ? "allowed" : "denied"],
+  [
+    "Files",
+    sandbox.filesystem.length
+      ? sandbox.filesystem
+          .map(({ location, access }) => `${location.replaceAll("-", " ")} (${access})`)
+          .join(", ")
+      : "private app storage only",
+  ],
+  ["Devices", sandbox.devices.length ? labels(sandbox.devices) : "none"],
+  ["Portals", sandbox.portals.length ? labels(sandbox.portals) : "none"],
+  [
+    "Session bus",
+    sandbox.sessionBus.length ? `${sandbox.sessionBus.length} named service(s)` : "none",
+  ],
+  [
+    "System bus",
+    sandbox.systemBus.length ? `${sandbox.systemBus.length} named service(s)` : "none",
+  ],
+] as const;
 ---
 
 <Section
   spaced={false}
-  title="Capabilities"
+  title="Sandbox access"
   headingId="capabilities-heading"
   aria-labelledby="capabilities-heading">
   <p class="text-sm leading-6 text-zinc-500 dark:text-zinc-400">
-    AppImages run unsandboxed. These are expected behaviors, not enforced restrictions.
+    Minimum host access required by this app. A compatible manager should deny everything else.
   </p>
-  {
-    expectedAccess.length > 0 ? (
-      <ul class="mt-4 grid list-none gap-3 p-0 sm:grid-cols-2">
-        {expectedAccess.map((access) => (
-          <li class="dark:border-control flex gap-3 rounded-xl border border-zinc-200 p-4">
-            <span class="bg-accent mt-2 size-2 shrink-0 rounded-full" aria-hidden="true" />
-            <span>
-              <strong class="block">{capabilities[access][0]}</strong>
-              <span class="mt-1 block text-sm leading-5 text-zinc-600 dark:text-zinc-400">
-                {capabilities[access][1]}
-              </span>
-            </span>
-          </li>
-        ))}
-      </ul>
-    ) : (
-      <EmptyState>No additional capabilities are expected.</EmptyState>
-    )
-  }
+  <dl class="mt-4 grid gap-3 sm:grid-cols-2">
+    {
+      capabilities.map(([name, value]) => (
+        <div class="dark:border-control rounded-xl border border-zinc-200 p-4">
+          <dt class="font-semibold">{name}</dt>
+          <dd class="m-0 mt-1 text-sm text-zinc-600 capitalize dark:text-zinc-400">{value}</dd>
+        </div>
+      ))
+    }
+  </dl>
 </Section>
