@@ -1,14 +1,15 @@
 ---
-import type { CatalogApp } from "@/lib/catalog";
+import type { ApiApp } from "@/lib/api";
 import Link from "@/components/ui/Link.astro";
 
 interface Props {
-  app: CatalogApp;
+  app: ApiApp;
 }
 
 const { app } = Astro.props;
-const sourceRepository = app.source.type === "github" ? app.source.repository : undefined;
-const source = sourceRepository ? `https://github.com/${sourceRepository}` : undefined;
+const sourceRepository =
+  app.releaseSource.type === "github" ? app.releaseSource.repository : undefined;
+const repository = sourceRepository ? `https://github.com/${sourceRepository}` : undefined;
 const website = app.homepage && new URL(app.homepage);
 const websiteLabel = website && (website.hostname.replace(/^www\./, "") || app.homepage);
 ---
@@ -37,11 +38,11 @@ const websiteLabel = website && (website.hostname.replace(/^www\./, "") || app.h
       )
     }
     {
-      source && (
+      repository && (
         <div>
-          <dt class="text-sm text-zinc-500 dark:text-zinc-400">Source</dt>
+          <dt class="text-sm text-zinc-500 dark:text-zinc-400">Repository</dt>
           <dd class="m-0 mt-1 break-words">
-            <Link href={source}>{sourceRepository}</Link>
+            <Link href={repository}>{sourceRepository}</Link>
           </dd>
         </div>
       )

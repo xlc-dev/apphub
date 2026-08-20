@@ -1,6 +1,7 @@
 import { createHash } from "node:crypto";
 import { readFile, readdir } from "node:fs/promises";
 import { pathToFileURL } from "node:url";
+import sharp from "sharp";
 import {
   appSchema,
   releaseLockSchema,
@@ -11,9 +12,10 @@ import {
 
 export type { Artifact, ReleaseLock } from "@catalog/schema";
 
-interface AppEntry {
+export interface AppEntry {
   slug: string;
   directory: URL;
+  iconFile: string;
   app: App;
   lock: ReleaseLock;
   hasLock: boolean;
@@ -36,8 +38,10 @@ interface SelectedAsset<T extends SelectableAsset> {
 
 export const root = pathToFileURL(`${process.cwd()}/`);
 const appsDirectory = new URL("apps/", root);
-const allowedFiles = new Set(["app.json", "icon.png", "releases.json"]);
-const screenshotFile = /^screenshot-[1-9][0-9]*\.(?:png|jpe?g|webp)$/i;
+const allowedFiles = new Set(["app.json", "releases.json"]);
+const imageExtension = "(?:png|jpe?g|webp|avif)";
+const iconFile = new RegExp(`^icon\\.${imageExtension}$`, "i");
+const screenshotFile = new RegExp(`^screenshot-[1-9][0-9]*\\.${imageExtension}$`, "i");
 const architectureMatchers: Array<[Architecture, RegExp]> = [
   ["x86_64", /(?:^|[^a-z0-9])(?:x86[_-]?64|amd64)(?:[^a-z0-9]|$)/i],
   ["i686", /(?:^|[^a-z0-9])(?:i[3-6]86|x86[_-]?32)(?:[^a-z0-9]|$)/i],
@@ -88,17 +92,30 @@ export async function readApps(directory = appsDirectory) {
     const names = await readdir(appDirectory);
 
     for (const name of names) {
-      if (!allowedFiles.has(name) && !screenshotFile.test(name))
+      if (!allowedFiles.has(name) && !iconFile.test(name) && !screenshotFile.test(name))
         throw new Error(`${slug}: unexpected file ${name}`);
     }
 
     const app = appSchema.parse(await readJson(new URL("app.json", appDirectory)));
+    const icons = names.filter((name) => iconFile.test(name));
 
-    if (!names.includes("icon.png")) throw new Error(`${slug}: missing icon.png`);
+    if (icons.length !== 1) throw new Error(`${slug}: expected one icon, found ${icons.length}`);
+
+    const appIconFile = icons[0]!;
+
+    await validateImage(await readFile(new URL(appIconFile, appDirectory)), appIconFile, app.id, {
+      icon: true,
+    });
 
     for (const screenshot of app.screenshots) {
       if (!names.includes(screenshot.file))
         throw new Error(`${slug}: missing screenshot ${screenshot.file}`);
+
+      await validateImage(
+        await readFile(new URL(screenshot.file, appDirectory)),
+        screenshot.file,
+        app.id
+      );
     }
 
     const referencedScreenshots = new Set(app.screenshots.map(({ file }) => file));
@@ -115,7 +132,14 @@ export async function readApps(directory = appsDirectory) {
     if (lock.appId !== app.id)
       throw new Error(`${slug}: release lock has the wrong application id`);
 
-    entries.push({ slug, directory: appDirectory, app, lock, hasLock: exists });
+    entries.push({
+      slug,
+      directory: appDirectory,
+      iconFile: appIconFile,
+      app,
+      lock,
+      hasLock: exists,
+    });
   }
 
   const ids = new Set<string>();
@@ -200,45 +224,46 @@ export async function hashDownload(file: Download) {
   return { size, sha256: hash.digest("hex") };
 }
 
-export function validatePng(data: Buffer, appId: string) {
-  const signature = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]);
+export type ImageType = "image/avif" | "image/jpeg" | "image/png" | "image/webp";
 
-  if (
-    data.length < 24 ||
-    !data.subarray(0, 8).equals(signature) ||
-    data.readUInt32BE(8) !== 13 ||
-    data.toString("ascii", 12, 16) !== "IHDR"
-  )
-    throw new Error(`${appId}: icon is not a PNG`);
+export function imageType(file: string): ImageType {
+  const extension = file.toLowerCase().split(".").at(-1);
 
-  const width = data.readUInt32BE(16);
-  const height = data.readUInt32BE(20);
+  if (extension === "avif") return "image/avif";
+  if (extension === "jpg" || extension === "jpeg") return "image/jpeg";
+  if (extension === "png") return "image/png";
+  if (extension === "webp") return "image/webp";
 
-  if (width !== height || width < 128 || width > 1024)
-    throw new Error(`${appId}: icon must be square and between 128 and 1024 pixels`);
+  throw new Error(`${file}: unsupported image format`);
 }
 
-export function validateScreenshot(data: Buffer, file: string, appId: string) {
-  const extension = file.toLowerCase().split(".").at(-1);
-  const png =
-    data.length >= 8 && data.subarray(0, 8).equals(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]));
-  const jpeg =
-    data.length >= 4 &&
-    data[0] === 0xff &&
-    data[1] === 0xd8 &&
-    data.at(-2) === 0xff &&
-    data.at(-1) === 0xd9;
-  const webp =
-    data.length >= 12 &&
-    data.toString("ascii", 0, 4) === "RIFF" &&
-    data.toString("ascii", 8, 12) === "WEBP";
+export async function validateImage(
+  data: Buffer,
+  file: string,
+  appId: string,
+  options: { icon?: boolean } = {}
+) {
+  try {
+    const expectedType = imageType(file);
 
-  if (
-    (extension === "png" && png) ||
-    ((extension === "jpg" || extension === "jpeg") && jpeg) ||
-    (extension === "webp" && webp)
-  )
-    return;
+    const image = sharp(data, { animated: true, failOn: "error" });
+    const metadata = await image.metadata();
 
-  throw new Error(`${appId}: ${file} does not match its image format`);
+    if (metadata.mediaType !== expectedType)
+      throw new Error(`${file} does not match its image format`);
+    if ((metadata.pages ?? 1) !== 1) throw new Error(`${file} must not be animated`);
+    if (!metadata.width || !metadata.height) throw new Error(`${file} has no dimensions`);
+
+    await image.stats();
+
+    if (
+      options.icon &&
+      (metadata.width !== metadata.height || metadata.width < 128 || metadata.width > 1024)
+    )
+      throw new Error("icon must be square and between 128 and 1024 pixels");
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+
+    throw new Error(`${appId}: ${message}`);
+  }
 }

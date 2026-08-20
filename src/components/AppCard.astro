@@ -1,12 +1,13 @@
 ---
-import type { CatalogApp } from "@/lib/catalog";
+import type { ApiApp } from "@/lib/api";
 import CategoryLinks from "@/components/CategoryLinks.astro";
+import SourceBadge from "@/components/SourceBadge.astro";
 import { catalogSearchValue } from "@/lib/search";
 import Link from "@/components/ui/Link.astro";
 import { Image } from "astro:assets";
 
 interface Props {
-  app: CatalogApp;
+  app: ApiApp;
   priority?: boolean;
 }
 
@@ -20,7 +21,7 @@ const searchValue = catalogSearchValue(app);
   data-search-value={searchValue}>
   <Image
     class="size-14 shrink-0 rounded-xl sm:size-16"
-    src={app.icon}
+    src={app.icon.url}
     alt=""
     width={64}
     height={64}
@@ -28,9 +29,12 @@ const searchValue = catalogSearchValue(app);
     fetchpriority={priority ? "high" : "auto"}
   />
   <div class="min-w-0 break-words">
-    <h2 class="text-lg font-semibold">
-      <Link href={`/apps/${app.slug}`}>{app.name}</Link>
-    </h2>
+    <div class="flex items-center gap-2">
+      <h2 class="text-lg font-semibold">
+        <Link href={`/apps/${app.slug}`}>{app.name}</Link>
+      </h2>
+      <SourceBadge source={app.source} />
+    </div>
     <p class="leading-7 text-zinc-700 dark:text-zinc-300">{app.summary}</p>
     <CategoryLinks categories={app.categories} />
   </div>

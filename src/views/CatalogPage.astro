@@ -5,7 +5,7 @@ import EmptyState from "@/components/ui/EmptyState.astro";
 import Link from "@/components/ui/Link.astro";
 import Page from "@/components/ui/Page.astro";
 import PageHeader from "@/components/ui/PageHeader.astro";
-import { getCatalog } from "@/lib/catalog";
+import { getApps, getCategories } from "@/lib/api";
 import { categoryPath } from "@/lib/categories";
 
 interface Props {
@@ -13,11 +13,9 @@ interface Props {
 }
 
 const { category } = Astro.props;
-const catalog = await getCatalog();
+const catalog = await getApps();
 const apps = category ? catalog.filter((app) => app.categories.includes(category)) : catalog;
-const categories = [...new Set(catalog.flatMap((app) => app.categories))].sort((a, b) =>
-  a.localeCompare(b)
-);
+const categories = await getCategories();
 const heading = category ? `${category} Apps` : "All apps";
 ---
 
@@ -27,7 +25,7 @@ const heading = category ? `${category} Apps` : "All apps";
     <nav class="flex flex-wrap gap-3" aria-label="Categories">
       <Link filter href="/apps/" aria-current={category ? undefined : "page"}>All</Link>
       {
-        categories.map((name) => (
+        categories.map(({ name }) => (
           <Link
             filter
             href={categoryPath(name)}

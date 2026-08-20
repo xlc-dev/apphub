@@ -1,5 +1,5 @@
 import { readFile, writeFile } from "node:fs/promises";
-import { z } from "astro/zod";
+import { z } from "zod";
 import { downloadHistorySchema, sumGitHubDownloads } from "@catalog/downloads";
 import { readApps, root } from "@catalog/core";
 

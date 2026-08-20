@@ -1,9 +1,10 @@
 ---
-import type { CatalogApp } from "@/lib/catalog";
+import type { ApiApp } from "@/lib/api";
+import SourceBadge from "@/components/SourceBadge.astro";
 import { Image } from "astro:assets";
 
 interface Props {
-  app: CatalogApp;
+  app: ApiApp;
   detail?: string;
   priority?: boolean;
 }
@@ -17,7 +18,7 @@ const { app, detail, priority = false } = Astro.props;
     href={`/apps/${app.slug}`}>
     <Image
       class="size-16 shrink-0 rounded-xl"
-      src={app.icon}
+      src={app.icon.url}
       alt=""
       width={64}
       height={64}
@@ -25,9 +26,13 @@ const { app, detail, priority = false } = Astro.props;
       fetchpriority={priority ? "high" : "auto"}
     />
     <div class="min-w-0">
-      <h3 class="truncate font-semibold group-hover:text-zinc-600 dark:group-hover:text-zinc-300">
-        {app.name}
-      </h3>
+      <div class="flex items-center gap-2">
+        <h3
+          class="truncate font-semibold group-hover:text-zinc-600 dark:group-hover:text-zinc-300">
+          {app.name}
+        </h3>
+        <SourceBadge source={app.source} />
+      </div>
       <p class="mt-1 line-clamp-2 text-sm leading-5 text-zinc-600 dark:text-zinc-400">
         {app.summary}
       </p>

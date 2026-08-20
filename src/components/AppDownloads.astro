@@ -1,12 +1,12 @@
 ---
-import type { CatalogApp } from "@/lib/catalog";
-import { formatBytes } from "@/lib/format";
+import type { ApiApp } from "@/lib/api";
+import { formatBytes, formatVersion } from "@/lib/format";
 import ButtonLink from "@/components/ui/ButtonLink.astro";
 import EmptyState from "@/components/ui/EmptyState.astro";
 import Link from "@/components/ui/Link.astro";
 
 interface Props {
-  releases: CatalogApp["releases"];
+  releases: ApiApp["releases"];
 }
 
 const { releases } = Astro.props;
@@ -24,7 +24,7 @@ const releaseDate = latest
     latest ? (
       <>
         <p class="text-zinc-500 dark:text-zinc-400">
-          <Link href={latest.page}>Version {latest.version}</Link>
+          <Link href={latest.page}>Version {formatVersion(latest.version)}</Link>
           {releaseDate && (
             <>
               {" · "}

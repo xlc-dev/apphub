@@ -1,4 +1,4 @@
-import { z } from "astro/zod";
+import { z } from "zod";
 
 const architectureSchema = z
   .string()
@@ -37,21 +37,20 @@ const expectedAccess = [
 
 const screenshotSchema = z
   .object({
-    file: z.string().regex(/^screenshot-[1-9][0-9]*\.(?:png|jpe?g|webp)$/i),
+    file: z.string().regex(/^screenshot-[1-9][0-9]*\.(?:png|jpe?g|webp|avif)$/i),
     caption: z.string().min(1).optional(),
   })
   .strict();
 
 export const appSchema = z
   .object({
-    $schema: z.string().optional(),
     id: z.string().regex(/^[A-Za-z0-9][A-Za-z0-9._-]+$/),
     name: z.string().min(1),
     summary: z.string().min(1),
     description: z.string().min(1).optional(),
     license: z.string().min(1).optional(),
     homepage: z.url().optional(),
-    iconSource: z.url(),
+    source: z.enum(["official", "community"]),
     categories: z.array(z.string().min(1)).min(1).optional(),
     releaseSource: releaseSourceSchema,
     screenshots: z
@@ -94,7 +93,7 @@ const artifactSchema = z
   })
   .strict();
 
-const releaseSchema = z
+export const releaseSchema = z
   .object({
     version: z.string().min(1),
     publishedAt: z.iso.datetime(),
@@ -112,14 +111,6 @@ const releaseSchema = z
 export const releaseLockSchema = z
   .object({
     appId: z.string().min(1),
-    icon: z
-      .object({
-        source: z.url(),
-        size: z.number().int().positive(),
-        sha256: z.string().regex(/^[a-f0-9]{64}$/),
-      })
-      .strict()
-      .optional(),
     releases: z.array(releaseSchema),
   })
   .strict()
@@ -141,7 +132,3 @@ export type App = z.infer<typeof appSchema>;
 export type Architecture = z.infer<typeof architectureSchema>;
 export type Artifact = z.infer<typeof artifactSchema>;
 export type ReleaseLock = z.infer<typeof releaseLockSchema>;
-
-export function appJsonSchema() {
-  return z.toJSONSchema(appSchema);
-}

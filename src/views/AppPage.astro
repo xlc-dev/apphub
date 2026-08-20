@@ -1,17 +1,18 @@
 ---
-import type { CatalogApp } from "@/lib/catalog";
+import type { ApiApp } from "@/lib/api";
 import Capabilities from "@/components/Capabilities.astro";
 import AppDetails from "@/components/AppDetails.astro";
 import AppDownloads from "@/components/AppDownloads.astro";
 import CategoryLinks from "@/components/CategoryLinks.astro";
 import ScreenshotCarousel from "@/components/ScreenshotCarousel.astro";
+import SourceBadge from "@/components/SourceBadge.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Page from "@/components/ui/Page.astro";
 import Section from "@/components/ui/Section.astro";
 import { Image } from "astro:assets";
 
 interface Props {
-  app: CatalogApp;
+  app: ApiApp;
 }
 
 const { app } = Astro.props;
@@ -28,7 +29,7 @@ const { app } = Astro.props;
     <div class="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-6">
       <Image
         class="size-20 rounded-2xl sm:size-24"
-        src={app.icon}
+        src={app.icon.url}
         alt=""
         width={96}
         height={96}
@@ -36,7 +37,10 @@ const { app } = Astro.props;
         fetchpriority="high"
       />
       <div class="min-w-0 break-words">
-        <h1 class="text-3xl font-bold sm:text-4xl">{app.name}</h1>
+        <div class="flex items-center gap-3">
+          <h1 class="text-3xl font-bold sm:text-4xl">{app.name}</h1>
+          <SourceBadge source={app.source} />
+        </div>
         <p class="mt-1 max-w-2xl text-lg leading-7 text-zinc-600 dark:text-zinc-300">
           {app.summary}
         </p>

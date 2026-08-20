@@ -4,17 +4,9 @@ import EmptyState from "@/components/ui/EmptyState.astro";
 import Link from "@/components/ui/Link.astro";
 import Page from "@/components/ui/Page.astro";
 import PageHeader from "@/components/ui/PageHeader.astro";
-import { getCatalog } from "@/lib/catalog";
-import { categoryPath } from "@/lib/categories";
+import { getCategories } from "@/lib/api";
 
-const apps = await getCatalog();
-const counts = new Map<string, number>();
-
-for (const app of apps) {
-  for (const category of app.categories) counts.set(category, (counts.get(category) ?? 0) + 1);
-}
-
-const categories = [...counts].sort(([left], [right]) => left.localeCompare(right));
+const categories = await getCategories();
 ---
 
 <BaseLayout title="Categories" description="Browse AppHub applications by category.">
@@ -23,10 +15,10 @@ const categories = [...counts].sort(([left], [right]) => left.localeCompare(righ
     {
       categories.length > 0 ? (
         <ul class="grid list-none gap-4 p-0 sm:grid-cols-2 md:grid-cols-3">
-          {categories.map(([category, count]) => (
+          {categories.map(({ name, slug, count }) => (
             <li class="dark:border-control rounded-xl border border-zinc-200">
-              <Link class="block min-h-11 p-5" href={categoryPath(category)}>
-                {category} ({count})
+              <Link class="block min-h-11 p-5" href={`/categories/${slug}`}>
+                {name} ({count})
               </Link>
             </li>
           ))}

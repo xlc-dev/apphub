@@ -1,4 +1,4 @@
-import { z } from "astro/zod";
+import { z } from "zod";
 
 const downloadSnapshotSchema = z
   .object({

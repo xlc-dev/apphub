@@ -5,16 +5,16 @@ import EmptyState from "@/components/ui/EmptyState.astro";
 import Link from "@/components/ui/Link.astro";
 import Page from "@/components/ui/Page.astro";
 import PageHeader from "@/components/ui/PageHeader.astro";
-import { getDownloadRanking } from "@/lib/downloads";
+import { getRanking, type RankingPeriod } from "@/lib/api";
 
 interface Props {
   title: string;
   description: string;
-  days?: number;
+  period: RankingPeriod;
 }
 
-const { title, description, days } = Astro.props;
-const ranking = await getDownloadRanking(days);
+const { title, description, period } = Astro.props;
+const { entries: ranking } = await getRanking(period);
 const path = Astro.url.pathname;
 ---
 

@@ -5,31 +5,25 @@ import {
   matchesArchitecture,
   selectAssets,
   sha256,
-  validatePng,
-  validateScreenshot,
+  validateImage,
 } from "@catalog/core";
 import { appSchema, releaseLockSchema, type App } from "@catalog/schema";
+import sharp from "sharp";
 
 const app: App = {
   id: "org.example.App",
   name: "Example",
   summary: "An example app",
-  iconSource: "https://example.org/icon.png",
+  source: "official",
   releaseSource: { type: "github", repository: "example/app" },
   screenshots: [{ file: "screenshot-1.png", caption: "Main window" }],
   security: { isolation: "none", expectedAccess: [] },
 };
 
-function png(width = 128, height = width) {
-  const data = Buffer.alloc(24);
-
-  Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]).copy(data);
-  data.writeUInt32BE(13, 8);
-  data.write("IHDR", 12);
-  data.writeUInt32BE(width, 16);
-  data.writeUInt32BE(height, 20);
-
-  return data;
+function image(width = 128, height = width) {
+  return sharp({
+    create: { width, height, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 1 } },
+  });
 }
 
 async function errorMessage(promise: Promise<unknown>) {
@@ -45,6 +39,12 @@ async function errorMessage(promise: Promise<unknown>) {
 describe("catalog schema", () => {
   test("accepts the minimal developer manifest", () => {
     expect(appSchema.parse(app)).toEqual(app);
+  });
+
+  test("requires official or community provenance", () => {
+    expect(appSchema.parse({ ...app, source: "community" }).source).toBe("community");
+    expect(() => appSchema.parse({ ...app, source: undefined })).toThrow();
+    expect(() => appSchema.parse({ ...app, source: "unknown" })).toThrow();
   });
 
   test("rejects unknown manifest fields", () => {
@@ -214,42 +214,63 @@ describe("download hashing", () => {
   });
 });
 
-describe("PNG validation", () => {
-  test("accepts a square PNG header", () => {
-    expect(() => validatePng(png(), app.id)).not.toThrow();
+describe("image validation", () => {
+  test("accepts supported web image formats", async () => {
+    const images = [
+      ["icon.png", await image().png().toBuffer()],
+      ["icon.jpg", await image().jpeg().toBuffer()],
+      ["icon.webp", await image().webp().toBuffer()],
+      ["icon.avif", await image().avif().toBuffer()],
+    ] as const;
+
+    for (const [file, data] of images) await validateImage(data, file, app.id, { icon: true });
   });
 
-  test("rejects non-square icons", () => {
-    expect(() => validatePng(png(128, 256), app.id)).toThrow("icon must be square");
+  test("rejects non-square icons", async () => {
+    const data = await image(128, 256).png().toBuffer();
+
+    expect(await errorMessage(validateImage(data, "icon.png", app.id, { icon: true }))).toContain(
+      "icon must be square"
+    );
   });
 
-  test("rejects non-PNG files", () => {
-    expect(() => validatePng(Buffer.from("not a PNG"), app.id)).toThrow("icon is not a PNG");
+  test("rejects corrupt and truncated images", async () => {
+    const valid = await image().png().toBuffer();
+
+    expect(
+      await errorMessage(validateImage(Buffer.from("not an image"), "icon.png", app.id))
+    ).toContain(app.id);
+    expect(await errorMessage(validateImage(valid.subarray(0, 24), "icon.png", app.id))).toContain(
+      app.id
+    );
   });
 
-  test("rejects icons outside the supported dimensions", () => {
-    expect(() => validatePng(png(64), app.id)).toThrow("between 128 and 1024 pixels");
-    expect(() => validatePng(png(2048), app.id)).toThrow("between 128 and 1024 pixels");
-  });
-});
-
-describe("screenshot validation", () => {
-  test("accepts images that match their extension", () => {
-    const jpeg = Buffer.from([0xff, 0xd8, 0xff, 0xd9]);
-    const webp = Buffer.from("RIFF0000WEBP");
-
-    expect(() => validateScreenshot(png(), "screenshot-1.png", app.id)).not.toThrow();
-    expect(() => validateScreenshot(jpeg, "screenshot-1.jpg", app.id)).not.toThrow();
-    expect(() => validateScreenshot(jpeg, "screenshot-1.jpeg", app.id)).not.toThrow();
-    expect(() => validateScreenshot(webp, "screenshot-1.webp", app.id)).not.toThrow();
+  test("rejects icons outside the supported dimensions", async () => {
+    expect(
+      await errorMessage(
+        validateImage(await image(64).png().toBuffer(), "icon.png", app.id, { icon: true })
+      )
+    ).toContain("between 128 and 1024 pixels");
+    expect(
+      await errorMessage(
+        validateImage(await image(2048).png().toBuffer(), "icon.png", app.id, { icon: true })
+      )
+    ).toContain("between 128 and 1024 pixels");
   });
 
-  test("rejects images that do not match their extension", () => {
-    expect(() =>
-      validateScreenshot(Buffer.from("not an image"), "screenshot-1.png", app.id)
-    ).toThrow("does not match its image format");
-    expect(() => validateScreenshot(png(), "screenshot-1.jpg", app.id)).toThrow(
+  test("rejects images that do not match their extension", async () => {
+    const data = await image().png().toBuffer();
+
+    expect(await errorMessage(validateImage(data, "screenshot-1.jpg", app.id))).toContain(
       "does not match its image format"
+    );
+  });
+
+  test("rejects unsupported formats", async () => {
+    const data = await image().gif().toBuffer();
+
+    expect(await errorMessage(validateImage(data, "screenshot-1.gif", app.id))).toContain(
+      "unsupported image format"
     );
   });
 });

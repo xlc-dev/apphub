@@ -4,6 +4,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { pathToFileURL } from "node:url";
 import { readApps } from "@catalog/core";
+import sharp from "sharp";
 
 const temporaryDirectories: string[] = [];
 
@@ -31,19 +32,29 @@ describe("catalog files", () => {
   test("reads a synthetic app without a release lock", async () => {
     const root = await temporaryDirectory();
     const directory = join(root, "example-app");
+    const image = await sharp({
+      create: {
+        width: 128,
+        height: 128,
+        channels: 4,
+        background: { r: 0, g: 0, b: 0, alpha: 1 },
+      },
+    })
+      .webp()
+      .toBuffer();
 
     await mkdir(directory);
-    await writeFile(join(directory, "icon.png"), "fixture");
-    await writeFile(join(directory, "screenshot-1.png"), "fixture");
+    await writeFile(join(directory, "icon.webp"), image);
+    await writeFile(join(directory, "screenshot-1.webp"), image);
     await writeFile(
       join(directory, "app.json"),
       JSON.stringify({
         id: "org.example.App",
         name: "Example App",
         summary: "A synthetic fixture",
-        iconSource: "https://example.org/icon.png",
+        source: "community",
         releaseSource: { type: "github", repository: "example/app" },
-        screenshots: [{ file: "screenshot-1.png" }],
+        screenshots: [{ file: "screenshot-1.webp" }],
         security: { isolation: "none", expectedAccess: [] },
       })
     );

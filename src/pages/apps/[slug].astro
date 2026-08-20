@@ -1,10 +1,10 @@
 ---
 import type { GetStaticPaths } from "astro";
 import AppPage from "@/views/AppPage.astro";
-import { getCatalog } from "@/lib/catalog";
+import { getApps } from "@/lib/api";
 
 export const getStaticPaths = (async () => {
-  const apps = await getCatalog();
+  const apps = await getApps();
 
   return apps.map((app) => ({ params: { slug: app.slug }, props: { app } }));
 }) satisfies GetStaticPaths;

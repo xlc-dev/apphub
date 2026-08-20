@@ -6,6 +6,7 @@ const app = {
   summary: "Organize ideas locally",
   description: "An offline plain-text notebook",
   categories: ["Office", "Utility"],
+  source: "community" as const,
 };
 const value = catalogSearchValue(app);
 
@@ -15,6 +16,7 @@ describe("catalog search", () => {
     expect(value).toContain("organize ideas locally");
     expect(value).toContain("offline plain-text notebook");
     expect(value).toContain("office utility");
+    expect(value).toContain("community");
   });
 
   test("matches case-insensitively", () => {

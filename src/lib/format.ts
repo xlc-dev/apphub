@@ -10,3 +10,7 @@ export function formatBytes(bytes: number) {
 
   return `${value >= 10 || unit === "B" ? value.toFixed(0) : value.toFixed(1)} ${unit}`;
 }
+
+export function formatVersion(version: string) {
+  return version.split("@", 1)[0]!.replace(/^v(?=\d)/, "");
+}

@@ -1,11 +1,9 @@
 import { writeFile } from "node:fs/promises";
-import { z } from "astro/zod";
+import { z } from "zod";
 import {
   readApps,
   hashDownload,
   selectAssets,
-  sha256,
-  validatePng,
   type Artifact,
   type ReleaseLock,
 } from "@catalog/core";
@@ -36,34 +34,6 @@ const apiHeaders: Record<string, string> = {
 };
 
 if (process.env.GITHUB_TOKEN) apiHeaders.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
-
-async function fetchBytes(url: string, maximumSize: number) {
-  const response = await fetch(url, {
-    redirect: "follow",
-    signal: AbortSignal.timeout(30_000),
-  });
-
-  if (!response.ok || !response.body)
-    throw new Error(`${url}: download returned ${response.status}`);
-
-  const contentLength = Number(response.headers.get("content-length"));
-  if (contentLength > maximumSize) throw new Error(`${url}: file is too large`);
-
-  const chunks: Uint8Array[] = [];
-  const reader = response.body.getReader();
-  let size = 0;
-
-  for (;;) {
-    const { done, value } = await reader.read();
-
-    if (done) break;
-    size += value.byteLength;
-    if (size > maximumSize) throw new Error(`${url}: file is too large`);
-    chunks.push(value);
-  }
-
-  return Buffer.concat(chunks);
-}
 
 async function githubReleases(repository: string, lock: ReleaseLock) {
   const response = await fetch(
@@ -130,7 +100,7 @@ function verifyRecordedRelease(
   return true;
 }
 
-const changes: Array<{ url: URL; data: string | Uint8Array }> = [];
+const changes: Array<{ url: URL; data: string }> = [];
 const requestedSlug = process.argv[2];
 if (process.argv.length > 3) throw new Error("Usage: bun run update-releases [slug]");
 
@@ -145,26 +115,12 @@ if (requestedSlug && selectedEntries.length === 0)
 
 for (const { app, directory, lock } of selectedEntries) {
   const updatedLock = structuredClone(lock);
-  const icon = await fetchBytes(app.iconSource, 1024 * 1024);
-  const iconDigest = sha256(icon);
-
-  validatePng(icon, app.id);
-
-  if (lock.icon && lock.icon.source !== app.iconSource)
-    throw new Error(`${app.id}: published icon source changed`);
-  if (lock.icon && lock.icon.sha256 !== iconDigest)
-    throw new Error(`${app.id}: published icon changed`);
-
-  updatedLock.icon = { source: app.iconSource, size: icon.byteLength, sha256: iconDigest };
 
   if (app.releaseSource.type === "direct") {
-    changes.push(
-      { url: new URL("icon.png", directory), data: icon },
-      {
-        url: new URL("releases.json", directory),
-        data: `${JSON.stringify(updatedLock, null, 2)}\n`,
-      }
-    );
+    changes.push({
+      url: new URL("releases.json", directory),
+      data: `${JSON.stringify(updatedLock, null, 2)}\n`,
+    });
     console.log(`${app.id}: releases are maintained directly`);
     continue;
   }
@@ -213,10 +169,10 @@ for (const { app, directory, lock } of selectedEntries) {
     });
   }
 
-  changes.push(
-    { url: new URL("icon.png", directory), data: icon },
-    { url: new URL("releases.json", directory), data: `${JSON.stringify(updatedLock, null, 2)}\n` }
-  );
+  changes.push({
+    url: new URL("releases.json", directory),
+    data: `${JSON.stringify(updatedLock, null, 2)}\n`,
+  });
 
   const latest = releases[0]!;
 
