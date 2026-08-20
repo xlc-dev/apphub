@@ -23,7 +23,18 @@ const app: App = {
   source: "official",
   releaseSource: { type: "github", repository: "example/app" },
   screenshots: [{ file: "screenshot-1.png", caption: "Main window" }],
-  expectedAccess: [],
+  sandbox: {
+    network: "none",
+    display: "wayland",
+    audio: "none",
+    processes: "isolated",
+    ipc: false,
+    filesystem: [],
+    devices: [],
+    portals: ["file-chooser"],
+    sessionBus: [],
+    systemBus: [],
+  },
 };
 
 function image(width = 128, height = width) {
@@ -178,11 +189,36 @@ describe("catalog schema", () => {
     ).toEqual({ type: "feed", url: "https://example.org/releases.json" });
   });
 
-  test("rejects duplicate access declarations", () => {
+  test("requires a complete sandbox policy", () => {
+    expect(() => appSchema.parse({ ...app, sandbox: undefined })).toThrow();
+    expect(() =>
+      appSchema.parse({ ...app, sandbox: { ...app.sandbox, network: undefined } })
+    ).toThrow();
+  });
+
+  test("rejects duplicate sandbox permissions", () => {
     expect(() =>
       appSchema.parse({
         ...app,
-        expectedAccess: ["network", "network"],
+        sandbox: {
+          ...app.sandbox,
+          filesystem: [
+            { location: "documents", access: "read-only" },
+            { location: "documents", access: "read-write" },
+          ],
+        },
+      })
+    ).toThrow("Filesystem locations must be unique");
+  });
+
+  test("requires exact D-Bus names", () => {
+    expect(() =>
+      appSchema.parse({
+        ...app,
+        sandbox: {
+          ...app.sandbox,
+          sessionBus: [{ name: "org.example.*", access: "talk" }],
+        },
       })
     ).toThrow();
   });

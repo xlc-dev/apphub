@@ -20,7 +20,18 @@ const app = {
   source: "community",
   releaseSource: { type: "github", repository: "example/app" },
   screenshots: [{ file: "screenshot-1.webp", caption: "Main window" }],
-  expectedAccess: [],
+  sandbox: {
+    network: "none",
+    display: "wayland",
+    audio: "none",
+    processes: "isolated",
+    ipc: false,
+    filesystem: [],
+    devices: [],
+    portals: ["file-chooser"],
+    sessionBus: [],
+    systemBus: [],
+  },
 };
 
 async function temporaryDirectory() {
