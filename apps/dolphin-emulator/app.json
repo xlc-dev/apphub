@@ -28,6 +28,18 @@
       "caption": "Game library",
       "license": "CC-BY-SA-3.0",
       "source": "https://github.com/flathub/org.DolphinEmu.dolphin-emu/blob/master/screenshots/1.png"
+    },
+    {
+      "file": "screenshot-2.png",
+      "caption": "Controller configuration",
+      "license": "CC-BY-SA-3.0",
+      "source": "https://github.com/flathub/org.DolphinEmu.dolphin-emu/blob/master/screenshots/4.png"
+    },
+    {
+      "file": "screenshot-3.png",
+      "caption": "Graphics configuration",
+      "license": "CC-BY-SA-3.0",
+      "source": "https://github.com/flathub/org.DolphinEmu.dolphin-emu/blob/master/screenshots/3.png"
     }
   ],
   "sandbox": {

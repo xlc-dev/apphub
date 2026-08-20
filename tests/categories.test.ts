@@ -10,6 +10,8 @@ describe("category URLs", () => {
 
   test("separates words in category identifiers", () => {
     expect(categorySlug("AudioVideoEditing")).toBe("audio-video-editing");
+    expect(categoryName("2DGraphics")).toBe("2D Graphics");
+    expect(categorySlug("2DGraphics")).toBe("2d-graphics");
   });
 
   test("rejects categories without a usable slug", () => {

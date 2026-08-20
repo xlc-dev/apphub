@@ -29,6 +29,18 @@
       "caption": "Drawing and note-taking workspace",
       "license": "CC0-1.0",
       "source": "https://github.com/flxzt/rnote/blob/main/crates/rnote-ui/data/screenshots/overview.png"
+    },
+    {
+      "file": "screenshot-2.png",
+      "caption": "Selecting handwritten content",
+      "license": "CC0-1.0",
+      "source": "https://github.com/flxzt/rnote/blob/main/crates/rnote-ui/data/screenshots/selection.png"
+    },
+    {
+      "file": "screenshot-3.png",
+      "caption": "Writing text with the typewriter tool",
+      "license": "CC0-1.0",
+      "source": "https://github.com/flxzt/rnote/blob/main/crates/rnote-ui/data/screenshots/typewriter.png"
     }
   ],
   "sandbox": {

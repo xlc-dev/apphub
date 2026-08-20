@@ -3,7 +3,10 @@ const categoryNames: Record<string, string> = {
 };
 
 export function categoryName(category: string) {
-  return categoryNames[category] ?? category.replace(/([a-z0-9])([A-Z])/g, "$1 $2");
+  return (
+    categoryNames[category] ??
+    category.replace(/([A-Z])([A-Z][a-z])/g, "$1 $2").replace(/([a-z])([A-Z])/g, "$1 $2")
+  );
 }
 
 export function categorySlug(category: string) {
