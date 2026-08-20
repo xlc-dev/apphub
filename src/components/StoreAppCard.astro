@@ -1,6 +1,7 @@
 ---
 import type { ApiApp } from "@/lib/api";
 import SourceBadge from "@/components/SourceBadge.astro";
+import Link from "@/components/ui/Link.astro";
 import { Image } from "astro:assets";
 
 interface Props {
@@ -13,9 +14,10 @@ const { app, detail, priority = false } = Astro.props;
 ---
 
 <article class="min-w-0">
-  <a
+  <Link
+    unstyled
     class="dark:border-control dark:hover:bg-surface-raised group flex h-full gap-4 rounded-xl border border-zinc-200 p-4 hover:bg-zinc-50 focus-visible:outline-2 focus-visible:outline-offset-2"
-    href={`/apps/${app.slug}`}>
+    href={`/apps/${app.slug}/`}>
     <Image
       class="size-16 shrink-0 rounded-xl"
       src={app.icon.url}
@@ -38,5 +40,5 @@ const { app, detail, priority = false } = Astro.props;
       </p>
       {detail && <p class="mt-2 text-xs text-zinc-500 dark:text-zinc-500">{detail}</p>}
     </div>
-  </a>
+  </Link>
 </article>
