@@ -35,7 +35,7 @@ const heading = category ? `${categoryName} Apps` : "All apps";
     </nav>
     {
       apps.length > 0 ? (
-        <div class="mt-8 grid gap-6">
+        <div class="mt-8 grid gap-6 md:grid-cols-2">
           {apps.map((app, index) => (
             <AppCard app={app} priority={index < 4} />
           ))}
