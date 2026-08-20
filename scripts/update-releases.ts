@@ -7,6 +7,7 @@ import {
   type Artifact,
   type ReleaseLock,
 } from "@catalog/core";
+import { githubJson } from "./github";
 
 const githubAssetSchema = z.object({
   name: z.string().min(1),
@@ -27,28 +28,10 @@ const githubReleaseSchema = z.object({
 type GitHubAsset = z.infer<typeof githubAssetSchema>;
 type GitHubRelease = z.infer<typeof githubReleaseSchema>;
 
-const apiHeaders: Record<string, string> = {
-  Accept: "application/vnd.github+json",
-  "User-Agent": "AppHub release updater",
-  "X-GitHub-Api-Version": "2022-11-28",
-};
-
-if (process.env.GITHUB_TOKEN) apiHeaders.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
-
 async function githubReleases(repository: string, lock: ReleaseLock) {
-  const response = await fetch(
-    `https://api.github.com/repos/${repository}/releases?per_page=100`,
-    {
-      headers: apiHeaders,
-      signal: AbortSignal.timeout(30_000),
-    }
-  );
-
-  if (!response.ok) throw new Error(`${repository}: GitHub returned ${response.status}`);
-
   const releases = z
     .array(githubReleaseSchema)
-    .parse(await response.json())
+    .parse(await githubJson(`/repos/${repository}/releases?per_page=100`))
     .filter(
       (release): release is GitHubRelease & { published_at: string } =>
         !release.draft && !release.prerelease && release.published_at !== null

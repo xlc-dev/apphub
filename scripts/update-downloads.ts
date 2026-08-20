@@ -2,6 +2,7 @@ import { readFile, writeFile } from "node:fs/promises";
 import { z } from "zod";
 import { downloadHistorySchema, sumGitHubDownloads } from "@catalog/downloads";
 import { readApps, root } from "@catalog/core";
+import { githubJson } from "./github";
 
 const githubReleaseSchema = z.object({
   draft: z.boolean(),
@@ -14,26 +15,13 @@ const githubReleaseSchema = z.object({
   ),
 });
 
-const headers: Record<string, string> = {
-  Accept: "application/vnd.github+json",
-  "User-Agent": "AppHub download updater",
-  "X-GitHub-Api-Version": "2022-11-28",
-};
-
-if (process.env.GITHUB_TOKEN) headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
-
 async function githubDownloads(repository: string) {
   let total = 0;
 
   for (let page = 1; ; page++) {
-    const response = await fetch(
-      `https://api.github.com/repos/${repository}/releases?per_page=100&page=${page}`,
-      { headers, signal: AbortSignal.timeout(30_000) }
-    );
-
-    if (!response.ok) throw new Error(`${repository}: GitHub returned ${response.status}`);
-
-    const releases = z.array(githubReleaseSchema).parse(await response.json());
+    const releases = z
+      .array(githubReleaseSchema)
+      .parse(await githubJson(`/repos/${repository}/releases?per_page=100&page=${page}`));
 
     total += sumGitHubDownloads(releases);
 
