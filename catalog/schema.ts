@@ -46,7 +46,7 @@ const expectedAccess = [
 const categorySchema = z
   .string()
   .regex(/^[A-Z0-9][A-Za-z0-9]+$/)
-  .describe("Freedesktop registered category identifier");
+  .describe("AppStream-style category identifier");
 
 const mimeTypeSchema = z
   .string()
@@ -69,7 +69,7 @@ export const appSchema = z
     name: z.string().min(1).max(100),
     summary: z.string().min(1).max(200),
     description: z.string().min(1).max(10_000),
-    projectLicense: z.string().min(1).max(100).describe("SPDX project license expression"),
+    projectLicense: z.string().min(1).max(100).describe("Project license expression"),
     developer: z
       .object({
         name: z.string().min(1).max(100),

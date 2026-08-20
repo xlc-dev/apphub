@@ -27,6 +27,7 @@ const githubReleaseSchema = z.object({
   prerelease: z.boolean(),
   assets: z.array(githubAssetSchema),
 });
+type GitHubRelease = z.infer<typeof githubReleaseSchema> & { published_at: string };
 const feedSchema = z
   .object({
     releases: z.array(
@@ -70,7 +71,7 @@ interface SourceRelease {
   artifacts: SourceArtifact[];
 }
 
-function selectCurrent(releases: SourceRelease[], lock: ReleaseLock, source: string) {
+export function selectCurrent(releases: SourceRelease[], lock: ReleaseLock, source: string) {
   const latest = releases[0];
 
   if (!latest) throw new Error(`${source}: no stable release found`);
@@ -99,17 +100,27 @@ function selectCurrent(releases: SourceRelease[], lock: ReleaseLock, source: str
   return releases.slice(0, boundary + 1);
 }
 
-async function githubReleases(app: App, lock: ReleaseLock) {
+export function githubSourceReleases(app: App, lock: ReleaseLock, releases: GitHubRelease[]) {
   if (app.releaseSource.type !== "github") throw new Error("Expected a GitHub source");
 
   const source = app.releaseSource.repository;
-  const releases = z
-    .array(githubReleaseSchema)
-    .parse(await githubJson(`/repos/${source}/releases?per_page=100`))
-    .filter(
-      (release): release is typeof release & { published_at: string } =>
-        !release.draft && !release.prerelease && release.published_at !== null
-    )
+  const ordered = releases.sort((left, right) =>
+    right.published_at.localeCompare(left.published_at)
+  );
+  const current = selectCurrent(
+    ordered.map((release) => ({
+      version: release.tag_name,
+      publishedAt: release.published_at,
+      page: release.html_url,
+      artifacts: [],
+    })),
+    lock,
+    source
+  );
+  const selected = new Set(current.map(({ version }) => version));
+
+  return ordered
+    .filter((release) => selected.has(release.tag_name))
     .map((release): SourceRelease => ({
       version: release.tag_name,
       publishedAt: release.published_at,
@@ -127,10 +138,22 @@ async function githubReleases(app: App, lock: ReleaseLock) {
           ...(sha256 ? { sha256 } : {}),
         };
       }),
-    }))
-    .sort((left, right) => right.publishedAt.localeCompare(left.publishedAt));
+    }));
+}
 
-  return selectCurrent(releases, lock, source);
+async function githubReleases(app: App, lock: ReleaseLock) {
+  if (app.releaseSource.type !== "github") throw new Error("Expected a GitHub source");
+
+  const source = app.releaseSource.repository;
+  const releases = z
+    .array(githubReleaseSchema)
+    .parse(await githubJson(`/repos/${source}/releases?per_page=100`))
+    .filter(
+      (release): release is GitHubRelease =>
+        !release.draft && !release.prerelease && release.published_at !== null
+    );
+
+  return githubSourceReleases(app, lock, releases);
 }
 
 async function feedReleases(app: App, lock: ReleaseLock) {
@@ -204,51 +227,55 @@ async function checkDirect(lock: ReleaseLock) {
   }
 }
 
-const requestedSlug = process.argv[2];
-if (process.argv.length > 3) throw new Error("Usage: bun run update-releases [slug]");
+async function main() {
+  const requestedSlug = process.argv[2];
+  if (process.argv.length > 3) throw new Error("Usage: bun run update-releases [slug]");
 
-const entries = await readApps();
-const selectedEntries = requestedSlug
-  ? entries.filter(({ slug }) => slug === requestedSlug)
-  : entries;
+  const entries = await readApps();
+  const selectedEntries = requestedSlug
+    ? entries.filter(({ slug }) => slug === requestedSlug)
+    : entries;
 
-if (requestedSlug && selectedEntries.length === 0)
-  throw new Error(`Unknown application: ${requestedSlug}`);
+  if (requestedSlug && selectedEntries.length === 0)
+    throw new Error(`Unknown application: ${requestedSlug}`);
 
-const checkedAt = new Date().toISOString();
-const changes: Array<{ url: URL; data: unknown }> = [];
+  const checkedAt = new Date().toISOString();
+  const changes: Array<{ url: URL; data: unknown }> = [];
 
-for (const { app, directory, health, lock } of selectedEntries) {
-  const updatedLock = structuredClone(lock);
+  for (const { app, directory, health, lock } of selectedEntries) {
+    const updatedLock = structuredClone(lock);
 
-  try {
-    const releases =
-      app.releaseSource.type === "github"
-        ? await githubReleases(app, lock)
-        : app.releaseSource.type === "feed"
-          ? await feedReleases(app, lock)
-          : undefined;
+    try {
+      const releases =
+        app.releaseSource.type === "github"
+          ? await githubReleases(app, lock)
+          : app.releaseSource.type === "feed"
+            ? await feedReleases(app, lock)
+            : undefined;
 
-    if (releases) {
-      for (const release of releases.reverse()) {
-        if (!verifyRecorded(app.id, release, lock))
-          updatedLock.releases.unshift(await recordRelease(release));
-      }
-    } else await checkDirect(lock);
+      if (releases) {
+        for (const release of releases.reverse()) {
+          if (!verifyRecorded(app.id, release, lock))
+            updatedLock.releases.unshift(await recordRelease(release));
+        }
+      } else await checkDirect(lock);
 
-    if (updatedLock.releases.length !== lock.releases.length)
-      changes.push({ url: new URL("releases.json", directory), data: updatedLock });
-    changes.push({ url: new URL("health.json", directory), data: healthy(checkedAt) });
+      if (updatedLock.releases.length !== lock.releases.length)
+        changes.push({ url: new URL("releases.json", directory), data: updatedLock });
+      changes.push({ url: new URL("health.json", directory), data: healthy(checkedAt) });
 
-    console.log(`${app.id}: healthy`);
-  } catch (error) {
-    const nextHealth = failed(health, checkedAt, error);
+      console.log(`${app.id}: healthy`);
+    } catch (error) {
+      const nextHealth = failed(health, checkedAt, error);
 
-    changes.push({ url: new URL("health.json", directory), data: nextHealth });
-    console.error(`${app.id}: ${nextHealth.status}: ${nextHealth.error}`);
+      changes.push({ url: new URL("health.json", directory), data: nextHealth });
+      console.error(`${app.id}: ${nextHealth.status}: ${nextHealth.error}`);
+    }
   }
+
+  await Promise.all(
+    changes.map(({ url, data }) => writeFile(url, `${JSON.stringify(data, null, 2)}\n`))
+  );
 }
 
-await Promise.all(
-  changes.map(({ url, data }) => writeFile(url, `${JSON.stringify(data, null, 2)}\n`))
-);
+if (import.meta.main) await main();

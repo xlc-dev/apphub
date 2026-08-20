@@ -76,7 +76,7 @@ describe("catalog schema", () => {
     }
   });
 
-  test("uses registered category identifiers", () => {
+  test("uses AppStream-style category identifiers", () => {
     expect(appSchema.parse({ ...app, categories: ["2DGraphics"] }).categories).toEqual([
       "2DGraphics",
     ]);

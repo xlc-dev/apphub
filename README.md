@@ -48,8 +48,8 @@ provide the icon and screenshots; AppHub does not fetch remote images. Images
 are decoded and validated when the catalog is loaded.
 
 Application metadata follows useful AppStream conventions: reverse-DNS IDs,
-SPDX project licenses, developer attribution, Freedesktop categories, search
-keywords, and optional MIME types or URI handlers.
+project license expressions, developer attribution, AppStream-style categories,
+search keywords, and optional MIME types or URI handlers.
 
 AppHub adds provenance, catalog addition dates, expected access, artifact
 checksums, and release-source configuration. Internal release and health-check
