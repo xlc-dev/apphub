@@ -30,5 +30,21 @@
       "source": "https://github.com/flathub/org.DolphinEmu.dolphin-emu/blob/master/screenshots/1.png"
     }
   ],
-  "expectedAccess": ["network", "home-files", "removable-media", "devices", "session-bus"]
+  "sandbox": {
+    "network": "client-and-server",
+    "display": "wayland-and-x11",
+    "audio": "playback",
+    "processes": "isolated",
+    "ipc": false,
+    "filesystem": [
+      {
+        "location": "removable-media",
+        "access": "read-only"
+      }
+    ],
+    "devices": ["gpu", "input", "usb"],
+    "portals": ["file-chooser", "inhibit", "notifications", "open-uri"],
+    "sessionBus": [],
+    "systemBus": []
+  }
 }
