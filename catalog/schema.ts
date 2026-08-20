@@ -66,6 +66,23 @@ const screenshotSchema = z
   .object({
     file: z.string().regex(/^screenshot-[1-9][0-9]*\.(?:png|jpe?g|webp|avif)$/i),
     caption: z.string().min(1).max(200),
+    license: z
+      .string()
+      .min(1)
+      .max(100)
+      .refine(isSpdxExpression, "Must be a valid SPDX license expression"),
+    source: httpsUrlSchema,
+  })
+  .strict();
+
+const iconSchema = z
+  .object({
+    license: z
+      .string()
+      .min(1)
+      .max(100)
+      .refine(isSpdxExpression, "Must be a valid SPDX license expression"),
+    source: httpsUrlSchema,
   })
   .strict();
 
@@ -132,6 +149,7 @@ export const appSchema = z
       .regex(/^[A-Za-z0-9][A-Za-z0-9._-]+$/)
       .optional(),
     releaseSource: releaseSourceSchema,
+    icon: iconSchema,
     screenshots: z
       .array(screenshotSchema)
       .min(1)

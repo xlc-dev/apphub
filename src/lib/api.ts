@@ -11,6 +11,8 @@ const imageTypeSchema = z.enum(["image/avif", "image/jpeg", "image/png", "image/
 const apiScreenshotSchema = z
   .object({
     caption: z.string().min(1),
+    license: z.string().min(1),
+    source: z.url(),
     url: z.string().min(1),
     type: imageTypeSchema,
   })
@@ -20,7 +22,14 @@ const apiAppSchema = appSchema
   .omit({ assets: true, releaseSource: true, screenshots: true })
   .extend({
     slug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
-    icon: z.object({ url: z.string().min(1), type: imageTypeSchema }).strict(),
+    icon: z
+      .object({
+        license: z.string().min(1),
+        source: z.url(),
+        url: z.string().min(1),
+        type: imageTypeSchema,
+      })
+      .strict(),
     screenshots: z.array(apiScreenshotSchema).min(1).max(10),
     releases: z.array(releaseSchema),
   })
@@ -82,6 +91,7 @@ async function loadApps() {
         ...manifest,
         slug,
         icon: {
+          ...app.icon,
           url: icons[`/apps/${slug}/${iconFile}`]!,
           type: imageType(iconFile),
         },

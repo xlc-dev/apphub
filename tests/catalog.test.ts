@@ -22,7 +22,15 @@ const app: App = {
   categories: ["Utility"],
   source: "official",
   releaseSource: { type: "github", repository: "example/app" },
-  screenshots: [{ file: "screenshot-1.png", caption: "Main window" }],
+  icon: { license: "CC0-1.0", source: "https://example.org/icon.png" },
+  screenshots: [
+    {
+      file: "screenshot-1.png",
+      caption: "Main window",
+      license: "CC0-1.0",
+      source: "https://example.org/screenshot.png",
+    },
+  ],
   expectedAccess: [],
 };
 
@@ -127,7 +135,7 @@ describe("catalog schema", () => {
     expect(() =>
       appSchema.parse({
         ...app,
-        screenshots: [{ file: "screenshot-1.png", caption: "x".repeat(201) }],
+        screenshots: [{ ...app.screenshots[0], caption: "x".repeat(201) }],
       })
     ).toThrow();
   });
@@ -138,7 +146,7 @@ describe("catalog schema", () => {
 
   test("requires screenshot descriptions", () => {
     expect(() =>
-      appSchema.parse({ ...app, screenshots: [{ file: "screenshot-1.png" }] })
+      appSchema.parse({ ...app, screenshots: [{ ...app.screenshots[0], caption: undefined }] })
     ).toThrow();
   });
 
@@ -146,7 +154,7 @@ describe("catalog schema", () => {
     expect(() =>
       appSchema.parse({
         ...app,
-        screenshots: [{ file: "../screenshot.png", caption: "Main window" }],
+        screenshots: [{ ...app.screenshots[0], file: "../screenshot.png" }],
       })
     ).toThrow();
   });
@@ -155,10 +163,7 @@ describe("catalog schema", () => {
     expect(() =>
       appSchema.parse({
         ...app,
-        screenshots: [
-          { file: "screenshot-1.png", caption: "Main window" },
-          { file: "screenshot-1.png", caption: "Main window" },
-        ],
+        screenshots: [app.screenshots[0], app.screenshots[0]],
       })
     ).toThrow("Screenshot files must be unique");
   });

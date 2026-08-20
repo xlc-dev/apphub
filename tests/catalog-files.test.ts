@@ -19,7 +19,15 @@ const app = {
   categories: ["Utility"],
   source: "community",
   releaseSource: { type: "github", repository: "example/app" },
-  screenshots: [{ file: "screenshot-1.webp", caption: "Main window" }],
+  icon: { license: "CC0-1.0", source: "https://example.org/icon.webp" },
+  screenshots: [
+    {
+      file: "screenshot-1.webp",
+      caption: "Main window",
+      license: "CC0-1.0",
+      source: "https://example.org/screenshot.webp",
+    },
+  ],
   expectedAccess: [],
 };
 

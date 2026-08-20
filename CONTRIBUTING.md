@@ -73,10 +73,16 @@ and between 128 and 1024 pixels. Screenshots must be static, use names such as
     "type": "github",
     "repository": "example/app"
   },
+  "icon": {
+    "license": "CC0-1.0",
+    "source": "https://example.org/icon.png"
+  },
   "screenshots": [
     {
       "file": "screenshot-1.webp",
-      "caption": "Main window"
+      "caption": "Main window",
+      "license": "CC0-1.0",
+      "source": "https://example.org/screenshot.png"
     }
   ],
   "expectedAccess": ["network", "home-files"]
@@ -91,6 +97,8 @@ and between 128 and 1024 pixels. Screenshots must be static, use names such as
   one main category. The accepted registry is in `catalog/categories.ts`.
 - `source` is `official` when the listing is maintained by the application's
   developers and `community` otherwise.
+- `icon` and each screenshot record the SPDX license and HTTPS source of the
+  local image file.
 - `expectedAccess` describes expected unsandboxed behavior. Accepted values are
   `network`, `home-files`, `removable-media`, `devices`, `session-bus`, and
   `system-bus`.
@@ -199,10 +207,11 @@ recorded releases; the updater rejects changes to published release metadata.
 
 ### Rights
 
-Only submit metadata and images that you own or are authorized to provide under
-CC0 1.0. By submitting catalog content, you dedicate your copyright and database
-rights in that content under CC0 1.0. This does not transfer application
-trademarks or rights owned by other people. See `LICENSE-CC0` for the full terms.
+Only submit images that may be redistributed under the license recorded for
+them. Prefer original upstream sources and preserve required attribution. By
+submitting catalog metadata, you dedicate your copyright and database rights in
+that metadata under CC0 1.0. This does not transfer application trademarks or
+rights owned by other people. See `LICENSE-CC0` for the full terms.
 
 ### Validation
 
