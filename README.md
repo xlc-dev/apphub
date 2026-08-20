@@ -60,8 +60,8 @@ maintained `releases.json`. AppHub uses published checksums when available. It
 downloads a new artifact once when it must calculate the checksum itself.
 
 Release synchronization compares upstream metadata with recorded releases and
-fails without changing the catalog when a source cannot be processed. A manual
-deep audit can download stored artifacts and verify their checksums.
+fails without changing the catalog when a source cannot be processed. Stored
+artifacts are not downloaded again.
 
 ## Submitting apps
 

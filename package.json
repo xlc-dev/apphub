@@ -17,7 +17,6 @@
     "update-downloads": "bun scripts/update-downloads.ts",
     "update-releases": "bun scripts/update-releases.ts",
     "validate:catalog": "bun scripts/validate.ts",
-    "verify:downloads": "bun scripts/verify-downloads.ts",
     "validate": "prettier --check . && astro check && bun test && astro build && bun scripts/validate.ts"
   },
   "dependencies": {
