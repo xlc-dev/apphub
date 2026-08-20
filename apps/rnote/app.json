@@ -1,0 +1,35 @@
+{
+  "id": "com.github.flxzt.rnote",
+  "name": "Rnote",
+  "summary": "Sketch and take handwritten notes",
+  "description": "Rnote is a vector drawing application for sketching, handwritten notes, and annotating documents and pictures. It supports pen input, shapes, text, and document export.",
+  "projectLicense": "GPL-3.0-or-later",
+  "developer": {
+    "name": "Felix Zwettler",
+    "url": "https://rnote.flxzt.net/"
+  },
+  "homepage": "https://rnote.flxzt.net/",
+  "repository": "https://github.com/flxzt/rnote",
+  "addedAt": "2026-08-20",
+  "keywords": ["notes", "drawing", "handwriting", "annotation"],
+  "categories": ["Graphics", "Education", "Office", "VectorGraphics"],
+  "mimeTypes": ["application/rnote"],
+  "source": "community",
+  "releaseSource": {
+    "type": "github",
+    "repository": "pkgforge-dev/Rnote-AppImage"
+  },
+  "icon": {
+    "license": "GPL-3.0-or-later",
+    "source": "https://github.com/flxzt/rnote/blob/main/crates/rnote-ui/data/icons/scalable/apps/rnote.svg"
+  },
+  "screenshots": [
+    {
+      "file": "screenshot-1.png",
+      "caption": "Drawing and note-taking workspace",
+      "license": "CC0-1.0",
+      "source": "https://github.com/flxzt/rnote/blob/main/crates/rnote-ui/data/screenshots/overview.png"
+    }
+  ],
+  "expectedAccess": ["home-files", "devices", "session-bus"]
+}
