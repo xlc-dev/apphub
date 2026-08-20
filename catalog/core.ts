@@ -1,12 +1,14 @@
 import { createHash } from "node:crypto";
-import { readFile, readdir } from "node:fs/promises";
+import { lstat, readFile, readdir } from "node:fs/promises";
 import { pathToFileURL } from "node:url";
 import sharp from "sharp";
 import {
   appSchema,
+  healthSchema,
   releaseLockSchema,
   type App,
   type Architecture,
+  type Health,
   type ReleaseLock,
 } from "@catalog/schema";
 
@@ -19,6 +21,7 @@ interface AppEntry {
   app: App;
   lock: ReleaseLock;
   hasLock: boolean;
+  health: Health | undefined;
 }
 
 interface SelectableAsset {
@@ -38,7 +41,11 @@ interface SelectedAsset<T extends SelectableAsset> {
 
 export const root = pathToFileURL(`${process.cwd()}/`);
 const appsDirectory = new URL("apps/", root);
-const allowedFiles = new Set(["app.json", "releases.json"]);
+const manifestSizeLimit = 64 * 1024;
+const releaseLockSizeLimit = 1024 * 1024;
+const iconSizeLimit = 2 * 1024 * 1024;
+const screenshotSizeLimit = 10 * 1024 * 1024;
+const allowedFiles = new Set(["app.json", "releases.json", "health.json"]);
 const imageExtension = "(?:png|jpe?g|webp|avif)";
 const iconFile = new RegExp(`^icon\\.${imageExtension}$`, "i");
 const screenshotFile = new RegExp(`^screenshot-[1-9][0-9]*\\.${imageExtension}$`, "i");
@@ -52,17 +59,39 @@ const architectureMatchers: Array<[Architecture, RegExp]> = [
   ["s390x", /(?:^|[^a-z0-9])s390x(?:[^a-z0-9]|$)/i],
 ];
 
-async function readJson(url: URL) {
-  return JSON.parse(await readFile(url, "utf8")) as unknown;
+async function readBoundedFile(url: URL, sizeLimit: number) {
+  const metadata = await lstat(url);
+
+  if (!metadata.isFile()) throw new Error(`${url.pathname}: must be a regular file`);
+  if (metadata.size > sizeLimit) throw new Error(`${url.pathname}: file is too large`);
+
+  return readFile(url);
+}
+
+async function readJson(url: URL, sizeLimit: number) {
+  return JSON.parse((await readBoundedFile(url, sizeLimit)).toString("utf8")) as unknown;
 }
 
 async function readOptionalLock(url: URL, appId: string) {
   try {
-    return { lock: releaseLockSchema.parse(await readJson(url)), exists: true };
+    return {
+      lock: releaseLockSchema.parse(await readJson(url, releaseLockSizeLimit)),
+      exists: true,
+    };
   } catch (error) {
     if ((error as NodeJS.ErrnoException).code === "ENOENT") {
       return { lock: { appId, releases: [] }, exists: false };
     }
+
+    throw error;
+  }
+}
+
+async function readOptionalHealth(url: URL) {
+  try {
+    return healthSchema.parse(await readJson(url, manifestSizeLimit));
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === "ENOENT") return undefined;
 
     throw error;
   }
@@ -96,23 +125,28 @@ export async function readApps(directory = appsDirectory) {
         throw new Error(`${slug}: unexpected file ${name}`);
     }
 
-    const app = appSchema.parse(await readJson(new URL("app.json", appDirectory)));
+    const app = appSchema.parse(
+      await readJson(new URL("app.json", appDirectory), manifestSizeLimit)
+    );
     const icons = names.filter((name) => iconFile.test(name));
 
     if (icons.length !== 1) throw new Error(`${slug}: expected one icon, found ${icons.length}`);
 
     const appIconFile = icons[0]!;
 
-    await validateImage(await readFile(new URL(appIconFile, appDirectory)), appIconFile, app.id, {
-      icon: true,
-    });
+    await validateImage(
+      await readBoundedFile(new URL(appIconFile, appDirectory), iconSizeLimit),
+      appIconFile,
+      app.id,
+      { icon: true }
+    );
 
     for (const screenshot of app.screenshots) {
       if (!names.includes(screenshot.file))
         throw new Error(`${slug}: missing screenshot ${screenshot.file}`);
 
       await validateImage(
-        await readFile(new URL(screenshot.file, appDirectory)),
+        await readBoundedFile(new URL(screenshot.file, appDirectory), screenshotSizeLimit),
         screenshot.file,
         app.id
       );
@@ -128,6 +162,7 @@ export async function readApps(directory = appsDirectory) {
       new URL("releases.json", appDirectory),
       app.id
     );
+    const health = await readOptionalHealth(new URL("health.json", appDirectory));
 
     if (lock.appId !== app.id)
       throw new Error(`${slug}: release lock has the wrong application id`);
@@ -139,6 +174,7 @@ export async function readApps(directory = appsDirectory) {
       app,
       lock,
       hasLock: exists,
+      health,
     });
   }
 
@@ -147,6 +183,12 @@ export async function readApps(directory = appsDirectory) {
   for (const { app } of entries) {
     if (ids.has(app.id)) throw new Error(`Duplicate application id: ${app.id}`);
     ids.add(app.id);
+  }
+
+  for (const { app } of entries) {
+    if (app.replacedBy === app.id) throw new Error(`${app.id}: replacement refers to itself`);
+    if (app.replacedBy && !ids.has(app.replacedBy))
+      throw new Error(`${app.id}: replacement ${app.replacedBy} is not in the catalog`);
   }
 
   return entries;
@@ -253,6 +295,10 @@ export async function validateImage(
       throw new Error(`${file} does not match its image format`);
     if ((metadata.pages ?? 1) !== 1) throw new Error(`${file} must not be animated`);
     if (!metadata.width || !metadata.height) throw new Error(`${file} has no dimensions`);
+    if (metadata.width > 8192 || metadata.height > 8192)
+      throw new Error(`${file} dimensions must not exceed 8192 pixels`);
+    if (metadata.width * metadata.height > 33_177_600)
+      throw new Error(`${file} must not exceed 33 megapixels`);
 
     await image.stats();
 

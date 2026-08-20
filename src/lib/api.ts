@@ -1,7 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { downloadCounts, downloadHistorySchema } from "@catalog/downloads";
 import { imageType, readApps, root } from "@catalog/core";
-import { appSchema, releaseSchema } from "@catalog/schema";
+import { appSchema, healthSchema, releaseSchema } from "@catalog/schema";
 import { categorySlug } from "@/lib/categories";
 import { newApps, newAppWindowDays } from "@/lib/new-apps";
 import { z } from "zod";
@@ -26,6 +26,7 @@ const apiAppSchema = appSchema
     icon: z.object({ url: z.string().min(1), type: imageTypeSchema }).strict(),
     screenshots: z.array(apiScreenshotSchema).min(1).max(10),
     releases: z.array(releaseSchema),
+    health: healthSchema.optional(),
   })
   .strict();
 
@@ -77,12 +78,14 @@ let appsPromise: Promise<ApiApp[]> | undefined;
 async function loadApps() {
   const entries = await readApps();
   const apps = entries
-    .map(({ slug, iconFile, app, lock }) => {
+    .map(({ slug, iconFile, app, health, lock }) => {
       const { assets: _assets, ...manifest } = app;
       const sourceHomepage =
         app.releaseSource.type === "github"
           ? `https://github.com/${app.releaseSource.repository}`
-          : lock.releases[0]?.page;
+          : app.releaseSource.type === "feed"
+            ? app.releaseSource.url
+            : lock.releases[0]?.page;
 
       return {
         ...manifest,
@@ -100,6 +103,7 @@ async function loadApps() {
           type: imageType(file),
         })),
         releases: lock.releases,
+        health,
       };
     })
     .sort((left, right) => left.name.localeCompare(right.name));

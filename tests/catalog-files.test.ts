@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, test } from "bun:test";
-import { mkdtemp, mkdir, rm, writeFile } from "node:fs/promises";
+import { mkdtemp, mkdir, rm, symlink, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { pathToFileURL } from "node:url";
@@ -91,6 +91,25 @@ describe("catalog files", () => {
     await writeFile(join(directory, "notes.txt"), "unexpected");
 
     await expectReadError(root, "example-app: unexpected file notes.txt");
+  });
+
+  test("rejects symlinked catalog files", async () => {
+    const root = await temporaryDirectory();
+    const directory = await writeApp(root);
+
+    await rm(join(directory, "icon.webp"));
+    await symlink("screenshot-1.webp", join(directory, "icon.webp"));
+
+    await expectReadError(root, "must be a regular file");
+  });
+
+  test("rejects oversized manifests", async () => {
+    const root = await temporaryDirectory();
+    const directory = await writeApp(root);
+
+    await writeFile(join(directory, "app.json"), " ".repeat(64 * 1024 + 1));
+
+    await expectReadError(root, "file is too large");
   });
 
   test("rejects missing and unreferenced screenshots", async () => {

@@ -51,6 +51,22 @@ describe("catalog schema", () => {
     expect(() => appSchema.parse({ ...app, unknown: true })).toThrow();
   });
 
+  test("requires HTTPS URLs", () => {
+    expect(() => appSchema.parse({ ...app, homepage: "http://example.org" })).toThrow(
+      "Must use HTTPS"
+    );
+  });
+
+  test("limits contributor-controlled text", () => {
+    expect(() => appSchema.parse({ ...app, summary: "x".repeat(201) })).toThrow();
+    expect(() =>
+      appSchema.parse({
+        ...app,
+        screenshots: [{ file: "screenshot-1.png", caption: "x".repeat(201) }],
+      })
+    ).toThrow();
+  });
+
   test("requires at least one screenshot", () => {
     expect(() => appSchema.parse({ ...app, screenshots: [] })).toThrow();
   });
@@ -86,6 +102,15 @@ describe("catalog schema", () => {
     expect(appSchema.parse({ ...app, releaseSource: { type: "direct" } }).releaseSource).toEqual({
       type: "direct",
     });
+  });
+
+  test("accepts structured release feeds", () => {
+    expect(
+      appSchema.parse({
+        ...app,
+        releaseSource: { type: "feed", url: "https://example.org/releases.json" },
+      }).releaseSource
+    ).toEqual({ type: "feed", url: "https://example.org/releases.json" });
   });
 
   test("rejects duplicate access declarations", () => {
@@ -268,6 +293,14 @@ describe("image validation", () => {
         validateImage(await image(2048).png().toBuffer(), "icon.png", app.id, { icon: true })
       )
     ).toContain("between 128 and 1024 pixels");
+  });
+
+  test("rejects excessive screenshot dimensions", async () => {
+    const data = await image(8193, 1).png().toBuffer();
+
+    expect(await errorMessage(validateImage(data, "screenshot-1.png", app.id))).toContain(
+      "must not exceed 8192 pixels"
+    );
   });
 
   test("rejects images that do not match their extension", async () => {
