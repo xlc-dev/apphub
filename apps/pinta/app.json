@@ -30,5 +30,16 @@
       "source": "https://www.pinta-project.com/theme/images/ss1.png"
     }
   ],
-  "expectedAccess": ["home-files", "session-bus"]
+  "sandbox": {
+    "network": "none",
+    "display": "wayland-and-x11",
+    "audio": "none",
+    "processes": "isolated",
+    "ipc": false,
+    "filesystem": [],
+    "devices": ["gpu"],
+    "portals": ["file-chooser", "open-uri"],
+    "sessionBus": [],
+    "systemBus": []
+  }
 }
