@@ -1,8 +1,11 @@
 ---
 import Link from "@/components/ui/Link.astro";
+import { routePath, sitePath } from "@/lib/paths";
 import { Image } from "astro:assets";
 
-const path = Astro.url.pathname;
+const path = routePath(Astro.url.pathname);
+const home = sitePath("/");
+const logo = sitePath("/logo.svg");
 const links = [
   { href: "/apps/", label: "Apps", current: path.startsWith("/apps/") },
   { href: "/new/", label: "New", current: path === "/new/" },
@@ -18,8 +21,8 @@ const links = [
     <a
       class="col-start-1 row-start-1 flex items-center gap-2 justify-self-start rounded-sm text-xl font-bold focus-visible:outline-2 focus-visible:outline-offset-2"
       aria-label="AppHub home"
-      href="/">
-      <Image src="/logo.svg" alt="" width={32} height={32} loading="eager" fetchpriority="high" />
+      href={home}>
+      <Image src={logo} alt="" width={32} height={32} loading="eager" fetchpriority="high" />
       <span class="hidden sm:inline">AppHub</span>
     </a>
     <div class="col-start-2 row-start-1 md:hidden">
@@ -80,7 +83,7 @@ const links = [
     </div>
     <form
       class="col-span-2 col-start-1 row-start-2 w-full md:col-span-1 md:col-start-2 md:row-start-1"
-      action="/apps/"
+      action={sitePath("/apps/")}
       method="get"
       role="search"
       hidden

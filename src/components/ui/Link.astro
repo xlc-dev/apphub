@@ -1,5 +1,6 @@
 ---
 import type { HTMLAttributes } from "astro/types";
+import { sitePath } from "@/lib/paths";
 
 interface Props extends HTMLAttributes<"a"> {
   accent?: boolean;
@@ -11,6 +12,7 @@ const {
   accent = false,
   chip = false,
   filter = false,
+  href,
   class: className,
   ...attributes
 } = Astro.props;
@@ -18,6 +20,7 @@ const {
 
 <a
   {...attributes}
+  href={typeof href === "string" ? sitePath(href) : href}
   class:list={[
     filter
       ? "focus-visible:outline-accent aria-[current=page]:border-accent aria-[current=page]:text-accent dark:border-control dark:bg-surface-raised dark:hover:bg-control flex min-h-11 items-center rounded-lg border border-zinc-200 bg-white px-5 py-2.5 text-base font-medium hover:bg-zinc-100 focus-visible:outline-2 focus-visible:outline-offset-2"

@@ -4,6 +4,7 @@ import "@fontsource-variable/inter";
 import { ClientRouter } from "astro:transitions";
 import Footer from "@/components/Footer.astro";
 import Header from "@/components/Header.astro";
+import { sitePath } from "@/lib/paths";
 
 interface Props {
   title: string;
@@ -16,6 +17,7 @@ interface Props {
 
 const { title, description, image, imageAlt, imageType, pageType = "website" } = Astro.props;
 const pageTitle = title === "AppHub" ? title : `${title} - AppHub`;
+const logo = sitePath("/logo.svg");
 ---
 
 <!doctype html>
@@ -34,9 +36,14 @@ const pageTitle = title === "AppHub" ? title : `${title} - AppHub`;
     <meta property="og:type" content={pageType} />
     <meta name="twitter:card" content={image ? "summary_large_image" : "summary"} />
     <meta name="twitter:title" content={pageTitle} />
-    <link rel="icon" type="image/svg+xml" href="/logo.svg" />
-    <link rel="icon" href="/favicon.ico" />
-    <link rel="alternate" type="application/json" href="/api/v1/apps" title="AppHub catalog" />
+    <link rel="icon" type="image/svg+xml" href={logo} />
+    <link rel="icon" href={sitePath("/favicon.ico")} />
+    <link
+      rel="alternate"
+      type="application/json"
+      href={sitePath("/api/v1/apps")}
+      title="AppHub catalog"
+    />
     <title>{pageTitle}</title>
     {description && <meta name="description" content={description} />}
     {description && <meta property="og:description" content={description} />}

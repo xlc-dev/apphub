@@ -4,6 +4,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import EmptyState from "@/components/ui/EmptyState.astro";
 import Link from "@/components/ui/Link.astro";
 import Page from "@/components/ui/Page.astro";
+import { routePath } from "@/lib/paths";
 import PageHeader from "@/components/ui/PageHeader.astro";
 import { getRanking, type RankingPeriod } from "@/lib/api";
 
@@ -15,7 +16,7 @@ interface Props {
 
 const { title, description, period } = Astro.props;
 const { entries: ranking } = await getRanking(period);
-const path = Astro.url.pathname;
+const path = routePath(Astro.url.pathname);
 ---
 
 <BaseLayout title={title} description={description}>

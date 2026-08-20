@@ -1,7 +1,8 @@
 # Contributing
 
 AppHub accepts code changes, documentation improvements, bug reports, and
-application listings. Keep each pull request focused on one change.
+application listings. Submit changes through a pull request and keep each pull
+request focused on one change.
 
 ## Code contributions
 
