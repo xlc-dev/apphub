@@ -77,9 +77,9 @@ CC0 does not transfer ownership of application names or trademarks.
 
 ## License
 
-AppHub source code is licensed under the GNU Affero General Public License,
-version 3 or later. Submitted metadata, icons, screenshots, and generated API
-data are available under CC0 1.0.
+AppHub source code is licensed under the [GNU Affero General Public License,
+version 3 or later](LICENSE). Submitted metadata, icons, screenshots, and
+generated API data are available under [CC0 1.0](LICENSE-CC0).
 
 The AppHub name and logo are not licensed for use as the identity of another
 project or service. Application names and trademarks remain the property of
