@@ -1,14 +1,14 @@
-name: Update releases and health
+name: Update download totals
 
 on:
   schedule:
-    - cron: "17 3 * * *"
+    - cron: "47 3 * * *"
   workflow_dispatch:
 
 permissions: {}
 
 concurrency:
-  group: catalog-update
+  group: download-totals
   cancel-in-progress: false
 
 jobs:
@@ -17,7 +17,7 @@ jobs:
       contents: write
       pull-requests: write
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 30
     steps:
       - name: Check out repository
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
@@ -32,10 +32,10 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
-      - name: Update releases
+      - name: Update download totals
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: bun run update-releases
+        run: bun run update-downloads
 
       - name: Validate changes
         run: bun run validate
@@ -44,10 +44,9 @@ jobs:
         uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: "chore: update releases and health"
-          title: "chore: update releases and health"
-          body: "Automated release metadata and application health updates."
-          branch: release-health-update
+          commit-message: "chore: update download totals"
+          title: "chore: update download totals"
+          body: "Automated download total update."
+          branch: download-total-update
           delete-branch: true
-          add-paths: |
-            apps
+          add-paths: catalog/downloads.json
