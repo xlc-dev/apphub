@@ -73,13 +73,35 @@ and between 128 and 1024 pixels. Screenshots must be static, use names such as
     "type": "github",
     "repository": "example/app"
   },
+  "icon": {
+    "license": "CC0-1.0",
+    "source": "https://example.org/icon.png"
+  },
   "screenshots": [
     {
       "file": "screenshot-1.webp",
-      "caption": "Main window"
+      "caption": "Main window",
+      "license": "CC0-1.0",
+      "source": "https://example.org/screenshot.png"
     }
   ],
-  "expectedAccess": ["network", "home-files"]
+  "sandbox": {
+    "network": "client",
+    "display": "wayland",
+    "audio": "playback",
+    "processes": "isolated",
+    "ipc": false,
+    "filesystem": [
+      {
+        "location": "music",
+        "access": "read-only"
+      }
+    ],
+    "devices": ["gpu"],
+    "portals": ["file-chooser", "notifications", "open-uri"],
+    "sessionBus": [],
+    "systemBus": []
+  }
 }
 ```
 
@@ -91,14 +113,47 @@ and between 128 and 1024 pixels. Screenshots must be static, use names such as
   one main category. The accepted registry is in `catalog/categories.ts`.
 - `source` is `official` when the listing is maintained by the application's
   developers and `community` otherwise.
-- `expectedAccess` describes expected unsandboxed behavior. Accepted values are
-  `network`, `home-files`, `removable-media`, `devices`, `session-bus`, and
-  `system-bus`.
+- `icon` and each screenshot record the SPDX license and HTTPS source of the
+  local image file.
+- `sandbox` is the minimum host access an application manager must grant. It is
+  an allowlist: access not declared there must be denied.
 - `keywords`, `mimeTypes`, `repository`, and `developer.url` are optional.
 - Use `deprecated: true` for a discontinued listing. `replacedBy` may identify
   another application ID already present in the catalog.
-- Keep `keywords`, `categories`, `mimeTypes`, `screenshots`, and
-  `expectedAccess` free of duplicates. Screenshots appear in manifest order.
+- Keep `keywords`, `categories`, `mimeTypes`, and `screenshots` free of
+  duplicates. Screenshots appear in manifest order.
+
+### Sandbox policy
+
+The sandbox policy describes required behavior, independently of a particular
+sandbox implementation. An application manager may translate it to Bubblewrap,
+Landlock, namespaces, portals, or another mechanism. All fields are required so
+an omitted field cannot accidentally broaden access. Private storage belonging
+to the application is implicit and does not need a filesystem entry.
+
+- `network`: `none`, outbound `client`, or `client-and-server` when the app must
+  also accept incoming connections.
+- `display`: `none`, `wayland`, `x11`, or `wayland-and-x11`.
+- `audio`: `none`, `playback`, `capture`, or `playback-and-capture`.
+- `processes`: `isolated`, read-only host process visibility with `read`, or
+  host process signalling and control with `control`.
+- `ipc`: whether the app must share the host IPC namespace. Keep this `false`
+  unless the application cannot work without it.
+- `filesystem`: named user locations with `read-only` or `read-write` access.
+  Locations are `home`, `desktop`, `documents`, `downloads`, `music`,
+  `pictures`, `public-share`, `templates`, `videos`, and `removable-media`.
+  Prefer a specific location over the entire home directory.
+- `devices`: direct access to `gpu`, `input`, `camera`, `usb`, `serial`,
+  `optical`, `fuse`, or `kvm`. Prefer a portal where one exists.
+- `portals`: access through `background`, `camera`, `email`, `file-chooser`,
+  `inhibit`, `location`, `notifications`, `open-uri`, `printing`, `screenshot`,
+  `screencast`, `secrets`, or `settings`.
+- `sessionBus` and `systemBus`: exact D-Bus service names with `see`, `talk`, or
+  `own` access. Wildcards are not accepted. Portal services belong in
+  `portals`, not these lists.
+
+Use empty arrays and `none`, `isolated`, or `false` when access is unnecessary.
+Do not add permissions merely because they might be useful.
 
 If automatic architecture detection is ambiguous, add filename patterns keyed
 by architecture:
@@ -199,10 +254,11 @@ recorded releases; the updater rejects changes to published release metadata.
 
 ### Rights
 
-Only submit metadata and images that you own or are authorized to provide under
-CC0 1.0. By submitting catalog content, you dedicate your copyright and database
-rights in that content under CC0 1.0. This does not transfer application
-trademarks or rights owned by other people. See `LICENSE-CC0` for the full terms.
+Only submit images that may be redistributed under the license recorded for
+them. Prefer original upstream sources and preserve required attribution. By
+submitting catalog metadata, you dedicate your copyright and database rights in
+that metadata under CC0 1.0. This does not transfer application trademarks or
+rights owned by other people. See `LICENSE-CC0` for the full terms.
 
 ### Validation
 

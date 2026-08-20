@@ -62,7 +62,7 @@ const { app } = Astro.props;
           <ScreenshotCarousel label="Screenshots" screenshots={app.screenshots} />
         </div>
         <div class="order-4 lg:mt-10">
-          <Capabilities expectedAccess={app.expectedAccess} />
+          <Capabilities sandbox={app.sandbox} />
         </div>
       </div>
       <div class="contents lg:block">

@@ -36,14 +36,93 @@ const releaseSourceSchema = z.discriminatedUnion("type", [
     .describe("Release metadata and artifact URLs are maintained in releases.json"),
 ]);
 
-const expectedAccess = [
-  "network",
-  "home-files",
+const filesystemLocationSchema = z.enum([
+  "home",
+  "desktop",
+  "documents",
+  "downloads",
+  "music",
+  "pictures",
+  "public-share",
+  "templates",
+  "videos",
   "removable-media",
-  "devices",
-  "session-bus",
-  "system-bus",
-] as const;
+]);
+
+const filesystemRuleSchema = z
+  .object({
+    location: filesystemLocationSchema,
+    access: z.enum(["read-only", "read-write"]),
+  })
+  .strict();
+
+const busNameSchema = z
+  .string()
+  .min(3)
+  .max(255)
+  .regex(/^[A-Za-z_][A-Za-z0-9_-]*(?:\.[A-Za-z_][A-Za-z0-9_-]*)+$/);
+
+const busRuleSchema = z
+  .object({
+    name: busNameSchema,
+    access: z.enum(["see", "talk", "own"]),
+  })
+  .strict();
+
+const uniqueBy = <T>(values: T[], key: (value: T) => string) =>
+  new Set(values.map(key)).size === values.length;
+
+const sandboxSchema = z
+  .object({
+    network: z.enum(["none", "client", "client-and-server"]),
+    display: z.enum(["none", "wayland", "x11", "wayland-and-x11"]),
+    audio: z.enum(["none", "playback", "capture", "playback-and-capture"]),
+    processes: z.enum(["isolated", "read", "control"]),
+    ipc: z.boolean(),
+    filesystem: z
+      .array(filesystemRuleSchema)
+      .max(filesystemLocationSchema.options.length)
+      .refine(
+        (rules) => uniqueBy(rules, ({ location }) => location),
+        "Filesystem locations must be unique"
+      ),
+    devices: z
+      .array(z.enum(["gpu", "input", "camera", "usb", "serial", "optical", "fuse", "kvm"]))
+      .max(8)
+      .refine((devices) => uniqueBy(devices, (device) => device), "Devices must be unique"),
+    portals: z
+      .array(
+        z.enum([
+          "background",
+          "camera",
+          "email",
+          "file-chooser",
+          "inhibit",
+          "location",
+          "notifications",
+          "open-uri",
+          "printing",
+          "screenshot",
+          "screencast",
+          "secrets",
+          "settings",
+        ])
+      )
+      .max(13)
+      .refine((portals) => uniqueBy(portals, (portal) => portal), "Portals must be unique"),
+    sessionBus: z
+      .array(busRuleSchema)
+      .max(50)
+      .refine((rules) => uniqueBy(rules, ({ name }) => name), "Session bus names must be unique"),
+    systemBus: z
+      .array(busRuleSchema)
+      .max(50)
+      .refine((rules) => uniqueBy(rules, ({ name }) => name), "System bus names must be unique"),
+  })
+  .strict()
+  .describe(
+    "Minimum host access required by the application; unspecified access is denied and private application storage is implicit"
+  );
 
 const categorySchema = z
   .string()
@@ -66,6 +145,23 @@ const screenshotSchema = z
   .object({
     file: z.string().regex(/^screenshot-[1-9][0-9]*\.(?:png|jpe?g|webp|avif)$/i),
     caption: z.string().min(1).max(200),
+    license: z
+      .string()
+      .min(1)
+      .max(100)
+      .refine(isSpdxExpression, "Must be a valid SPDX license expression"),
+    source: httpsUrlSchema,
+  })
+  .strict();
+
+const iconSchema = z
+  .object({
+    license: z
+      .string()
+      .min(1)
+      .max(100)
+      .refine(isSpdxExpression, "Must be a valid SPDX license expression"),
+    source: httpsUrlSchema,
   })
   .strict();
 
@@ -132,6 +228,7 @@ export const appSchema = z
       .regex(/^[A-Za-z0-9][A-Za-z0-9._-]+$/)
       .optional(),
     releaseSource: releaseSourceSchema,
+    icon: iconSchema,
     screenshots: z
       .array(screenshotSchema)
       .min(1)
@@ -140,13 +237,7 @@ export const appSchema = z
         (screenshots) => new Set(screenshots.map(({ file }) => file)).size === screenshots.length,
         "Screenshot files must be unique"
       ),
-    expectedAccess: z
-      .array(z.enum(expectedAccess))
-      .max(expectedAccess.length)
-      .refine((access) => new Set(access).size === access.length, "Access entries must be unique")
-      .describe(
-        "Expected application behavior, not enforced permissions; AppImages run unsandboxed as the user"
-      ),
+    sandbox: sandboxSchema,
     assets: z
       .record(architectureSchema, assetPattern)
       .refine((assets) => Object.keys(assets).length > 0, "At least one asset is required")

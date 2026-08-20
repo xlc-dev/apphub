@@ -22,8 +22,27 @@ const app: App = {
   categories: ["Utility"],
   source: "official",
   releaseSource: { type: "github", repository: "example/app" },
-  screenshots: [{ file: "screenshot-1.png", caption: "Main window" }],
-  expectedAccess: [],
+  icon: { license: "CC0-1.0", source: "https://example.org/icon.png" },
+  screenshots: [
+    {
+      file: "screenshot-1.png",
+      caption: "Main window",
+      license: "CC0-1.0",
+      source: "https://example.org/screenshot.png",
+    },
+  ],
+  sandbox: {
+    network: "none",
+    display: "wayland",
+    audio: "none",
+    processes: "isolated",
+    ipc: false,
+    filesystem: [],
+    devices: [],
+    portals: ["file-chooser"],
+    sessionBus: [],
+    systemBus: [],
+  },
 };
 
 function image(width = 128, height = width) {
@@ -127,7 +146,7 @@ describe("catalog schema", () => {
     expect(() =>
       appSchema.parse({
         ...app,
-        screenshots: [{ file: "screenshot-1.png", caption: "x".repeat(201) }],
+        screenshots: [{ ...app.screenshots[0], caption: "x".repeat(201) }],
       })
     ).toThrow();
   });
@@ -138,7 +157,7 @@ describe("catalog schema", () => {
 
   test("requires screenshot descriptions", () => {
     expect(() =>
-      appSchema.parse({ ...app, screenshots: [{ file: "screenshot-1.png" }] })
+      appSchema.parse({ ...app, screenshots: [{ ...app.screenshots[0], caption: undefined }] })
     ).toThrow();
   });
 
@@ -146,7 +165,7 @@ describe("catalog schema", () => {
     expect(() =>
       appSchema.parse({
         ...app,
-        screenshots: [{ file: "../screenshot.png", caption: "Main window" }],
+        screenshots: [{ ...app.screenshots[0], file: "../screenshot.png" }],
       })
     ).toThrow();
   });
@@ -155,10 +174,7 @@ describe("catalog schema", () => {
     expect(() =>
       appSchema.parse({
         ...app,
-        screenshots: [
-          { file: "screenshot-1.png", caption: "Main window" },
-          { file: "screenshot-1.png", caption: "Main window" },
-        ],
+        screenshots: [app.screenshots[0], app.screenshots[0]],
       })
     ).toThrow("Screenshot files must be unique");
   });
@@ -178,11 +194,36 @@ describe("catalog schema", () => {
     ).toEqual({ type: "feed", url: "https://example.org/releases.json" });
   });
 
-  test("rejects duplicate access declarations", () => {
+  test("requires a complete sandbox policy", () => {
+    expect(() => appSchema.parse({ ...app, sandbox: undefined })).toThrow();
+    expect(() =>
+      appSchema.parse({ ...app, sandbox: { ...app.sandbox, network: undefined } })
+    ).toThrow();
+  });
+
+  test("rejects duplicate sandbox permissions", () => {
     expect(() =>
       appSchema.parse({
         ...app,
-        expectedAccess: ["network", "network"],
+        sandbox: {
+          ...app.sandbox,
+          filesystem: [
+            { location: "documents", access: "read-only" },
+            { location: "documents", access: "read-write" },
+          ],
+        },
+      })
+    ).toThrow("Filesystem locations must be unique");
+  });
+
+  test("requires exact D-Bus names", () => {
+    expect(() =>
+      appSchema.parse({
+        ...app,
+        sandbox: {
+          ...app.sandbox,
+          sessionBus: [{ name: "org.example.*", access: "talk" }],
+        },
       })
     ).toThrow();
   });

@@ -1,0 +1,45 @@
+{
+  "id": "io.github.htop_dev.htop",
+  "name": "htop",
+  "summary": "Interactive process viewer",
+  "description": "htop is an interactive process viewer for Unix systems. It shows system resource use and lets users inspect, filter, sort, and manage running processes from a terminal.",
+  "projectLicense": "GPL-2.0-or-later",
+  "developer": {
+    "name": "htop developers",
+    "url": "https://htop.dev/"
+  },
+  "homepage": "https://htop.dev/",
+  "repository": "https://github.com/htop-dev/htop",
+  "addedAt": "2026-08-20",
+  "keywords": ["processes", "monitor", "terminal", "system"],
+  "categories": ["System", "Monitor", "ConsoleOnly"],
+  "source": "community",
+  "releaseSource": {
+    "type": "github",
+    "repository": "pkgforge-dev/htop-AppImage"
+  },
+  "icon": {
+    "license": "GPL-2.0-or-later",
+    "source": "https://github.com/htop-dev/htop/blob/main/htop.png"
+  },
+  "screenshots": [
+    {
+      "file": "screenshot-1.png",
+      "caption": "Process list and system meters",
+      "license": "GPL-2.0-or-later",
+      "source": "https://github.com/htop-dev/htop/blob/main/docs/images/screenshot.png"
+    }
+  ],
+  "sandbox": {
+    "network": "none",
+    "display": "none",
+    "audio": "none",
+    "processes": "control",
+    "ipc": false,
+    "filesystem": [],
+    "devices": [],
+    "portals": [],
+    "sessionBus": [],
+    "systemBus": []
+  }
+}

@@ -24,8 +24,8 @@ together in a catalog for people and other applications.
 - **Checksummed artifacts:** Every artifact includes its architecture, file size,
   and SHA-256 checksum.
 
-- **Clear capabilities:** Listings describe the files, devices, services, and
-  network access an app is expected to use.
+- **Sandbox policies:** Listings declare the minimum files, devices, services,
+  and network access an application manager should grant.
 
 - **Public API:** Other software can consume the generated catalog through `/api/v1`.
 
@@ -51,9 +51,9 @@ Application metadata follows useful AppStream conventions: reverse-DNS IDs,
 SPDX project license expressions, developer attribution, registered Freedesktop
 categories, search keywords, and optional MIME types or URI handlers.
 
-AppHub adds provenance, catalog addition dates, expected access, artifact
-checksums, and release-source configuration. Internal release-source details are
-not exposed by the public API.
+AppHub adds provenance, catalog addition dates, implementation-neutral sandbox
+policies, artifact checksums, and release-source configuration. Internal
+release-source details are not exposed by the public API.
 
 Release metadata can come from GitHub Releases, an HTTPS JSON feed, or a
 maintained `releases.json`. AppHub uses published checksums when available. It
@@ -68,18 +68,19 @@ artifacts are not downloaded again.
 See [CONTRIBUTING.md](CONTRIBUTING.md) for the catalog format, release sources,
 asset requirements, and validation steps.
 
-By submitting an app listing, you confirm that you have permission to provide
-its metadata, icon, and screenshots. You dedicate your copyright and database
-rights in that submitted catalog content to the public domain under CC0 1.0 so
-AppHub and applications using its API may freely display and redistribute it.
+By submitting an app listing, you confirm that its icon and screenshots may be
+redistributed under the licenses recorded in the manifest. You dedicate your
+copyright and database rights in submitted metadata to the public domain under
+CC0 1.0.
 
 CC0 does not transfer ownership of application names or trademarks.
 
 ## License
 
 AppHub source code is licensed under the [GNU Affero General Public License,
-version 3 or later](LICENSE). Submitted metadata, icons, screenshots, and
-generated API data are available under [CC0 1.0](LICENSE-CC0).
+version 3 or later](LICENSE). Submitted metadata and generated API data are
+available under [CC0 1.0](LICENSE-CC0). Icons and screenshots retain the
+licenses recorded in each application manifest.
 
 The AppHub name and logo are not licensed for use as the identity of another
 project or service. Application names and trademarks remain the property of
