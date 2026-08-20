@@ -38,7 +38,7 @@ const expectedAccess = [
 const screenshotSchema = z
   .object({
     file: z.string().regex(/^screenshot-[1-9][0-9]*\.(?:png|jpe?g|webp|avif)$/i),
-    caption: z.string().min(1).optional(),
+    caption: z.string().min(1),
   })
   .strict();
 

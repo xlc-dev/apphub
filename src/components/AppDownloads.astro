@@ -42,12 +42,17 @@ const releaseDate = latest
                     {formatBytes(artifact.size)}
                   </p>
                 </div>
-                <ButtonLink class="text-center" href={artifact.url}>
+                <ButtonLink
+                  class="text-center"
+                  href={artifact.url}
+                  aria-label={`Download version ${formatVersion(latest.version)} for ${artifact.architecture}`}>
                   Download
                 </ButtonLink>
               </div>
               <details class="group mt-3 text-sm">
-                <summary class="focus-visible:outline-accent flex min-h-11 cursor-pointer list-none items-center justify-between gap-2 rounded-sm text-zinc-500 focus-visible:outline-2 focus-visible:outline-offset-2 dark:text-zinc-400">
+                <summary
+                  class="focus-visible:outline-accent flex min-h-11 cursor-pointer list-none items-center justify-between gap-2 rounded-sm text-zinc-500 focus-visible:outline-2 focus-visible:outline-offset-2 dark:text-zinc-400"
+                  aria-label={`SHA-256 checksum for ${artifact.architecture}`}>
                   SHA-256 checksum
                   <svg
                     class="size-4 shrink-0 transition-transform group-open:rotate-180 motion-reduce:transition-none"

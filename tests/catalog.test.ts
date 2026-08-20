@@ -55,9 +55,18 @@ describe("catalog schema", () => {
     expect(() => appSchema.parse({ ...app, screenshots: [] })).toThrow();
   });
 
+  test("requires screenshot descriptions", () => {
+    expect(() =>
+      appSchema.parse({ ...app, screenshots: [{ file: "screenshot-1.png" }] })
+    ).toThrow();
+  });
+
   test("rejects screenshot paths", () => {
     expect(() =>
-      appSchema.parse({ ...app, screenshots: [{ file: "../screenshot.png" }] })
+      appSchema.parse({
+        ...app,
+        screenshots: [{ file: "../screenshot.png", caption: "Main window" }],
+      })
     ).toThrow();
   });
 
@@ -65,7 +74,10 @@ describe("catalog schema", () => {
     expect(() =>
       appSchema.parse({
         ...app,
-        screenshots: [{ file: "screenshot-1.png" }, { file: "screenshot-1.png" }],
+        screenshots: [
+          { file: "screenshot-1.png", caption: "Main window" },
+          { file: "screenshot-1.png", caption: "Main window" },
+        ],
       })
     ).toThrow("Screenshot files must be unique");
   });

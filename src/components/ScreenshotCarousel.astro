@@ -6,7 +6,7 @@ interface Props {
   label: string;
   screenshots: Array<{
     url: string;
-    caption?: string | undefined;
+    caption: string;
   }>;
 }
 
@@ -22,43 +22,40 @@ const id = `${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-carousel`;
   aria-roledescription="carousel"
   role="region"
   data-carousel>
-  {
-    screenshots.length > 1 && (
-      <button
-        slot="actions"
-        class="focus-visible:outline-accent bg-surface/75 text-foreground hover:bg-surface dark:bg-foreground/75 dark:text-surface dark:hover:bg-foreground hidden size-11 shrink-0 cursor-pointer items-center justify-center rounded-lg focus-visible:outline-2 focus-visible:outline-offset-2"
-        type="button"
-        aria-label="Enlarge screenshots"
-        data-carousel-fullscreen>
-        <svg
-          data-carousel-expand-icon
-          aria-hidden="true"
-          viewBox="0 0 24 24"
-          class="size-5"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2">
-          <path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5" />
-        </svg>
-        <svg
-          class="hidden size-5"
-          data-carousel-close-icon
-          aria-hidden="true"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2">
-          <path d="m6 6 12 12M18 6 6 18" />
-        </svg>
-      </button>
-    )
-  }
+  <button
+    slot="actions"
+    class="focus-visible:outline-accent bg-surface/75 text-foreground hover:bg-surface dark:bg-foreground/75 dark:text-surface dark:hover:bg-foreground hidden size-11 shrink-0 cursor-pointer items-center justify-center rounded-lg focus-visible:outline-2 focus-visible:outline-offset-2"
+    type="button"
+    aria-label="Enlarge screenshots"
+    aria-expanded="false"
+    data-carousel-fullscreen>
+    <svg
+      data-carousel-expand-icon
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      class="size-5"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2">
+      <path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5"></path>
+    </svg>
+    <svg
+      class="hidden size-5"
+      data-carousel-close-icon
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2">
+      <path d="m6 6 12 12M18 6 6 18"></path>
+    </svg>
+  </button>
   <div
     class="relative sm:grid sm:grid-cols-[2.75rem_minmax(0,1fr)_2.75rem] sm:items-center sm:gap-3"
     data-carousel-frame>
     <div
       class="flex aspect-video snap-x snap-mandatory items-center overflow-x-auto overscroll-x-contain scroll-smooth rounded-xl motion-reduce:scroll-auto sm:col-start-2 sm:row-start-1"
-      aria-live="off"
+      aria-live="polite"
       data-carousel-track>
       {
         screenshots.map((screenshot, index) => (
@@ -72,13 +69,13 @@ const id = `${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-carousel`;
             <Image
               class="block max-h-full min-h-0 max-w-full rounded-xl object-contain"
               src={screenshot.url}
-              alt={screenshot.caption ?? ""}
+              alt=""
               width={1920}
               height={1080}
               loading={index === 0 ? "eager" : "lazy"}
               fetchpriority={index === 0 ? "high" : "auto"}
             />
-            {screenshot.caption && <figcaption class="mt-2">{screenshot.caption}</figcaption>}
+            <figcaption class="mt-2">{screenshot.caption}</figcaption>
           </figure>
         ))
       }
@@ -88,7 +85,7 @@ const id = `${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-carousel`;
       screenshots.length > 1 && (
         <>
           <button
-            class="bg-surface/75 text-foreground hover:bg-surface dark:bg-foreground/75 dark:text-surface dark:hover:bg-foreground absolute top-1/2 left-2 hidden size-11 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 sm:static sm:col-start-1 sm:row-start-1 sm:translate-y-0"
+            class="focus-visible:outline-accent bg-surface/75 text-foreground hover:bg-surface dark:bg-foreground/75 dark:text-surface dark:hover:bg-foreground absolute top-1/2 left-2 hidden size-11 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 sm:static sm:col-start-1 sm:row-start-1 sm:translate-y-0"
             type="button"
             aria-label="Previous screenshot"
             data-carousel-previous>
@@ -103,7 +100,7 @@ const id = `${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-carousel`;
             </svg>
           </button>
           <button
-            class="bg-surface/75 text-foreground hover:bg-surface dark:bg-foreground/75 dark:text-surface dark:hover:bg-foreground absolute top-1/2 right-2 hidden size-11 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 sm:static sm:col-start-3 sm:row-start-1 sm:translate-y-0"
+            class="focus-visible:outline-accent bg-surface/75 text-foreground hover:bg-surface dark:bg-foreground/75 dark:text-surface dark:hover:bg-foreground absolute top-1/2 right-2 hidden size-11 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 sm:static sm:col-start-3 sm:row-start-1 sm:translate-y-0"
             type="button"
             aria-label="Next screenshot"
             data-carousel-next>
@@ -157,46 +154,15 @@ const id = `${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-carousel`;
       const next = carousel.querySelector<HTMLButtonElement>("[data-carousel-next]");
       const fullscreen = carousel.querySelector<HTMLButtonElement>("[data-carousel-fullscreen]");
 
-      if (!track || !previous || !next) continue;
+      if (!track || !fullscreen) continue;
 
       carousel.dataset.initialized = "true";
-      previous.classList.replace("hidden", "flex");
-      next.classList.replace("hidden", "flex");
-      if (fullscreen) fullscreen.classList.replace("hidden", "flex");
+      previous?.classList.replace("hidden", "flex");
+      next?.classList.replace("hidden", "flex");
+      fullscreen.classList.replace("hidden", "flex");
 
       let current = 0;
-      let timer: number | undefined;
-      let manualUntil = 0;
-      let pointerInside = false;
-      let focusInside = false;
       const events = new AbortController();
-      const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
-
-      const canRotate = () =>
-        !reducedMotion.matches &&
-        !pointerInside &&
-        !focusInside &&
-        !document.hidden &&
-        Date.now() >= manualUntil;
-
-      const schedule = () => {
-        window.clearTimeout(timer);
-
-        const delay = Math.max(7000, manualUntil - Date.now());
-        timer = window.setTimeout(() => {
-          if (!carousel.isConnected) return;
-
-          if (canRotate()) show((current + 1) % slides.length);
-          schedule();
-        }, delay);
-
-        track.setAttribute("aria-live", canRotate() ? "off" : "polite");
-      };
-
-      const takeOver = () => {
-        manualUntil = Date.now() + 60000;
-        schedule();
-      };
 
       const update = () => {
         current = slides.reduce(
@@ -224,81 +190,77 @@ const id = `${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-carousel`;
         });
       };
 
-      previous.addEventListener("click", () => {
-        takeOver();
+      const setExpanded = (expanded: boolean) => {
+        carousel.toggleAttribute("data-carousel-expanded", expanded);
+        carousel.setAttribute("role", expanded ? "dialog" : "region");
+        carousel.toggleAttribute("aria-modal", expanded);
+        document.body.classList.toggle("overflow-hidden", expanded);
+        fullscreen.setAttribute("aria-expanded", String(expanded));
+        fullscreen.setAttribute(
+          "aria-label",
+          expanded ? "Close enlarged screenshots" : "Enlarge screenshots"
+        );
+      };
+
+      previous?.addEventListener("click", () => {
         show(current - 1);
       });
-      next.addEventListener("click", () => {
-        takeOver();
+      next?.addEventListener("click", () => {
         show(current + 1);
       });
       dots.forEach((dot, index) =>
         dot.addEventListener("click", (event) => {
           event.preventDefault();
-          takeOver();
           show(index);
         })
       );
-      fullscreen?.addEventListener("click", () => {
-        takeOver();
-
-        const expanded = carousel.toggleAttribute("data-carousel-expanded");
-        carousel.setAttribute("role", expanded ? "dialog" : "region");
-        if (expanded) carousel.setAttribute("aria-modal", "true");
-        else carousel.removeAttribute("aria-modal");
-        document.body.classList.toggle("overflow-hidden", expanded);
-        fullscreen.setAttribute(
-          "aria-label",
-          expanded ? "Close enlarged screenshots" : "Enlarge screenshots"
-        );
+      fullscreen.addEventListener("click", () => {
+        setExpanded(!carousel.hasAttribute("data-carousel-expanded"));
       });
-      track.addEventListener("pointerdown", takeOver, { passive: true });
-      track.addEventListener("keydown", takeOver);
       track.addEventListener("scrollend", update);
       track.addEventListener("scroll", update, { passive: true });
-      carousel.addEventListener("pointerenter", () => {
-        pointerInside = true;
-        schedule();
-      });
-      carousel.addEventListener("pointerleave", () => {
-        pointerInside = false;
-        schedule();
-      });
-      carousel.addEventListener("focusin", () => {
-        focusInside = true;
-        schedule();
-      });
-      carousel.addEventListener("focusout", () => {
-        focusInside = carousel.contains(document.activeElement);
-        schedule();
-      });
-      document.addEventListener("visibilitychange", schedule, { signal: events.signal });
       document.addEventListener(
         "keydown",
         (event) => {
-          if (event.key !== "Escape" || !carousel.hasAttribute("data-carousel-expanded")) return;
+          if (!carousel.hasAttribute("data-carousel-expanded")) return;
 
-          carousel.removeAttribute("data-carousel-expanded");
-          carousel.setAttribute("role", "region");
-          carousel.removeAttribute("aria-modal");
-          document.body.classList.remove("overflow-hidden");
-          fullscreen?.setAttribute("aria-label", "Enlarge screenshots");
-          fullscreen?.focus();
+          if (event.key === "Tab") {
+            const controls = Array.from(
+              carousel.querySelectorAll<HTMLElement>("button, a[href]")
+            ).filter((control) => !control.hidden);
+            const first = controls[0];
+            const last = controls.at(-1);
+
+            if (!carousel.contains(document.activeElement)) {
+              event.preventDefault();
+              (event.shiftKey ? last : first)?.focus();
+            } else if (event.shiftKey && document.activeElement === first) {
+              event.preventDefault();
+              last?.focus();
+            } else if (!event.shiftKey && document.activeElement === last) {
+              event.preventDefault();
+              first?.focus();
+            }
+
+            return;
+          }
+
+          if (event.key !== "Escape") return;
+
+          setExpanded(false);
+          fullscreen.focus();
         },
         { signal: events.signal }
       );
-      reducedMotion.addEventListener("change", schedule, { signal: events.signal });
       document.addEventListener(
         "astro:before-swap",
         () => {
-          window.clearTimeout(timer);
-          document.body.classList.remove("overflow-hidden");
+          setExpanded(false);
           events.abort();
         },
         { once: true }
       );
       update();
-      schedule();
     }
   }
 

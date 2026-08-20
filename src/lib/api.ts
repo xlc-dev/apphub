@@ -10,7 +10,7 @@ const imageTypeSchema = z.enum(["image/avif", "image/jpeg", "image/png", "image/
 
 const apiScreenshotSchema = z
   .object({
-    caption: z.string().min(1).optional(),
+    caption: z.string().min(1),
     url: z.string().min(1),
     type: imageTypeSchema,
   })
