@@ -30,5 +30,16 @@
       "source": "https://github.com/htop-dev/htop/blob/main/docs/images/screenshot.png"
     }
   ],
-  "expectedAccess": ["home-files"]
+  "sandbox": {
+    "network": "none",
+    "display": "none",
+    "audio": "none",
+    "processes": "control",
+    "ipc": false,
+    "filesystem": [],
+    "devices": [],
+    "portals": [],
+    "sessionBus": [],
+    "systemBus": []
+  }
 }
