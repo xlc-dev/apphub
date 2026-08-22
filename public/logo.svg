@@ -1,14 +1,11 @@
-<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect width="100" height="100" rx="5" fill="#0E0E0F"/>
-<rect width="100" height="100" rx="5" fill="url(#paint0_linear_2047_936)" fill-opacity="0.2"/>
-<rect x="41" y="19" width="10" height="60" fill="#E4565A"/>
-<path d="M31 19H41L27 79H17L31 19Z" fill="#E4565A"/>
-<path d="M82 48L75.35 58H25V48H82Z" fill="#E4565A"/>
-<rect x="64" y="19" width="10" height="60" fill="#E4565A"/>
-<defs>
-<linearGradient id="paint0_linear_2047_936" x1="99" y1="0.500001" x2="2" y2="100" gradientUnits="userSpaceOnUse">
-<stop stop-opacity="0"/>
-<stop offset="1" stop-color="#151516"/>
-</linearGradient>
-</defs>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <path d="m5 18 13-9h40l-13 9z" fill="#62a0ea" />
+  <path d="M5 18h40.5v41H9a4 4 0 0 1-4-4z" fill="#3584e4" />
+  <path d="m45 18 13-9v41l-13 9z" fill="#ff7800" />
+  <path d="M22 25h6v7h4l-7 6-7-6h4z" fill="#fff" />
+  <rect x="22" y="39" width="6" height="14" rx="1.5" fill="#fff" />
+  <rect x="18" y="43" width="14" height="6" rx="1.5" fill="#fff" />
+  <rect x="18" y="43" width="14" height="6" rx="1.5" fill="#fff" transform="rotate(45 25 46)" />
+  <rect x="18" y="43" width="14" height="6" rx="1.5" fill="#fff" transform="rotate(-45 25 46)" />
+  <circle cx="25" cy="46" r="2.5" fill="#3584e4" />
 </svg>
