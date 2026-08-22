@@ -11,10 +11,6 @@ const { title, id, description, meta } = Astro.props;
 
 <header class="mb-8">
   <h1 class="text-3xl font-bold sm:text-4xl" id={id}>{title}</h1>
-  {
-    description && (
-      <p class="mt-2 max-w-2xl text-lg leading-7 text-[var(--muted)]">{description}</p>
-    )
-  }
+  {description && <p class="mt-2 max-w-2xl leading-6 text-[var(--muted)]">{description}</p>}
   {meta && <p class="mt-6 text-sm text-[var(--muted)]">{meta}</p>}
 </header>
