@@ -1,0 +1,225 @@
+---
+import type { ApiApp } from "@/lib/api";
+import Link from "@/components/ui/Link.astro";
+import Button from "@/components/ui/Button.astro";
+import SourceBadge from "@/components/SourceBadge.astro";
+import { Image } from "astro:assets";
+
+interface Props {
+  apps: ApiApp[];
+  stars: Record<string, number>;
+}
+
+const { apps, stars } = Astro.props;
+---
+
+{
+  apps.length > 0 && (
+    <section
+      class="relative mx-auto max-w-4xl overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--card)] shadow-sm"
+      aria-label="Featured apps"
+      aria-roledescription="carousel"
+      data-featured-carousel>
+      <div
+        class="flex snap-x snap-mandatory overflow-x-auto overscroll-x-contain scroll-smooth motion-reduce:scroll-auto"
+        aria-live="off"
+        data-featured-track>
+        {apps.map((app, index) => (
+          <article
+            class="w-full shrink-0 snap-center"
+            id={`featured-app-${index + 1}`}
+            aria-label={`${index + 1} of ${apps.length}`}
+            aria-roledescription="slide"
+            data-featured-slide>
+            <Link
+              unstyled
+              class="group flex min-h-36 cursor-pointer items-center justify-center gap-4 px-14 pt-4 pb-10 hover:bg-[var(--card-raised)] focus-visible:outline-2 focus-visible:outline-offset-[-0.25rem] focus-visible:outline-[var(--primary)] sm:gap-5 sm:px-20"
+              href={`/apps/${app.slug}/`}>
+              <Image
+                class="size-14 shrink-0 rounded-xl sm:size-16"
+                src={app.icon.url}
+                alt=""
+                width={64}
+                height={64}
+                loading={index === 0 ? "eager" : "lazy"}
+                fetchpriority={index === 0 ? "high" : "auto"}
+              />
+              <div class="max-w-xl min-w-0">
+                <div class="flex flex-wrap items-center gap-2">
+                  <h2 class="text-xl font-semibold group-hover:text-[var(--primary)] sm:text-2xl">
+                    {app.name}
+                  </h2>
+                  <SourceBadge source={app.source} />
+                </div>
+                <p class="mt-1 line-clamp-2 max-w-2xl leading-6 text-[var(--muted)]">
+                  {app.summary}
+                </p>
+                {stars[app.slug] !== undefined && (
+                  <p class="mt-2 text-sm text-[var(--muted)]">
+                    ★ {stars[app.slug]!.toLocaleString("en")} stars
+                  </p>
+                )}
+              </div>
+            </Link>
+          </article>
+        ))}
+      </div>
+      {apps.length > 1 && (
+        <>
+          <Button
+            icon
+            class="absolute top-1/2 left-3 z-10 hidden -translate-y-1/2"
+            aria-label="Previous featured app"
+            data-featured-previous>
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 24 24"
+              class="size-4"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2">
+              <path d="m15 18-6-6 6-6" />
+            </svg>
+          </Button>
+          <nav
+            class="absolute bottom-2 left-1/2 z-10 flex -translate-x-1/2"
+            aria-label="Choose featured app">
+            {apps.map((_, index) => (
+              <Link
+                unstyled
+                class="group flex size-9 items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-[var(--primary)]"
+                href={`#featured-app-${index + 1}`}
+                aria-label={`Show featured app ${index + 1} of ${apps.length}`}
+                aria-current={index === 0 ? "true" : undefined}
+                data-featured-dot>
+                <span class="size-2.5 rounded-full bg-[var(--border)] group-hover:bg-[var(--primary)] group-aria-[current=true]:bg-[var(--primary)]" />
+              </Link>
+            ))}
+          </nav>
+          <Button
+            icon
+            class="absolute top-1/2 right-3 z-10 hidden -translate-y-1/2"
+            aria-label="Next featured app"
+            data-featured-next>
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 24 24"
+              class="size-4"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2">
+              <path d="m9 18 6-6-6-6" />
+            </svg>
+          </Button>
+        </>
+      )}
+    </section>
+  )
+}
+
+<script>
+  function initializeFeaturedCarousels() {
+    for (const carousel of document.querySelectorAll<HTMLElement>("[data-featured-carousel]")) {
+      if (carousel.dataset.initialized) continue;
+
+      const track = carousel.querySelector<HTMLElement>("[data-featured-track]");
+      const slides = Array.from(carousel.querySelectorAll<HTMLElement>("[data-featured-slide]"));
+      const dots = Array.from(carousel.querySelectorAll<HTMLAnchorElement>("[data-featured-dot]"));
+      const previous = carousel.querySelector<HTMLButtonElement>("[data-featured-previous]");
+      const next = carousel.querySelector<HTMLButtonElement>("[data-featured-next]");
+
+      if (!track || slides.length < 2 || !previous || !next) continue;
+
+      carousel.dataset.initialized = "true";
+      previous.classList.replace("hidden", "flex");
+      next.classList.replace("hidden", "flex");
+
+      let current = 0;
+      let temporarilyPaused = false;
+      let timer: number | undefined;
+      const events = new AbortController();
+      const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
+
+      const update = () => {
+        current = slides.reduce(
+          (nearest, slide, index) =>
+            Math.abs(track.scrollLeft - slide.offsetLeft) <
+            Math.abs(track.scrollLeft - slides[nearest]!.offsetLeft)
+              ? index
+              : nearest,
+          0
+        );
+        dots.forEach((dot, index) => {
+          if (index === current) dot.setAttribute("aria-current", "true");
+          else dot.removeAttribute("aria-current");
+        });
+      };
+
+      const show = (index: number) => {
+        slides[(index + slides.length) % slides.length]?.scrollIntoView({
+          behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+          block: "nearest",
+          inline: "center",
+        });
+      };
+
+      const schedule = () => {
+        if (timer !== undefined) clearInterval(timer);
+        timer = undefined;
+        if (reducedMotion.matches || temporarilyPaused || document.hidden) return;
+        timer = window.setInterval(() => show(current + 1), 5000);
+      };
+
+      previous.addEventListener("click", () => show(current - 1));
+      next.addEventListener("click", () => show(current + 1));
+      dots.forEach((dot, index) =>
+        dot.addEventListener("click", (event) => {
+          event.preventDefault();
+          show(index);
+        })
+      );
+      track.addEventListener("scroll", update, { passive: true });
+      carousel.addEventListener("mouseenter", () => {
+        temporarilyPaused = true;
+        schedule();
+      });
+      carousel.addEventListener("mouseleave", () => {
+        temporarilyPaused = false;
+        schedule();
+      });
+      carousel.addEventListener("focusin", () => {
+        temporarilyPaused = true;
+        schedule();
+      });
+      carousel.addEventListener("focusout", (event) => {
+        if (carousel.contains(event.relatedTarget as Node | null)) return;
+        temporarilyPaused = false;
+        schedule();
+      });
+      document.addEventListener("visibilitychange", schedule, { signal: events.signal });
+      reducedMotion.addEventListener("change", schedule, { signal: events.signal });
+      document.addEventListener(
+        "astro:before-swap",
+        () => {
+          if (timer !== undefined) clearInterval(timer);
+          events.abort();
+        },
+        { once: true }
+      );
+
+      schedule();
+    }
+  }
+
+  document.addEventListener("astro:page-load", initializeFeaturedCarousels);
+</script>
+
+<style>
+  [data-featured-track] {
+    scrollbar-width: none;
+  }
+
+  [data-featured-track]::-webkit-scrollbar {
+    display: none;
+  }
+</style>
