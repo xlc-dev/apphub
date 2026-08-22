@@ -1,5 +1,11 @@
 import { expect, test } from "bun:test";
+import { repositoryStarsSchema } from "@catalog/stars";
 import { fetchRepositoryStars, repositoryStarRequest } from "@/lib/repository-stars";
+
+test("validates stored repository stars", () => {
+  expect(repositoryStarsSchema.parse({ app: 42 })).toEqual({ app: 42 });
+  expect(() => repositoryStarsSchema.parse({ app: -1 })).toThrow();
+});
 
 async function rejectionMessage(promise: Promise<unknown>) {
   try {

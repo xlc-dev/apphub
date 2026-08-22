@@ -1,4 +1,4 @@
-name: Update download totals
+name: Update catalog statistics
 
 on:
   schedule:
@@ -8,7 +8,7 @@ on:
 permissions: {}
 
 concurrency:
-  group: download-totals
+  group: catalog-stats
   cancel-in-progress: false
 
 jobs:
@@ -29,22 +29,25 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
-      - name: Update download totals
+      - name: Update statistics
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: bun run update-downloads
+        run: |
+          bun run update-downloads
+          bun run update-stars
 
       - name: Validate changes
         run: bun run validate
 
       - name: Commit update
         run: |
-          if git diff --quiet -- catalog/downloads.json; then
+          if git diff --quiet -- catalog/downloads.json catalog/stars.json; then
             exit 0
           fi
 
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add catalog/downloads.json
-          git commit -m "chore: update download totals"
+
+          git add catalog/downloads.json catalog/stars.json
+          git commit -m "chore: update catalog statistics"
           git push
