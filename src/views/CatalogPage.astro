@@ -21,10 +21,10 @@ const catalog = await getApps();
 const categories = await getCategories();
 const stars = await getRepositoryStars();
 const heading = category ? `${categoryName} Apps` : "All apps";
-const state = paginationState(catalog.length, page);
 const displayedCatalog = category
   ? catalog.filter((app) => app.categories.includes(category))
   : catalog;
+const state = paginationState(displayedCatalog.length, page);
 ---
 
 <BaseLayout title={category ? heading : "Apps"} description={`${heading}.`}>
@@ -34,7 +34,7 @@ const displayedCatalog = category
       <CategorySidebar categories={categories} current={category} currentName={categoryName} />
       <div class="min-w-0">
         {
-          catalog.length > 0 ? (
+          displayedCatalog.length > 0 ? (
             <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
               {displayedCatalog.map((app, index) => (
                 <AppCard
