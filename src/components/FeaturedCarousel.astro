@@ -93,7 +93,7 @@ const { apps, stars } = Astro.props;
                 aria-current={index === 0 ? "true" : undefined}
                 data-featured-dot>
                 <span
-                  class="size-2.5 rounded-full bg-[var(--border)] group-hover:bg-[var(--primary)] group-aria-[current=true]:bg-[var(--primary)]"
+                  class="size-2.5 rounded-full bg-[var(--border)] group-hover:bg-[var(--primary)]"
                   aria-hidden="true"
                 />
               </Link>
@@ -168,5 +168,9 @@ const { apps, stars } = Astro.props;
 
   [data-featured-track]::-webkit-scrollbar {
     display: none;
+  }
+
+  [data-featured-dot][aria-current="true"] span {
+    background: #fff;
   }
 </style>
