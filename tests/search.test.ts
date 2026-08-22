@@ -34,9 +34,9 @@ describe("catalog search", () => {
     expect(matchesSearch("silvermarsh credential vault", "marsh")).toBe(true);
   });
 
-  test("fuzzily matches ordered characters within a word", () => {
-    expect(matchesSearch("silvermarsh credential vault", "slvrmrsh")).toBe(true);
-    expect(matchesSearch("silvermarsh credential vault", "hrmvs")).toBe(false);
+  test("does not fuzzily match ordered characters", () => {
+    expect(matchesSearch("silvermarsh credential vault", "slvrmrsh")).toBe(false);
+    expect(matchesSearch("alternatives", "lev")).toBe(false);
   });
 
   test("matches multiple terms in any order", () => {
