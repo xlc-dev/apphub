@@ -87,12 +87,15 @@ const { apps, stars } = Astro.props;
             {apps.map((_, index) => (
               <Link
                 unstyled
-                class="group flex size-9 items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-[var(--primary)]"
+                class="group flex size-8 cursor-pointer items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-[-0.25rem]"
                 href={`#featured-app-${index + 1}`}
                 aria-label={`Show featured app ${index + 1} of ${apps.length}`}
                 aria-current={index === 0 ? "true" : undefined}
                 data-featured-dot>
-                <span class="size-2.5 rounded-full bg-[var(--border)] group-hover:bg-[var(--primary)] group-aria-[current=true]:bg-[var(--primary)]" />
+                <span
+                  class="size-2.5 rounded-full bg-[var(--border)] group-hover:bg-[var(--primary)] group-aria-[current=true]:bg-[var(--primary)]"
+                  aria-hidden="true"
+                />
               </Link>
             ))}
           </nav>
