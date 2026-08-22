@@ -60,7 +60,7 @@ export function downloadCounts(history: DownloadHistory, days?: number) {
   cutoff.setUTCDate(cutoff.getUTCDate() - days);
 
   const cutoffDate = cutoff.toISOString().slice(0, 10);
-  const baseline = history.snapshots.find((snapshot) => snapshot.date === cutoffDate);
+  const baseline = history.snapshots.findLast((snapshot) => snapshot.date <= cutoffDate);
 
   if (!baseline) {
     return null;
