@@ -1,12 +1,15 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import StoreAppCard from "@/components/StoreAppCard.astro";
+import AppCard from "@/components/AppCard.astro";
 import EmptyState from "@/components/ui/EmptyState.astro";
+import PaginatedList from "@/components/PaginatedList.astro";
 import Page from "@/components/ui/Page.astro";
 import PageHeader from "@/components/ui/PageHeader.astro";
 import { getNewApps } from "@/lib/api";
+import { getRepositoryStars } from "@/lib/repository-stars";
 
 const { apps, windowDays } = await getNewApps();
+const stars = await getRepositoryStars();
 ---
 
 <BaseLayout title="New apps" description={`Apps added to AppHub in the last ${windowDays} days.`}>
@@ -18,11 +21,11 @@ const { apps, windowDays } = await getNewApps();
           <h2 class="sr-only" id="new-apps-heading">
             Applications
           </h2>
-          <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <PaginatedList class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {apps.map((app, index) => (
-              <StoreAppCard app={app} priority={index < 3} />
+              <AppCard app={app} pageItem priority={index < 6} stars={stars[app.slug]} />
             ))}
-          </div>
+          </PaginatedList>
         </section>
       ) : (
         <EmptyState>No new apps are available.</EmptyState>

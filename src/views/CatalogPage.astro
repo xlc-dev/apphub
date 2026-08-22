@@ -1,12 +1,13 @@
 ---
 import AppCard from "@/components/AppCard.astro";
+import CategorySidebar from "@/components/CategorySidebar.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import EmptyState from "@/components/ui/EmptyState.astro";
-import Link from "@/components/ui/Link.astro";
 import Page from "@/components/ui/Page.astro";
 import PageHeader from "@/components/ui/PageHeader.astro";
+import PaginatedList from "@/components/PaginatedList.astro";
 import { getApps, getCategories } from "@/lib/api";
-import { categoryPath } from "@/lib/categories";
+import { getRepositoryStars } from "@/lib/repository-stars";
 
 interface Props {
   category?: string;
@@ -15,47 +16,46 @@ interface Props {
 
 const { category, categoryName } = Astro.props;
 const catalog = await getApps();
-const apps = category ? catalog.filter((app) => app.categories.includes(category)) : catalog;
 const categories = await getCategories();
+const stars = await getRepositoryStars();
 const heading = category ? `${categoryName} Apps` : "All apps";
 ---
 
 <BaseLayout title={category ? heading : "Apps"} description={`${heading}.`}>
   <Page>
-    <PageHeader title={heading} />
-    <nav class="flex flex-wrap gap-3" aria-label="Categories">
-      <Link filter href="/apps/" aria-current={category ? undefined : "page"}>All</Link>
-      {
-        categories.map(({ id, name }) => (
-          <Link filter href={categoryPath(id)} aria-current={id === category ? "page" : undefined}>
-            {name}
-          </Link>
-        ))
-      }
-    </nav>
-    {
-      apps.length > 0 ? (
-        <div class="mt-8 grid gap-6 md:grid-cols-2">
-          {apps.map((app, index) => (
-            <AppCard app={app} priority={index < 4} />
-          ))}
+    <PageHeader title={heading} id="catalog-heading" />
+    <div class="grid gap-8 lg:grid-cols-[13rem_minmax(0,1fr)]">
+      <CategorySidebar categories={categories} current={category} currentName={categoryName} />
+      <div class="min-w-0">
+        {
+          catalog.length > 0 ? (
+            <PaginatedList class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+              {catalog.map((app, index) => (
+                <AppCard
+                  app={app}
+                  categoryMatch={!category || app.categories.includes(category)}
+                  pageItem
+                  priority={index < 6}
+                  stars={stars[app.slug]}
+                />
+              ))}
+            </PaginatedList>
+          ) : (
+            <EmptyState>No apps are available.</EmptyState>
+          )
+        }
+        <div class="mt-8" hidden data-search-empty>
+          <EmptyState>No apps match these filters.</EmptyState>
         </div>
-      ) : (
-        <div class="mt-8">
-          <EmptyState>No apps are available.</EmptyState>
-        </div>
-      )
-    }
-    <div class="mt-8" hidden data-search-empty>
-      <EmptyState>No apps match your search.</EmptyState>
+      </div>
     </div>
   </Page>
 </BaseLayout>
 
 <script>
-  import { matchesSearch } from "@/lib/search";
+  import { catalogMatchState } from "@/lib/catalog-filter";
 
-  function initializeCatalogSearch() {
+  function initializeCatalogFilters() {
     const form = document.querySelector<HTMLFormElement>("[data-catalog-search]");
 
     if (!form || form.dataset.initialized) return;
@@ -64,45 +64,158 @@ const heading = category ? `${categoryName} Apps` : "All apps";
     const status = form.querySelector<HTMLElement>("[data-search-status]");
     const apps = Array.from(document.querySelectorAll<HTMLElement>("[data-catalog-app]"));
     const empty = document.querySelector<HTMLElement>("[data-search-empty]");
+    const heading = document.querySelector<HTMLElement>("#catalog-heading");
+    const options = Array.from(
+      document.querySelectorAll<HTMLAnchorElement>("[data-category-option]")
+    );
+    const clearOptions = Array.from(
+      document.querySelectorAll<HTMLAnchorElement>("[data-category-clear]")
+    );
 
-    if (!input || !status || !empty) return;
+    if (!input || !status || !empty || !heading) return;
 
     form.dataset.initialized = "true";
     form.hidden = false;
 
-    const filter = () => {
+    const selected = new Set<string>();
+    const slugToId = new Map(
+      options.map((option) => [option.dataset.categorySlug!, option.dataset.categoryId!])
+    );
+    const idToSlug = new Map(
+      options.map((option) => [option.dataset.categoryId!, option.dataset.categorySlug!])
+    );
+    const names = new Map(
+      options.map((option) => [option.dataset.categoryId!, option.dataset.categoryName!])
+    );
+    const events = new AbortController();
+
+    const syncControls = () => {
+      for (const option of options) {
+        option.setAttribute("role", "checkbox");
+        option.setAttribute("aria-checked", String(selected.has(option.dataset.categoryId!)));
+      }
+      for (const option of clearOptions) {
+        option.setAttribute("role", "checkbox");
+        option.setAttribute("aria-checked", String(selected.size === 0));
+      }
+
+      const selectedNames = [...selected].map((id) => names.get(id)!);
+      const summary =
+        selectedNames.length === 0
+          ? "All categories"
+          : selectedNames.length === 1
+            ? selectedNames[0]!
+            : `${selectedNames.length} categories`;
+      document.querySelectorAll<HTMLElement>("[data-category-summary]").forEach((item) => {
+        item.textContent = summary;
+      });
+      heading.textContent =
+        selectedNames.length === 0
+          ? "All apps"
+          : selectedNames.length === 1
+            ? `${selectedNames[0]!} Apps`
+            : `Apps in ${selectedNames.length} categories`;
+    };
+
+    const filter = (resetPage = true) => {
       const query = input.value.trim().toLowerCase();
       let matches = 0;
 
       for (const app of apps) {
-        app.hidden = !matchesSearch(app.dataset.searchValue!, query);
-        if (!app.hidden) matches++;
+        const appCategories = app.dataset.appCategories!.split(" ");
+        const state = catalogMatchState(app.dataset.searchValue!, query, appCategories, selected);
+        app.dataset.searchMatch = String(state.search);
+        app.dataset.categoryMatch = String(state.category);
+        if (state.match) matches++;
       }
 
-      empty.hidden = query === "" || matches !== 0;
+      document
+        .querySelector<HTMLElement>("[data-paginated-list]")
+        ?.dispatchEvent(new CustomEvent("apphub:filter", { detail: { resetPage } }));
+
+      empty.hidden = matches !== 0;
       status.textContent =
-        query === "" ? "" : `${matches} ${matches === 1 ? "app" : "apps"} found`;
+        query === "" && selected.size === 0
+          ? ""
+          : `${matches} ${matches === 1 ? "app" : "apps"} found`;
+      syncControls();
     };
 
-    const parameters = new URLSearchParams(location.search);
-    input.value = parameters.get("q") ?? "";
+    const updateUrl = () => {
+      const url = new URL(form.action);
+      const query = input.value.trim();
+      if (query) url.searchParams.set("q", query);
+      for (const id of selected) {
+        const slug = idToSlug.get(id);
+        if (slug) url.searchParams.append("category", slug);
+      }
+      history.pushState({}, "", url);
+    };
 
-    input.addEventListener("input", filter);
+    const readUrl = () => {
+      selected.clear();
+      const parameters = new URLSearchParams(location.search);
+      const slugs = parameters.getAll("category");
+      if (slugs.length > 0) {
+        slugs.forEach((slug) => {
+          const id = slugToId.get(slug);
+          if (id) selected.add(id);
+        });
+      } else if (location.pathname !== new URL(form.action).pathname) {
+        options
+          .filter((option) => option.hasAttribute("data-category-selected"))
+          .forEach((option) => selected.add(option.dataset.categoryId!));
+      }
+      input.value = parameters.get("q") ?? "";
+    };
+
+    readUrl();
+
+    input.addEventListener("input", () => filter());
     form.addEventListener("submit", (event) => {
       event.preventDefault();
 
-      const url = new URL(location.href);
-      const query = input.value.trim();
-
-      if (query) url.searchParams.set("q", query);
-      else url.searchParams.delete("q");
-
-      history.replaceState({}, "", url);
+      updateUrl();
       filter();
     });
+    for (const option of options) {
+      const toggle = () => {
+        const id = option.dataset.categoryId!;
+        if (selected.has(id)) selected.delete(id);
+        else selected.add(id);
+        updateUrl();
+        filter();
+      };
+      option.addEventListener("click", (event) => {
+        event.preventDefault();
+        toggle();
+      });
+      option.addEventListener("keydown", (event) => {
+        if (event.key !== " ") return;
+        event.preventDefault();
+        toggle();
+      });
+    }
+    for (const option of clearOptions) {
+      option.addEventListener("click", (event) => {
+        event.preventDefault();
+        selected.clear();
+        updateUrl();
+        filter();
+      });
+    }
+    addEventListener(
+      "popstate",
+      () => {
+        readUrl();
+        filter(false);
+      },
+      { signal: events.signal }
+    );
+    document.addEventListener("astro:before-swap", () => events.abort(), { once: true });
 
-    filter();
+    filter(false);
   }
 
-  document.addEventListener("astro:page-load", initializeCatalogSearch);
+  document.addEventListener("astro:page-load", initializeCatalogFilters);
 </script>

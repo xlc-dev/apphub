@@ -6,7 +6,9 @@ import Link from "@/components/ui/Link.astro";
 import Page from "@/components/ui/Page.astro";
 import { routePath } from "@/lib/paths";
 import PageHeader from "@/components/ui/PageHeader.astro";
+import PaginatedList from "@/components/PaginatedList.astro";
 import { getRanking, type RankingPeriod } from "@/lib/api";
+import { getRepositoryStars } from "@/lib/repository-stars";
 
 interface Props {
   title: string;
@@ -17,6 +19,7 @@ interface Props {
 const { title, description, period } = Astro.props;
 const { entries: ranking } = await getRanking(period);
 const path = routePath(Astro.url.pathname);
+const stars = await getRepositoryStars();
 ---
 
 <BaseLayout title={title} description={description}>
@@ -36,24 +39,21 @@ const path = routePath(Astro.url.pathname);
     </nav>
     {
       ranking === null ? (
-        <div class="mt-8">
-          <EmptyState>Download history is not available yet.</EmptyState>
-        </div>
+        <EmptyState class="mt-8">Download history is not available yet.</EmptyState>
       ) : ranking.length === 0 ? (
-        <div class="mt-8">
-          <EmptyState>No download data is available.</EmptyState>
-        </div>
+        <EmptyState class="mt-8">No download data is available.</EmptyState>
       ) : (
-        <ol class="mt-8 grid gap-6 pl-6 sm:pl-8">
+        <PaginatedList class="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3" label="ranking">
           {ranking.map(({ app, downloads }, index) => (
-            <li>
-              <AppCard app={app} priority={index < 4} />
-              <p class="text-sm text-zinc-500 dark:text-zinc-400">
-                {downloads.toLocaleString("en")} downloads
-              </p>
-            </li>
+            <AppCard
+              app={app}
+              detail={`${index + 1}. ${downloads.toLocaleString("en")} downloads`}
+              pageItem
+              priority={index < 6}
+              stars={stars[app.slug]}
+            />
           ))}
-        </ol>
+        </PaginatedList>
       )
     }
   </Page>
