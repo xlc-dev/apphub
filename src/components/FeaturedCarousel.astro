@@ -33,7 +33,7 @@ const { apps, stars } = Astro.props;
             data-featured-slide>
             <Link
               unstyled
-              class="group flex min-h-36 cursor-pointer items-center justify-center gap-4 px-14 pt-4 pb-10 hover:bg-[var(--card-raised)] focus-visible:outline-2 focus-visible:outline-offset-[-0.25rem] focus-visible:outline-[var(--primary)] sm:gap-5 sm:px-20"
+              class="flex min-h-36 cursor-pointer items-center justify-center gap-4 px-14 pt-4 pb-10 hover:bg-[var(--card-raised)] focus-visible:ring-[3px] focus-visible:ring-[color-mix(in_srgb,var(--primary)_20%,transparent)] focus-visible:outline-none focus-visible:ring-inset sm:gap-5 sm:px-20"
               href={`/apps/${app.slug}/`}>
               <Image
                 class="size-14 shrink-0 rounded-xl sm:size-16"
@@ -46,9 +46,7 @@ const { apps, stars } = Astro.props;
               />
               <div class="max-w-xl min-w-0">
                 <div class="flex flex-wrap items-center gap-2">
-                  <h2 class="text-xl font-semibold group-hover:text-[var(--primary)] sm:text-2xl">
-                    {app.name}
-                  </h2>
+                  <h2 class="text-xl font-semibold sm:text-2xl">{app.name}</h2>
                   <SourceBadge source={app.source} />
                 </div>
                 <p class="mt-1 line-clamp-2 max-w-2xl leading-6 text-[var(--muted)]">

@@ -1,16 +1,18 @@
 ---
 import type { HTMLAttributes } from "astro/types";
 import { sitePath } from "@/lib/paths";
+import { buttonClasses, type ButtonSize, type ButtonVariant } from "@/components/ui/button";
 
-type Props = HTMLAttributes<"a">;
-const { href, class: className, ...attributes } = Astro.props;
+interface Props extends HTMLAttributes<"a"> {
+  size?: ButtonSize;
+  variant?: ButtonVariant;
+}
+
+const { href, size = "large", variant = "primary", class: className, ...attributes } = Astro.props;
 ---
 
 <a
   {...attributes}
   href={typeof href === "string" ? sitePath(href) : href}
-  class:list={[
-    "inline-block min-h-11 rounded-lg bg-[var(--primary)] px-4 py-2.5 font-semibold text-[var(--primary-text)] hover:bg-[var(--primary-hover)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)]",
-    className,
-  ]}><slot /></a
+  class:list={[buttonClasses(variant, size), className]}><slot /></a
 >

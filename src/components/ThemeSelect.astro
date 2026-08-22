@@ -12,8 +12,10 @@ const modes: ThemeMode[] = ["system", "light", "dark"];
 
 <details class="relative" data-theme-menu>
   <summary
-    class="flex min-h-10 min-w-10 cursor-pointer list-none items-center justify-center rounded-lg border border-[var(--border)] bg-[var(--control-bg)] hover:bg-[var(--card-raised)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)] [&::-webkit-details-marker]:hidden"
+    class="flex size-9 cursor-pointer list-none items-center justify-center rounded-md border border-[var(--border)] bg-[var(--control-bg)] shadow-sm hover:bg-[var(--card-raised)] focus-visible:border-[var(--primary)] focus-visible:ring-[3px] focus-visible:ring-[color-mix(in_srgb,var(--primary)_20%,transparent)] focus-visible:outline-none [&::-webkit-details-marker]:hidden"
     aria-label="Theme"
+    aria-haspopup="menu"
+    aria-expanded="false"
     title="Theme"
     data-theme-summary>
     {
@@ -25,7 +27,7 @@ const modes: ThemeMode[] = ["system", "light", "dark"];
     }
   </summary>
   <div
-    class="absolute right-0 z-50 mt-2 w-40 rounded-lg border border-[var(--border)] bg-[var(--card)] p-1 shadow-lg"
+    class="absolute right-0 z-50 mt-2 w-40 rounded-md border border-[var(--border)] bg-[var(--card)] p-1 shadow-md"
     id={id}
     role="menu"
     aria-label="Theme">
@@ -114,6 +116,22 @@ const modes: ThemeMode[] = ["system", "light", "dark"];
     );
     menus.forEach((menu) =>
       menu.addEventListener(
+        "toggle",
+        () => {
+          const summary = menu.querySelector<HTMLElement>("[data-theme-summary]");
+          summary?.setAttribute("aria-expanded", String(menu.open));
+
+          if (menu.open) {
+            menu
+              .querySelector<HTMLButtonElement>('[data-theme-option][aria-checked="true"]')
+              ?.focus();
+          }
+        },
+        { signal: events.signal }
+      )
+    );
+    menus.forEach((menu) =>
+      menu.addEventListener(
         "keydown",
         (event) => {
           const items = Array.from(menu.querySelectorAll<HTMLButtonElement>("[data-theme-option]"));
@@ -123,10 +141,18 @@ const modes: ThemeMode[] = ["system", "light", "dark"];
               ? current + 1
               : event.key === "ArrowUp"
                 ? current - 1
-                : undefined;
+                : event.key === "Home"
+                  ? 0
+                  : event.key === "End"
+                    ? items.length - 1
+                    : undefined;
           if (next !== undefined) {
             event.preventDefault();
-            items[(next + items.length) % items.length]?.focus();
+            items[
+              event.key === "Home" || event.key === "End"
+                ? next
+                : (next + items.length) % items.length
+            ]?.focus();
           } else if (event.key === "Escape") {
             menu.removeAttribute("open");
             menu.querySelector<HTMLElement>("[data-theme-summary]")?.focus();
