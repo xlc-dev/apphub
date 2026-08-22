@@ -1,0 +1,26 @@
+{
+  "appId": "it.mijorus.gearlever",
+  "releases": [
+    {
+      "version": "4.6.2-1@2026-08-22_1787395424",
+      "publishedAt": "2026-08-22T10:43:46Z",
+      "page": "https://github.com/pkgforge-dev/Gear-Lever-AppImage/releases/tag/4.6.2-1%402026-08-22_1787395424",
+      "artifacts": [
+        {
+          "architecture": "aarch64",
+          "name": "Gear_Lever-4.6.2-1-anylinux-aarch64.AppImage",
+          "url": "https://github.com/pkgforge-dev/Gear-Lever-AppImage/releases/download/4.6.2-1%402026-08-22_1787395424/Gear_Lever-4.6.2-1-anylinux-aarch64.AppImage",
+          "size": 65340124,
+          "sha256": "41cbac2a5c249a04d142236c8939df08223d9597a98a89509f1adda09cda547f"
+        },
+        {
+          "architecture": "x86_64",
+          "name": "Gear_Lever-4.6.2-1-anylinux-x86_64.AppImage",
+          "url": "https://github.com/pkgforge-dev/Gear-Lever-AppImage/releases/download/4.6.2-1%402026-08-22_1787395424/Gear_Lever-4.6.2-1-anylinux-x86_64.AppImage",
+          "size": 65644627,
+          "sha256": "b0f8634854557f82e819776bba53a3504d92a4acba41594241824acbfec46a4d"
+        }
+      ]
+    }
+  ]
+}

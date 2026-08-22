@@ -1,0 +1,50 @@
+{
+  "id": "it.mijorus.gearlever",
+  "name": "Gear Lever",
+  "summary": "Manage AppImages",
+  "description": "An utility to manage AppImages with ease! Gear lever will organize and manage AppImage files for you, generate desktop entries and app metadata, update apps in-place or keep multiple versions side-by-side.",
+  "projectLicense": "GPL-3.0-or-later",
+  "developer": {
+    "name": "Lorenzo Paderi",
+    "url": "https://gearlever.mijorus.it"
+  },
+  "homepage": "https://gearlever.mijorus.it",
+  "repository": "https://github.com/mijorus/gearlever",
+  "addedAt": "2026-08-22",
+  "keywords": ["appimage"],
+  "categories": ["Utility"],
+  "source": "community",
+  "releaseSource": {
+    "type": "github",
+    "repository": "pkgforge-dev/Gear-Lever-AppImage"
+  },
+  "icon": {
+    "license": "GPL-3.0-or-later",
+    "source": "https://dl.flathub.org/media/it/mijorus/gearlever/b62a60074be3bc956df4f9ab3e5bdadd/icons/128x128/it.mijorus.gearlever.png"
+  },
+  "screenshots": [
+    {
+      "file": "screenshot-1.png",
+      "caption": "Application showcase",
+      "license": "GPL-3.0-or-later",
+      "source": "https://dl.flathub.org/media/it/mijorus/gearlever/b62a60074be3bc956df4f9ab3e5bdadd/screenshots/image-1_orig.png"
+    }
+  ],
+  "sandbox": {
+    "network": "client",
+    "display": "wayland-and-x11",
+    "audio": "none",
+    "processes": "control",
+    "ipc": false,
+    "filesystem": [
+      {
+        "location": "home",
+        "access": "read-write"
+      }
+    ],
+    "devices": ["gpu", "fuse"],
+    "portals": ["file-chooser", "notifications", "open-uri", "settings"],
+    "sessionBus": [],
+    "systemBus": []
+  }
+}
