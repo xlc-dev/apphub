@@ -1,0 +1,49 @@
+{
+  "id": "com.github.neithern.g4music",
+  "name": "Gapless",
+  "summary": "Play your music elegantly",
+  "description": "Gapless (AKA: G4Music) is a light weight music player written in GTK4, focuses on large music collection. Features - Supports most music file types, Samba and any other remote protocols (depends on GIO and GStreamer). - Fast loading and parsing thousands of music files in very few seconds, monitor local changes. - Low memory usage for large music collection with album covers (embedded and external), no thumbnail caches to store. - Group and sorts by album/artist/title, shuffle list, full-text searching. - Fluent adaptive user interface for different screen (Desktop, Tablet, Mobile). - Gaussian blurred cover as background, follows GNOME light/dark mode. - Supports creating and editing playlists, drag cover to change order or add to another playlist. - Supports drag and drop with other apps. - Supports audio peaks visualizer. - Supports gapless playback. - Supports normalizing volume with ReplayGain. - Supports specified audio sink. - Supports MPRIS control.",
+  "projectLicense": "GPL-3.0-or-later",
+  "developer": {
+    "name": "Nanling",
+    "url": "https://gitlab.gnome.org/neithern/g4music"
+  },
+  "homepage": "https://gitlab.gnome.org/neithern/g4music",
+  "addedAt": "2026-08-22",
+  "keywords": ["music", "sound", "player"],
+  "categories": ["Music", "Audio", "AudioVideo"],
+  "source": "community",
+  "releaseSource": {
+    "type": "github",
+    "repository": "pkgforge-dev/Gapless-AppImage"
+  },
+  "icon": {
+    "license": "GPL-3.0-or-later",
+    "source": "https://dl.flathub.org/media/com/github/neithern.g4music/d93db3223240a62a7226f3c899dd5a48/icons/128x128/com.github.neithern.g4music.png"
+  },
+  "screenshots": [
+    {
+      "file": "screenshot-1.png",
+      "caption": "Main window",
+      "license": "GPL-3.0-or-later",
+      "source": "https://dl.flathub.org/media/com/github/neithern.g4music/d93db3223240a62a7226f3c899dd5a48/screenshots/image-1_orig.png"
+    }
+  ],
+  "sandbox": {
+    "network": "none",
+    "display": "wayland-and-x11",
+    "audio": "playback",
+    "processes": "isolated",
+    "ipc": false,
+    "filesystem": [
+      {
+        "location": "music",
+        "access": "read-only"
+      }
+    ],
+    "devices": ["gpu"],
+    "portals": ["file-chooser", "inhibit", "notifications", "settings"],
+    "sessionBus": [],
+    "systemBus": []
+  }
+}
