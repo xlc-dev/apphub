@@ -1,0 +1,26 @@
+{
+  "appId": "com.github.neithern.g4music",
+  "releases": [
+    {
+      "version": "4.6.2-1@2026-08-22_1787395237",
+      "publishedAt": "2026-08-22T10:40:38Z",
+      "page": "https://github.com/pkgforge-dev/Gapless-AppImage/releases/tag/4.6.2-1%402026-08-22_1787395237",
+      "artifacts": [
+        {
+          "architecture": "aarch64",
+          "name": "Gapless-4.6.2-1-anylinux-aarch64.AppImage",
+          "url": "https://github.com/pkgforge-dev/Gapless-AppImage/releases/download/4.6.2-1%402026-08-22_1787395237/Gapless-4.6.2-1-anylinux-aarch64.AppImage",
+          "size": 67295537,
+          "sha256": "18c5621de62656e1bcab994fc542b18b848881de74d63fb17cd991685b9a1ae3"
+        },
+        {
+          "architecture": "x86_64",
+          "name": "Gapless-4.6.2-1-anylinux-x86_64.AppImage",
+          "url": "https://github.com/pkgforge-dev/Gapless-AppImage/releases/download/4.6.2-1%402026-08-22_1787395237/Gapless-4.6.2-1-anylinux-x86_64.AppImage",
+          "size": 70537320,
+          "sha256": "bce85a23fb10fa46fc4a2ec238f5e34d67cf7ba6746ddb362647c16aa502596c"
+        }
+      ]
+    }
+  ]
+}
