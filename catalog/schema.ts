@@ -27,6 +27,18 @@ const releaseSourceSchema = z.discriminatedUnion("type", [
     })
     .strict(),
   z
+    .object({
+      type: z.literal("gitlab"),
+      repository: z.string().regex(/^[A-Za-z0-9_.-]+(?:\/[A-Za-z0-9_.-]+)+$/),
+    })
+    .strict(),
+  z
+    .object({
+      type: z.literal("codeberg"),
+      repository: z.string().regex(/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/),
+    })
+    .strict(),
+  z
     .object({ type: z.literal("feed"), url: httpsUrlSchema })
     .strict()
     .describe("Release metadata is read from an AppHub JSON release feed"),

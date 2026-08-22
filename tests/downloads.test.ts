@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { downloadCounts, downloadHistorySchema, sumGitHubDownloads } from "@catalog/downloads";
+import { downloadCounts, downloadHistorySchema, sumReleaseDownloads } from "@catalog/downloads";
 
 const history = downloadHistorySchema.parse({
   snapshots: [
@@ -52,10 +52,10 @@ describe("download history", () => {
   });
 });
 
-describe("GitHub download totals", () => {
+describe("forge download totals", () => {
   test("counts stable AppImage assets only", () => {
     expect(
-      sumGitHubDownloads([
+      sumReleaseDownloads([
         {
           draft: false,
           prerelease: false,

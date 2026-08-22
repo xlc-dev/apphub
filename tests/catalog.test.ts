@@ -96,9 +96,10 @@ describe("catalog schema", () => {
   });
 
   test("uses registered category identifiers", () => {
-    expect(appSchema.parse({ ...app, categories: ["Graphics", "2DGraphics"] }).categories).toEqual(
-      ["Graphics", "2DGraphics"]
-    );
+    expect(appSchema.parse({ ...app, categories: ["Graphics", "2DGraphics"] }).categories).toEqual([
+      "Graphics",
+      "2DGraphics",
+    ]);
     expect(() => appSchema.parse({ ...app, categories: ["Audio & Video"] })).toThrow();
     expect(() => appSchema.parse({ ...app, categories: ["MadeUpCategory"] })).toThrow();
     expect(() => appSchema.parse({ ...app, categories: ["Utility", "Utility"] })).toThrow(
@@ -183,6 +184,21 @@ describe("catalog schema", () => {
     expect(appSchema.parse({ ...app, releaseSource: { type: "direct" } }).releaseSource).toEqual({
       type: "direct",
     });
+  });
+
+  test("accepts GitLab and Codeberg release sources", () => {
+    expect(
+      appSchema.parse({
+        ...app,
+        releaseSource: { type: "gitlab", repository: "example/tools/app" },
+      }).releaseSource
+    ).toEqual({ type: "gitlab", repository: "example/tools/app" });
+    expect(
+      appSchema.parse({
+        ...app,
+        releaseSource: { type: "codeberg", repository: "example/app" },
+      }).releaseSource
+    ).toEqual({ type: "codeberg", repository: "example/app" });
   });
 
   test("accepts structured release feeds", () => {
@@ -344,6 +360,13 @@ describe("download hashing", () => {
     });
   });
 
+  test("measures a download without a published size", async () => {
+    expect(await hashDownload({ name: "fixture", url })).toEqual({
+      size: 6,
+      sha256: sha256(Buffer.from("apphub")),
+    });
+  });
+
   test("rejects downloads with a different published size", async () => {
     expect(await errorMessage(hashDownload({ name: "fixture", url, size: 7 }))).toContain(
       "differs from published size"
@@ -366,7 +389,9 @@ describe("image validation", () => {
       ["icon.avif", await image().avif().toBuffer()],
     ] as const;
 
-    for (const [file, data] of images) await validateImage(data, file, app.id, { icon: true });
+    for (const [file, data] of images) {
+      await validateImage(data, file, app.id, { icon: true });
+    }
   });
 
   test("rejects non-square icons", async () => {
