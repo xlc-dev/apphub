@@ -144,6 +144,8 @@ const id = `${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-carousel`;
 </Section>
 
 <script>
+  import { currentSlide, markCurrentSlide, showSlide } from "@/lib/carousel";
+
   function initializeCarousels() {
     for (const carousel of document.querySelectorAll<HTMLElement>("[data-carousel]")) {
       if (carousel.dataset.initialized) continue;
@@ -166,29 +168,8 @@ const id = `${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-carousel`;
       const events = new AbortController();
 
       const update = () => {
-        current = slides.reduce(
-          (nearest, slide, index) =>
-            Math.abs(track.scrollLeft - slide.offsetLeft) <
-            Math.abs(track.scrollLeft - slides[nearest]!.offsetLeft)
-              ? index
-              : nearest,
-          0
-        );
-
-        dots.forEach((dot, index) => {
-          if (index === current) dot.setAttribute("aria-current", "true");
-          else dot.removeAttribute("aria-current");
-        });
-      };
-
-      const show = (index: number) => {
-        const wrappedIndex = (index + slides.length) % slides.length;
-
-        slides[wrappedIndex]?.scrollIntoView({
-          behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
-          block: "nearest",
-          inline: "center",
-        });
+        current = currentSlide(track, slides);
+        markCurrentSlide(dots, current);
       };
 
       const setExpanded = (expanded: boolean) => {
@@ -204,15 +185,15 @@ const id = `${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-carousel`;
       };
 
       previous?.addEventListener("click", () => {
-        show(current - 1);
+        showSlide(slides, current - 1);
       });
       next?.addEventListener("click", () => {
-        show(current + 1);
+        showSlide(slides, current + 1);
       });
       dots.forEach((dot, index) =>
         dot.addEventListener("click", (event) => {
           event.preventDefault();
-          show(index);
+          showSlide(slides, index);
         })
       );
       fullscreen.addEventListener("click", () => {

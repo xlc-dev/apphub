@@ -118,6 +118,8 @@ const { apps, stars } = Astro.props;
 }
 
 <script>
+  import { currentSlide, markCurrentSlide, showSlide } from "@/lib/carousel";
+
   function initializeFeaturedCarousels() {
     for (const carousel of document.querySelectorAll<HTMLElement>("[data-featured-carousel]")) {
       if (carousel.dataset.initialized) continue;
@@ -135,79 +137,21 @@ const { apps, stars } = Astro.props;
       next.classList.replace("hidden", "flex");
 
       let current = 0;
-      let temporarilyPaused = false;
-      let timer: number | undefined;
-      const events = new AbortController();
-      const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
 
       const update = () => {
-        current = slides.reduce(
-          (nearest, slide, index) =>
-            Math.abs(track.scrollLeft - slide.offsetLeft) <
-            Math.abs(track.scrollLeft - slides[nearest]!.offsetLeft)
-              ? index
-              : nearest,
-          0
-        );
-        dots.forEach((dot, index) => {
-          if (index === current) dot.setAttribute("aria-current", "true");
-          else dot.removeAttribute("aria-current");
-        });
+        current = currentSlide(track, slides);
+        markCurrentSlide(dots, current);
       };
 
-      const show = (index: number) => {
-        slides[(index + slides.length) % slides.length]?.scrollIntoView({
-          behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
-          block: "nearest",
-          inline: "center",
-        });
-      };
-
-      const schedule = () => {
-        if (timer !== undefined) clearInterval(timer);
-        timer = undefined;
-        if (reducedMotion.matches || temporarilyPaused || document.hidden) return;
-        timer = window.setInterval(() => show(current + 1), 5000);
-      };
-
-      previous.addEventListener("click", () => show(current - 1));
-      next.addEventListener("click", () => show(current + 1));
+      previous.addEventListener("click", () => showSlide(slides, current - 1));
+      next.addEventListener("click", () => showSlide(slides, current + 1));
       dots.forEach((dot, index) =>
         dot.addEventListener("click", (event) => {
           event.preventDefault();
-          show(index);
+          showSlide(slides, index);
         })
       );
       track.addEventListener("scroll", update, { passive: true });
-      carousel.addEventListener("mouseenter", () => {
-        temporarilyPaused = true;
-        schedule();
-      });
-      carousel.addEventListener("mouseleave", () => {
-        temporarilyPaused = false;
-        schedule();
-      });
-      carousel.addEventListener("focusin", () => {
-        temporarilyPaused = true;
-        schedule();
-      });
-      carousel.addEventListener("focusout", (event) => {
-        if (carousel.contains(event.relatedTarget as Node | null)) return;
-        temporarilyPaused = false;
-        schedule();
-      });
-      document.addEventListener("visibilitychange", schedule, { signal: events.signal });
-      reducedMotion.addEventListener("change", schedule, { signal: events.signal });
-      document.addEventListener(
-        "astro:before-swap",
-        () => {
-          if (timer !== undefined) clearInterval(timer);
-          events.abort();
-        },
-        { once: true }
-      );
-
-      schedule();
     }
   }
 
