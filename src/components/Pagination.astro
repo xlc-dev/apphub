@@ -1,5 +1,6 @@
 ---
 import Link from "@/components/ui/Link.astro";
+import { buttonClasses } from "@/components/ui/button";
 
 interface Props {
   basePath: string;
@@ -11,8 +12,7 @@ interface Props {
 
 const { basePath, class: className, label, page, pages } = Astro.props;
 const pagePath = (number: number) => (number === 1 ? basePath : `${basePath}page/${number}/`);
-const controlClass =
-  "flex min-h-10 items-center rounded-lg border border-[var(--border)] bg-[var(--control-bg)] px-4 font-medium";
+const controlClass = buttonClasses("outline", "default");
 ---
 
 {
@@ -22,13 +22,7 @@ const controlClass =
       aria-label={label}
       data-static-pagination>
       {page > 1 ? (
-        <Link
-          unstyled
-          class:list={[
-            controlClass,
-            "hover:border-[var(--primary)] hover:bg-[var(--card-raised)] hover:text-[var(--primary)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)]",
-          ]}
-          href={pagePath(page - 1)}>
+        <Link unstyled class={controlClass} href={pagePath(page - 1)}>
           Previous
         </Link>
       ) : (
@@ -38,13 +32,7 @@ const controlClass =
         Page {page} of {pages}
       </span>
       {page < pages ? (
-        <Link
-          unstyled
-          class:list={[
-            controlClass,
-            "hover:border-[var(--primary)] hover:bg-[var(--card-raised)] hover:text-[var(--primary)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)]",
-          ]}
-          href={pagePath(page + 1)}>
+        <Link unstyled class={controlClass} href={pagePath(page + 1)}>
           Next
         </Link>
       ) : (

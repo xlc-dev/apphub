@@ -1,7 +1,7 @@
 ---
 import type { ApiApp } from "@/lib/api";
 import SourceBadge from "@/components/SourceBadge.astro";
-import Link from "@/components/ui/Link.astro";
+import CardLink from "@/components/ui/CardLink.astro";
 import { catalogSearchValue } from "@/lib/search";
 import { categoryName } from "@/lib/categories";
 import { Image } from "astro:assets";
@@ -37,9 +37,8 @@ const categories = visibleCategories.join(" · ");
   data-initial-visible={searchable ? String(visible) : undefined}
   hidden={!visible}
   data-search-value={searchValue}>
-  <Link
-    unstyled
-    class="flex h-full cursor-pointer gap-4 overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--card)] p-4 shadow-sm transition-[border-color,background-color] hover:border-[var(--primary)] hover:bg-[var(--card-raised)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)] motion-reduce:transition-none"
+  <CardLink
+    class="flex h-full cursor-pointer gap-4 overflow-hidden p-4"
     href={`/apps/${app.slug}/`}>
     <Image
       class="size-14 shrink-0 rounded-xl sm:size-16"
@@ -85,5 +84,5 @@ const categories = visibleCategories.join(" · ");
         </span>
       </div>
     </div>
-  </Link>
+  </CardLink>
 </article>

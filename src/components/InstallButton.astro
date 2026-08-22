@@ -1,5 +1,6 @@
 ---
 import type { ApiApp } from "@/lib/api";
+import Button from "@/components/ui/Button.astro";
 
 interface Props {
   artifacts: ApiApp["releases"][number]["artifacts"];
@@ -13,16 +14,19 @@ const artifacts = Astro.props.artifacts.map(({ architecture, sha256, url }) => (
 ---
 
 <div class="relative mt-4 inline-block" data-install data-artifacts={JSON.stringify(artifacts)}>
-  <button
-    class="min-h-11 cursor-pointer rounded-lg bg-[var(--primary)] px-4 py-2.5 font-semibold text-[var(--primary-text)] hover:bg-[var(--primary-hover)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)] aria-disabled:cursor-not-allowed aria-disabled:opacity-50"
-    type="button"
+  <Button
+    large
+    variant="primary"
+    class="aria-disabled:cursor-not-allowed aria-disabled:opacity-50"
     aria-disabled="true"
+    aria-expanded="false"
+    aria-controls="install-message"
     aria-describedby="install-message"
     data-install-button>
     Install
-  </button>
+  </Button>
   <div
-    class="max-w-80 rounded-lg border border-[var(--border)] bg-[var(--card)] p-4 text-sm text-[var(--foreground)] shadow-lg"
+    class="m-0 w-80 max-w-[calc(100vw-2rem)] rounded-md border border-[var(--border)] bg-[var(--card)] p-4 text-sm text-[var(--foreground)] shadow-md"
     id="install-message"
     popover
     data-install-message>
@@ -88,6 +92,34 @@ const artifacts = Astro.props.artifacts.map(({ architecture, sha256, url }) => (
       const architecture = await deviceArchitecture();
       const artifact = artifacts.find((candidate) => candidate.architecture === architecture);
 
+      const positionMessage = () => {
+        const gap = 8;
+        const margin = 16;
+        const buttonBounds = button.getBoundingClientRect();
+        const messageBounds = message.getBoundingClientRect();
+        const left = Math.min(
+          Math.max(buttonBounds.left, margin),
+          window.innerWidth - messageBounds.width - margin
+        );
+        const below = buttonBounds.bottom + gap;
+        const top =
+          below + messageBounds.height <= window.innerHeight - margin
+            ? below
+            : Math.max(margin, buttonBounds.top - messageBounds.height - gap);
+
+        message.style.left = `${left}px`;
+        message.style.top = `${top}px`;
+      };
+
+      const handleToggle = (event: ToggleEvent) => {
+        const open = event.newState === "open";
+        button.setAttribute("aria-expanded", String(open));
+        window[open ? "addEventListener" : "removeEventListener"]("resize", positionMessage);
+        window[open ? "addEventListener" : "removeEventListener"]("scroll", positionMessage, true);
+      };
+
+      message.addEventListener("toggle", handleToggle);
+
       if (artifact) {
         button.setAttribute("aria-disabled", "false");
       } else if (!architecture) {
@@ -100,7 +132,12 @@ const artifacts = Astro.props.artifacts.map(({ architecture, sha256, url }) => (
 
       button.addEventListener("click", () => {
         if (!artifact) {
-          message.showPopover();
+          if (message.matches(":popover-open")) {
+            message.hidePopover();
+          } else {
+            message.showPopover();
+            positionMessage();
+          }
           return;
         }
 

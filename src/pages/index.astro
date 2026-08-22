@@ -4,6 +4,7 @@ import AppCard from "@/components/AppCard.astro";
 import FeaturedCarousel from "@/components/FeaturedCarousel.astro";
 import EmptyState from "@/components/ui/EmptyState.astro";
 import Link from "@/components/ui/Link.astro";
+import CardLink from "@/components/ui/CardLink.astro";
 import Page from "@/components/ui/Page.astro";
 import Section from "@/components/ui/Section.astro";
 import { getApps, getCategories, getRanking } from "@/lib/api";
@@ -92,13 +93,12 @@ const releaseDate = new Intl.DateTimeFormat("en", { dateStyle: "medium" });
           <ul class="grid list-none grid-cols-2 gap-2 p-0 sm:gap-3 lg:grid-cols-3">
             {popularCategories.map(({ name, slug, count }) => (
               <li>
-                <Link
-                  unstyled
-                  class="flex min-h-16 items-center justify-between gap-2 rounded-xl border border-[var(--border)] bg-[var(--card)] px-3 py-3 font-semibold shadow-sm hover:border-[var(--primary)] hover:bg-[var(--card-raised)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)] sm:px-5"
+                <CardLink
+                  class="flex min-h-16 items-center justify-between gap-2 px-3 py-3 font-semibold sm:px-5"
                   href={`/categories/${slug}/`}>
                   <span>{name}</span>
                   <span class="text-sm font-normal text-[var(--muted)]">{count}</span>
-                </Link>
+                </CardLink>
               </li>
             ))}
           </ul>
