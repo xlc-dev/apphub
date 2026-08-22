@@ -30,8 +30,7 @@ const displayedCatalog = category
 <BaseLayout title={category ? heading : "Apps"} description={`${heading}.`}>
   <Page>
     <PageHeader title={heading} id="catalog-heading" />
-    <div
-      class="grid gap-8 lg:grid-cols-[13rem_minmax(0,1fr)] lg:grid-rows-[74rem_auto] xl:grid-rows-[50rem_auto]">
+    <div class="grid gap-8 lg:grid-cols-[13rem_minmax(0,1fr)]">
       <CategorySidebar categories={categories} current={category} currentName={categoryName} />
       <div class="min-w-0">
         {
