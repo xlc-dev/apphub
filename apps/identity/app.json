@@ -1,0 +1,45 @@
+{
+  "id": "org.gnome.gitlab.YaLTeR.Identity",
+  "name": "Identity",
+  "summary": "Compare images and videos",
+  "description": "A program for comparing multiple versions of an image or video.",
+  "projectLicense": "GPL-3.0-or-later",
+  "developer": {
+    "name": "Ivan Molodetskikh",
+    "url": "https://gitlab.gnome.org/YaLTeR/identity"
+  },
+  "homepage": "https://gitlab.gnome.org/YaLTeR/identity",
+  "repository": "https://gitlab.gnome.org/YaLTeR/identity",
+  "addedAt": "2026-08-22",
+  "keywords": ["movie", "film", "clip"],
+  "categories": ["Video", "AudioVideo", "Graphics", "2DGraphics", "Science"],
+  "source": "community",
+  "releaseSource": {
+    "type": "github",
+    "repository": "pkgforge-dev/Identity-AppImage"
+  },
+  "icon": {
+    "license": "GPL-3.0-or-later",
+    "source": "https://dl.flathub.org/media/org/gnome/gitlab.YaLTeR.Identity/4ba862e25a993efcf2ef39d5498b0251/icons/128x128/org.gnome.gitlab.YaLTeR.Identity.png"
+  },
+  "screenshots": [
+    {
+      "file": "screenshot-1.png",
+      "caption": "You can arrange videos in a row",
+      "license": "GPL-3.0-or-later",
+      "source": "https://dl.flathub.org/media/org/gnome/gitlab.YaLTeR.Identity/4ba862e25a993efcf2ef39d5498b0251/screenshots/image-1_orig.png"
+    }
+  ],
+  "sandbox": {
+    "network": "none",
+    "display": "wayland-and-x11",
+    "audio": "playback",
+    "processes": "isolated",
+    "ipc": false,
+    "filesystem": [],
+    "devices": ["gpu"],
+    "portals": ["file-chooser", "open-uri", "settings"],
+    "sessionBus": [],
+    "systemBus": []
+  }
+}
