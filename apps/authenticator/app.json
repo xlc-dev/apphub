@@ -1,0 +1,45 @@
+{
+  "id": "com.belmoussaoui.Authenticator",
+  "name": "Authenticator",
+  "summary": "Generate two-factor codes",
+  "description": "Simple application for generating Two-Factor Authentication Codes. Features: - Time-based/Counter-based/Steam methods support - SHA-1/SHA-256/SHA-512 algorithms support - QR code scanner using a camera or from a screenshot - Lock the application with a password - Beautiful UI - GNOME Shell search provider - Backup/Restore from/into known applications like FreeOTP+, Aegis (encrypted / plain-text), andOTP, Google Authenticator",
+  "projectLicense": "GPL-3.0-or-later",
+  "developer": {
+    "name": "Bilal Elmoussaoui",
+    "url": "https://gitlab.gnome.org/World/Authenticator"
+  },
+  "homepage": "https://gitlab.gnome.org/World/Authenticator",
+  "repository": "https://gitlab.gnome.org/World/Authenticator",
+  "addedAt": "2026-08-22",
+  "keywords": ["gnome", "gtk", "2fa"],
+  "categories": ["Security", "Utility"],
+  "source": "community",
+  "releaseSource": {
+    "type": "github",
+    "repository": "pkgforge-dev/Authenticator-AppImage"
+  },
+  "icon": {
+    "license": "GPL-3.0-or-later",
+    "source": "https://dl.flathub.org/media/com/belmoussaoui/Authenticator/cbb66aa59a1a410b7b890236a347dcf2/icons/128x128/com.belmoussaoui.Authenticator.png"
+  },
+  "screenshots": [
+    {
+      "file": "screenshot-1.png",
+      "caption": "Main Window",
+      "license": "GPL-3.0-or-later",
+      "source": "https://dl.flathub.org/media/com/belmoussaoui/Authenticator/cbb66aa59a1a410b7b890236a347dcf2/screenshots/image-1_orig.png"
+    }
+  ],
+  "sandbox": {
+    "network": "none",
+    "display": "wayland-and-x11",
+    "audio": "none",
+    "processes": "isolated",
+    "ipc": false,
+    "filesystem": [],
+    "devices": ["gpu"],
+    "portals": ["camera", "file-chooser", "secrets", "settings"],
+    "sessionBus": [],
+    "systemBus": []
+  }
+}
