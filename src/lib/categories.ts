@@ -22,5 +22,5 @@ export function categorySlug(category: string) {
 }
 
 export function categoryPath(category: string) {
-  return `/categories/${categorySlug(category)}`;
+  return `/categories/${categorySlug(category)}/`;
 }

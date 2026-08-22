@@ -1,0 +1,94 @@
+---
+import Link from "@/components/ui/Link.astro";
+import { categoryPath } from "@/lib/categories";
+
+interface Props {
+  categories: Array<{ id: string; name: string; slug: string; count: number }>;
+  current?: string | undefined;
+  maxHeight: string;
+}
+
+const { categories, current, maxHeight } = Astro.props;
+const itemClass =
+  "group flex min-h-9 items-center gap-2 rounded-md px-2 text-sm hover:bg-[var(--card-raised)] focus-visible:outline-2 focus-visible:outline-[var(--primary)] aria-[checked=true]:bg-[var(--card-raised)] aria-[checked=true]:font-medium aria-[checked=true]:text-[var(--primary)]";
+---
+
+<div data-category-list>
+  <input
+    class="my-2 min-h-9 w-full rounded-md border border-[var(--border)] bg-[var(--control-bg)] px-2 text-sm outline-none focus-visible:border-[var(--primary)]"
+    type="search"
+    placeholder="Filter categories"
+    aria-label="Filter categories"
+    autocomplete="off"
+    hidden
+    data-category-search
+  />
+  <nav class:list={[maxHeight, "overflow-y-auto"]} aria-label="Categories">
+    <Link unstyled class={itemClass} href="/apps/" data-category-clear>
+      <span
+        class="flex size-4 items-center justify-center rounded border border-[var(--border)] group-aria-[checked=true]:border-[var(--primary)] group-aria-[checked=true]:bg-[var(--primary)] group-aria-[checked=true]:text-[var(--primary-text)]"
+        aria-hidden="true">
+        <svg
+          class="hidden size-3 group-aria-[checked=true]:block"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="3"><path d="m5 12 4 4L19 6"></path></svg
+        >
+      </span>
+      <span class="grow truncate">All apps</span>
+    </Link>
+    {
+      categories.map(({ id, name, slug, count }) => (
+        <Link
+          unstyled
+          class={itemClass}
+          href={categoryPath(id)}
+          data-category-option
+          data-category-id={id}
+          data-category-name={name}
+          data-category-slug={slug}
+          data-category-selected={id === current ? "" : undefined}
+          data-category-value={name.toLowerCase()}>
+          <>
+            <span
+              class="flex size-4 items-center justify-center rounded border border-[var(--border)] group-aria-[checked=true]:border-[var(--primary)] group-aria-[checked=true]:bg-[var(--primary)] group-aria-[checked=true]:text-[var(--primary-text)]"
+              aria-hidden="true">
+              <svg
+                class="hidden size-3 group-aria-[checked=true]:block"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="3">
+                <path d="m5 12 4 4L19 6" />
+              </svg>
+            </span>
+            <span class="grow truncate">{name}</span>
+            <span class="text-xs text-[var(--muted)]">{count}</span>
+          </>
+        </Link>
+      ))
+    }
+  </nav>
+</div>
+
+<script>
+  function initializeCategoryLists() {
+    for (const list of document.querySelectorAll<HTMLElement>("[data-category-list]")) {
+      const input = list.querySelector<HTMLInputElement>("[data-category-search]");
+      const options = Array.from(list.querySelectorAll<HTMLElement>("[data-category-option]"));
+      if (!input || input.dataset.initialized) continue;
+
+      input.dataset.initialized = "true";
+      input.hidden = false;
+      input.addEventListener("input", () => {
+        const query = input.value.trim().toLowerCase();
+        options.forEach(
+          (option) => (option.hidden = !option.dataset.categoryValue!.includes(query))
+        );
+      });
+    }
+  }
+
+  document.addEventListener("astro:page-load", initializeCategoryLists);
+</script>

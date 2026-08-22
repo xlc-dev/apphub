@@ -5,14 +5,12 @@ import { sitePath } from "@/lib/paths";
 interface Props extends HTMLAttributes<"a"> {
   accent?: boolean;
   chip?: boolean;
-  filter?: boolean;
   unstyled?: boolean;
 }
 
 const {
   accent = false,
   chip = false,
-  filter = false,
   unstyled = false,
   href,
   class: className,
@@ -26,13 +24,11 @@ const {
   class:list={[
     unstyled
       ? undefined
-      : filter
-        ? "focus-visible:outline-accent aria-[current=page]:border-accent aria-[current=page]:text-accent dark:border-control dark:bg-surface-raised dark:hover:bg-control flex min-h-11 items-center rounded-lg border border-zinc-200 bg-white px-5 py-2.5 text-base font-medium hover:bg-zinc-100 focus-visible:outline-2 focus-visible:outline-offset-2"
-        : chip
-          ? "focus-visible:outline-accent aria-[current=page]:bg-accent dark:aria-[current=page]:bg-accent aria-[current=page]:text-foreground dark:bg-control dark:hover:bg-surface-raised dark:aria-[current=page]:text-foreground rounded-full bg-zinc-100 px-2.5 py-1 text-xs font-medium text-zinc-700 hover:bg-zinc-200 focus-visible:outline-2 focus-visible:outline-offset-2 dark:text-zinc-300"
-          : accent
-            ? "text-accent focus-visible:outline-accent rounded-sm hover:underline focus-visible:outline-2 focus-visible:outline-offset-2"
-            : "focus-visible:outline-accent aria-[current=page]:border-accent rounded-sm border-b-2 border-transparent hover:text-zinc-600 focus-visible:outline-2 focus-visible:outline-offset-2 dark:hover:text-zinc-300",
+      : chip
+        ? "rounded-full bg-[var(--control-bg)] px-2.5 py-1 text-xs font-medium text-[var(--muted)] hover:bg-[var(--card-raised)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)] aria-[current=page]:bg-[var(--primary)] aria-[current=page]:text-[var(--primary-text)]"
+        : accent
+          ? "rounded-sm text-[var(--primary)] hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)]"
+          : "rounded-sm border-b-2 border-transparent hover:text-[var(--primary)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)] aria-[current=page]:border-[var(--primary)] aria-[current=page]:text-[var(--primary)]",
     className,
   ]}><slot /></a
 >

@@ -10,7 +10,7 @@ const { href, class: className, ...attributes } = Astro.props;
   {...attributes}
   href={typeof href === "string" ? sitePath(href) : href}
   class:list={[
-    "bg-surface text-foreground dark:bg-foreground dark:text-surface focus-visible:outline-accent inline-block min-h-11 rounded-lg px-4 py-2.5 font-semibold hover:bg-zinc-700 focus-visible:outline-2 focus-visible:outline-offset-2 dark:hover:bg-zinc-200",
+    "inline-block min-h-11 rounded-lg bg-[var(--primary)] px-4 py-2.5 font-semibold text-[var(--primary-text)] hover:bg-[var(--primary-hover)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)]",
     className,
   ]}><slot /></a
 >

@@ -4,9 +4,10 @@ import Link from "@/components/ui/Link.astro";
 
 interface Props {
   app: ApiApp;
+  stars?: number | undefined;
 }
 
-const { app } = Astro.props;
+const { app, stars } = Astro.props;
 const website = new URL(app.homepage);
 const websiteLabel = website.hostname.replace(/^www\./, "") || app.homepage;
 const repository = app.repository && new URL(app.repository);
@@ -16,12 +17,12 @@ const repositoryLabel =
 ---
 
 <aside
-  class="dark:border-control self-start rounded-xl border border-zinc-200 p-5"
+  class="self-start rounded-xl border border-[var(--border)] bg-[var(--card)] p-5 shadow-sm"
   aria-labelledby="details-heading">
   <h2 class="m-0 text-xl font-bold" id="details-heading">Details</h2>
   <dl class="mb-0 grid gap-4">
     <div>
-      <dt class="text-sm text-zinc-500 dark:text-zinc-400">Developer</dt>
+      <dt class="text-sm text-[var(--muted)]">Developer</dt>
       <dd class="m-0 mt-1">
         {
           app.developer.url ? (
@@ -33,11 +34,11 @@ const repositoryLabel =
       </dd>
     </div>
     <div>
-      <dt class="text-sm text-zinc-500 dark:text-zinc-400">License</dt>
+      <dt class="text-sm text-[var(--muted)]">License</dt>
       <dd class="m-0 mt-1">{app.projectLicense}</dd>
     </div>
     <div>
-      <dt class="text-sm text-zinc-500 dark:text-zinc-400">Website</dt>
+      <dt class="text-sm text-[var(--muted)]">Website</dt>
       <dd class="m-0 mt-1 break-words">
         <Link href={app.homepage}>{websiteLabel}</Link>
       </dd>
@@ -45,9 +46,19 @@ const repositoryLabel =
     {
       app.repository && (
         <div>
-          <dt class="text-sm text-zinc-500 dark:text-zinc-400">Repository</dt>
+          <dt class="text-sm text-[var(--muted)]">Repository</dt>
           <dd class="m-0 mt-1 break-words">
             <Link href={app.repository}>{repositoryLabel}</Link>
+          </dd>
+        </div>
+      )
+    }
+    {
+      app.repository && stars !== undefined && (
+        <div>
+          <dt class="text-sm text-[var(--muted)]">Repository stars</dt>
+          <dd class="m-0 mt-1">
+            <Link href={app.repository}>★ {stars.toLocaleString("en")}</Link>
           </dd>
         </div>
       )

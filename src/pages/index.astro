@@ -1,12 +1,15 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import StoreAppCard from "@/components/StoreAppCard.astro";
+import AppCard from "@/components/AppCard.astro";
+import FeaturedCarousel from "@/components/FeaturedCarousel.astro";
 import EmptyState from "@/components/ui/EmptyState.astro";
 import Link from "@/components/ui/Link.astro";
 import Page from "@/components/ui/Page.astro";
 import Section from "@/components/ui/Section.astro";
 import { getApps, getCategories, getRanking } from "@/lib/api";
 import { formatVersion } from "@/lib/format";
+import { featuredAppSlugs } from "@/lib/featured";
+import { getRepositoryStars } from "@/lib/repository-stars";
 
 const catalog = await getApps();
 const recentlyUpdated = catalog
@@ -19,14 +22,22 @@ const recentlyUpdated = catalog
 const ranking = await getRanking("week");
 const trending = ranking.entries?.slice(0, 3) ?? null;
 const categories = await getCategories();
+const stars = await getRepositoryStars();
+const featured = featuredAppSlugs
+  .flatMap((slug) => {
+    const app = catalog.find((entry) => entry.slug === slug);
+    return app ? [app] : [];
+  })
+  .slice(0, 3);
 const releaseDate = new Intl.DateTimeFormat("en", { dateStyle: "medium" });
 ---
 
 <BaseLayout title="AppHub" description="The Universal AppImage Store.">
   <Page>
-    <header>
-      <h1 class="text-3xl font-bold sm:text-4xl">The Universal AppImage Store</h1>
-    </header>
+    <h1 class="sr-only">AppHub</h1>
+    <div>
+      <FeaturedCarousel apps={featured} stars={stars} />
+    </div>
 
     <Section title="Recently updated">
       <Link slot="actions" href="/apps/" aria-label="More recently updated apps">More</Link>
@@ -34,10 +45,12 @@ const releaseDate = new Intl.DateTimeFormat("en", { dateStyle: "medium" });
         recentlyUpdated.length > 0 ? (
           <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {recentlyUpdated.map((app, index) => (
-              <StoreAppCard
+              <AppCard
                 app={app}
                 detail={`${formatVersion(app.releases[0]!.version)} · ${releaseDate.format(new Date(app.releases[0]!.publishedAt))}`}
+                headingLevel={3}
                 priority={index < 3}
+                stars={stars[app.slug]}
               />
             ))}
           </div>
@@ -57,7 +70,12 @@ const releaseDate = new Intl.DateTimeFormat("en", { dateStyle: "medium" });
         ) : (
           <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {trending.map(({ app, downloads }) => (
-              <StoreAppCard app={app} detail={`${downloads.toLocaleString("en")} downloads`} />
+              <AppCard
+                app={app}
+                detail={`${downloads.toLocaleString("en")} downloads`}
+                headingLevel={3}
+                stars={stars[app.slug]}
+              />
             ))}
           </div>
         )
@@ -65,7 +83,6 @@ const releaseDate = new Intl.DateTimeFormat("en", { dateStyle: "medium" });
     </Section>
 
     <Section title="Categories">
-      <Link slot="actions" href="/categories/" aria-label="More categories">More</Link>
       {
         categories.length > 0 ? (
           <ul class="grid list-none gap-3 p-0 sm:grid-cols-2 lg:grid-cols-3">
@@ -73,10 +90,10 @@ const releaseDate = new Intl.DateTimeFormat("en", { dateStyle: "medium" });
               <li>
                 <Link
                   unstyled
-                  class="dark:border-control dark:hover:bg-surface-raised flex min-h-16 items-center justify-between rounded-xl border border-zinc-200 px-5 py-3 font-semibold hover:bg-zinc-50 focus-visible:outline-2 focus-visible:outline-offset-2"
+                  class="flex min-h-16 items-center justify-between rounded-xl border border-[var(--border)] bg-[var(--card)] px-5 py-3 font-semibold shadow-sm hover:border-[var(--primary)] hover:bg-[var(--card-raised)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)]"
                   href={`/categories/${slug}/`}>
                   <span>{name}</span>
-                  <span class="text-sm font-normal text-zinc-500 dark:text-zinc-400">{count}</span>
+                  <span class="text-sm font-normal text-[var(--muted)]">{count}</span>
                 </Link>
               </li>
             ))}

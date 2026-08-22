@@ -17,13 +17,13 @@ const releaseDate = latest
 ---
 
 <section
-  class="dark:border-control rounded-xl border border-zinc-200 p-5"
+  class="rounded-xl border border-[var(--border)] bg-[var(--card)] p-5 shadow-sm"
   aria-labelledby="downloads-heading">
   <h2 class="text-xl font-bold" id="downloads-heading">Downloads</h2>
   {
     latest ? (
       <>
-        <p class="text-zinc-500 dark:text-zinc-400">
+        <p class="text-[var(--muted)]">
           <Link href={latest.page}>Version {formatVersion(latest.version)}</Link>
           {releaseDate && (
             <>
@@ -32,15 +32,13 @@ const releaseDate = latest
             </>
           )}
         </p>
-        <div class="dark:divide-control mt-4 divide-y divide-zinc-200">
+        <div class="mt-4 divide-y divide-[var(--border)]">
           {latest.artifacts.map((artifact) => (
             <div class="py-4 first:pt-0 last:pb-0">
               <div class="grid gap-3">
                 <div>
                   <p class="m-0 font-semibold">{artifact.architecture}</p>
-                  <p class="m-0 mt-1 text-sm text-zinc-500 dark:text-zinc-400">
-                    {formatBytes(artifact.size)}
-                  </p>
+                  <p class="m-0 mt-1 text-sm text-[var(--muted)]">{formatBytes(artifact.size)}</p>
                 </div>
                 <ButtonLink
                   class="text-center"
@@ -51,7 +49,7 @@ const releaseDate = latest
               </div>
               <details class="group mt-3 text-sm">
                 <summary
-                  class="focus-visible:outline-accent flex min-h-11 cursor-pointer list-none items-center justify-between gap-2 rounded-sm text-zinc-500 focus-visible:outline-2 focus-visible:outline-offset-2 dark:text-zinc-400"
+                  class="flex min-h-11 cursor-pointer list-none items-center justify-between gap-2 rounded-sm text-[var(--muted)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)]"
                   aria-label={`SHA-256 checksum for ${artifact.architecture}`}>
                   SHA-256 checksum
                   <svg

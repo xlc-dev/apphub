@@ -40,15 +40,12 @@ const capabilities = [
   title="Sandbox access"
   headingId="capabilities-heading"
   aria-labelledby="capabilities-heading">
-  <p class="text-sm leading-6 text-zinc-500 dark:text-zinc-400">
-    Minimum host access required by this app. A compatible manager should deny everything else.
-  </p>
-  <dl class="mt-4 grid gap-3 sm:grid-cols-2">
+  <dl class="grid gap-3 sm:grid-cols-2">
     {
       capabilities.map(([name, value]) => (
-        <div class="dark:border-control rounded-xl border border-zinc-200 p-4">
+        <div class="rounded-xl border border-[var(--border)] bg-[var(--card)] p-4">
           <dt class="font-semibold">{name}</dt>
-          <dd class="m-0 mt-1 text-sm text-zinc-600 capitalize dark:text-zinc-400">{value}</dd>
+          <dd class="m-0 mt-1 text-sm text-[var(--muted)] capitalize">{value}</dd>
         </div>
       ))
     }

@@ -1,0 +1,34 @@
+---
+import CategoryList from "@/components/CategoryList.astro";
+
+interface Props {
+  categories: Array<{ id: string; name: string; slug: string; count: number }>;
+  current?: string | undefined;
+  currentName?: string | undefined;
+}
+
+const { categories, current, currentName } = Astro.props;
+---
+
+<details class="rounded-lg border border-[var(--border)] bg-[var(--card)] lg:hidden">
+  <summary class="flex min-h-10 cursor-pointer items-center justify-between px-3 py-2 font-medium">
+    <span data-category-summary>{currentName ?? "All categories"}</span><span aria-hidden="true"
+      >⌄</span
+    >
+  </summary>
+  <div class="border-t border-[var(--border)] p-2">
+    <CategoryList categories={categories} current={current} maxHeight="max-h-72" />
+  </div>
+</details>
+
+<aside class="hidden lg:block">
+  <div
+    class="sticky top-24 rounded-lg border border-[var(--border)] bg-[var(--card)] p-2 shadow-sm">
+    <p class="px-2 py-1 text-sm font-semibold">Categories</p>
+    <CategoryList
+      categories={categories}
+      current={current}
+      maxHeight="max-h-[calc(100vh-13rem)]"
+    />
+  </div>
+</aside>
