@@ -20,8 +20,8 @@ const lock = {
 } satisfies ReleaseLock;
 
 describe("GitHub release updates", () => {
-  test("ignores unsuitable releases older than the recorded boundary", () => {
-    const releases = githubSourceReleases(app, lock, [
+  test("sorts releases without mutating the source", () => {
+    const source = [
       {
         tag_name: "3.0",
         published_at: "2026-01-03T00:00:00Z",
@@ -60,8 +60,12 @@ describe("GitHub release updates", () => {
         prerelease: false,
         assets: [],
       },
-    ]);
+    ];
+    source.reverse();
+
+    const releases = githubSourceReleases(app, lock, source);
 
     expect(releases.map(({ version }) => version)).toEqual(["3.0", "2.0"]);
+    expect(source.map(({ tag_name }) => tag_name)).toEqual(["1.0", "2.0", "3.0"]);
   });
 });

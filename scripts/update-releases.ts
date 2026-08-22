@@ -103,7 +103,7 @@ export function githubSourceReleases(app: App, lock: ReleaseLock, releases: GitH
   if (app.releaseSource.type !== "github") throw new Error("Expected a GitHub source");
 
   const source = app.releaseSource.repository;
-  const ordered = releases.sort((left, right) =>
+  const ordered = [...releases].sort((left, right) =>
     right.published_at.localeCompare(left.published_at)
   );
   const current = selectCurrent(

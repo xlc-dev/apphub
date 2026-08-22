@@ -21,7 +21,7 @@ const { title, description, page = 1, period } = Astro.props;
 const { entries: ranking } = await getRanking(period);
 const stars = await getRepositoryStars();
 const state = paginationState(ranking?.length ?? 0, page);
-const entries = ranking?.slice(state.start, state.end);
+const entries = ranking?.slice(state.start, state.end) ?? [];
 const basePath =
   period === "week"
     ? "/trending/"
@@ -51,7 +51,7 @@ const basePath =
       ) : (
         <>
           <div class="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {entries!.map(({ app, downloads }, index) => (
+            {entries.map(({ app, downloads }, index) => (
               <AppCard
                 app={app}
                 detail={`${state.start + index + 1}. ${downloads.toLocaleString("en")} downloads`}
