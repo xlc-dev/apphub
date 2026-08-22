@@ -1,0 +1,16 @@
+---
+import type { GetStaticPaths } from "astro";
+import RankingPage from "@/views/RankingPage.astro";
+import { rankingPagePaths } from "@/lib/static-pages";
+
+export const getStaticPaths = (() => rankingPagePaths("week")) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
+---
+
+<RankingPage
+  title="Trending this week"
+  description="Most downloaded AppImages this week."
+  period="week"
+  page={page}
+/>

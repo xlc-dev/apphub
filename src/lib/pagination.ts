@@ -1,4 +1,6 @@
-export function paginationState(total: number, requestedPage: number, pageSize = 24) {
+export const catalogPageSize = 18;
+
+export function paginationState(total: number, requestedPage: number, pageSize = catalogPageSize) {
   const pages = Math.max(1, Math.ceil(total / pageSize));
   const page = Math.min(Math.max(Number.isInteger(requestedPage) ? requestedPage : 1, 1), pages);
 

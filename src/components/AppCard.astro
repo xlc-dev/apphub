@@ -10,22 +10,22 @@ interface Props {
   app: ApiApp;
   detail?: string;
   headingLevel?: 2 | 3;
-  categoryMatch?: boolean;
-  pageItem?: boolean;
   priority?: boolean;
+  searchable?: boolean;
   stars?: number | undefined;
+  visible?: boolean;
 }
 
 const {
   app,
-  categoryMatch = true,
   detail,
   headingLevel = 2,
-  pageItem = false,
   priority = false,
+  searchable = false,
   stars,
+  visible = true,
 } = Astro.props;
-const searchValue = catalogSearchValue(app);
+const searchValue = searchable ? catalogSearchValue(app) : undefined;
 const visibleCategories = app.categories.slice(0, 2).map(categoryName);
 const hiddenCategoryCount = app.categories.length - visibleCategories.length;
 const categories = [
@@ -36,15 +36,13 @@ const categories = [
 
 <article
   class="min-w-0"
-  data-catalog-app
-  data-page-item={pageItem ? "" : undefined}
-  data-app-categories={app.categories.join(" ")}
-  data-category-match={String(categoryMatch)}
-  hidden={!categoryMatch}
+  data-catalog-app={searchable ? "" : undefined}
+  data-initial-visible={searchable ? String(visible) : undefined}
+  hidden={!visible}
   data-search-value={searchValue}>
   <Link
     unstyled
-    class="flex h-full min-h-36 cursor-pointer gap-4 rounded-lg border border-[var(--border)] bg-[var(--card)] p-4 shadow-sm transition-[border-color,background-color] hover:border-[var(--primary)] hover:bg-[var(--card-raised)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)] motion-reduce:transition-none"
+    class="flex h-full cursor-pointer gap-4 rounded-lg border border-[var(--border)] bg-[var(--card)] p-4 shadow-sm transition-[border-color,background-color] hover:border-[var(--primary)] hover:bg-[var(--card-raised)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)] motion-reduce:transition-none"
     href={`/apps/${app.slug}/`}>
     <Image
       class="size-14 shrink-0 rounded-xl sm:size-16"
