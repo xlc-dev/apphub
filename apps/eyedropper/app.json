@@ -1,0 +1,45 @@
+{
+  "id": "com.github.finefindus.eyedropper",
+  "name": "Eyedropper",
+  "summary": "Pick and format colors",
+  "description": "Enter or pick a color and view it in different formats. Features - Pick a Color - Edit the viewed color in a simple HSL editor - Enter a color in various formats - Convert colors into other formats such as Hex, RGB, HSV, HSL, CMYK, XYZ, CIE-Lab…",
+  "projectLicense": "GPL-3.0",
+  "developer": {
+    "name": "FineFindus",
+    "url": "https://apps.gnome.org/Eyedropper"
+  },
+  "homepage": "https://apps.gnome.org/Eyedropper",
+  "repository": "https://github.com/FineFindus/eyedropper",
+  "addedAt": "2026-08-22",
+  "keywords": ["gnome", "gtk", "color"],
+  "categories": ["Development", "Graphics", "Utility", "WebDevelopment"],
+  "source": "community",
+  "releaseSource": {
+    "type": "github",
+    "repository": "pkgforge-dev/Eyedropper-AppImage"
+  },
+  "icon": {
+    "license": "GPL-3.0",
+    "source": "https://dl.flathub.org/media/com/github/finefindus.eyedropper/57454c390f2673554cafcf7f346528da/icons/128x128/com.github.finefindus.eyedropper.png"
+  },
+  "screenshots": [
+    {
+      "file": "screenshot-1.png",
+      "caption": "Main window with a color in different formats",
+      "license": "GPL-3.0",
+      "source": "https://dl.flathub.org/media/com/github/finefindus.eyedropper/57454c390f2673554cafcf7f346528da/screenshots/image-1_orig.png"
+    }
+  ],
+  "sandbox": {
+    "network": "none",
+    "display": "wayland-and-x11",
+    "audio": "none",
+    "processes": "isolated",
+    "ipc": false,
+    "filesystem": [],
+    "devices": ["gpu"],
+    "portals": ["screenshot", "settings"],
+    "sessionBus": [],
+    "systemBus": []
+  }
+}
