@@ -10,7 +10,9 @@ test("routes links through base-aware components", async () => {
   const rawLinks: string[] = [];
 
   for await (const path of new Bun.Glob("src/**/*.astro").scan()) {
-    if (!allowed.has(path) && /<a(?:\s|>)/.test(await Bun.file(path).text())) rawLinks.push(path);
+    if (!allowed.has(path) && /<a(?:\s|>)/.test(await Bun.file(path).text())) {
+      rawLinks.push(path);
+    }
   }
 
   expect(rawLinks).toEqual([]);

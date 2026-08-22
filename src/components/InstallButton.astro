@@ -54,12 +54,16 @@ const artifacts = Astro.props.artifacts.map(({ architecture, sha256, url }) => (
           "bitness",
         ]);
         const normalized = normalizeArchitecture(architecture ?? "", bitness);
-        if (normalized) return normalized;
+        if (normalized) {
+          return normalized;
+        }
       } catch {}
     }
 
     const platform = normalizeArchitecture(navigator.platform);
-    if (platform) return platform;
+    if (platform) {
+      return platform;
+    }
 
     const userAgentArchitecture = navigator.userAgent.match(
       /(?:x86[_-]?64|amd64|i[3-6]86|aarch64|arm64|armv7l?|armhf|riscv64|ppc64le|s390x)/i
@@ -69,24 +73,30 @@ const artifacts = Astro.props.artifacts.map(({ architecture, sha256, url }) => (
 
   async function initializeInstallButtons() {
     for (const install of document.querySelectorAll<HTMLElement>("[data-install]")) {
-      if (install.dataset.initialized) continue;
+      if (install.dataset.initialized) {
+        continue;
+      }
       install.dataset.initialized = "true";
 
       const button = install.querySelector<HTMLButtonElement>("[data-install-button]");
       const message = install.querySelector<HTMLElement>("[data-install-message]");
-      if (!button || !message) continue;
+      if (!button || !message) {
+        continue;
+      }
 
       const artifacts = JSON.parse(install.dataset.artifacts ?? "[]") as Artifact[];
       const architecture = await deviceArchitecture();
       const artifact = artifacts.find((candidate) => candidate.architecture === architecture);
 
-      if (artifact) button.setAttribute("aria-disabled", "false");
-      else if (!architecture)
+      if (artifact) {
+        button.setAttribute("aria-disabled", "false");
+      } else if (!architecture) {
         message.textContent = "Your device architecture could not be detected.";
-      else if (artifacts.length === 1)
+      } else if (artifacts.length === 1) {
         message.textContent = `This AppImage is built for ${artifacts[0]!.architecture}, but your device reports ${architecture}.`;
-      else
+      } else {
         message.textContent = `This app does not provide an AppImage for your ${architecture} device.`;
+      }
 
       button.addEventListener("click", () => {
         if (!artifact) {

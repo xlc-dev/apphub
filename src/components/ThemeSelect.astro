@@ -60,11 +60,11 @@ const modes: ThemeMode[] = ["system", "light", "dark"];
 
   function initializeThemeMenus() {
     const menus = Array.from(document.querySelectorAll<HTMLDetailsElement>("[data-theme-menu]"));
-    if (menus.length === 0 || menus.every((menu) => menu.dataset.initialized)) return;
+    if (menus.length === 0 || menus.every((menu) => menu.dataset.initialized)) {
+      return;
+    }
 
-    const options = Array.from(
-      document.querySelectorAll<HTMLButtonElement>("[data-theme-option]")
-    );
+    const options = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-theme-option]"));
     const media = matchMedia("(prefers-color-scheme: dark)");
     const events = new AbortController();
 
@@ -98,6 +98,7 @@ const modes: ThemeMode[] = ["system", "light", "dark"];
     try {
       stored = localStorage.getItem("apphub-theme");
     } catch {}
+
     apply(parseThemeMode(stored));
     menus.forEach((menu) => (menu.dataset.initialized = "true"));
 
@@ -115,9 +116,7 @@ const modes: ThemeMode[] = ["system", "light", "dark"];
       menu.addEventListener(
         "keydown",
         (event) => {
-          const items = Array.from(
-            menu.querySelectorAll<HTMLButtonElement>("[data-theme-option]")
-          );
+          const items = Array.from(menu.querySelectorAll<HTMLButtonElement>("[data-theme-option]"));
           const current = items.indexOf(document.activeElement as HTMLButtonElement);
           const next =
             event.key === "ArrowDown"
@@ -140,7 +139,9 @@ const modes: ThemeMode[] = ["system", "light", "dark"];
       "click",
       (event) => {
         menus.forEach((menu) => {
-          if (!menu.contains(event.target as Node)) menu.removeAttribute("open");
+          if (!menu.contains(event.target as Node)) {
+            menu.removeAttribute("open");
+          }
         });
       },
       { signal: events.signal }
@@ -148,7 +149,9 @@ const modes: ThemeMode[] = ["system", "light", "dark"];
     media.addEventListener(
       "change",
       () => {
-        if (document.documentElement.dataset.themeMode === "system") apply("system");
+        if (document.documentElement.dataset.themeMode === "system") {
+          apply("system");
+        }
       },
       { signal: events.signal }
     );

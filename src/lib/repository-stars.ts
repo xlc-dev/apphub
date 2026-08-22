@@ -26,7 +26,9 @@ export function repositoryStarRequest(
       "X-GitHub-Api-Version": "2022-11-28",
     };
 
-    if (githubToken) headers.Authorization = `Bearer ${githubToken}`;
+    if (githubToken) {
+      headers.Authorization = `Bearer ${githubToken}`;
+    }
 
     return {
       url: `https://api.github.com/repos/${parts[0]}/${parts[1]}`,
@@ -59,14 +61,18 @@ export async function fetchRepositoryStars(
 ) {
   const request = repositoryStarRequest(repository, githubToken);
 
-  if (!request) return undefined;
+  if (!request) {
+    return undefined;
+  }
 
   const response = await fetcher(
     request.url,
     request.headers ? { headers: request.headers } : undefined
   );
 
-  if (!response.ok) throw new Error(`${response.status} ${response.statusText}`);
+  if (!response.ok) {
+    throw new Error(`${response.status} ${response.statusText}`);
+  }
 
   const data = z.record(z.string(), z.unknown()).parse(await response.json());
   return z.number().int().nonnegative().parse(data[request.field]);
@@ -78,7 +84,10 @@ async function loadRepositoryStars(): Promise<Record<string, number>> {
       JSON.parse(await readFile(`${process.cwd()}/.cache/repository-stars.json`, "utf8"))
     );
   } catch (error) {
-    if ((error as NodeJS.ErrnoException).code === "ENOENT") return {};
+    if ((error as NodeJS.ErrnoException).code === "ENOENT") {
+      return {};
+    }
+
     throw error;
   }
 }

@@ -125,7 +125,9 @@ const { apps, stars } = Astro.props;
 
   function initializeFeaturedCarousels() {
     for (const carousel of document.querySelectorAll<HTMLElement>("[data-featured-carousel]")) {
-      if (carousel.dataset.initialized) continue;
+      if (carousel.dataset.initialized) {
+        continue;
+      }
 
       const track = carousel.querySelector<HTMLElement>("[data-featured-track]");
       const slides = Array.from(carousel.querySelectorAll<HTMLElement>("[data-featured-slide]"));
@@ -133,7 +135,9 @@ const { apps, stars } = Astro.props;
       const previous = carousel.querySelector<HTMLButtonElement>("[data-featured-previous]");
       const next = carousel.querySelector<HTMLButtonElement>("[data-featured-next]");
 
-      if (!track || slides.length < 2 || !previous || !next) continue;
+      if (!track || slides.length < 2 || !previous || !next) {
+        continue;
+      }
 
       carousel.dataset.initialized = "true";
       previous.classList.replace("hidden", "flex");

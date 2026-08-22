@@ -19,7 +19,10 @@ export function showSlide(slides: HTMLElement[], index: number) {
 
 export function markCurrentSlide(dots: HTMLAnchorElement[], current: number) {
   dots.forEach((dot, index) => {
-    if (index === current) dot.setAttribute("aria-current", "true");
-    else dot.removeAttribute("aria-current");
+    if (index === current) {
+      dot.setAttribute("aria-current", "true");
+    } else {
+      dot.removeAttribute("aria-current");
+    }
   });
 }

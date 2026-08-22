@@ -49,7 +49,9 @@ const itemClass =
     for (const list of document.querySelectorAll<HTMLElement>("[data-category-list]")) {
       const input = list.querySelector<HTMLInputElement>("[data-category-search]");
       const options = Array.from(list.querySelectorAll<HTMLElement>("[data-category-option]"));
-      if (!input || input.dataset.initialized) continue;
+      if (!input || input.dataset.initialized) {
+        continue;
+      }
 
       input.dataset.initialized = "true";
       input.hidden = false;

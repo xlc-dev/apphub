@@ -87,7 +87,7 @@ const id = `${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-carousel`;
         <>
           <Button
             icon
-            class="absolute left-2 top-1/2 z-10 hidden size-11 -translate-y-1/2 rounded-full sm:static sm:col-start-1 sm:row-start-1 sm:translate-y-0"
+            class="absolute top-1/2 left-2 z-10 hidden size-11 -translate-y-1/2 rounded-full sm:static sm:col-start-1 sm:row-start-1 sm:translate-y-0"
             aria-label="Previous screenshot"
             data-carousel-previous>
             <svg
@@ -102,7 +102,7 @@ const id = `${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-carousel`;
           </Button>
           <Button
             icon
-            class="absolute right-2 top-1/2 z-10 hidden size-11 -translate-y-1/2 rounded-full sm:static sm:col-start-3 sm:row-start-1 sm:translate-y-0"
+            class="absolute top-1/2 right-2 z-10 hidden size-11 -translate-y-1/2 rounded-full sm:static sm:col-start-3 sm:row-start-1 sm:translate-y-0"
             aria-label="Next screenshot"
             data-carousel-next>
             <svg
@@ -148,7 +148,9 @@ const id = `${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-carousel`;
 
   function initializeCarousels() {
     for (const carousel of document.querySelectorAll<HTMLElement>("[data-carousel]")) {
-      if (carousel.dataset.initialized) continue;
+      if (carousel.dataset.initialized) {
+        continue;
+      }
 
       const track = carousel.querySelector<HTMLElement>("[data-carousel-track]");
       const slides = Array.from(carousel.querySelectorAll<HTMLElement>("[data-carousel-slide]"));
@@ -157,7 +159,9 @@ const id = `${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-carousel`;
       const next = carousel.querySelector<HTMLButtonElement>("[data-carousel-next]");
       const fullscreen = carousel.querySelector<HTMLButtonElement>("[data-carousel-fullscreen]");
 
-      if (!track || !fullscreen) continue;
+      if (!track || !fullscreen) {
+        continue;
+      }
 
       carousel.dataset.initialized = "true";
       previous?.classList.replace("hidden", "flex");
@@ -204,7 +208,9 @@ const id = `${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-carousel`;
       document.addEventListener(
         "keydown",
         (event) => {
-          if (!carousel.hasAttribute("data-carousel-expanded")) return;
+          if (!carousel.hasAttribute("data-carousel-expanded")) {
+            return;
+          }
 
           if (event.key === "Tab") {
             const controls = Array.from(
@@ -227,7 +233,9 @@ const id = `${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-carousel`;
             return;
           }
 
-          if (event.key !== "Escape") return;
+          if (event.key !== "Escape") {
+            return;
+          }
 
           setExpanded(false);
           fullscreen.focus();

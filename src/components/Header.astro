@@ -119,7 +119,9 @@ const links = [
     const menu = document.querySelector<HTMLDetailsElement>("[data-mobile-menu]");
     const summary = menu?.querySelector<HTMLElement>("[data-mobile-menu-summary]");
     const content = menu?.querySelector<HTMLElement>("[data-mobile-menu-content]");
-    if (!menu || !summary || !content || menu.dataset.initialized) return;
+    if (!menu || !summary || !content || menu.dataset.initialized) {
+      return;
+    }
 
     menu.dataset.initialized = "true";
     const duration = matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 150;
@@ -152,7 +154,9 @@ const links = [
 
   function showHeaderSearch() {
     const search = document.querySelector<HTMLFormElement>("[data-catalog-search]");
-    if (search) search.hidden = false;
+    if (search) {
+      search.hidden = false;
+    }
   }
 
   document.addEventListener("astro:page-load", () => {
