@@ -1,4 +1,6 @@
 import { readFile } from "node:fs/promises";
+import { root } from "@catalog/core";
+import { repositoryStarsSchema } from "@catalog/stars";
 import { z } from "zod";
 
 interface StarRequest {
@@ -9,7 +11,6 @@ interface StarRequest {
 
 type Fetcher = (input: string, init?: RequestInit) => Promise<Response>;
 
-const starMapSchema = z.record(z.string(), z.number().int().nonnegative());
 let starsPromise: Promise<Record<string, number>> | undefined;
 
 export function repositoryStarRequest(
@@ -79,17 +80,9 @@ export async function fetchRepositoryStars(
 }
 
 async function loadRepositoryStars(): Promise<Record<string, number>> {
-  try {
-    return starMapSchema.parse(
-      JSON.parse(await readFile(`${process.cwd()}/.cache/repository-stars.json`, "utf8"))
-    );
-  } catch (error) {
-    if ((error as NodeJS.ErrnoException).code === "ENOENT") {
-      return {};
-    }
-
-    throw error;
-  }
+  return repositoryStarsSchema.parse(
+    JSON.parse(await readFile(new URL("catalog/stars.json", root), "utf8"))
+  );
 }
 
 export function getRepositoryStars(): Promise<Record<string, number>> {
