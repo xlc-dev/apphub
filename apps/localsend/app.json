@@ -1,0 +1,44 @@
+{
+  "id": "org.localsend.localsend_app",
+  "name": "LocalSend",
+  "summary": "Share files to nearby devices",
+  "description": "This app allows you to send files and messages over the local LAN network. In contrast to most alternatives, no external servers are needed. Everything happens locally in the wifi network.",
+  "projectLicense": "Apache-2.0",
+  "developer": {
+    "name": "Tien Do Nam",
+    "url": "https://localsend.org/"
+  },
+  "homepage": "https://localsend.org/",
+  "repository": "https://github.com/localsend/localsend",
+  "addedAt": "2026-08-22",
+  "categories": ["Utility"],
+  "source": "community",
+  "releaseSource": {
+    "type": "github",
+    "repository": "pkgforge-dev/LocalSend-AppImage"
+  },
+  "icon": {
+    "license": "Apache-2.0",
+    "source": "https://dl.flathub.org/media/org/localsend/localsend_app/e1bb6e9a29b498c0a48de1a5683c652a/icons/128x128/org.localsend.localsend_app.png"
+  },
+  "screenshots": [
+    {
+      "file": "screenshot-1.png",
+      "caption": "Receiving interface",
+      "license": "Apache-2.0",
+      "source": "https://dl.flathub.org/media/org/localsend/localsend_app/e1bb6e9a29b498c0a48de1a5683c652a/screenshots/image-1_orig.png"
+    }
+  ],
+  "sandbox": {
+    "network": "client-and-server",
+    "display": "wayland-and-x11",
+    "audio": "none",
+    "processes": "isolated",
+    "ipc": false,
+    "filesystem": [],
+    "devices": ["gpu"],
+    "portals": ["file-chooser", "notifications", "open-uri", "settings"],
+    "sessionBus": [],
+    "systemBus": []
+  }
+}

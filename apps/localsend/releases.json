@@ -1,0 +1,19 @@
+{
+  "appId": "org.localsend.localsend_app",
+  "releases": [
+    {
+      "version": "1.17.0-3@2026-08-01_1785586137",
+      "publishedAt": "2026-08-01T12:08:58Z",
+      "page": "https://github.com/pkgforge-dev/LocalSend-AppImage/releases/tag/1.17.0-3%402026-08-01_1785586137",
+      "artifacts": [
+        {
+          "architecture": "x86_64",
+          "name": "LocalSend-1.17.0-3-anylinux-x86_64.AppImage",
+          "url": "https://github.com/pkgforge-dev/LocalSend-AppImage/releases/download/1.17.0-3%402026-08-01_1785586137/LocalSend-1.17.0-3-anylinux-x86_64.AppImage",
+          "size": 40279251,
+          "sha256": "2af94705441bdebdcc9f6182cdedbb4cccc2677aed68fb17cd5c1d365803e810"
+        }
+      ]
+    }
+  ]
+}
