@@ -7,7 +7,7 @@ interface Props {
   class?: string;
 }
 
-const { label = "apps", pageSize = 12, class: className } = Astro.props;
+const { label = "apps", pageSize = 24, class: className } = Astro.props;
 ---
 
 <div data-paginated-list data-page-size={pageSize}>
@@ -45,7 +45,7 @@ const { label = "apps", pageSize = 12, class: className } = Astro.props;
       const items = Array.from(
         container.querySelectorAll<HTMLElement>(":scope > [data-page-item]")
       );
-      const pageSize = Number(root.dataset.pageSize) || 12;
+      const pageSize = Number(root.dataset.pageSize) || 24;
       const events = new AbortController();
       let page = Math.max(1, Number(new URLSearchParams(location.search).get("page")) || 1);
 

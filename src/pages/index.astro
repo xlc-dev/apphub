@@ -22,6 +22,9 @@ const recentlyUpdated = catalog
 const ranking = await getRanking("week");
 const trending = ranking.entries?.slice(0, 3) ?? null;
 const categories = await getCategories();
+const popularCategories = [...categories]
+  .sort((left, right) => right.count - left.count || left.name.localeCompare(right.name))
+  .slice(0, 12);
 const stars = await getRepositoryStars();
 const featured = featuredAppSlugs
   .flatMap((slug) => {
@@ -83,10 +86,11 @@ const releaseDate = new Intl.DateTimeFormat("en", { dateStyle: "medium" });
     </Section>
 
     <Section title="Categories">
+      <Link slot="actions" href="/apps/" aria-label="Browse all categories">More</Link>
       {
-        categories.length > 0 ? (
+        popularCategories.length > 0 ? (
           <ul class="grid list-none gap-3 p-0 sm:grid-cols-2 lg:grid-cols-3">
-            {categories.map(({ name, slug, count }) => (
+            {popularCategories.map(({ name, slug, count }) => (
               <li>
                 <Link
                   unstyled

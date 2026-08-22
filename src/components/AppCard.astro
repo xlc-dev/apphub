@@ -26,7 +26,12 @@ const {
   stars,
 } = Astro.props;
 const searchValue = catalogSearchValue(app);
-const categories = app.categories.map(categoryName).join(" · ");
+const visibleCategories = app.categories.slice(0, 2).map(categoryName);
+const hiddenCategoryCount = app.categories.length - visibleCategories.length;
+const categories = [
+  ...visibleCategories,
+  ...(hiddenCategoryCount > 0 ? [`+${hiddenCategoryCount}`] : []),
+].join(" · ");
 ---
 
 <article
