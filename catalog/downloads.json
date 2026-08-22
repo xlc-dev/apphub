@@ -1,3 +1,13 @@
 {
-  "snapshots": []
+  "snapshots": [
+    {
+      "date": "2026-08-22",
+      "apps": {
+        "org.DolphinEmu.dolphin-emu": 25825,
+        "io.github.htop_dev.htop": 1231,
+        "com.github.PintaProject.Pinta": 4289,
+        "com.github.flxzt.rnote": 1185
+      }
+    }
+  ]
 }
