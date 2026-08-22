@@ -80,6 +80,7 @@ const screenshots = import.meta.glob("/apps/*/screenshot-*.*", {
 }) as Record<string, string>;
 
 let appsPromise: Promise<ApiApp[]> | undefined;
+let downloadHistoryPromise: Promise<z.infer<typeof downloadHistorySchema>> | undefined;
 
 async function loadApps() {
   const entries = await readApps();
@@ -110,6 +111,17 @@ async function loadApps() {
 
 export function getApps() {
   return (appsPromise ??= loadApps());
+}
+
+function getDownloadHistory() {
+  return (downloadHistoryPromise ??= readFile(
+    new URL("catalog/downloads.json", root),
+    "utf8"
+  ).then((data) => downloadHistorySchema.parse(JSON.parse(data))));
+}
+
+export async function getAppDownloads(appId: string) {
+  return downloadCounts(await getDownloadHistory())?.[appId];
 }
 
 export async function getCategories() {
@@ -153,10 +165,8 @@ export async function getNewApps(now = new Date()) {
 }
 
 export async function getRanking(period: RankingPeriod) {
-  const data = JSON.parse(await readFile(new URL("catalog/downloads.json", root), "utf8"));
-  const history = downloadHistorySchema.parse(data);
   const days = period === "week" ? 7 : period === "month" ? 30 : undefined;
-  const counts = downloadCounts(history, days);
+  const counts = downloadCounts(await getDownloadHistory(), days);
   const apps = await getApps();
   const entries = counts
     ? apps
