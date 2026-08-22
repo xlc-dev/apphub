@@ -30,7 +30,7 @@ const categories = app.categories.map(categoryName).join(" · ");
 ---
 
 <article
-  class="group min-w-0"
+  class="min-w-0"
   data-catalog-app
   data-page-item={pageItem ? "" : undefined}
   data-app-categories={app.categories.join(" ")}
@@ -54,9 +54,9 @@ const categories = app.categories.map(categoryName).join(" · ");
       <div class="flex min-w-0 items-center gap-2">
         {
           headingLevel === 3 ? (
-            <h3 class="truncate font-semibold group-hover:text-[var(--primary)]">{app.name}</h3>
+            <h3 class="truncate font-semibold">{app.name}</h3>
           ) : (
-            <h2 class="truncate font-semibold group-hover:text-[var(--primary)]">{app.name}</h2>
+            <h2 class="truncate font-semibold">{app.name}</h2>
           )
         }
         <SourceBadge source={app.source} />
