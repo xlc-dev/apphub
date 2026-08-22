@@ -3,8 +3,8 @@ import type { ApiApp } from "@/lib/api";
 import Capabilities from "@/components/Capabilities.astro";
 import AppDetails from "@/components/AppDetails.astro";
 import AppDownloads from "@/components/AppDownloads.astro";
-import ButtonLink from "@/components/ui/ButtonLink.astro";
 import CategoryLinks from "@/components/CategoryLinks.astro";
+import InstallButton from "@/components/InstallButton.astro";
 import ScreenshotCarousel from "@/components/ScreenshotCarousel.astro";
 import SourceBadge from "@/components/SourceBadge.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
@@ -25,8 +25,6 @@ const [repositoryStars, downloads] = await Promise.all([
 ]);
 const stars = repositoryStars[app.slug];
 const latest = app.releases[0];
-const installArtifact =
-  latest?.artifacts.find(({ architecture }) => architecture === "x86_64") ?? latest?.artifacts[0];
 ---
 
 <BaseLayout
@@ -56,15 +54,7 @@ const installArtifact =
           {app.summary}
         </p>
         <CategoryLinks categories={app.categories} />
-        {
-          installArtifact && (
-            <ButtonLink
-              class="mt-4 text-center"
-              href={`appmgr://install?url=${encodeURIComponent(installArtifact.url)}&sha256=${installArtifact.sha256}`}>
-              Install
-            </ButtonLink>
-          )
-        }
+        {latest && <InstallButton artifacts={latest.artifacts} />}
       </div>
     </div>
     <div class="mt-10 min-w-0">
