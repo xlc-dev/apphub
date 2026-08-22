@@ -52,10 +52,10 @@ const id = `${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-carousel`;
     </svg>
   </Button>
   <div
-    class="grid grid-cols-[2.75rem_minmax(0,1fr)_2.75rem] items-center gap-3"
+    class="relative grid grid-cols-[minmax(0,1fr)] items-center sm:grid-cols-[2.75rem_minmax(0,1fr)_2.75rem] sm:gap-3"
     data-carousel-frame>
     <div
-      class="col-start-2 row-start-1 flex aspect-video snap-x snap-mandatory items-center overflow-x-auto overscroll-x-contain scroll-smooth rounded-xl motion-reduce:scroll-auto"
+      class="col-start-1 row-start-1 flex aspect-video snap-x snap-mandatory items-center overflow-x-auto overscroll-x-contain scroll-smooth rounded-xl motion-reduce:scroll-auto sm:col-start-2"
       aria-live="polite"
       data-carousel-track>
       {
@@ -87,7 +87,7 @@ const id = `${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-carousel`;
         <>
           <Button
             icon
-            class="col-start-1 row-start-1 hidden size-11 rounded-full"
+            class="absolute left-2 top-1/2 z-10 hidden size-11 -translate-y-1/2 rounded-full sm:static sm:col-start-1 sm:row-start-1 sm:translate-y-0"
             aria-label="Previous screenshot"
             data-carousel-previous>
             <svg
@@ -102,7 +102,7 @@ const id = `${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-carousel`;
           </Button>
           <Button
             icon
-            class="col-start-3 row-start-1 hidden size-11 rounded-full"
+            class="absolute right-2 top-1/2 z-10 hidden size-11 -translate-y-1/2 rounded-full sm:static sm:col-start-3 sm:row-start-1 sm:translate-y-0"
             aria-label="Next screenshot"
             data-carousel-next>
             <svg

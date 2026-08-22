@@ -71,7 +71,7 @@ const latest = app.releases[0];
             <p class="leading-6 text-[var(--muted)]">{app.description}</p>
           </Section>
         </div>
-        <div class="order-3 lg:mt-10">
+        <div class="order-4 lg:mt-10">
           <Capabilities sandbox={app.sandbox} />
         </div>
       </div>
@@ -79,7 +79,7 @@ const latest = app.releases[0];
         <div class="order-2 self-start">
           <AppDownloads releases={app.releases} />
         </div>
-        <div class="order-5 self-start lg:mt-8">
+        <div class="order-3 self-start lg:mt-8">
           <AppDetails app={app} downloads={downloads} stars={stars} />
         </div>
       </div>
