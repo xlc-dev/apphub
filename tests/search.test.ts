@@ -29,6 +29,16 @@ describe("catalog search", () => {
     expect(matchesSearch(value, "EXAMPLE")).toBe(true);
   });
 
+  test("matches substrings from the first character", () => {
+    expect(matchesSearch("silvermarsh credential vault", "s")).toBe(true);
+    expect(matchesSearch("silvermarsh credential vault", "marsh")).toBe(true);
+  });
+
+  test("fuzzily matches ordered characters within a word", () => {
+    expect(matchesSearch("silvermarsh credential vault", "slvrmrsh")).toBe(true);
+    expect(matchesSearch("silvermarsh credential vault", "hrmvs")).toBe(false);
+  });
+
   test("matches multiple terms in any order", () => {
     expect(matchesSearch(value, "utility offline")).toBe(true);
     expect(matchesSearch(value, "offline missing")).toBe(false);

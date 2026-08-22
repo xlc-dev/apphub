@@ -10,6 +10,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import Page from "@/components/ui/Page.astro";
 import Section from "@/components/ui/Section.astro";
 import { Image } from "astro:assets";
+import { getAppDownloads } from "@/lib/api";
 import { getRepositoryStars } from "@/lib/repository-stars";
 
 interface Props {
@@ -17,7 +18,11 @@ interface Props {
 }
 
 const { app } = Astro.props;
-const stars = (await getRepositoryStars())[app.slug];
+const [repositoryStars, downloads] = await Promise.all([
+  getRepositoryStars(),
+  getAppDownloads(app.id),
+]);
+const stars = repositoryStars[app.slug];
 ---
 
 <BaseLayout
@@ -72,7 +77,7 @@ const stars = (await getRepositoryStars())[app.slug];
           <AppDownloads releases={app.releases} />
         </div>
         <div class="order-5 self-start lg:mt-8">
-          <AppDetails app={app} stars={stars} />
+          <AppDetails app={app} downloads={downloads} stars={stars} />
         </div>
       </div>
     </div>

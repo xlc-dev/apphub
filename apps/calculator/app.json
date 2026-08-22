@@ -2,7 +2,7 @@
   "id": "org.gnome.Calculator",
   "name": "Calculator",
   "summary": "Perform arithmetic, scientific or financial calculations",
-  "description": "Calculator is an application that solves mathematical equations. Though it at first appears to be a simple calculator with only basic arithmetic operations, you can switch into Advanced, Financial, or Programming mode to find a surprising set of capabilities. The Advanced calculator supports many operations, including: logarithms, factorials, trigonometric and hyperbolic functions, modulus division, complex numbers, random number generation and prime factorization. Financial mode supports several computations, including periodic interest rate, present and future value, double declining and straight line depreciation, and many others. Programming mode supports calculations using common bases (binary, octal, decimal, and hexadecimal), bitwise operations, two’s complement, character to character code conversion, and more. Conversion mode supports conversions between common units, currencies and number bases.",
+  "description": "Calculator solves basic, scientific, financial, and programming equations. It also supports common unit, currency, and number-base conversions.",
   "projectLicense": "GPL-3.0-or-later",
   "developer": {
     "name": "The GNOME Project",

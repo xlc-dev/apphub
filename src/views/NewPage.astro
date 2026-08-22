@@ -1,0 +1,50 @@
+---
+import AppCard from "@/components/AppCard.astro";
+import Pagination from "@/components/Pagination.astro";
+import EmptyState from "@/components/ui/EmptyState.astro";
+import Page from "@/components/ui/Page.astro";
+import PageHeader from "@/components/ui/PageHeader.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getNewApps } from "@/lib/api";
+import { paginationState } from "@/lib/pagination";
+import { getRepositoryStars } from "@/lib/repository-stars";
+
+interface Props {
+  page?: number;
+}
+
+const { page = 1 } = Astro.props;
+const { apps, windowDays } = await getNewApps();
+const stars = await getRepositoryStars();
+const state = paginationState(apps.length, page);
+const displayedApps = apps.slice(state.start, state.end);
+---
+
+<BaseLayout title="New apps" description={`Apps added to AppHub in the last ${windowDays} days.`}>
+  <Page>
+    <PageHeader title="New apps" description={`Added to AppHub in the last ${windowDays} days.`} />
+    {
+      apps.length > 0 ? (
+        <section aria-labelledby="new-apps-heading">
+          <h2 class="sr-only" id="new-apps-heading">
+            Applications
+          </h2>
+          <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {displayedApps.map((app, index) => (
+              <AppCard app={app} priority={index < 6} stars={stars[app.slug]} />
+            ))}
+          </div>
+          <Pagination
+            class="mt-8"
+            basePath="/new/"
+            label="New app pages"
+            page={state.page}
+            pages={state.pages}
+          />
+        </section>
+      ) : (
+        <EmptyState>No new apps are available.</EmptyState>
+      )
+    }
+  </Page>
+</BaseLayout>

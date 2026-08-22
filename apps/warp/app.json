@@ -2,7 +2,7 @@
   "id": "app.drey.Warp",
   "name": "Warp",
   "summary": "Fast and secure file transfer",
-  "description": "Warp allows you to securely send files to each other via the internet or local network by exchanging a word-based code. The best transfer method will be determined using the “Magic Wormhole” protocol which includes local network transfer if possible. Features - Send files between multiple devices - Every file transfer is encrypted - Directly transfer files on the local network if possible - An internet connection is required - QR Code support - Compatibility with the Magic Wormhole command line client and all other compatible apps",
+  "description": "Warp sends encrypted files over the internet or local network using the Magic Wormhole protocol. Devices connect with a word-based code or QR code, and compatible command-line clients can join the transfer.",
   "projectLicense": "GPL-3.0-only",
   "developer": {
     "name": "Fina Wilke",

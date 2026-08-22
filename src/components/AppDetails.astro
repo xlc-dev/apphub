@@ -4,10 +4,11 @@ import Link from "@/components/ui/Link.astro";
 
 interface Props {
   app: ApiApp;
+  downloads?: number | undefined;
   stars?: number | undefined;
 }
 
-const { app, stars } = Astro.props;
+const { app, downloads, stars } = Astro.props;
 const website = new URL(app.homepage);
 const websiteLabel = website.hostname.replace(/^www\./, "") || app.homepage;
 const repository = app.repository && new URL(app.repository);
@@ -37,6 +38,14 @@ const repositoryLabel =
       <dt class="text-sm text-[var(--muted)]">License</dt>
       <dd class="m-0 mt-1">{app.projectLicense}</dd>
     </div>
+    {
+      downloads !== undefined && (
+        <div>
+          <dt class="text-sm text-[var(--muted)]">Total downloads</dt>
+          <dd class="m-0 mt-1">{downloads.toLocaleString("en")}</dd>
+        </div>
+      )
+    }
     <div>
       <dt class="text-sm text-[var(--muted)]">Website</dt>
       <dd class="m-0 mt-1 break-words">

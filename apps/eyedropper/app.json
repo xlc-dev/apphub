@@ -2,7 +2,7 @@
   "id": "com.github.finefindus.eyedropper",
   "name": "Eyedropper",
   "summary": "Pick and format colors",
-  "description": "Enter or pick a color and view it in different formats. Features - Pick a Color - Edit the viewed color in a simple HSL editor - Enter a color in various formats - Convert colors into other formats such as Hex, RGB, HSV, HSL, CMYK, XYZ, CIE-Lab…",
+  "description": "Eyedropper picks colors from the screen and provides a simple HSL editor. It converts colors between formats including Hex, RGB, HSV, HSL, CMYK, XYZ, and CIE Lab.",
   "projectLicense": "GPL-3.0",
   "developer": {
     "name": "FineFindus",

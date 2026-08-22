@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
 @theme {
   --font-sans:
@@ -7,11 +6,8 @@
     "Segoe UI Symbol", "Noto Color Emoji";
   --color-canvas: #1e1e1e;
   --color-surface: #242424;
-  --color-surface-raised: #303030;
-  --color-control: #3a3a3a;
   --color-foreground: #ffffff;
   --color-accent: #3584e4;
-  --color-destructive: #e01b24;
 }
 
 :root {
@@ -26,7 +22,6 @@
   --primary: #3584e4;
   --primary-hover: #1c71d8;
   --primary-text: #ffffff;
-  --danger: #e01b24;
 }
 
 :root[data-theme="dark"] {
@@ -41,7 +36,6 @@
   --primary: #62a0ea;
   --primary-hover: #99c1f1;
   --primary-text: #1e1e1e;
-  --danger: #ff7b63;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -57,7 +51,6 @@
     --primary: #62a0ea;
     --primary-hover: #99c1f1;
     --primary-text: #1e1e1e;
-    --danger: #ff7b63;
   }
 }
 

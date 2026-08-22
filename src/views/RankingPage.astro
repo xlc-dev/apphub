@@ -3,38 +3,44 @@ import AppCard from "@/components/AppCard.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import EmptyState from "@/components/ui/EmptyState.astro";
 import Link from "@/components/ui/Link.astro";
+import Pagination from "@/components/Pagination.astro";
 import Page from "@/components/ui/Page.astro";
-import { routePath } from "@/lib/paths";
 import PageHeader from "@/components/ui/PageHeader.astro";
-import PaginatedList from "@/components/PaginatedList.astro";
 import { getRanking, type RankingPeriod } from "@/lib/api";
+import { paginationState } from "@/lib/pagination";
 import { getRepositoryStars } from "@/lib/repository-stars";
 
 interface Props {
   title: string;
   description: string;
+  page?: number;
   period: RankingPeriod;
 }
 
-const { title, description, period } = Astro.props;
+const { title, description, page = 1, period } = Astro.props;
 const { entries: ranking } = await getRanking(period);
-const path = routePath(Astro.url.pathname);
 const stars = await getRepositoryStars();
+const state = paginationState(ranking?.length ?? 0, page);
+const entries = ranking?.slice(state.start, state.end);
+const basePath =
+  period === "week"
+    ? "/trending/"
+    : period === "month"
+      ? "/trending/month/"
+      : "/trending/all-time/";
 ---
 
 <BaseLayout title={title} description={description}>
   <Page>
     <PageHeader title={title} description={description} />
     <nav class="flex flex-wrap gap-x-4 gap-y-2" aria-label="Download rankings">
-      <Link href="/trending/" aria-current={path === "/trending/" ? "page" : undefined}
-        >This week</Link
+      <Link href="/trending/" aria-current={period === "week" ? "page" : undefined}>This week</Link
       >
-      <Link href="/trending/month/" aria-current={path === "/trending/month/" ? "page" : undefined}
+      <Link href="/trending/month/" aria-current={period === "month" ? "page" : undefined}
         >This month</Link
       >
-      <Link
-        href="/trending/all-time/"
-        aria-current={path === "/trending/all-time/" ? "page" : undefined}>All time</Link
+      <Link href="/trending/all-time/" aria-current={period === "all-time" ? "page" : undefined}
+        >All time</Link
       >
     </nav>
     {
@@ -43,17 +49,25 @@ const stars = await getRepositoryStars();
       ) : ranking.length === 0 ? (
         <EmptyState class="mt-8">No download data is available.</EmptyState>
       ) : (
-        <PaginatedList class="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3" label="ranking">
-          {ranking.map(({ app, downloads }, index) => (
-            <AppCard
-              app={app}
-              detail={`${index + 1}. ${downloads.toLocaleString("en")} downloads`}
-              pageItem
-              priority={index < 6}
-              stars={stars[app.slug]}
-            />
-          ))}
-        </PaginatedList>
+        <>
+          <div class="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {entries!.map(({ app, downloads }, index) => (
+              <AppCard
+                app={app}
+                detail={`${state.start + index + 1}. ${downloads.toLocaleString("en")} downloads`}
+                priority={index < 6}
+                stars={stars[app.slug]}
+              />
+            ))}
+          </div>
+          <Pagination
+            class="mt-8"
+            basePath={basePath}
+            label="Ranking pages"
+            page={state.page}
+            pages={state.pages}
+          />
+        </>
       )
     }
   </Page>

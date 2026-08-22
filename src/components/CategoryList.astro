@@ -3,17 +3,17 @@ import Link from "@/components/ui/Link.astro";
 import { categoryPath } from "@/lib/categories";
 
 interface Props {
-  categories: Array<{ id: string; name: string; slug: string; count: number }>;
+  categories: Array<{ id: string; name: string; count: number }>;
   current?: string | undefined;
-  maxHeight: string;
+  class?: string;
 }
 
-const { categories, current, maxHeight } = Astro.props;
+const { categories, current, class: className } = Astro.props;
 const itemClass =
-  "group flex min-h-9 items-center gap-2 rounded-md px-2 text-sm hover:bg-[var(--card-raised)] focus-visible:outline-2 focus-visible:outline-[var(--primary)] aria-[checked=true]:bg-[var(--card-raised)] aria-[checked=true]:font-medium aria-[checked=true]:text-[var(--primary)]";
+  "grid min-h-9 grid-cols-[minmax(0,1fr)_auto] items-center gap-2 rounded-md px-2 text-sm hover:bg-[var(--card-raised)] focus-visible:-outline-offset-2 focus-visible:outline-2 focus-visible:outline-[var(--primary)] aria-[current=page]:bg-[var(--card-raised)] aria-[current=page]:font-medium aria-[current=page]:text-[var(--primary)]";
 ---
 
-<div data-category-list>
+<div class:list={["flex min-h-0 flex-col", className]} data-category-list>
   <input
     class="my-2 min-h-9 w-full rounded-md border border-[var(--border)] bg-[var(--control-bg)] px-2 text-sm outline-none focus-visible:border-[var(--primary)]"
     type="search"
@@ -23,49 +23,21 @@ const itemClass =
     hidden
     data-category-search
   />
-  <nav class:list={[maxHeight, "overflow-y-auto"]} aria-label="Categories">
-    <Link unstyled class={itemClass} href="/apps/" data-category-clear>
-      <span
-        class="flex size-4 items-center justify-center rounded border border-[var(--border)] group-aria-[checked=true]:border-[var(--primary)] group-aria-[checked=true]:bg-[var(--primary)] group-aria-[checked=true]:text-[var(--primary-text)]"
-        aria-hidden="true">
-        <svg
-          class="hidden size-3 group-aria-[checked=true]:block"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="3"><path d="m5 12 4 4L19 6"></path></svg
-        >
-      </span>
-      <span class="grow truncate">All apps</span>
+  <nav class="min-h-0 grow [scrollbar-gutter:stable] overflow-y-auto pr-2" aria-label="Categories">
+    <Link unstyled class={itemClass} href="/apps/" aria-current={!current ? "page" : undefined}>
+      <span class="truncate">All apps</span>
     </Link>
     {
-      categories.map(({ id, name, slug, count }) => (
+      categories.map(({ id, name, count }) => (
         <Link
           unstyled
           class={itemClass}
           href={categoryPath(id)}
+          aria-current={id === current ? "page" : undefined}
           data-category-option
-          data-category-id={id}
-          data-category-name={name}
-          data-category-slug={slug}
-          data-category-selected={id === current ? "" : undefined}
           data-category-value={name.toLowerCase()}>
-          <>
-            <span
-              class="flex size-4 items-center justify-center rounded border border-[var(--border)] group-aria-[checked=true]:border-[var(--primary)] group-aria-[checked=true]:bg-[var(--primary)] group-aria-[checked=true]:text-[var(--primary-text)]"
-              aria-hidden="true">
-              <svg
-                class="hidden size-3 group-aria-[checked=true]:block"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="3">
-                <path d="m5 12 4 4L19 6" />
-              </svg>
-            </span>
-            <span class="grow truncate">{name}</span>
-            <span class="text-xs text-[var(--muted)]">{count}</span>
-          </>
+          <span class="truncate">{name}</span>
+          <span class="text-right text-xs text-[var(--muted)] tabular-nums">{count}</span>
         </Link>
       ))
     }

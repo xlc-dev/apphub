@@ -1,6 +1,5 @@
 ---
 import Link from "@/components/ui/Link.astro";
-import Button from "@/components/ui/Button.astro";
 import ThemeSelect from "@/components/ThemeSelect.astro";
 import { routePath, sitePath } from "@/lib/paths";
 import { Image } from "astro:assets";
@@ -8,8 +7,12 @@ import { Image } from "astro:assets";
 const path = routePath(Astro.url.pathname);
 const logo = sitePath("/logo.svg");
 const links = [
-  { href: "/apps/", label: "Apps", current: path === "/apps/" },
-  { href: "/new/", label: "New", current: path === "/new/" },
+  {
+    href: "/apps/",
+    label: "Apps",
+    current: path.startsWith("/apps/") || path.startsWith("/categories/"),
+  },
+  { href: "/new/", label: "New", current: path.startsWith("/new/") },
   { href: "/trending/", label: "Trending", current: path.startsWith("/trending/") },
 ];
 ---
@@ -28,46 +31,38 @@ const links = [
     </Link>
     <div class="col-start-2 row-start-1 flex items-center gap-2 md:hidden">
       <ThemeSelect id="mobile-theme" />
-      <Button
-        icon
-        class="group flex"
-        aria-label="Main menu"
-        aria-expanded="false"
-        aria-controls="mobile-navigation"
-        data-menu-toggle>
-        <svg
-          class="group-aria-expanded:hidden"
-          aria-hidden="true"
-          viewBox="0 0 24 24"
-          width="24"
-          height="24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round">
-          <path d="M4 7h16M4 12h16M4 17h16"></path>
-        </svg>
-        <svg
-          class="hidden group-aria-expanded:block"
-          aria-hidden="true"
-          viewBox="0 0 24 24"
-          width="24"
-          height="24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round">
-          <path d="m6 6 12 12M18 6 6 18"></path>
-        </svg>
-      </Button>
-      <nav
-        class="invisible absolute top-full right-0 left-0 grid grid-rows-[0fr] border-t border-[var(--border)] bg-[var(--page)] opacity-0 shadow-lg transition-[grid-template-rows,opacity,visibility] duration-200 data-[open]:visible data-[open]:grid-rows-[1fr] data-[open]:opacity-100 motion-reduce:transition-none"
-        id="mobile-navigation"
-        aria-label="Main navigation"
-        aria-hidden="true"
-        inert
-        data-mobile-navigation>
-        <div class="overflow-hidden">
+      <details class="group">
+        <summary
+          class="flex size-10 cursor-pointer list-none items-center justify-center rounded-lg border border-[var(--border)] bg-[var(--control-bg)] hover:border-[var(--primary)] hover:bg-[var(--card-raised)] hover:text-[var(--primary)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)] [&::-webkit-details-marker]:hidden"
+          aria-label="Main menu">
+          <svg
+            class="group-open:hidden"
+            aria-hidden="true"
+            viewBox="0 0 24 24"
+            width="24"
+            height="24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round">
+            <path d="M4 7h16M4 12h16M4 17h16"></path>
+          </svg>
+          <svg
+            class="hidden group-open:block"
+            aria-hidden="true"
+            viewBox="0 0 24 24"
+            width="24"
+            height="24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round">
+            <path d="m6 6 12 12M18 6 6 18"></path>
+          </svg>
+        </summary>
+        <nav
+          class="absolute top-full right-0 left-0 border-t border-[var(--border)] bg-[var(--page)] shadow-lg"
+          aria-label="Main navigation">
           <div class="mx-auto grid max-w-6xl gap-1 px-4 py-3">
             {
               links.map(({ href, label, current }) => (
@@ -80,8 +75,8 @@ const links = [
               ))
             }
           </div>
-        </div>
-      </nav>
+        </nav>
+      </details>
     </div>
     <form
       class="col-span-2 col-start-1 row-start-2 w-full md:col-span-1 md:col-start-2 md:row-start-1"
@@ -118,38 +113,10 @@ const links = [
 </header>
 
 <script>
-  function initMobileNavigation() {
-    const toggle = document.querySelector<HTMLButtonElement>("[data-menu-toggle]");
-    const navigation = document.querySelector<HTMLElement>("[data-mobile-navigation]");
-    if (!toggle || !navigation || toggle.dataset.initialized) return;
-
-    toggle.dataset.initialized = "true";
-
-    const setOpen = (open: boolean) => {
-      toggle.setAttribute("aria-expanded", String(open));
-      navigation.toggleAttribute("data-open", open);
-      navigation.setAttribute("aria-hidden", String(!open));
-      navigation.inert = !open;
-    };
-
-    toggle.addEventListener("click", () =>
-      setOpen(toggle.getAttribute("aria-expanded") !== "true")
-    );
-    toggle.parentElement?.addEventListener("keydown", (event) => {
-      if (event.key === "Escape" && toggle.getAttribute("aria-expanded") === "true") {
-        setOpen(false);
-        toggle.focus();
-      }
-    });
-  }
-
   function showHeaderSearch() {
     const search = document.querySelector<HTMLFormElement>("[data-catalog-search]");
     if (search) search.hidden = false;
   }
 
-  document.addEventListener("astro:page-load", () => {
-    showHeaderSearch();
-    initMobileNavigation();
-  });
+  document.addEventListener("astro:page-load", showHeaderSearch);
 </script>

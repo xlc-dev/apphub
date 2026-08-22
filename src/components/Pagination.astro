@@ -1,0 +1,55 @@
+---
+import Link from "@/components/ui/Link.astro";
+
+interface Props {
+  basePath: string;
+  class?: string;
+  label: string;
+  page: number;
+  pages: number;
+}
+
+const { basePath, class: className, label, page, pages } = Astro.props;
+const pagePath = (number: number) => (number === 1 ? basePath : `${basePath}page/${number}/`);
+const controlClass =
+  "flex min-h-10 items-center rounded-lg border border-[var(--border)] bg-[var(--control-bg)] px-4 font-medium";
+---
+
+{
+  pages > 1 && (
+    <nav
+      class:list={["flex items-center justify-center gap-4", className]}
+      aria-label={label}
+      data-static-pagination>
+      {page > 1 ? (
+        <Link
+          unstyled
+          class:list={[
+            controlClass,
+            "hover:border-[var(--primary)] hover:bg-[var(--card-raised)] hover:text-[var(--primary)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)]",
+          ]}
+          href={pagePath(page - 1)}>
+          Previous
+        </Link>
+      ) : (
+        <span class:list={[controlClass, "opacity-50"]}>Previous</span>
+      )}
+      <span class="min-w-24 text-center text-sm text-[var(--muted)]">
+        Page {page} of {pages}
+      </span>
+      {page < pages ? (
+        <Link
+          unstyled
+          class:list={[
+            controlClass,
+            "hover:border-[var(--primary)] hover:bg-[var(--card-raised)] hover:text-[var(--primary)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)]",
+          ]}
+          href={pagePath(page + 1)}>
+          Next
+        </Link>
+      ) : (
+        <span class:list={[controlClass, "opacity-50"]}>Next</span>
+      )}
+    </nav>
+  )
+}

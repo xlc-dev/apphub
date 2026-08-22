@@ -1,0 +1,19 @@
+---
+import type { GetStaticPaths } from "astro";
+import CatalogPage from "@/views/CatalogPage.astro";
+import { getApps } from "@/lib/api";
+import { catalogPageSize } from "@/lib/pagination";
+
+export const getStaticPaths = (async () => {
+  const pages = Math.ceil((await getApps()).length / catalogPageSize);
+
+  return Array.from({ length: Math.max(0, pages - 1) }, (_, index) => ({
+    params: { page: String(index + 2) },
+    props: { page: index + 2 },
+  }));
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
+---
+
+<CatalogPage page={page} />
