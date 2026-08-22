@@ -10,12 +10,14 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import Page from "@/components/ui/Page.astro";
 import Section from "@/components/ui/Section.astro";
 import { Image } from "astro:assets";
+import { getRepositoryStars } from "@/lib/repository-stars";
 
 interface Props {
   app: ApiApp;
 }
 
 const { app } = Astro.props;
+const stars = (await getRepositoryStars())[app.slug];
 ---
 
 <BaseLayout
@@ -41,11 +43,14 @@ const { app } = Astro.props;
           <h1 class="text-3xl font-bold sm:text-4xl">{app.name}</h1>
           <SourceBadge source={app.source} />
         </div>
-        <p class="mt-1 max-w-2xl text-lg leading-7 text-zinc-600 dark:text-zinc-300">
+        <p class="mt-1 max-w-2xl text-lg leading-7 text-[var(--muted)]">
           {app.summary}
         </p>
         <CategoryLinks categories={app.categories} />
       </div>
+    </div>
+    <div class="mt-10 min-w-0">
+      <ScreenshotCarousel label="Screenshots" screenshots={app.screenshots} />
     </div>
     <div class="mt-10 grid gap-8 lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-10">
       <div class="contents lg:block">
@@ -55,13 +60,10 @@ const { app } = Astro.props;
             title="About"
             headingId="about-heading"
             aria-labelledby="about-heading">
-            <p class="text-lg leading-7 text-zinc-700 dark:text-zinc-300">{app.description}</p>
+            <p class="text-lg leading-7 text-[var(--muted)]">{app.description}</p>
           </Section>
         </div>
-        <div class="order-3 min-w-0 lg:mt-10">
-          <ScreenshotCarousel label="Screenshots" screenshots={app.screenshots} />
-        </div>
-        <div class="order-4 lg:mt-10">
+        <div class="order-3 lg:mt-10">
           <Capabilities sandbox={app.sandbox} />
         </div>
       </div>
@@ -70,7 +72,7 @@ const { app } = Astro.props;
           <AppDownloads releases={app.releases} />
         </div>
         <div class="order-5 self-start lg:mt-8">
-          <AppDetails app={app} />
+          <AppDetails app={app} stars={stars} />
         </div>
       </div>
     </div>

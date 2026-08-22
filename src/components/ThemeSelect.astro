@@ -1,0 +1,159 @@
+---
+import ThemeIcon from "@/components/ThemeIcon.astro";
+import type { ThemeMode } from "@/lib/theme";
+
+interface Props {
+  id: string;
+}
+
+const { id } = Astro.props;
+const modes: ThemeMode[] = ["system", "light", "dark"];
+---
+
+<details class="relative" data-theme-menu>
+  <summary
+    class="flex min-h-10 min-w-10 cursor-pointer list-none items-center justify-center rounded-lg border border-[var(--border)] bg-[var(--control-bg)] hover:bg-[var(--card-raised)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)] [&::-webkit-details-marker]:hidden"
+    aria-label="Theme"
+    title="Theme"
+    data-theme-summary>
+    {
+      modes.map((mode) => (
+        <span class:list={[mode !== "system" && "hidden"]} data-theme-current={mode}>
+          <ThemeIcon mode={mode} class="size-5" />
+        </span>
+      ))
+    }
+  </summary>
+  <div
+    class="absolute right-0 z-50 mt-2 w-40 rounded-lg border border-[var(--border)] bg-[var(--card)] p-1 shadow-lg"
+    id={id}
+    role="menu"
+    aria-label="Theme">
+    {
+      modes.map((mode) => (
+        <button
+          class="flex min-h-9 w-full cursor-pointer items-center gap-2 rounded-md px-2 text-left text-sm hover:bg-[var(--card-raised)] focus-visible:bg-[var(--card-raised)] focus-visible:outline-none aria-[checked=true]:bg-[var(--card-raised)]"
+          type="button"
+          role="menuitemradio"
+          aria-checked="false"
+          data-theme-option={mode}>
+          <ThemeIcon mode={mode} />
+          <span class="grow">{mode[0]!.toUpperCase() + mode.slice(1)}</span>
+          <svg
+            data-theme-check
+            aria-hidden="true"
+            viewBox="0 0 24 24"
+            class="invisible size-4"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5">
+            <path d="m5 12 4 4L19 6" />
+          </svg>
+        </button>
+      ))
+    }
+  </div>
+</details>
+
+<script>
+  import { parseThemeMode, resolveTheme, type ThemeMode } from "@/lib/theme";
+
+  function initializeThemeMenus() {
+    const menus = Array.from(document.querySelectorAll<HTMLDetailsElement>("[data-theme-menu]"));
+    if (menus.length === 0 || menus.every((menu) => menu.dataset.initialized)) return;
+
+    const options = Array.from(
+      document.querySelectorAll<HTMLButtonElement>("[data-theme-option]")
+    );
+    const media = matchMedia("(prefers-color-scheme: dark)");
+    const events = new AbortController();
+
+    const apply = (mode: ThemeMode) => {
+      const theme = resolveTheme(mode, media.matches);
+      document.documentElement.dataset.themeMode = mode;
+      document.documentElement.dataset.theme = theme;
+      document
+        .querySelector("[data-theme-color]")
+        ?.setAttribute("content", theme === "dark" ? "#1e1e1e" : "#fafafa");
+
+      menus.forEach((menu) =>
+        menu
+          .querySelectorAll<HTMLElement>("[data-theme-current]")
+          .forEach((icon) => icon.classList.toggle("hidden", icon.dataset.themeCurrent !== mode))
+      );
+      options.forEach((option) => {
+        const selected = option.dataset.themeOption === mode;
+        option.setAttribute("aria-checked", String(selected));
+        option
+          .querySelector<HTMLElement>("[data-theme-check]")
+          ?.classList.toggle("invisible", !selected);
+      });
+
+      try {
+        localStorage.setItem("apphub-theme", mode);
+      } catch {}
+    };
+
+    let stored: string | null = null;
+    try {
+      stored = localStorage.getItem("apphub-theme");
+    } catch {}
+    apply(parseThemeMode(stored));
+    menus.forEach((menu) => (menu.dataset.initialized = "true"));
+
+    options.forEach((option) =>
+      option.addEventListener(
+        "click",
+        () => {
+          apply(parseThemeMode(option.dataset.themeOption ?? null));
+          option.closest<HTMLDetailsElement>("[data-theme-menu]")?.removeAttribute("open");
+        },
+        { signal: events.signal }
+      )
+    );
+    menus.forEach((menu) =>
+      menu.addEventListener(
+        "keydown",
+        (event) => {
+          const items = Array.from(
+            menu.querySelectorAll<HTMLButtonElement>("[data-theme-option]")
+          );
+          const current = items.indexOf(document.activeElement as HTMLButtonElement);
+          const next =
+            event.key === "ArrowDown"
+              ? current + 1
+              : event.key === "ArrowUp"
+                ? current - 1
+                : undefined;
+          if (next !== undefined) {
+            event.preventDefault();
+            items[(next + items.length) % items.length]?.focus();
+          } else if (event.key === "Escape") {
+            menu.removeAttribute("open");
+            menu.querySelector<HTMLElement>("[data-theme-summary]")?.focus();
+          }
+        },
+        { signal: events.signal }
+      )
+    );
+    document.addEventListener(
+      "click",
+      (event) => {
+        menus.forEach((menu) => {
+          if (!menu.contains(event.target as Node)) menu.removeAttribute("open");
+        });
+      },
+      { signal: events.signal }
+    );
+    media.addEventListener(
+      "change",
+      () => {
+        if (document.documentElement.dataset.themeMode === "system") apply("system");
+      },
+      { signal: events.signal }
+    );
+    document.addEventListener("astro:before-swap", () => events.abort(), { once: true });
+  }
+
+  document.addEventListener("astro:page-load", initializeThemeMenus);
+</script>

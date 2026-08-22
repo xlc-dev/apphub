@@ -6,9 +6,9 @@ import { Image } from "astro:assets";
 const logo = sitePath("/logo.svg");
 ---
 
-<footer class="dark:border-control relative z-10 mt-12 border-t border-zinc-200">
+<footer class="relative z-10 mt-12 border-t border-[var(--border)] bg-[var(--card)]">
   <div
-    class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-5 px-4 py-6 sm:flex-row sm:px-6">
+    class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-5 px-4 py-6 sm:flex-row sm:px-6">
     <Link
       unstyled
       class="flex items-center gap-2 rounded-sm font-bold focus-visible:outline-2 focus-visible:outline-offset-2"
