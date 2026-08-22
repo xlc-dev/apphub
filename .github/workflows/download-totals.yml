@@ -15,14 +15,11 @@ jobs:
   update:
     permissions:
       contents: write
-      pull-requests: write
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
       - name: Check out repository
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
-        with:
-          persist-credentials: false
 
       - name: Set up Bun
         uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
@@ -40,13 +37,14 @@ jobs:
       - name: Validate changes
         run: bun run validate
 
-      - name: Open update pull request
-        uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: "chore: update download totals"
-          title: "chore: update download totals"
-          body: "Automated download total update."
-          branch: download-total-update
-          delete-branch: true
-          add-paths: catalog/downloads.json
+      - name: Commit update
+        run: |
+          if git diff --quiet -- catalog/downloads.json; then
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add catalog/downloads.json
+          git commit -m "chore: update download totals"
+          git push
