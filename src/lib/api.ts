@@ -114,10 +114,9 @@ export function getApps() {
 }
 
 function getDownloadHistory() {
-  return (downloadHistoryPromise ??= readFile(
-    new URL("catalog/downloads.json", root),
-    "utf8"
-  ).then((data) => downloadHistorySchema.parse(JSON.parse(data))));
+  return (downloadHistoryPromise ??= readFile(new URL("catalog/downloads.json", root), "utf8").then(
+    (data) => downloadHistorySchema.parse(JSON.parse(data))
+  ));
 }
 
 export async function getAppDownloads(appId: string) {
@@ -129,7 +128,9 @@ export async function getCategories() {
   const slugs = new Set<string>();
 
   for (const app of await getApps()) {
-    for (const name of app.categories) counts.set(name, (counts.get(name) ?? 0) + 1);
+    for (const name of app.categories) {
+      counts.set(name, (counts.get(name) ?? 0) + 1);
+    }
   }
 
   const categories = [...counts]
@@ -137,7 +138,10 @@ export async function getCategories() {
     .sort((a, b) => a.name.localeCompare(b.name));
 
   for (const category of categories) {
-    if (slugs.has(category.slug)) throw new Error(`Duplicate category URL slug: ${category.slug}`);
+    if (slugs.has(category.slug)) {
+      throw new Error(`Duplicate category URL slug: ${category.slug}`);
+    }
+
     slugs.add(category.slug);
   }
 
@@ -147,7 +151,9 @@ export async function getCategories() {
 export async function getCategory(slug: string) {
   const category = (await getCategories()).find((item) => item.slug === slug);
 
-  if (!category) return undefined;
+  if (!category) {
+    return undefined;
+  }
 
   return apiCategoryDetailsSchema.parse({
     id: category.id,

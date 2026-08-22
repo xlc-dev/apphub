@@ -28,7 +28,7 @@ interface SelectableAsset {
 interface Download {
   name: string;
   url: string;
-  size: number;
+  size?: number;
 }
 
 interface SelectedAsset<T extends SelectableAsset> {
@@ -59,8 +59,13 @@ const architectureMatchers: Array<[Architecture, RegExp]> = [
 async function readBoundedFile(url: URL, sizeLimit: number) {
   const metadata = await lstat(url);
 
-  if (!metadata.isFile()) throw new Error(`${url.pathname}: must be a regular file`);
-  if (metadata.size > sizeLimit) throw new Error(`${url.pathname}: file is too large`);
+  if (!metadata.isFile()) {
+    throw new Error(`${url.pathname}: must be a regular file`);
+  }
+
+  if (metadata.size > sizeLimit) {
+    throw new Error(`${url.pathname}: file is too large`);
+  }
 
   return readFile(url);
 }
@@ -90,7 +95,9 @@ export async function readApps(directory = appsDirectory) {
   try {
     contents = await readdir(directory, { withFileTypes: true });
   } catch (error) {
-    if ((error as NodeJS.ErrnoException).code === "ENOENT") return [];
+    if ((error as NodeJS.ErrnoException).code === "ENOENT") {
+      return [];
+    }
 
     throw error;
   }
@@ -102,14 +109,17 @@ export async function readApps(directory = appsDirectory) {
   const entries: AppEntry[] = [];
 
   for (const slug of directories) {
-    if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) throw new Error(`${slug}: invalid slug`);
+    if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) {
+      throw new Error(`${slug}: invalid slug`);
+    }
 
     const appDirectory = new URL(`${slug}/`, directory);
     const names = await readdir(appDirectory);
 
     for (const name of names) {
-      if (!allowedFiles.has(name) && !iconFile.test(name) && !screenshotFile.test(name))
+      if (!allowedFiles.has(name) && !iconFile.test(name) && !screenshotFile.test(name)) {
         throw new Error(`${slug}: unexpected file ${name}`);
+      }
     }
 
     const app = appSchema.parse(
@@ -117,7 +127,9 @@ export async function readApps(directory = appsDirectory) {
     );
     const icons = names.filter((name) => iconFile.test(name));
 
-    if (icons.length !== 1) throw new Error(`${slug}: expected one icon, found ${icons.length}`);
+    if (icons.length !== 1) {
+      throw new Error(`${slug}: expected one icon, found ${icons.length}`);
+    }
 
     const appIconFile = icons[0]!;
 
@@ -129,8 +141,9 @@ export async function readApps(directory = appsDirectory) {
     );
 
     for (const screenshot of app.screenshots) {
-      if (!names.includes(screenshot.file))
+      if (!names.includes(screenshot.file)) {
         throw new Error(`${slug}: missing screenshot ${screenshot.file}`);
+      }
 
       await validateImage(
         await readBoundedFile(new URL(screenshot.file, appDirectory), screenshotSizeLimit),
@@ -142,15 +155,16 @@ export async function readApps(directory = appsDirectory) {
     const referencedScreenshots = new Set(app.screenshots.map(({ file }) => file));
 
     for (const name of names) {
-      if (screenshotFile.test(name) && !referencedScreenshots.has(name))
+      if (screenshotFile.test(name) && !referencedScreenshots.has(name)) {
         throw new Error(`${slug}: unreferenced screenshot ${name}`);
+      }
     }
-    const { lock, exists } = await readOptionalLock(
-      new URL("releases.json", appDirectory),
-      app.id
-    );
-    if (lock.appId !== app.id)
+
+    const { lock, exists } = await readOptionalLock(new URL("releases.json", appDirectory), app.id);
+
+    if (lock.appId !== app.id) {
       throw new Error(`${slug}: release lock has the wrong application id`);
+    }
 
     entries.push({
       slug,
@@ -165,14 +179,21 @@ export async function readApps(directory = appsDirectory) {
   const ids = new Set<string>();
 
   for (const { app } of entries) {
-    if (ids.has(app.id)) throw new Error(`Duplicate application id: ${app.id}`);
+    if (ids.has(app.id)) {
+      throw new Error(`Duplicate application id: ${app.id}`);
+    }
+
     ids.add(app.id);
   }
 
   for (const { app } of entries) {
-    if (app.replacedBy === app.id) throw new Error(`${app.id}: replacement refers to itself`);
-    if (app.replacedBy && !ids.has(app.replacedBy))
+    if (app.replacedBy === app.id) {
+      throw new Error(`${app.id}: replacement refers to itself`);
+    }
+
+    if (app.replacedBy && !ids.has(app.replacedBy)) {
       throw new Error(`${app.id}: replacement ${app.replacedBy} is not in the catalog`);
+    }
   }
 
   return entries;
@@ -185,7 +206,9 @@ export function globRegex(pattern: string) {
 }
 
 export function matchesArchitecture(name: string, architecture: Architecture) {
-  if (!name.toLowerCase().endsWith(".appimage")) return false;
+  if (!name.toLowerCase().endsWith(".appimage")) {
+    return false;
+  }
 
   const expression = architectureMatchers.find(([name]) => name === architecture)?.[1];
 
@@ -205,16 +228,24 @@ export function selectAssets<T extends SelectableAsset>(app: App, assets: T[]) {
     );
     const asset = matches[0];
 
-    if (!pattern && matches.length === 0) continue;
-    if (!asset || matches.length !== 1)
+    if (!pattern && matches.length === 0) {
+      continue;
+    }
+
+    if (!asset || matches.length !== 1) {
       throw new Error(`${app.id}: expected one ${architecture} asset, found ${matches.length}`);
+    }
 
     selected.push({ architecture, asset });
   }
 
-  if (selected.length === 0) throw new Error(`${app.id}: no AppImage assets found`);
-  if (new Set(selected.map(({ asset }) => asset.name)).size !== selected.length)
+  if (selected.length === 0) {
+    throw new Error(`${app.id}: no AppImage assets found`);
+  }
+
+  if (new Set(selected.map(({ asset }) => asset.name)).size !== selected.length) {
     throw new Error(`${app.id}: architecture rules selected the same asset`);
+  }
 
   return selected;
 }
@@ -229,23 +260,36 @@ export async function hashDownload(file: Download) {
     signal: AbortSignal.timeout(600_000),
   });
 
-  if (!response.ok || !response.body)
+  if (!response.ok || !response.body) {
     throw new Error(`${file.name}: download returned ${response.status}`);
+  }
 
   const hash = createHash("sha256");
   const reader = response.body.getReader();
   let size = 0;
+  const sizeLimit = file.size ?? 4 * 1024 * 1024 * 1024;
 
   for (;;) {
     const { done, value } = await reader.read();
 
-    if (done) break;
+    if (done) {
+      break;
+    }
+
     size += value.byteLength;
-    if (size > file.size) throw new Error(`${file.name}: download exceeds published size`);
+
+    if (size > sizeLimit) {
+      throw new Error(
+        `${file.name}: download exceeds ${file.size === undefined ? "size limit" : "published size"}`
+      );
+    }
+
     hash.update(value);
   }
 
-  if (size !== file.size) throw new Error(`${file.name}: download differs from published size`);
+  if (file.size !== undefined && size !== file.size) {
+    throw new Error(`${file.name}: download differs from published size`);
+  }
 
   return { size, sha256: hash.digest("hex") };
 }
@@ -255,10 +299,21 @@ type ImageType = "image/avif" | "image/jpeg" | "image/png" | "image/webp";
 export function imageType(file: string): ImageType {
   const extension = file.toLowerCase().split(".").at(-1);
 
-  if (extension === "avif") return "image/avif";
-  if (extension === "jpg" || extension === "jpeg") return "image/jpeg";
-  if (extension === "png") return "image/png";
-  if (extension === "webp") return "image/webp";
+  if (extension === "avif") {
+    return "image/avif";
+  }
+
+  if (extension === "jpg" || extension === "jpeg") {
+    return "image/jpeg";
+  }
+
+  if (extension === "png") {
+    return "image/png";
+  }
+
+  if (extension === "webp") {
+    return "image/webp";
+  }
 
   throw new Error(`${file}: unsupported image format`);
 }
@@ -275,22 +330,34 @@ export async function validateImage(
     const image = sharp(data, { animated: true, failOn: "error" });
     const metadata = await image.metadata();
 
-    if (metadata.mediaType !== expectedType)
+    if (metadata.mediaType !== expectedType) {
       throw new Error(`${file} does not match its image format`);
-    if ((metadata.pages ?? 1) !== 1) throw new Error(`${file} must not be animated`);
-    if (!metadata.width || !metadata.height) throw new Error(`${file} has no dimensions`);
-    if (metadata.width > 8192 || metadata.height > 8192)
+    }
+
+    if ((metadata.pages ?? 1) !== 1) {
+      throw new Error(`${file} must not be animated`);
+    }
+
+    if (!metadata.width || !metadata.height) {
+      throw new Error(`${file} has no dimensions`);
+    }
+
+    if (metadata.width > 8192 || metadata.height > 8192) {
       throw new Error(`${file} dimensions must not exceed 8192 pixels`);
-    if (metadata.width * metadata.height > 33_177_600)
+    }
+
+    if (metadata.width * metadata.height > 33_177_600) {
       throw new Error(`${file} must not exceed 33 megapixels`);
+    }
 
     await image.stats();
 
     if (
       options.icon &&
       (metadata.width !== metadata.height || metadata.width < 128 || metadata.width > 1024)
-    )
+    ) {
       throw new Error("icon must be square and between 128 and 1024 pixels");
+    }
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
 

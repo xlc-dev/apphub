@@ -75,14 +75,18 @@ const state = paginationState(displayedCatalog.length, page);
   function initializeCatalogFilters() {
     const form = document.querySelector<HTMLFormElement>("[data-catalog-search]");
 
-    if (!form || form.dataset.initialized) return;
+    if (!form || form.dataset.initialized) {
+      return;
+    }
 
     const input = form.querySelector<HTMLInputElement>("[data-catalog-search-input]");
     const status = form.querySelector<HTMLElement>("[data-search-status]");
     const apps = Array.from(document.querySelectorAll<HTMLElement>("[data-catalog-app]"));
     const empty = document.querySelector<HTMLElement>("[data-search-empty]");
 
-    if (!input || !status || !empty) return;
+    if (!input || !status || !empty) {
+      return;
+    }
 
     form.dataset.initialized = "true";
     form.hidden = false;
@@ -94,12 +98,16 @@ const state = paginationState(displayedCatalog.length, page);
       for (const app of apps) {
         const match = matchesSearch(app.dataset.searchValue!, query);
         app.hidden = query ? !match : app.dataset.initialVisible !== "true";
-        if (query ? match : app.dataset.initialVisible === "true") matches++;
+        if (query ? match : app.dataset.initialVisible === "true") {
+          matches++;
+        }
       }
 
       empty.hidden = matches !== 0;
       const pagination = document.querySelector<HTMLElement>("[data-static-pagination]");
-      if (pagination) pagination.hidden = query !== "";
+      if (pagination) {
+        pagination.hidden = query !== "";
+      }
       status.textContent = query ? `${matches} ${matches === 1 ? "app" : "apps"} found` : "";
     };
 

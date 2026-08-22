@@ -1,33 +1,7 @@
 import { readFile, writeFile } from "node:fs/promises";
-import { z } from "zod";
-import { downloadHistorySchema, sumGitHubDownloads } from "@catalog/downloads";
+import { downloadHistorySchema } from "@catalog/downloads";
 import { readApps, root } from "@catalog/core";
-import { githubJson } from "./github";
-
-const githubReleaseSchema = z.object({
-  draft: z.boolean(),
-  prerelease: z.boolean(),
-  assets: z.array(
-    z.object({
-      name: z.string(),
-      download_count: z.number().int().nonnegative(),
-    })
-  ),
-});
-
-async function githubDownloads(repository: string) {
-  let total = 0;
-
-  for (let page = 1; ; page++) {
-    const releases = z
-      .array(githubReleaseSchema)
-      .parse(await githubJson(`/repos/${repository}/releases?per_page=100&page=${page}`));
-
-    total += sumGitHubDownloads(releases);
-
-    if (releases.length < 100) return total;
-  }
-}
+import { fetchDownloadTotal } from "./releases";
 
 const historyUrl = new URL("catalog/downloads.json", root);
 const history = downloadHistorySchema.parse(JSON.parse(await readFile(historyUrl, "utf8")));
@@ -35,19 +9,22 @@ const previous = history.snapshots.at(-1)?.apps ?? {};
 const apps: Record<string, number> = {};
 
 for (const { app } of await readApps()) {
-  if (app.releaseSource.type !== "github") continue;
+  const total = await fetchDownloadTotal(app);
 
-  const total = await githubDownloads(app.releaseSource.repository);
-
-  apps[app.id] = Math.max(previous[app.id] ?? 0, total);
+  if (total !== undefined) {
+    apps[app.id] = Math.max(previous[app.id] ?? 0, total);
+  }
 }
 
 const date = new Date().toISOString().slice(0, 10);
 const snapshot = { date, apps };
+const latest = history.snapshots.at(-1);
 
-if (history.snapshots.at(-1)?.date === date)
+if (latest?.date === date) {
   history.snapshots[history.snapshots.length - 1] = snapshot;
-else history.snapshots.push(snapshot);
+} else {
+  history.snapshots.push(snapshot);
+}
 
 history.snapshots = history.snapshots.slice(-40);
 

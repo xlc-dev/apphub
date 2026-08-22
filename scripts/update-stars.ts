@@ -9,11 +9,15 @@ const stars: Record<string, number> = {};
 
 await Promise.all(
   entries.map(async ({ slug, app }) => {
-    if (!app.repository || !repositoryStarRequest(app.repository)) return;
+    if (!app.repository || !repositoryStarRequest(app.repository)) {
+      return;
+    }
 
     try {
       const count = await fetchRepositoryStars(app.repository, process.env.GITHUB_TOKEN);
-      if (count !== undefined) stars[slug] = count;
+      if (count !== undefined) {
+        stars[slug] = count;
+      }
     } catch (error) {
       console.warn(`${slug}: could not fetch repository stars: ${String(error)}`);
     }

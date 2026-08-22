@@ -16,7 +16,9 @@ export function categorySlug(category: string) {
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-|-$/g, "");
 
-  if (!slug) throw new Error(`Category has no usable URL slug: ${category}`);
+  if (!slug) {
+    throw new Error(`Category has no usable URL slug: ${category}`);
+  }
 
   return slug;
 }

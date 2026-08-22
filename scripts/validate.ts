@@ -5,7 +5,9 @@ import { readApps, root } from "@catalog/core";
 const entries = await readApps();
 
 for (const { app, hasLock } of entries) {
-  if (!hasLock) throw new Error(`${app.id}: release lock is missing`);
+  if (!hasLock) {
+    throw new Error(`${app.id}: release lock is missing`);
+  }
 }
 
 downloadHistorySchema.parse(

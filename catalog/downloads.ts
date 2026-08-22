@@ -20,20 +20,24 @@ export const downloadHistorySchema = z
 
 type DownloadHistory = z.infer<typeof downloadHistorySchema>;
 
-interface GitHubReleaseDownloads {
+interface ForgeReleaseDownloads {
   draft: boolean;
   prerelease: boolean;
   assets: Array<{ name: string; download_count: number }>;
 }
 
-export function sumGitHubDownloads(releases: GitHubReleaseDownloads[]) {
+export function sumReleaseDownloads(releases: ForgeReleaseDownloads[]) {
   let total = 0;
 
   for (const release of releases) {
-    if (release.draft || release.prerelease) continue;
+    if (release.draft || release.prerelease) {
+      continue;
+    }
 
     for (const asset of release.assets) {
-      if (asset.name.toLowerCase().endsWith(".appimage")) total += asset.download_count;
+      if (asset.name.toLowerCase().endsWith(".appimage")) {
+        total += asset.download_count;
+      }
     }
   }
 
@@ -43,17 +47,24 @@ export function sumGitHubDownloads(releases: GitHubReleaseDownloads[]) {
 export function downloadCounts(history: DownloadHistory, days?: number) {
   const latest = history.snapshots.at(-1);
 
-  if (!latest) return null;
-  if (days === undefined) return latest.apps;
+  if (!latest) {
+    return null;
+  }
+
+  if (days === undefined) {
+    return latest.apps;
+  }
 
   const cutoff = new Date(`${latest.date}T00:00:00Z`);
 
   cutoff.setUTCDate(cutoff.getUTCDate() - days);
 
   const cutoffDate = cutoff.toISOString().slice(0, 10);
-  const baseline = history.snapshots.find((snapshot) => snapshot.date === cutoffDate);
+  const baseline = history.snapshots.findLast((snapshot) => snapshot.date <= cutoffDate);
 
-  if (!baseline) return null;
+  if (!baseline) {
+    return null;
+  }
 
   return Object.fromEntries(
     Object.entries(latest.apps).flatMap(([id, count]) =>

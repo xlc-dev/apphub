@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { downloadCounts, downloadHistorySchema, sumGitHubDownloads } from "@catalog/downloads";
+import { downloadCounts, downloadHistorySchema, sumReleaseDownloads } from "@catalog/downloads";
 
 const history = downloadHistorySchema.parse({
   snapshots: [
@@ -29,6 +29,20 @@ describe("download history", () => {
     expect(downloadCounts({ snapshots: [history.snapshots[2]!] }, 7)).toBeNull();
   });
 
+  test("uses the latest baseline before a missed snapshot date", () => {
+    expect(
+      downloadCounts(
+        {
+          snapshots: [
+            { date: "2026-07-23", apps: { "org.example.App": 10 } },
+            { date: "2026-07-31", apps: { "org.example.App": 25 } },
+          ],
+        },
+        7
+      )
+    ).toEqual({ "org.example.App": 15 });
+  });
+
   test("rejects duplicate or unordered snapshots", () => {
     expect(() =>
       downloadHistorySchema.parse({
@@ -52,10 +66,10 @@ describe("download history", () => {
   });
 });
 
-describe("GitHub download totals", () => {
+describe("forge download totals", () => {
   test("counts stable AppImage assets only", () => {
     expect(
-      sumGitHubDownloads([
+      sumReleaseDownloads([
         {
           draft: false,
           prerelease: false,

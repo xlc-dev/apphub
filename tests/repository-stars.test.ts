@@ -39,9 +39,7 @@ test("reads a valid star count", async () => {
       })
     );
 
-  expect(await fetchRepositoryStars("https://gitlab.com/example/app", undefined, fetcher)).toBe(
-    42
-  );
+  expect(await fetchRepositoryStars("https://gitlab.com/example/app", undefined, fetcher)).toBe(42);
 });
 
 test("rejects invalid and failed responses", async () => {
