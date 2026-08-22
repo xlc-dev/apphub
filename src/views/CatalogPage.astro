@@ -108,6 +108,9 @@ const state = paginationState(displayedCatalog.length, page);
       event.preventDefault();
       filter();
     });
+
+    input.value = new URL(location.href).searchParams.get("q") ?? "";
+    filter();
   }
 
   document.addEventListener("astro:page-load", initializeCatalogFilters);
