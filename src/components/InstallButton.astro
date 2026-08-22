@@ -1,0 +1,106 @@
+---
+import type { ApiApp } from "@/lib/api";
+
+interface Props {
+  artifacts: ApiApp["releases"][number]["artifacts"];
+}
+
+const artifacts = Astro.props.artifacts.map(({ architecture, sha256, url }) => ({
+  architecture,
+  sha256,
+  url,
+}));
+---
+
+<div class="relative mt-4 inline-block" data-install data-artifacts={JSON.stringify(artifacts)}>
+  <button
+    class="min-h-11 cursor-pointer rounded-lg bg-[var(--primary)] px-4 py-2.5 font-semibold text-[var(--primary-text)] hover:bg-[var(--primary-hover)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)] aria-disabled:cursor-not-allowed aria-disabled:opacity-50"
+    type="button"
+    aria-disabled="true"
+    aria-describedby="install-message"
+    data-install-button>
+    Install
+  </button>
+  <div
+    class="max-w-80 rounded-lg border border-[var(--border)] bg-[var(--card)] p-4 text-sm text-[var(--foreground)] shadow-lg"
+    id="install-message"
+    popover
+    data-install-message>
+    Checking your device architecture…
+  </div>
+</div>
+
+<script>
+  import { normalizeArchitecture } from "@/lib/architecture";
+
+  interface Artifact {
+    architecture: string;
+    sha256: string;
+    url: string;
+  }
+
+  interface UserAgentData {
+    getHighEntropyValues(hints: string[]): Promise<{ architecture?: string; bitness?: string }>;
+  }
+
+  async function deviceArchitecture() {
+    const userAgentData = (navigator as Navigator & { userAgentData?: UserAgentData })
+      .userAgentData;
+
+    if (userAgentData) {
+      try {
+        const { architecture, bitness } = await userAgentData.getHighEntropyValues([
+          "architecture",
+          "bitness",
+        ]);
+        const normalized = normalizeArchitecture(architecture ?? "", bitness);
+        if (normalized) return normalized;
+      } catch {}
+    }
+
+    const platform = normalizeArchitecture(navigator.platform);
+    if (platform) return platform;
+
+    const userAgentArchitecture = navigator.userAgent.match(
+      /(?:x86[_-]?64|amd64|i[3-6]86|aarch64|arm64|armv7l?|armhf|riscv64|ppc64le|s390x)/i
+    )?.[0];
+    return normalizeArchitecture(userAgentArchitecture ?? "");
+  }
+
+  async function initializeInstallButtons() {
+    for (const install of document.querySelectorAll<HTMLElement>("[data-install]")) {
+      if (install.dataset.initialized) continue;
+      install.dataset.initialized = "true";
+
+      const button = install.querySelector<HTMLButtonElement>("[data-install-button]");
+      const message = install.querySelector<HTMLElement>("[data-install-message]");
+      if (!button || !message) continue;
+
+      const artifacts = JSON.parse(install.dataset.artifacts ?? "[]") as Artifact[];
+      const architecture = await deviceArchitecture();
+      const artifact = artifacts.find((candidate) => candidate.architecture === architecture);
+
+      if (artifact) button.setAttribute("aria-disabled", "false");
+      else if (!architecture)
+        message.textContent = "Your device architecture could not be detected.";
+      else if (artifacts.length === 1)
+        message.textContent = `This AppImage is built for ${artifacts[0]!.architecture}, but your device reports ${architecture}.`;
+      else
+        message.textContent = `This app does not provide an AppImage for your ${architecture} device.`;
+
+      button.addEventListener("click", () => {
+        if (!artifact) {
+          message.showPopover();
+          return;
+        }
+
+        const url = new URL("appmgr://install");
+        url.searchParams.set("url", artifact.url);
+        url.searchParams.set("sha256", artifact.sha256);
+        window.location.href = url.href;
+      });
+    }
+  }
+
+  document.addEventListener("astro:page-load", initializeInstallButtons);
+</script>
