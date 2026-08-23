@@ -12,21 +12,42 @@ Read the documentation relevant to your change:
 - [API documentation](docs/api.md) for public endpoint behavior and response structures.
 - [Workflow documentation](docs/workflows.md) for validation, catalog maintenance, and deployment.
 
-Only submit images that may be redistributed under the license recorded for them.
+An application listing consists only of `apps/<slug>/app.json`. Do not submit downloaded metadata,
+images, release files, or changes under `.generated/`; CI generates them from the reviewed sources
+in that manifest. Start with the [application template](docs/app.template.json); every field is
+explained in the [catalog documentation](docs/catalog.md).
 
 ## Development
 
-Install dependencies with:
+The recommended setup uses Bun:
 
 ```sh
-bun install --frozen-lockfile
+bun install
 ```
+
+Node.js 22.18 or newer also works:
+
+```sh
+npm install
+npm run validate:node
+```
+
+Or with pnpm:
+
+```sh
+pnpm install
+pnpm run validate:node
+```
+
+The small `pnpm-workspace.yaml` only allows esbuild's required install script. It does not make this
+a multi-package workspace.
 
 The main directories are:
 
 - `src/` contains the website and public API.
-- `apps/` contains application manifests, release metadata, and images.
-- `catalog/` contains catalog schemas and collected statistics.
+- `apps/` contains one manifest per application.
+- `catalog/` contains catalog schemas.
+- `.generated/` contains the CI-owned catalog, media, releases, and statistics.
 - `scripts/` contains release, statistics, and validation tooling.
 - `tests/` contains the test suite.
 
@@ -39,12 +60,14 @@ Run the complete validation before submitting a pull request:
 bun run validate
 ```
 
-For focused work, use `bun test`, `bun run check`, or `bun run format:check`.
+For focused work, use `bun test`, `bun run check`, or `bun run format:check`. Node users can run
+`npm run test:node` or `pnpm run test:node`; the other script names are unchanged.
 
 ## Pull requests
 
-Explain what changed and why. Include generated catalog changes such as `releases.json` when the
-change requires them, but do not include unrelated formatting or generated files.
+Explain what changed and why. A pull request adding an application must add only its `app.json`.
+Generated catalog files are committed by the production workflow. Contributor changes to
+`.generated/` are rejected.
 
 Continuous integration runs the complete validation for every pull request. Pull requests from
 branches in this repository also receive a static preview deployment.
