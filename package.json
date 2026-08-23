@@ -4,7 +4,12 @@
   "version": "0.0.0",
   "license": "AGPL-3.0-or-later",
   "engines": {
-    "node": ">=22.12.0"
+    "node": ">=22.18.0"
+  },
+  "imports": {
+    "#catalog/*": "./catalog/*.ts",
+    "#lib/*": "./src/lib/*.ts",
+    "#scripts/*": "./scripts/*.ts"
   },
   "scripts": {
     "dev": "astro dev",
@@ -14,16 +19,20 @@
     "format:check": "prettier --check .",
     "check": "astro check",
     "test": "bun test",
-    "update-downloads": "bun scripts/update-downloads.ts",
-    "update-releases": "bun scripts/update-releases.ts",
-    "update-stars": "bun scripts/update-stars.ts",
-    "validate:catalog": "bun scripts/validate.ts",
-    "validate": "prettier --check . && astro check && bun test && bun run build && bun scripts/validate.ts"
+    "test:node": "node --test tests/*.test.ts",
+    "generate-catalog": "node scripts/generate-catalog.ts",
+    "update-downloads": "node scripts/update-downloads.ts",
+    "update-stars": "node scripts/update-stars.ts",
+    "validate:catalog": "node scripts/validate.ts",
+    "validate:project": "astro check && astro build && node scripts/validate.ts",
+    "validate": "prettier --check . && bun test && bun run validate:project",
+    "validate:node": "prettier --check . && node --test tests/*.test.ts && astro check && astro build && node scripts/validate.ts"
   },
   "dependencies": {
     "@fontsource-variable/inter": "^5.3.0",
     "@tailwindcss/vite": "^4.3.3",
     "astro": "^7.2.4",
+    "fast-xml-parser": "^5.11.0",
     "sharp": "^0.35.3",
     "spdx-expression-parse": "^5.0.0",
     "tailwindcss": "^4.3.3",
@@ -31,7 +40,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
-    "@types/bun": "^1.3.14",
+    "@types/node": "^22.18.0",
     "prettier": "^3.9.6",
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-tailwindcss": "^0.8.1",

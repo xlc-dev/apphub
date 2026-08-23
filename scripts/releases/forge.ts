@@ -1,9 +1,9 @@
 import { z } from "zod";
-import { sumReleaseDownloads } from "@catalog/downloads";
-import { selectAssets, type ReleaseLock } from "@catalog/core";
-import type { App } from "@catalog/schema";
-import { getPages } from "./http";
-import { normalizeDate, selectCurrent, type SourceRelease } from "./model";
+import { sumReleaseDownloads } from "#catalog/downloads";
+import { selectAssets, type ReleaseLock } from "#catalog/core";
+import type { App } from "#catalog/schema";
+import { getJson, getPages } from "#scripts/releases/http";
+import { normalizeDate, selectCurrent, type SourceRelease } from "#scripts/releases/model";
 
 const httpsUrl = z.url().refine((value) => new URL(value).protocol === "https:");
 
@@ -84,6 +84,17 @@ function getForgeReleases(type: ForgeType, repository: string) {
   );
 }
 
+async function getForgeReleasePage(type: ForgeType, repository: string) {
+  const url =
+    type === "github"
+      ? `https://api.github.com/repos/${repository}/releases?per_page=100&page=1`
+      : `https://codeberg.org/api/v1/repos/${repository}/releases?limit=50&page=1`;
+
+  const value = await getJson(url, type === "github" ? githubHeaders : undefined);
+
+  return z.array(releaseSchema).parse(value);
+}
+
 export function forgeSourceReleases(app: App, lock: ReleaseLock, releases: ForgeRelease[]) {
   const source = repository(app).repository;
   const ordered = [...releases].sort((left, right) =>
@@ -127,7 +138,9 @@ export function forgeSourceReleases(app: App, lock: ReleaseLock, releases: Forge
 
 export async function fetchForgeReleases(app: App, lock: ReleaseLock) {
   const source = repository(app);
-  const releases = await getForgeReleases(source.type, source.repository);
+  const releases = await (lock.releases.length
+    ? getForgeReleases(source.type, source.repository)
+    : getForgeReleasePage(source.type, source.repository));
 
   return forgeSourceReleases(app, lock, stableReleases(releases));
 }

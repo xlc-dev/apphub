@@ -2,13 +2,17 @@
   "extends": "astro/tsconfigs/strict",
   "compilerOptions": {
     "exactOptionalPropertyTypes": true,
+    "allowImportingTsExtensions": true,
     "noImplicitOverride": true,
     "noUncheckedIndexedAccess": true,
     "paths": {
+      "#catalog/*": ["./catalog/*"],
+      "#lib/*": ["./src/lib/*"],
+      "#scripts/*": ["./scripts/*"],
       "@/*": ["./src/*"],
       "@catalog/*": ["./catalog/*"]
     },
-    "types": ["bun"]
+    "types": ["node"]
   },
   "include": [".astro/types.d.ts", "**/*"],
   "exclude": ["dist"]

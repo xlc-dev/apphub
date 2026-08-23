@@ -1,6 +1,7 @@
-import { expect, test } from "bun:test";
-import { feedSourceReleases } from "../scripts/releases/feed";
-import type { App, ReleaseLock } from "@catalog/schema";
+import assert from "node:assert/strict";
+import { test } from "node:test";
+import { feedSourceReleases } from "#scripts/releases/feed";
+import type { App, ReleaseLock } from "#catalog/schema";
 
 const app = {
   id: "org.example.App",
@@ -31,7 +32,7 @@ test("validates and normalizes feed releases", () => {
     ],
   });
 
-  expect(releases).toEqual([
+  assert.deepEqual(releases, [
     {
       version: "1.0",
       publishedAt: "2026-08-20T08:49:50.000Z",

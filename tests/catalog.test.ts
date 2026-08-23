@@ -1,4 +1,5 @@
-import { describe, expect, test } from "bun:test";
+import assert from "node:assert/strict";
+import { describe, test } from "node:test";
 import {
   globRegex,
   hashDownload,
@@ -6,15 +7,20 @@ import {
   selectAssets,
   sha256,
   validateImage,
-} from "@catalog/core";
-import { appSchema, releaseLockSchema, type App } from "@catalog/schema";
+} from "#catalog/core";
+import { appSchema, releaseLockSchema, type App } from "#catalog/schema";
 import sharp from "sharp";
 
 const app: App = {
   id: "org.example.App",
   name: "Example",
   summary: "An example app",
-  description: "An example application for tests.",
+  description: [
+    {
+      type: "paragraph",
+      content: [{ type: "text", value: "An example application for tests." }],
+    },
+  ],
   projectLicense: "MIT",
   developer: { name: "Example Developers" },
   homepage: "https://example.org/",
@@ -63,22 +69,23 @@ async function errorMessage(promise: Promise<unknown>) {
 
 describe("catalog schema", () => {
   test("accepts a complete application manifest", () => {
-    expect(appSchema.parse(app)).toEqual(app);
+    assert.deepEqual(appSchema.parse(app), app);
   });
 
   test("requires official or community provenance", () => {
-    expect(appSchema.parse({ ...app, source: "community" }).source).toBe("community");
-    expect(() => appSchema.parse({ ...app, source: undefined })).toThrow();
-    expect(() => appSchema.parse({ ...app, source: "unknown" })).toThrow();
+    assert.equal(appSchema.parse({ ...app, source: "community" }).source, "community");
+    assert.throws(() => appSchema.parse({ ...app, source: undefined }));
+    assert.throws(() => appSchema.parse({ ...app, source: "unknown" }));
   });
 
   test("rejects unknown manifest fields", () => {
-    expect(() => appSchema.parse({ ...app, unknown: true })).toThrow();
+    assert.throws(() => appSchema.parse({ ...app, unknown: true }));
   });
 
   test("requires HTTPS URLs", () => {
-    expect(() => appSchema.parse({ ...app, homepage: "http://example.org" })).toThrow(
-      "Must use HTTPS"
+    assert.throws(
+      () => appSchema.parse({ ...app, homepage: "http://example.org" }),
+      /Must use HTTPS/
     );
   });
 
@@ -91,149 +98,156 @@ describe("catalog schema", () => {
       "addedAt",
       "categories",
     ] as const) {
-      expect(() => appSchema.parse({ ...app, [field]: undefined })).toThrow();
+      assert.throws(() => appSchema.parse({ ...app, [field]: undefined }));
     }
   });
 
   test("uses registered category identifiers", () => {
-    expect(appSchema.parse({ ...app, categories: ["Graphics", "2DGraphics"] }).categories).toEqual([
-      "Graphics",
-      "2DGraphics",
-    ]);
-    expect(() => appSchema.parse({ ...app, categories: ["Audio & Video"] })).toThrow();
-    expect(() => appSchema.parse({ ...app, categories: ["MadeUpCategory"] })).toThrow();
-    expect(() => appSchema.parse({ ...app, categories: ["Utility", "Utility"] })).toThrow(
-      "Categories must be unique"
+    assert.deepEqual(
+      appSchema.parse({ ...app, categories: ["Graphics", "2DGraphics"] }).categories,
+      ["Graphics", "2DGraphics"]
+    );
+    assert.throws(() => appSchema.parse({ ...app, categories: ["Audio & Video"] }));
+    assert.throws(() => appSchema.parse({ ...app, categories: ["MadeUpCategory"] }));
+    assert.throws(
+      () => appSchema.parse({ ...app, categories: ["Utility", "Utility"] }),
+      /Categories must be unique/
     );
   });
 
   test("requires a main category", () => {
-    expect(() => appSchema.parse({ ...app, categories: ["TextEditor"] })).toThrow(
-      "At least one main category is required"
+    assert.throws(
+      () => appSchema.parse({ ...app, categories: ["TextEditor"] }),
+      /At least one main category is required/
     );
-    expect(appSchema.parse({ ...app, categories: ["Utility", "TextEditor"] }).categories).toEqual([
-      "Utility",
-      "TextEditor",
-    ]);
+    assert.deepEqual(
+      appSchema.parse({ ...app, categories: ["Utility", "TextEditor"] }).categories,
+      ["Utility", "TextEditor"]
+    );
   });
 
   test("requires an SPDX project license expression", () => {
-    expect(appSchema.parse({ ...app, projectLicense: "MIT OR Apache-2.0" }).projectLicense).toBe(
+    assert.equal(
+      appSchema.parse({ ...app, projectLicense: "MIT OR Apache-2.0" }).projectLicense,
       "MIT OR Apache-2.0"
     );
-    expect(() => appSchema.parse({ ...app, projectLicense: "MadeUpLicense" })).toThrow(
-      "Must be a valid SPDX license expression"
+    assert.throws(
+      () => appSchema.parse({ ...app, projectLicense: "MadeUpLicense" }),
+      /Must be a valid SPDX license expression/
     );
   });
 
   test("accepts MIME types and URI handlers", () => {
-    expect(
+    assert.deepEqual(
       appSchema.parse({
         ...app,
         mimeTypes: ["video/mp4", "x-scheme-handler/magnet"],
-      }).mimeTypes
-    ).toEqual(["video/mp4", "x-scheme-handler/magnet"]);
-    expect(() => appSchema.parse({ ...app, mimeTypes: ["not-a-mime-type"] })).toThrow();
+      }).mimeTypes,
+      ["video/mp4", "x-scheme-handler/magnet"]
+    );
+    assert.throws(() => appSchema.parse({ ...app, mimeTypes: ["not-a-mime-type"] }));
   });
 
   test("rejects duplicate keywords", () => {
-    expect(() => appSchema.parse({ ...app, keywords: ["example", "Example"] })).toThrow(
-      "Keywords must be unique"
+    assert.throws(
+      () => appSchema.parse({ ...app, keywords: ["example", "Example"] }),
+      /Keywords must be unique/
     );
   });
 
   test("limits contributor-controlled text", () => {
-    expect(() => appSchema.parse({ ...app, summary: "x".repeat(201) })).toThrow();
-    expect(() =>
+    assert.throws(() => appSchema.parse({ ...app, summary: "x".repeat(201) }));
+    assert.throws(() =>
       appSchema.parse({
         ...app,
         screenshots: [{ ...app.screenshots[0], caption: "x".repeat(201) }],
       })
-    ).toThrow();
+    );
   });
 
   test("requires at least one screenshot", () => {
-    expect(() => appSchema.parse({ ...app, screenshots: [] })).toThrow();
+    assert.throws(() => appSchema.parse({ ...app, screenshots: [] }));
   });
 
   test("requires screenshot descriptions", () => {
-    expect(() =>
+    assert.throws(() =>
       appSchema.parse({ ...app, screenshots: [{ ...app.screenshots[0], caption: undefined }] })
-    ).toThrow();
+    );
   });
 
   test("rejects screenshot paths", () => {
-    expect(() =>
+    assert.throws(() =>
       appSchema.parse({
         ...app,
         screenshots: [{ ...app.screenshots[0], file: "../screenshot.png" }],
       })
-    ).toThrow();
+    );
   });
 
   test("rejects duplicate screenshots", () => {
-    expect(() =>
-      appSchema.parse({
-        ...app,
-        screenshots: [app.screenshots[0], app.screenshots[0]],
-      })
-    ).toThrow("Screenshot files must be unique");
-  });
-
-  test("accepts directly maintained releases", () => {
-    expect(appSchema.parse({ ...app, releaseSource: { type: "direct" } }).releaseSource).toEqual({
-      type: "direct",
-    });
+    assert.throws(
+      () =>
+        appSchema.parse({
+          ...app,
+          screenshots: [app.screenshots[0], app.screenshots[0]],
+        }),
+      /Screenshot files must be unique/
+    );
   });
 
   test("accepts GitLab and Codeberg release sources", () => {
-    expect(
+    assert.deepEqual(
       appSchema.parse({
         ...app,
         releaseSource: { type: "gitlab", repository: "example/tools/app" },
-      }).releaseSource
-    ).toEqual({ type: "gitlab", repository: "example/tools/app" });
-    expect(
+      }).releaseSource,
+      { type: "gitlab", repository: "example/tools/app" }
+    );
+    assert.deepEqual(
       appSchema.parse({
         ...app,
         releaseSource: { type: "codeberg", repository: "example/app" },
-      }).releaseSource
-    ).toEqual({ type: "codeberg", repository: "example/app" });
+      }).releaseSource,
+      { type: "codeberg", repository: "example/app" }
+    );
   });
 
   test("accepts structured release feeds", () => {
-    expect(
+    assert.deepEqual(
       appSchema.parse({
         ...app,
         releaseSource: { type: "feed", url: "https://example.org/releases.json" },
-      }).releaseSource
-    ).toEqual({ type: "feed", url: "https://example.org/releases.json" });
+      }).releaseSource,
+      { type: "feed", url: "https://example.org/releases.json" }
+    );
   });
 
   test("requires a complete sandbox policy", () => {
-    expect(() => appSchema.parse({ ...app, sandbox: undefined })).toThrow();
-    expect(() =>
+    assert.throws(() => appSchema.parse({ ...app, sandbox: undefined }));
+    assert.throws(() =>
       appSchema.parse({ ...app, sandbox: { ...app.sandbox, network: undefined } })
-    ).toThrow();
+    );
   });
 
   test("rejects duplicate sandbox permissions", () => {
-    expect(() =>
-      appSchema.parse({
-        ...app,
-        sandbox: {
-          ...app.sandbox,
-          filesystem: [
-            { location: "documents", access: "read-only" },
-            { location: "documents", access: "read-write" },
-          ],
-        },
-      })
-    ).toThrow("Filesystem locations must be unique");
+    assert.throws(
+      () =>
+        appSchema.parse({
+          ...app,
+          sandbox: {
+            ...app.sandbox,
+            filesystem: [
+              { location: "documents", access: "read-only" },
+              { location: "documents", access: "read-write" },
+            ],
+          },
+        }),
+      /Filesystem locations must be unique/
+    );
   });
 
   test("requires exact D-Bus names", () => {
-    expect(() =>
+    assert.throws(() =>
       appSchema.parse({
         ...app,
         sandbox: {
@@ -241,13 +255,14 @@ describe("catalog schema", () => {
           sessionBus: [{ name: "org.example.*", access: "talk" }],
         },
       })
-    ).toThrow();
+    );
   });
 
   test("rejects unsafe asset patterns", () => {
-    expect(() =>
-      appSchema.parse({ ...app, assets: { x86_64: "downloads/Example.AppImage" } })
-    ).toThrow("filename pattern");
+    assert.throws(
+      () => appSchema.parse({ ...app, assets: { x86_64: "downloads/Example.AppImage" } }),
+      /filename pattern/
+    );
   });
 });
 
@@ -275,14 +290,16 @@ describe("release lock schema", () => {
       page: "https://example.org/releases/1.0",
     };
 
-    expect(() => releaseLockSchema.parse({ appId: app.id, releases: [older, release] })).toThrow(
-      "Releases must be ordered newest first"
+    assert.throws(
+      () => releaseLockSchema.parse({ appId: app.id, releases: [older, release] }),
+      /Releases must be ordered newest first/
     );
   });
 
   test("rejects duplicate release versions", () => {
-    expect(() => releaseLockSchema.parse({ appId: app.id, releases: [release, release] })).toThrow(
-      "Release versions must be unique"
+    assert.throws(
+      () => releaseLockSchema.parse({ appId: app.id, releases: [release, release] }),
+      /Release versions must be unique/
     );
   });
 
@@ -292,8 +309,9 @@ describe("release lock schema", () => {
       artifacts: [release.artifacts[0], { ...release.artifacts[0], name: "Other.AppImage" }],
     };
 
-    expect(() => releaseLockSchema.parse({ appId: app.id, releases: [duplicate] })).toThrow(
-      "Release architectures must be unique"
+    assert.throws(
+      () => releaseLockSchema.parse({ appId: app.id, releases: [duplicate] }),
+      /Release architectures must be unique/
     );
   });
 });
@@ -302,51 +320,56 @@ describe("asset matching", () => {
   test("glob patterns are anchored", () => {
     const pattern = globRegex("Example-*-x86_64.AppImage");
 
-    expect(pattern.test("Example-1-x86_64.AppImage")).toBe(true);
-    expect(pattern.test("prefix-Example-1-x86_64.AppImage")).toBe(false);
+    assert.equal(pattern.test("Example-1-x86_64.AppImage"), true);
+    assert.equal(pattern.test("prefix-Example-1-x86_64.AppImage"), false);
   });
 
   test("architectures require filename boundaries", () => {
-    expect(matchesArchitecture("Example-x86_64.AppImage", "x86_64")).toBe(true);
-    expect(matchesArchitecture("Example-amd64.AppImage", "x86_64")).toBe(true);
-    expect(matchesArchitecture("Example-notarm64.AppImage", "aarch64")).toBe(false);
-    expect(matchesArchitecture("Example-arm64.AppImage.zsync", "aarch64")).toBe(false);
+    assert.equal(matchesArchitecture("Example-x86_64.AppImage", "x86_64"), true);
+    assert.equal(matchesArchitecture("Example-amd64.AppImage", "x86_64"), true);
+    assert.equal(matchesArchitecture("Example-notarm64.AppImage", "aarch64"), false);
+    assert.equal(matchesArchitecture("Example-arm64.AppImage.zsync", "aarch64"), false);
   });
 
   test("supports single-architecture releases", () => {
-    expect(selectAssets(app, [{ name: "Example-x86_64.AppImage" }])).toEqual([
+    assert.deepEqual(selectAssets(app, [{ name: "Example-x86_64.AppImage" }]), [
       { architecture: "x86_64", asset: { name: "Example-x86_64.AppImage" } },
     ]);
   });
 
   test("supports additional and custom architectures", () => {
-    expect(
+    assert.deepEqual(
       selectAssets(
         {
           ...app,
           assets: { riscv64: "Example-riscv64.AppImage", loongarch64: "*-la64.AppImage" },
         },
         [{ name: "Example-riscv64.AppImage" }, { name: "Example-la64.AppImage" }]
-      ).map(({ architecture }) => architecture)
-    ).toEqual(["loongarch64", "riscv64"]);
+      ).map(({ architecture }) => architecture),
+      ["loongarch64", "riscv64"]
+    );
   });
 
   test("ambiguous assets fail closed", () => {
-    expect(() =>
-      selectAssets(app, [
-        { name: "Example-1-x86_64.AppImage" },
-        { name: "Example-2-x86_64.AppImage" },
-      ])
-    ).toThrow("expected one x86_64 asset, found 2");
+    assert.throws(
+      () =>
+        selectAssets(app, [
+          { name: "Example-1-x86_64.AppImage" },
+          { name: "Example-2-x86_64.AppImage" },
+        ]),
+      /expected one x86_64 asset, found 2/
+    );
   });
 
   test("does not select one asset for multiple architectures", () => {
-    expect(() =>
-      selectAssets(
-        { ...app, assets: { x86_64: "Example.AppImage", aarch64: "Example.AppImage" } },
-        [{ name: "Example.AppImage" }]
-      )
-    ).toThrow("selected the same asset");
+    assert.throws(
+      () =>
+        selectAssets(
+          { ...app, assets: { x86_64: "Example.AppImage", aarch64: "Example.AppImage" } },
+          [{ name: "Example.AppImage" }]
+        ),
+      /selected the same asset/
+    );
   });
 });
 
@@ -354,28 +377,30 @@ describe("download hashing", () => {
   const url = "data:application/octet-stream;base64,YXBwaHVi";
 
   test("hashes an exact-size download", async () => {
-    expect(await hashDownload({ name: "fixture", url, size: 6 })).toEqual({
+    assert.deepEqual(await hashDownload({ name: "fixture", url, size: 6 }), {
       size: 6,
       sha256: sha256(Buffer.from("apphub")),
     });
   });
 
   test("measures a download without a published size", async () => {
-    expect(await hashDownload({ name: "fixture", url })).toEqual({
+    assert.deepEqual(await hashDownload({ name: "fixture", url }), {
       size: 6,
       sha256: sha256(Buffer.from("apphub")),
     });
   });
 
   test("rejects downloads with a different published size", async () => {
-    expect(await errorMessage(hashDownload({ name: "fixture", url, size: 7 }))).toContain(
-      "differs from published size"
+    assert.match(
+      await errorMessage(hashDownload({ name: "fixture", url, size: 7 })),
+      /differs from published size/
     );
   });
 
   test("stops downloads that exceed their published size", async () => {
-    expect(await errorMessage(hashDownload({ name: "fixture", url, size: 5 }))).toContain(
-      "exceeds published size"
+    assert.match(
+      await errorMessage(hashDownload({ name: "fixture", url, size: 5 })),
+      /exceeds published size/
     );
   });
 });
@@ -397,56 +422,64 @@ describe("image validation", () => {
   test("rejects non-square icons", async () => {
     const data = await image(128, 256).png().toBuffer();
 
-    expect(await errorMessage(validateImage(data, "icon.png", app.id, { icon: true }))).toContain(
-      "icon must be square"
+    assert.match(
+      await errorMessage(validateImage(data, "icon.png", app.id, { icon: true })),
+      /icon must be square/
     );
   });
 
   test("rejects corrupt and truncated images", async () => {
     const valid = await image().png().toBuffer();
 
-    expect(
-      await errorMessage(validateImage(Buffer.from("not an image"), "icon.png", app.id))
-    ).toContain(app.id);
-    expect(await errorMessage(validateImage(valid.subarray(0, 24), "icon.png", app.id))).toContain(
-      app.id
+    assert.match(
+      await errorMessage(validateImage(Buffer.from("not an image"), "icon.png", app.id)),
+      new RegExp(app.id)
+    );
+    assert.match(
+      await errorMessage(validateImage(valid.subarray(0, 24), "icon.png", app.id)),
+      new RegExp(app.id)
     );
   });
 
   test("rejects icons outside the supported dimensions", async () => {
-    expect(
+    assert.match(
       await errorMessage(
         validateImage(await image(64).png().toBuffer(), "icon.png", app.id, { icon: true })
-      )
-    ).toContain("between 128 and 1024 pixels");
-    expect(
+      ),
+      /between 128 and 1024 pixels/
+    );
+    assert.match(
       await errorMessage(
         validateImage(await image(2048).png().toBuffer(), "icon.png", app.id, { icon: true })
-      )
-    ).toContain("between 128 and 1024 pixels");
+      ),
+      /between 128 and 1024 pixels/
+    );
   });
 
   test("rejects excessive screenshot dimensions", async () => {
     const data = await image(8193, 1).png().toBuffer();
 
-    expect(await errorMessage(validateImage(data, "screenshot-1.png", app.id))).toContain(
-      "must not exceed 8192 pixels"
+    assert.match(
+      await errorMessage(validateImage(data, "screenshot-1.png", app.id)),
+      /must not exceed 8192 pixels/
     );
   });
 
   test("rejects images that do not match their extension", async () => {
     const data = await image().png().toBuffer();
 
-    expect(await errorMessage(validateImage(data, "screenshot-1.jpg", app.id))).toContain(
-      "does not match its image format"
+    assert.match(
+      await errorMessage(validateImage(data, "screenshot-1.jpg", app.id)),
+      /does not match its image format/
     );
   });
 
   test("rejects unsupported formats", async () => {
     const data = await image().gif().toBuffer();
 
-    expect(await errorMessage(validateImage(data, "screenshot-1.gif", app.id))).toContain(
-      "unsupported image format"
+    assert.match(
+      await errorMessage(validateImage(data, "screenshot-1.gif", app.id)),
+      /unsupported image format/
     );
   });
 });

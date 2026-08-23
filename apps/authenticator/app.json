@@ -1,35 +1,18 @@
 {
-  "id": "com.belmoussaoui.Authenticator",
-  "name": "Authenticator",
-  "summary": "Generate two-factor codes",
-  "description": "Authenticator generates two-factor authentication codes and supports time-based, counter-based, and Steam methods. It can scan QR codes, protect accounts with a password, and import or export backups.",
-  "projectLicense": "GPL-3.0-or-later",
-  "developer": {
-    "name": "Bilal Elmoussaoui",
-    "url": "https://gitlab.gnome.org/World/Authenticator"
+  "appstream": {
+    "type": "flathub",
+    "id": "com.belmoussaoui.Authenticator"
   },
-  "homepage": "https://gitlab.gnome.org/World/Authenticator",
-  "repository": "https://gitlab.gnome.org/World/Authenticator",
   "addedAt": "2026-08-22",
-  "keywords": ["gnome", "gtk", "2fa"],
-  "categories": ["Security", "Utility"],
   "source": "community",
+  "mediaLicense": {
+    "icon": "GPL-3.0-or-later",
+    "screenshots": "GPL-3.0-or-later"
+  },
   "releaseSource": {
     "type": "github",
     "repository": "pkgforge-dev/Authenticator-AppImage"
   },
-  "icon": {
-    "license": "GPL-3.0-or-later",
-    "source": "https://dl.flathub.org/media/com/belmoussaoui/Authenticator/cbb66aa59a1a410b7b890236a347dcf2/icons/128x128/com.belmoussaoui.Authenticator.png"
-  },
-  "screenshots": [
-    {
-      "file": "screenshot-1.png",
-      "caption": "Main Window",
-      "license": "GPL-3.0-or-later",
-      "source": "https://dl.flathub.org/media/com/belmoussaoui/Authenticator/cbb66aa59a1a410b7b890236a347dcf2/screenshots/image-1_orig.png"
-    }
-  ],
   "sandbox": {
     "network": "none",
     "display": "wayland-and-x11",

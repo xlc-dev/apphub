@@ -1,10 +1,11 @@
 import { readFile, writeFile } from "node:fs/promises";
-import { readApps, root } from "@catalog/core";
-import { repositoryStarsSchema } from "@catalog/stars";
-import { fetchRepositoryStars, repositoryStarRequest } from "@/lib/repository-stars";
+import { readApps, root } from "#catalog/core";
+import { repositoryStarsSchema } from "#catalog/stars";
+import { fetchRepositoryStars, repositoryStarRequest } from "#lib/repository-stars";
 
-const starsUrl = new URL("catalog/stars.json", root);
+const starsUrl = new URL(".generated/stars.json", root);
 const previous = repositoryStarsSchema.parse(JSON.parse(await readFile(starsUrl, "utf8")));
+
 const entries = await readApps();
 const stars: Record<string, number> = {};
 

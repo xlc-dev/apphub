@@ -1,5 +1,6 @@
-import { describe, expect, test } from "bun:test";
-import { downloadCounts, downloadHistorySchema, sumReleaseDownloads } from "@catalog/downloads";
+import assert from "node:assert/strict";
+import { describe, test } from "node:test";
+import { downloadCounts, downloadHistorySchema, sumReleaseDownloads } from "#catalog/downloads";
 
 const history = downloadHistorySchema.parse({
   snapshots: [
@@ -14,23 +15,23 @@ const history = downloadHistorySchema.parse({
 
 describe("download history", () => {
   test("returns the latest totals for all-time rankings", () => {
-    expect(downloadCounts(history)).toEqual({
+    assert.deepEqual(downloadCounts(history), {
       "org.example.First": 55,
       "org.example.New": 100,
     });
   });
 
   test("calculates downloads since the requested baseline", () => {
-    expect(downloadCounts(history, 7)).toEqual({ "org.example.First": 15 });
-    expect(downloadCounts(history, 30)).toEqual({ "org.example.First": 45 });
+    assert.deepEqual(downloadCounts(history, 7), { "org.example.First": 15 });
+    assert.deepEqual(downloadCounts(history, 30), { "org.example.First": 45 });
   });
 
   test("requires enough history for a trend", () => {
-    expect(downloadCounts({ snapshots: [history.snapshots[2]!] }, 7)).toBeNull();
+    assert.equal(downloadCounts({ snapshots: [history.snapshots[2]!] }, 7), null);
   });
 
   test("uses the latest baseline before a missed snapshot date", () => {
-    expect(
+    assert.deepEqual(
       downloadCounts(
         {
           snapshots: [
@@ -39,20 +40,23 @@ describe("download history", () => {
           ],
         },
         7
-      )
-    ).toEqual({ "org.example.App": 15 });
+      ),
+      { "org.example.App": 15 }
+    );
   });
 
   test("rejects duplicate or unordered snapshots", () => {
-    expect(() =>
-      downloadHistorySchema.parse({
-        snapshots: [history.snapshots[1], history.snapshots[0]],
-      })
-    ).toThrow("unique and ordered");
+    assert.throws(
+      () =>
+        downloadHistorySchema.parse({
+          snapshots: [history.snapshots[1], history.snapshots[0]],
+        }),
+      /unique and ordered/
+    );
   });
 
   test("does not report negative download changes", () => {
-    expect(
+    assert.deepEqual(
       downloadCounts(
         {
           snapshots: [
@@ -61,14 +65,15 @@ describe("download history", () => {
           ],
         },
         7
-      )
-    ).toEqual({ "org.example.App": 0 });
+      ),
+      { "org.example.App": 0 }
+    );
   });
 });
 
 describe("forge download totals", () => {
   test("counts stable AppImage assets only", () => {
-    expect(
+    assert.equal(
       sumReleaseDownloads([
         {
           draft: false,
@@ -88,7 +93,8 @@ describe("forge download totals", () => {
           prerelease: false,
           assets: [{ name: "Example.AppImage", download_count: 40 }],
         },
-      ])
-    ).toBe(10);
+      ]),
+      10
+    );
   });
 });

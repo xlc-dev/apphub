@@ -1,10 +1,11 @@
 import { readFile, writeFile } from "node:fs/promises";
-import { downloadHistorySchema } from "@catalog/downloads";
-import { readApps, root } from "@catalog/core";
-import { fetchDownloadTotal } from "./releases";
+import { downloadHistorySchema } from "#catalog/downloads";
+import { readApps, root } from "#catalog/core";
+import { fetchDownloadTotal } from "#scripts/releases/index";
 
-const historyUrl = new URL("catalog/downloads.json", root);
+const historyUrl = new URL(".generated/downloads.json", root);
 const history = downloadHistorySchema.parse(JSON.parse(await readFile(historyUrl, "utf8")));
+
 const previous = history.snapshots.at(-1)?.apps ?? {};
 const apps: Record<string, number> = {};
 

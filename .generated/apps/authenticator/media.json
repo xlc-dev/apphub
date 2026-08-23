@@ -1,0 +1,33 @@
+{
+  "icon": {
+    "file": "icon.png",
+    "source": "https://dl.flathub.org/media/com/belmoussaoui/Authenticator/cbb66aa59a1a410b7b890236a347dcf2/icons/128x128/com.belmoussaoui.Authenticator.png"
+  },
+  "screenshots": [
+    {
+      "file": "screenshot-1.png",
+      "caption": "Main Window",
+      "source": "https://dl.flathub.org/media/com/belmoussaoui/Authenticator/cbb66aa59a1a410b7b890236a347dcf2/screenshots/image-1_orig.png"
+    },
+    {
+      "file": "screenshot-2.png",
+      "caption": "Add a New Account",
+      "source": "https://dl.flathub.org/media/com/belmoussaoui/Authenticator/cbb66aa59a1a410b7b890236a347dcf2/screenshots/image-2_orig.png"
+    },
+    {
+      "file": "screenshot-3.png",
+      "caption": "Add a New Provider",
+      "source": "https://dl.flathub.org/media/com/belmoussaoui/Authenticator/cbb66aa59a1a410b7b890236a347dcf2/screenshots/image-3_orig.png"
+    },
+    {
+      "file": "screenshot-4.png",
+      "caption": "Account Details",
+      "source": "https://dl.flathub.org/media/com/belmoussaoui/Authenticator/cbb66aa59a1a410b7b890236a347dcf2/screenshots/image-4_orig.png"
+    },
+    {
+      "file": "screenshot-5.png",
+      "caption": "Backup/Restore formats support",
+      "source": "https://dl.flathub.org/media/com/belmoussaoui/Authenticator/cbb66aa59a1a410b7b890236a347dcf2/screenshots/image-5_orig.png"
+    }
+  ]
+}

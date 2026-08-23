@@ -1,0 +1,13 @@
+{
+  "icon": {
+    "file": "icon.png",
+    "source": "https://dl.flathub.org/media/org/librecad/librecad/3a60c174cc1e5684d32478ebe548d3fe/icons/128x128/org.librecad.librecad.png"
+  },
+  "screenshots": [
+    {
+      "file": "screenshot-1.png",
+      "caption": "Main Window",
+      "source": "https://dl.flathub.org/media/org/librecad/librecad/3a60c174cc1e5684d32478ebe548d3fe/screenshots/image-1_orig.png"
+    }
+  ]
+}

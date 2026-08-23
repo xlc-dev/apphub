@@ -1,296 +1,161 @@
 # Catalog
 
-The AppHub catalog is the source of application metadata used by both the website and the public
-API. Each application is stored as a self-contained directory under `apps/`. AppHub serves listing
-images itself and links release artifacts directly to their upstream publishers.
-
-## Directory structure
-
-Use a lowercase, hyphen-separated directory name:
+Each application has one reviewed source file:
 
 ```text
-apps/example-app/
-├── app.json
-├── icon.png
-├── releases.json
-└── screenshot-1.png
+apps/example-app/app.json
 ```
 
-Only `app.json`, `releases.json`, one icon, and the screenshots referenced by the manifest are
-allowed. Symbolic links and unreferenced assets are rejected.
+Copy the [application template](app.template.json) to `apps/<slug>/app.json`, using a lowercase,
+hyphen-separated slug, and fill it in. A contributor pull request must add only that file. Any other
+file in the application directory is rejected.
 
-## Application manifest
+CI reads `app.json`, fetches upstream data, and writes the result under `.generated/apps/`. The
+generated catalog is committed by the production workflow so ordinary builds are fast,
+deterministic, and do not need network access. Contributor pull requests must not change it.
 
-`app.json` contains maintained application metadata:
+## Manifest
 
 ```json
 {
-  "id": "org.example.App",
-  "name": "Example App",
-  "summary": "A short description of the application",
-  "description": "A longer plain-text description.",
-  "projectLicense": "MIT",
-  "developer": {
-    "name": "Example Developers",
-    "url": "https://example.org/"
+  "appstream": {
+    "type": "flathub",
+    "id": "org.example.App"
   },
-  "homepage": "https://example.org/",
-  "repository": "https://github.com/example/app",
-  "addedAt": "2026-08-20",
-  "keywords": ["example"],
-  "categories": ["Utility"],
-  "mimeTypes": ["application/example"],
-  "source": "official",
+  "addedAt": "2026-08-23",
+  "source": "community",
+  "mediaLicense": {
+    "icon": "GPL-3.0-or-later",
+    "screenshots": "GPL-3.0-or-later"
+  },
   "releaseSource": {
     "type": "github",
-    "repository": "example/app"
+    "repository": "example/app-appimage"
   },
-  "icon": {
-    "license": "CC0-1.0",
-    "source": "https://example.org/icon.png"
-  },
-  "screenshots": [
-    {
-      "file": "screenshot-1.png",
-      "caption": "Main window",
-      "license": "CC0-1.0",
-      "source": "https://example.org/screenshot.png"
-    }
-  ],
   "sandbox": {
-    "network": "client",
-    "display": "wayland",
-    "audio": "playback",
+    "network": "none",
+    "display": "wayland-and-x11",
+    "audio": "none",
     "processes": "isolated",
     "ipc": false,
-    "filesystem": [
-      {
-        "location": "music",
-        "access": "read-only"
-      }
-    ],
+    "filesystem": [],
     "devices": ["gpu"],
-    "portals": ["file-chooser", "notifications", "open-uri"],
+    "portals": [],
     "sessionBus": [],
     "systemBus": []
   }
 }
 ```
 
-All objects reject unknown fields. URLs must use HTTPS.
+`app.json` contains only source pointers and information AppHub cannot determine safely:
 
-### Identity and presentation
+- The AppStream and AppImage release sources.
+- The catalog addition date and whether the package is official or community maintained.
+- Icon and screenshot redistribution licenses.
+- The required sandbox access.
+- Optional lifecycle and AppImage filename overrides.
 
-- `id` is the application's reverse-DNS AppStream ID.
-- `name` is limited to 100 characters.
-- `summary` is a short description limited to 200 characters.
-- `description` is plain text and is limited to 10,000 characters.
-- `projectLicense` is a valid SPDX license expression.
-- `developer.name` identifies the developer; `developer.url` is optional.
-- `homepage` is the canonical project homepage.
-- `repository` is optional and is used for repository metadata when the host is supported.
-- `addedAt` is the catalog addition date in `YYYY-MM-DD` form, not the release date.
+Unknown fields are rejected. URLs must use HTTPS and licenses must be SPDX expressions.
 
-### Discovery metadata
+## Generated information
 
-- `keywords` is an optional list of up to 50 unique search terms.
-- `categories` contains unique registered Freedesktop categories and must contain at least one main
-  category. The accepted registry is defined in `catalog/categories.ts`.
-- `mimeTypes` is an optional list of up to 100 unique MIME types handled by the application.
+For a Flathub source, the generator obtains the following from its AppStream record:
 
-### Provenance and lifecycle
+- ID, name, summary, description, project license, developer, and links.
+- Categories, keywords, and MIME types.
+- Icon and screenshot sources and captions.
 
-- `source` is `official` when the listing is maintained by the application's developers and
-  `community` otherwise.
-- `deprecated: true` marks a discontinued listing.
-- `replacedBy` may contain the application ID of its replacement. The replacement must already exist
-  in the catalog.
+Descriptions preserve AppStream paragraphs, ordered and unordered lists, emphasis, and code as
+structured data. Unsupported description markup fails the build.
 
-## Images
+The generator downloads and validates all images rather than trusting their extensions. It also
+fetches the latest release, selects its AppImage artifacts, and records their sizes and SHA-256
+hashes in the generated catalog. CI commits this output after merge.
 
-Icons and screenshots are stored beside the manifest. PNG, JPEG, WebP, and AVIF are supported.
-Images are decoded during validation rather than accepted by extension alone.
+Run the same generation step without building the site with:
 
-Icons must be static, square, and between 128 and 1024 pixels in each dimension. Name the icon
-`icon` followed by its actual extension.
+bun run generate-catalog
 
-Screenshots must be static, use names such as `screenshot-1.png`, and have reasonable dimensions.
-Every screenshot must be declared in `app.json`, and every declared screenshot must exist. Manifest
-order determines display order. Between one and ten screenshots are allowed.
+Pass one or more application slugs to refresh only those entries:
 
-The icon and every screenshot record:
+bun run generate-catalog -- example-app
 
-- `license`: a valid SPDX expression describing redistribution terms.
-- `source`: the HTTPS location from which the image originated.
-- `file`: the local filename, for screenshots only.
-- `caption`: a short accessible description, for screenshots only.
+## AppStream sources
 
-Only include images that AppHub may redistribute under their recorded licenses. Prefer original
-upstream sources and preserve required attribution.
+The normal source is Flathub:
 
-## Sandbox policy
+```json
+{
+  "type": "flathub",
+  "id": "org.example.App"
+}
+```
 
-The sandbox policy describes the minimum host access required by an application independently of a
-specific implementation. It is an allowlist: access not declared by the policy is denied. Private
-application storage is implicit.
+An application that is not on Flathub may point to its upstream MetaInfo XML. Because generic
+AppStream XML does not guarantee remotely downloadable media, include those source URLs explicitly:
 
-Every field is required so that omitted metadata cannot broaden access accidentally. Use empty
-arrays and the restrictive `none`, `isolated`, or `false` values when access is unnecessary.
+```json
+{
+  "type": "url",
+  "id": "org.example.App",
+  "url": "https://example.org/org.example.App.metainfo.xml",
+  "media": {
+    "icon": "https://example.org/icon.png",
+    "screenshots": [
+      {
+        "caption": "Main window",
+        "source": "https://example.org/screenshot.png"
+      }
+    ]
+  }
+}
+```
 
-### General access
-
-- `network`: `none`, outbound `client`, or `client-and-server` when incoming connections are also
-  required.
-- `display`: `none`, `wayland`, `x11`, or `wayland-and-x11`.
-- `audio`: `none`, `playback`, `capture`, or `playback-and-capture`.
-- `processes`: `isolated`, read-only host process visibility with `read`, or host process signalling
-  and control with `control`.
-- `ipc`: whether the application requires the host IPC namespace. Keep it `false` unless required.
-
-### Filesystem access
-
-Each filesystem rule has a `location` and `read-only` or `read-write` access. Locations are `home`,
-`desktop`, `documents`, `downloads`, `music`, `pictures`, `public-share`, `templates`, `videos`, and
-`removable-media`. Each location may appear once. Prefer a specific location over the entire home
-directory.
-
-### Devices and portals
-
-Direct device values are `gpu`, `input`, `camera`, `usb`, `serial`, `optical`, `fuse`, and `kvm`.
-
-Portal values are `background`, `camera`, `email`, `file-chooser`, `inhibit`, `location`,
-`notifications`, `open-uri`, `printing`, `screenshot`, `screencast`, `secrets`, and `settings`.
-Prefer a portal over direct access where one is available.
-
-### D-Bus access
-
-`sessionBus` and `systemBus` contain exact service names. Each entry grants `see`, `talk`, or `own`
-access. Wildcards are not accepted, and a service may appear only once in each list. Portal services
-belong in `portals` rather than these lists.
+`manual` is the last resort when upstream publishes no AppStream metadata. Its `metadata` and
+`media` objects live inside `app.json`, keeping the application review surface to one file.
 
 ## Release sources
 
-Every manifest selects one release source:
+Supported sources are `github`, `gitlab`, `codeberg`, and `feed`. Forge sources contain a repository
+name; feeds contain an HTTPS URL. The build uses the newest stable release.
 
-- `github` reads stable GitHub Releases from an `owner/repository`.
-- `gitlab` reads GitLab.com Releases from a `namespace/repository`; nested groups are supported.
-- `codeberg` reads Codeberg Releases from an `owner/repository`.
-- `feed` reads an HTTPS AppHub release feed.
-- `direct` uses a manually maintained `releases.json`.
-
-GitHub, GitLab, and Codeberg use this structure with the corresponding type:
+Automatic architecture detection uses AppImage filenames. Add `assets` only when those names are
+ambiguous:
 
 ```json
 {
-  "type": "github",
-  "repository": "example/app"
+  "assets": {
+    "x86_64": "Example-*-x86_64.AppImage",
+    "aarch64": "Example-*-aarch64.AppImage"
+  }
 }
 ```
 
-A feed source contains its URL:
+Patterns match filenames only and must end in `.AppImage`.
 
-```json
-{
-  "type": "feed",
-  "url": "https://example.org/apphub-releases.json"
-}
-```
+A release feed exposes a `releases` array. Artifact sizes and SHA-256 values are optional; AppHub
+downloads an artifact to calculate missing values.
 
-When automatic architecture detection from filenames is ambiguous, add filename patterns keyed by
-architecture to the manifest:
+## Sandbox policy
 
-```json
-"assets": {
-  "x86_64": "Example-*-x86_64.AppImage",
-  "aarch64": "Example-*-aarch64.AppImage"
-}
-```
+The sandbox is an allowlist. Private application storage is implicit and unspecified host access is
+denied. Every field is required so omission cannot accidentally broaden access.
 
-Patterns match filenames only, must end in `.AppImage`, and must select one unambiguous artifact per
-architecture.
+- `network`: `none`, `client`, or `client-and-server`.
+- `display`: `none`, `wayland`, `x11`, or `wayland-and-x11`.
+- `audio`: `none`, `playback`, `capture`, or `playback-and-capture`.
+- `processes`: `isolated`, `read`, or `control`.
+- `ipc`: access to the host IPC namespace.
+- `filesystem`: named locations with `read-only` or `read-write` access.
+- `devices`: direct access to `gpu`, `input`, `camera`, `usb`, `serial`, `optical`, `fuse`, or
+  `kvm`.
+- `portals`: required desktop portals.
+- `sessionBus` and `systemBus`: exact D-Bus names with `see`, `talk`, or `own` access.
 
-## Release feed
+Prefer portals and specific filesystem locations over broad host access.
 
-An AppHub feed exposes a `releases` array:
+## Lifecycle
 
-```json
-{
-  "releases": [
-    {
-      "version": "1.0.0",
-      "publishedAt": "2026-08-20T12:00:00Z",
-      "page": "https://example.org/releases/1.0.0",
-      "artifacts": [
-        {
-          "architecture": "x86_64",
-          "name": "Example-1.0.0-x86_64.AppImage",
-          "url": "https://example.org/Example-1.0.0-x86_64.AppImage",
-          "size": 12345678,
-          "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
-        }
-      ]
-    }
-  ]
-}
-```
-
-Artifact `size` and `sha256` are optional in a feed. When the checksum is absent, AppHub downloads a
-new artifact once to calculate it. A published size is checked against the downloaded artifact.
-
-## Release lock
-
-`releases.json` stores the normalized release history used by the site and API:
-
-```json
-{
-  "appId": "org.example.App",
-  "releases": [
-    {
-      "version": "1.0.0",
-      "publishedAt": "2026-08-20T12:00:00Z",
-      "page": "https://example.org/releases/1.0.0",
-      "artifacts": [
-        {
-          "architecture": "x86_64",
-          "name": "Example-1.0.0-x86_64.AppImage",
-          "url": "https://example.org/Example-1.0.0-x86_64.AppImage",
-          "size": 12345678,
-          "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
-        }
-      ]
-    }
-  ]
-}
-```
-
-The lock follows these rules:
-
-- `appId` matches the ID in `app.json`.
-- Releases are ordered newest to oldest by `publishedAt`.
-- `publishedAt` is a UTC ISO 8601 timestamp.
-- Versions are unique.
-- Each architecture appears at most once per release.
-- Release pages and artifact URLs use HTTPS.
-- Artifact size is recorded in bytes.
-- SHA-256 is recorded as 64 lowercase hexadecimal characters.
-
-For a direct source, maintain the lock manually. For other sources, generate it with:
-
-```sh
-bun run update-releases example-app
-```
-
-The updater selects the current release history, normalizes upstream metadata, and preserves
-recorded releases. It fails without changing the lock when a source cannot be processed or recorded
-history conflicts with upstream data. Do not rewrite, reorder, or remove published release entries.
-
-## Validation
-
-Run complete project and catalog validation with:
-
-```sh
-bun run validate
-```
-
-This checks formatting, Astro and TypeScript diagnostics, tests, the static build, directory
-contents, manifests, release locks, stored statistics, and decoded image properties.
+`source` is `official` only when the AppImage listing is maintained by the application developer.
+Otherwise use `community`. Set `deprecated` to `true` for a discontinued listing. `replacedBy` may
+contain the AppStream ID of another application already in the catalog.

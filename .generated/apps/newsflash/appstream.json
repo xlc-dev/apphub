@@ -1,0 +1,33 @@
+{
+  "id": "io.gitlab.news_flash.NewsFlash",
+  "name": "Newsflash",
+  "summary": "Keep up with your feeds",
+  "description": [
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "value": "Newsflash is a program designed to complement an already existing web-based RSS reader account."
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "value": "It combines all the advantages of web based services like syncing across all your devices with everything you expect from a modern desktop program: Desktop notifications, fast search and filtering, tagging, handy keyboard shortcuts and having access to all your articles for as long as you like."
+        }
+      ]
+    }
+  ],
+  "projectLicense": "GPL-3.0+",
+  "developer": {
+    "name": "Jan Lukas Gernert"
+  },
+  "homepage": "https://gitlab.com/news-flash/news_flash_gtk",
+  "repository": "https://gitlab.com/news-flash/news_flash_gtk",
+  "keywords": ["Gnome", "GTK", "RSS"],
+  "categories": ["Network", "Feed"]
+}

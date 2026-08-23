@@ -1,0 +1,28 @@
+{
+  "icon": {
+    "file": "icon.png",
+    "source": "https://dl.flathub.org/media/org/gnome/gitlab.YaLTeR.Identity/4ba862e25a993efcf2ef39d5498b0251/icons/128x128/org.gnome.gitlab.YaLTeR.Identity.png"
+  },
+  "screenshots": [
+    {
+      "file": "screenshot-1.png",
+      "caption": "You can arrange videos in a row",
+      "source": "https://dl.flathub.org/media/org/gnome/gitlab.YaLTeR.Identity/4ba862e25a993efcf2ef39d5498b0251/screenshots/image-1_orig.png"
+    },
+    {
+      "file": "screenshot-2.png",
+      "caption": "You can arrange images in a column",
+      "source": "https://dl.flathub.org/media/org/gnome/gitlab.YaLTeR.Identity/4ba862e25a993efcf2ef39d5498b0251/screenshots/image-2_orig.png"
+    },
+    {
+      "file": "screenshot-3.png",
+      "caption": "You can open files as tabs",
+      "source": "https://dl.flathub.org/media/org/gnome/gitlab.YaLTeR.Identity/4ba862e25a993efcf2ef39d5498b0251/screenshots/image-3_orig.png"
+    },
+    {
+      "file": "screenshot-4.png",
+      "caption": "Inspect a few properties of a video in a dialog",
+      "source": "https://dl.flathub.org/media/org/gnome/gitlab.YaLTeR.Identity/4ba862e25a993efcf2ef39d5498b0251/screenshots/image-4_orig.png"
+    }
+  ]
+}

@@ -35,7 +35,16 @@ returns the same object directly:
   "slug": "example-app",
   "name": "Example App",
   "summary": "A short description of the application",
-  "description": "A longer plain-text description.",
+  "description": [
+    {
+      "type": "paragraph",
+      "content": [{ "type": "text", "value": "A longer description." }]
+    },
+    {
+      "type": "unordered-list",
+      "items": [[{ "type": "text", "value": "A feature" }]]
+    }
+  ],
   "projectLicense": "MIT",
   "developer": {
     "name": "Example Developers",

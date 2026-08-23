@@ -1,0 +1,23 @@
+{
+  "id": "com.github.PintaProject.Pinta",
+  "name": "Pinta",
+  "summary": "Edit images and paint digitally",
+  "description": [
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "value": "Pinta is a image editing, drawing and painting application with a simple yet powerful interface. Pinta has a wide range of drawing tools, including: freehand, rectangles, circles and lines. It also has over 35 effects to apply to your images, and also has the ability to create unlimited layers to help organize your creativity."
+        }
+      ]
+    }
+  ],
+  "projectLicense": "MIT",
+  "developer": {
+    "name": "Jonathan Pobst"
+  },
+  "homepage": "https://www.pinta-project.com",
+  "keywords": ["draw", "drawing", "paint"],
+  "categories": ["Graphics", "2DGraphics", "RasterGraphics"]
+}

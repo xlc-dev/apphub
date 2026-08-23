@@ -1,7 +1,7 @@
 import { readFile } from "node:fs/promises";
-import { downloadHistorySchema } from "@catalog/downloads";
-import { readApps, root } from "@catalog/core";
-import { repositoryStarsSchema } from "@catalog/stars";
+import { downloadHistorySchema } from "#catalog/downloads";
+import { readApps, root } from "#catalog/core";
+import { repositoryStarsSchema } from "#catalog/stars";
 
 const entries = await readApps();
 
@@ -12,10 +12,11 @@ for (const { app, hasLock } of entries) {
 }
 
 downloadHistorySchema.parse(
-  JSON.parse(await readFile(new URL("catalog/downloads.json", root), "utf8"))
+  JSON.parse(await readFile(new URL(".generated/downloads.json", root), "utf8"))
 );
+
 repositoryStarsSchema.parse(
-  JSON.parse(await readFile(new URL("catalog/stars.json", root), "utf8"))
+  JSON.parse(await readFile(new URL(".generated/stars.json", root), "utf8"))
 );
 
 console.log(`Validated ${entries.length} application${entries.length === 1 ? "" : "s"}.`);

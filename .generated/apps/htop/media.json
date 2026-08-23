@@ -1,0 +1,13 @@
+{
+  "icon": {
+    "file": "icon.png",
+    "source": "https://raw.githubusercontent.com/htop-dev/htop/main/htop.png"
+  },
+  "screenshots": [
+    {
+      "file": "screenshot-1.png",
+      "caption": "Process list and system meters",
+      "source": "https://raw.githubusercontent.com/htop-dev/htop/main/docs/images/screenshot.png"
+    }
+  ]
+}

@@ -1,10 +1,10 @@
 import { readFile } from "node:fs/promises";
-import { downloadCounts, downloadHistorySchema } from "@catalog/downloads";
-import { imageType, readApps, root } from "@catalog/core";
-import { appSchema, releaseSchema } from "@catalog/schema";
-import { categoryName, categorySlug } from "@/lib/categories";
-import { newApps, newAppWindowDays } from "@/lib/new-apps";
 import { z } from "zod";
+import { downloadCounts, downloadHistorySchema } from "#catalog/downloads";
+import { imageType, readApps, root } from "#catalog/core";
+import { appSchema, releaseSchema } from "#catalog/schema";
+import { categoryName, categorySlug } from "#lib/categories";
+import { newApps, newAppWindowDays } from "#lib/new-apps";
 
 const imageTypeSchema = z.enum(["image/avif", "image/jpeg", "image/png", "image/webp"]);
 
@@ -67,13 +67,13 @@ export const apiRankingSchema = z
 export type ApiApp = z.infer<typeof apiAppSchema>;
 export type RankingPeriod = z.infer<typeof rankingPeriodSchema>;
 
-const icons = import.meta.glob("/apps/*/icon.*", {
+const icons = import.meta.glob("/.generated/apps/*/icon.*", {
   eager: true,
   import: "default",
   query: "?url",
 }) as Record<string, string>;
 
-const screenshots = import.meta.glob("/apps/*/screenshot-*.*", {
+const screenshots = import.meta.glob("/.generated/apps/*/screenshot-*.*", {
   eager: true,
   import: "default",
   query: "?url",
@@ -93,12 +93,12 @@ async function loadApps() {
         slug,
         icon: {
           ...app.icon,
-          url: icons[`/apps/${slug}/${iconFile}`]!,
+          url: icons[`/.generated/apps/${slug}/${iconFile}`]!,
           type: imageType(iconFile),
         },
         screenshots: app.screenshots.map(({ file, ...screenshot }) => ({
           ...screenshot,
-          url: screenshots[`/apps/${slug}/${file}`]!,
+          url: screenshots[`/.generated/apps/${slug}/${file}`]!,
           type: imageType(file),
         })),
         releases: lock.releases,
@@ -113,10 +113,14 @@ export function getApps() {
   return (appsPromise ??= loadApps());
 }
 
+async function loadDownloadHistory() {
+  const data = await readFile(new URL(".generated/downloads.json", root), "utf8");
+
+  return downloadHistorySchema.parse(JSON.parse(data));
+}
+
 function getDownloadHistory() {
-  return (downloadHistoryPromise ??= readFile(new URL("catalog/downloads.json", root), "utf8").then(
-    (data) => downloadHistorySchema.parse(JSON.parse(data))
-  ));
+  return (downloadHistoryPromise ??= loadDownloadHistory());
 }
 
 export async function getAppDownloads(appId: string) {

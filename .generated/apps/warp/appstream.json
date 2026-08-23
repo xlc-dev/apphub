@@ -1,0 +1,83 @@
+{
+  "id": "app.drey.Warp",
+  "name": "Warp",
+  "summary": "Fast and secure file transfer",
+  "description": [
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "value": "Warp allows you to securely send files to each other via the internet or local network by exchanging a word-based code."
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "value": "The best transfer method will be determined using the “Magic Wormhole” protocol which includes local network transfer if possible."
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "value": "Features"
+        }
+      ]
+    },
+    {
+      "type": "unordered-list",
+      "items": [
+        [
+          {
+            "type": "text",
+            "value": "Send files between multiple devices"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "value": "Every file transfer is encrypted"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "value": "Directly transfer files on the local network if possible"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "value": "An internet connection is required"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "value": "QR Code support"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "value": "Compatibility with the Magic Wormhole command line client and all other compatible apps"
+          }
+        ]
+      ]
+    }
+  ],
+  "projectLicense": "GPL-3.0-only",
+  "developer": {
+    "name": "Fina Wilke"
+  },
+  "homepage": "https://apps.gnome.org/Warp/",
+  "repository": "https://gitlab.gnome.org/World/warp/",
+  "keywords": ["Gnome", "GTK", "Wormhole"],
+  "categories": ["Utility"]
+}

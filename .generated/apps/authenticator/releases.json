@@ -1,0 +1,26 @@
+{
+  "appId": "com.belmoussaoui.Authenticator",
+  "releases": [
+    {
+      "version": "4.6.2-2@2026-08-22_1787395288",
+      "publishedAt": "2026-08-22T10:41:29Z",
+      "page": "https://github.com/pkgforge-dev/Authenticator-AppImage/releases/tag/4.6.2-2%402026-08-22_1787395288",
+      "artifacts": [
+        {
+          "architecture": "x86_64",
+          "name": "Authenticator-4.6.2-2-anylinux-x86_64.AppImage",
+          "url": "https://github.com/pkgforge-dev/Authenticator-AppImage/releases/download/4.6.2-2%402026-08-22_1787395288/Authenticator-4.6.2-2-anylinux-x86_64.AppImage",
+          "size": 55734899,
+          "sha256": "b803a57186945f36de0e5c001dc5006f501c9215082d18f4dacbf9991012d53d"
+        },
+        {
+          "architecture": "aarch64",
+          "name": "Authenticator-4.6.2-2-anylinux-aarch64.AppImage",
+          "url": "https://github.com/pkgforge-dev/Authenticator-AppImage/releases/download/4.6.2-2%402026-08-22_1787395288/Authenticator-4.6.2-2-anylinux-aarch64.AppImage",
+          "size": 55724609,
+          "sha256": "f6174cb9a37960ee327aced3e8a009a9075089aa3da66c610c8336f1fc40ec90"
+        }
+      ]
+    }
+  ]
+}

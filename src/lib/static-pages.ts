@@ -1,5 +1,5 @@
-import { getNewApps, getRanking, type RankingPeriod } from "@/lib/api";
-import { catalogPageSize } from "@/lib/pagination";
+import { getNewApps, getRanking, type RankingPeriod } from "#lib/api";
+import { catalogPageSize } from "#lib/pagination";
 
 function pagePaths(total: number) {
   const pages = Math.ceil(total / catalogPageSize);

@@ -1,0 +1,24 @@
+{
+  "id": "org.gnome.TextEditor",
+  "name": "Text Editor",
+  "summary": "Edit text files",
+  "description": [
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "value": "GNOME Text Editor is a simple text editor focused on a pleasing default experience."
+        }
+      ]
+    }
+  ],
+  "projectLicense": "GPL-3.0-or-later",
+  "developer": {
+    "name": "The GNOME Project"
+  },
+  "homepage": "https://apps.gnome.org/TextEditor/",
+  "repository": "https://gitlab.gnome.org/GNOME/gnome-text-editor",
+  "keywords": ["write", "notepad"],
+  "categories": ["Utility", "TextEditor"]
+}

@@ -1,35 +1,18 @@
 {
-  "id": "io.github.seadve.Mousai",
-  "name": "Mousai",
-  "summary": "Identify songs in seconds",
-  "description": "Mousai identifies songs from desktop audio or a microphone using the audd.io service. It keeps a history of recognized music and links to available listening providers.",
-  "projectLicense": "GPL-3.0-or-later",
-  "developer": {
-    "name": "Dave Patrick Caberto",
-    "url": "https://github.com/SeaDve/Mousai"
+  "appstream": {
+    "type": "flathub",
+    "id": "io.github.seadve.Mousai"
   },
-  "homepage": "https://github.com/SeaDve/Mousai",
-  "repository": "https://github.com/SeaDve/Mousai",
   "addedAt": "2026-08-22",
-  "keywords": ["shazam", "audio", "music"],
-  "categories": ["Utility"],
   "source": "community",
+  "mediaLicense": {
+    "icon": "GPL-3.0-or-later",
+    "screenshots": "GPL-3.0-or-later"
+  },
   "releaseSource": {
     "type": "github",
     "repository": "pkgforge-dev/Mousai-AppImage"
   },
-  "icon": {
-    "license": "GPL-3.0-or-later",
-    "source": "https://dl.flathub.org/media/io/github/seadve.Mousai/e1e69a271c7db203e5c68d5e802a68e1/icons/128x128/io.github.seadve.Mousai.png"
-  },
-  "screenshots": [
-    {
-      "file": "screenshot-1.png",
-      "caption": "Mousai Home Page",
-      "license": "GPL-3.0-or-later",
-      "source": "https://dl.flathub.org/media/io/github/seadve.Mousai/e1e69a271c7db203e5c68d5e802a68e1/screenshots/image-1_orig.png"
-    }
-  ],
   "sandbox": {
     "network": "client",
     "display": "wayland-and-x11",

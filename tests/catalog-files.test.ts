@@ -1,33 +1,43 @@
-import { afterEach, describe, expect, test } from "bun:test";
+import assert from "node:assert/strict";
 import { mkdtemp, mkdir, rm, symlink, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { afterEach, describe, test } from "node:test";
 import { pathToFileURL } from "node:url";
-import { readApps } from "@catalog/core";
+import { readApps } from "#catalog/core";
 import sharp from "sharp";
 
 const temporaryDirectories: string[] = [];
-const app = {
+
+const metadata = {
   id: "org.example.App",
   name: "Example App",
   summary: "A synthetic fixture",
-  description: "A synthetic application used to test catalog files.",
+  description: [
+    {
+      type: "paragraph",
+      content: [{ type: "text", value: "A synthetic application used to test catalog files." }],
+    },
+  ],
   projectLicense: "MIT",
   developer: { name: "Example Developers" },
   homepage: "https://example.org/",
-  addedAt: "2026-08-20",
   categories: ["Utility"],
-  source: "community",
-  releaseSource: { type: "github", repository: "example/app" },
-  icon: { license: "CC0-1.0", source: "https://example.org/icon.webp" },
-  screenshots: [
-    {
-      file: "screenshot-1.webp",
-      caption: "Main window",
-      license: "CC0-1.0",
-      source: "https://example.org/screenshot.webp",
+};
+
+const app = {
+  appstream: {
+    type: "manual",
+    metadata,
+    media: {
+      icon: "https://example.org/icon.webp",
+      screenshots: [{ caption: "Main window", source: "https://example.org/screenshot.webp" }],
     },
-  ],
+  },
+  addedAt: "2026-08-20",
+  source: "community",
+  mediaLicense: { icon: "CC0-1.0", screenshots: "CC0-1.0" },
+  releaseSource: { type: "github", repository: "example/app" },
   sandbox: {
     network: "none",
     display: "wayland",
@@ -42,6 +52,17 @@ const app = {
   },
 };
 
+const media = {
+  icon: { file: "icon.webp", source: "https://example.org/icon.webp" },
+  screenshots: [
+    {
+      file: "screenshot-1.webp",
+      caption: "Main window",
+      source: "https://example.org/screenshot.webp",
+    },
+  ],
+};
+
 async function temporaryDirectory() {
   const path = await mkdtemp(join(tmpdir(), "apphub-test-"));
 
@@ -51,7 +72,8 @@ async function temporaryDirectory() {
 }
 
 async function writeApp(root: string, slug = "example-app", manifest = app) {
-  const directory = join(root, slug);
+  const source = join(root, "apps", slug);
+  const generated = join(root, "generated", slug);
   const image = await sharp({
     create: {
       width: 128,
@@ -63,25 +85,31 @@ async function writeApp(root: string, slug = "example-app", manifest = app) {
     .webp()
     .toBuffer();
 
-  await mkdir(directory);
-  await writeFile(join(directory, "icon.webp"), image);
-  await writeFile(join(directory, "screenshot-1.webp"), image);
-  await writeFile(join(directory, "app.json"), JSON.stringify(manifest));
+  await mkdir(source, { recursive: true });
+  await mkdir(generated, { recursive: true });
+  await writeFile(join(generated, "icon.webp"), image);
+  await writeFile(join(generated, "screenshot-1.webp"), image);
+  await writeFile(join(source, "app.json"), JSON.stringify(manifest));
+  await writeFile(join(generated, "media.json"), JSON.stringify(media));
+  await writeFile(join(generated, "appstream.json"), JSON.stringify(metadata));
 
-  return directory;
+  return { source, generated };
 }
 
 async function expectReadError(root: string, message: string) {
   let error: unknown;
 
   try {
-    await readApps(pathToFileURL(`${root}/`));
+    await readApps(
+      pathToFileURL(`${join(root, "apps")}/`),
+      pathToFileURL(`${join(root, "generated")}/`)
+    );
   } catch (caught) {
     error = caught;
   }
 
-  expect(error).toBeInstanceOf(Error);
-  expect((error as Error).message).toContain(message);
+  assert.ok(error instanceof Error);
+  assert.match(error.message, new RegExp(message.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
 }
 
 afterEach(async () => {
@@ -94,45 +122,54 @@ describe("catalog files", () => {
   test("accepts a missing catalog directory", async () => {
     const root = await temporaryDirectory();
 
-    expect(await readApps(pathToFileURL(`${join(root, "missing")}/`))).toEqual([]);
+    assert.deepEqual(
+      await readApps(
+        pathToFileURL(`${join(root, "missing")}/`),
+        pathToFileURL(`${join(root, "generated")}/`)
+      ),
+      []
+    );
   });
 
   test("reads a synthetic app without a release lock", async () => {
     const root = await temporaryDirectory();
     await writeApp(root);
 
-    const entries = await readApps(pathToFileURL(`${root}/`));
+    const entries = await readApps(
+      pathToFileURL(`${join(root, "apps")}/`),
+      pathToFileURL(`${join(root, "generated")}/`)
+    );
 
-    expect(entries).toHaveLength(1);
-    expect(entries[0]?.slug).toBe("example-app");
-    expect(entries[0]?.hasLock).toBe(false);
-    expect(entries[0]?.lock).toEqual({ appId: "org.example.App", releases: [] });
+    assert.equal(entries.length, 1);
+    assert.equal(entries[0]?.slug, "example-app");
+    assert.equal(entries[0]?.hasLock, false);
+    assert.deepEqual(entries[0]?.lock, { appId: "org.example.App", releases: [] });
   });
 
   test("rejects unexpected catalog files", async () => {
     const root = await temporaryDirectory();
-    const directory = await writeApp(root);
+    const { source } = await writeApp(root);
 
-    await writeFile(join(directory, "notes.txt"), "unexpected");
+    await writeFile(join(source, "notes.txt"), "unexpected");
 
     await expectReadError(root, "example-app: unexpected file notes.txt");
   });
 
   test("rejects symlinked catalog files", async () => {
     const root = await temporaryDirectory();
-    const directory = await writeApp(root);
+    const { generated } = await writeApp(root);
 
-    await rm(join(directory, "icon.webp"));
-    await symlink("screenshot-1.webp", join(directory, "icon.webp"));
+    await rm(join(generated, "icon.webp"));
+    await symlink("screenshot-1.webp", join(generated, "icon.webp"));
 
     await expectReadError(root, "must be a regular file");
   });
 
   test("rejects oversized manifests", async () => {
     const root = await temporaryDirectory();
-    const directory = await writeApp(root);
+    const { source } = await writeApp(root);
 
-    await writeFile(join(directory, "app.json"), " ".repeat(64 * 1024 + 1));
+    await writeFile(join(source, "app.json"), " ".repeat(64 * 1024 + 1));
 
     await expectReadError(root, "file is too large");
   });
@@ -140,8 +177,8 @@ describe("catalog files", () => {
   test("rejects missing and unreferenced screenshots", async () => {
     const missingRoot = await temporaryDirectory();
     const unreferencedRoot = await temporaryDirectory();
-    const missingDirectory = await writeApp(missingRoot);
-    const unreferencedDirectory = await writeApp(unreferencedRoot);
+    const { generated: missingDirectory } = await writeApp(missingRoot);
+    const { generated: unreferencedDirectory } = await writeApp(unreferencedRoot);
 
     await rm(join(missingDirectory, "screenshot-1.webp"));
     await writeFile(join(unreferencedDirectory, "screenshot-2.webp"), "not inspected");
@@ -155,14 +192,26 @@ describe("catalog files", () => {
 
   test("rejects mismatched release locks", async () => {
     const root = await temporaryDirectory();
-    const directory = await writeApp(root);
+    const { generated } = await writeApp(root);
 
     await writeFile(
-      join(directory, "releases.json"),
+      join(generated, "releases.json"),
       JSON.stringify({ appId: "org.example.Other", releases: [] })
     );
 
     await expectReadError(root, "example-app: release lock has the wrong application id");
+  });
+
+  test("rejects mismatched AppStream metadata", async () => {
+    const root = await temporaryDirectory();
+    const { generated } = await writeApp(root);
+
+    await writeFile(
+      join(generated, "appstream.json"),
+      JSON.stringify({ ...metadata, id: "org.example.Other" })
+    );
+
+    await expectReadError(root, "example-app: AppStream metadata has the wrong application id");
   });
 
   test("rejects duplicate application ids", async () => {

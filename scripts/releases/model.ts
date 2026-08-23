@@ -1,5 +1,5 @@
-import type { ReleaseLock } from "@catalog/core";
-import type { Architecture } from "@catalog/schema";
+import type { ReleaseLock } from "#catalog/core";
+import type { Architecture } from "#catalog/schema";
 
 interface SourceArtifact {
   architecture: Architecture;

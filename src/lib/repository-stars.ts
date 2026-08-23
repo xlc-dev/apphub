@@ -1,7 +1,7 @@
 import { readFile } from "node:fs/promises";
-import { root } from "@catalog/core";
-import { repositoryStarsSchema } from "@catalog/stars";
 import { z } from "zod";
+import { root } from "#catalog/core";
+import { repositoryStarsSchema } from "#catalog/stars";
 
 interface StarRequest {
   url: string;
@@ -81,7 +81,7 @@ export async function fetchRepositoryStars(
 
 async function loadRepositoryStars(): Promise<Record<string, number>> {
   return repositoryStarsSchema.parse(
-    JSON.parse(await readFile(new URL("catalog/stars.json", root), "utf8"))
+    JSON.parse(await readFile(new URL(".generated/stars.json", root), "utf8"))
   );
 }
 

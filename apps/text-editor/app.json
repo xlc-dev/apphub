@@ -1,35 +1,18 @@
 {
-  "id": "org.gnome.TextEditor",
-  "name": "Text Editor",
-  "summary": "Edit text files",
-  "description": "GNOME Text Editor is a simple text editor focused on a pleasing default experience.",
-  "projectLicense": "GPL-3.0-or-later",
-  "developer": {
-    "name": "The GNOME Project",
-    "url": "https://apps.gnome.org/TextEditor/"
+  "appstream": {
+    "type": "flathub",
+    "id": "org.gnome.TextEditor"
   },
-  "homepage": "https://apps.gnome.org/TextEditor/",
-  "repository": "https://gitlab.gnome.org/GNOME/gnome-text-editor",
   "addedAt": "2026-08-22",
-  "keywords": ["write", "notepad"],
-  "categories": ["Utility", "TextEditor"],
   "source": "community",
+  "mediaLicense": {
+    "icon": "GPL-3.0-or-later",
+    "screenshots": "GPL-3.0-or-later"
+  },
   "releaseSource": {
     "type": "github",
     "repository": "pkgforge-dev/Gnome-Text-Editor-AppImage"
   },
-  "icon": {
-    "license": "GPL-3.0-or-later",
-    "source": "https://dl.flathub.org/media/org/gnome/TextEditor/5e3fd89fe3902731260943854be9b30b/icons/128x128/org.gnome.TextEditor.png"
-  },
-  "screenshots": [
-    {
-      "file": "screenshot-1.png",
-      "caption": "Text Editor's main window",
-      "license": "GPL-3.0-or-later",
-      "source": "https://dl.flathub.org/media/org/gnome/TextEditor/5e3fd89fe3902731260943854be9b30b/screenshots/image-1_orig.png"
-    }
-  ],
   "sandbox": {
     "network": "none",
     "display": "wayland-and-x11",

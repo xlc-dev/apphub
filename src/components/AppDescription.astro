@@ -1,0 +1,55 @@
+---
+import type { DescriptionBlock } from "@catalog/schema";
+
+interface Props {
+  blocks: DescriptionBlock[];
+}
+
+const { blocks } = Astro.props;
+---
+
+<div class="space-y-4 leading-6 text-[var(--muted)]">
+  {
+    blocks.map((block) => {
+      const List = block.type === "ordered-list" ? "ol" : "ul";
+
+      if (block.type === "paragraph") {
+        return (
+          <p>
+            {block.content.map((part) =>
+              part.type === "emphasis" ? (
+                <em>{part.value}</em>
+              ) : part.type === "code" ? (
+                <code>{part.value}</code>
+              ) : (
+                part.value
+              )
+            )}
+          </p>
+        );
+      }
+
+      return (
+        <List
+          class:list={[
+            "ml-6 list-outside space-y-1 marker:text-[var(--muted)]",
+            block.type === "ordered-list" ? "list-decimal" : "list-disc",
+          ]}>
+          {block.items.map((item) => (
+            <li>
+              {item.map((part) =>
+                part.type === "emphasis" ? (
+                  <em>{part.value}</em>
+                ) : part.type === "code" ? (
+                  <code>{part.value}</code>
+                ) : (
+                  part.value
+                )
+              )}
+            </li>
+          ))}
+        </List>
+      );
+    })
+  }
+</div>
