@@ -6,8 +6,9 @@ install.
 
 ## Continuous integration
 
-The `CI` workflow runs for pull requests and pushes to branches other than `main`. Concurrent runs
-for the same reference cancel older in-progress runs.
+The `CI` workflow runs for pull requests. Concurrent runs for the same pull request cancel older
+in-progress runs. Branch pushes are not validated separately because they would duplicate the pull
+request run.
 
 The workflow:
 
@@ -41,12 +42,16 @@ The `Deploy GitHub Pages` workflow runs on pushes to `main`, daily at 04:07 UTC,
 dispatch.
 
 On a main-branch push, it refreshes changed applications. A change to the generator or its schemas
-refreshes the complete application catalog. Scheduled and manual runs refresh every application,
-download statistics, and repository-star counts.
+refreshes the complete application catalog. Monday through Saturday refreshes update releases,
+download statistics, and repository-star counts. Sunday and manual refreshes also update every
+application's AppStream metadata and media. Each release response is shared between release and
+download processing so a refresh scans each release source only once.
 
 Download totals never decrease. The updater records at most one snapshot per UTC date and retains
 the latest 40 snapshots. Weekly and monthly rankings compare dated snapshots; all-time rankings use
-the latest totals. A failed repository-star request retains the previous count when available.
+the latest totals. Repository-star requests run sequentially and use saved ETags, so unchanged
+GitHub responses do not consume the primary API quota. A failed request retains the previous count
+when available, while a rate-limit response stops the refresh until a later run.
 
 The workflow validates the generated catalog and creates at most one commit under `.generated/`. It
 does nothing when the generated data is unchanged. It then builds the site from that exact data,

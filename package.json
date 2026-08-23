@@ -21,6 +21,8 @@
     "test": "bun test",
     "test:node": "node --test tests/*.test.ts",
     "generate-catalog": "node scripts/generate-catalog.ts",
+    "refresh-catalog": "node scripts/refresh-catalog.ts",
+    "refresh-statistics": "node scripts/refresh-statistics.ts",
     "update-downloads": "node scripts/update-downloads.ts",
     "update-stars": "node scripts/update-stars.ts",
     "validate:catalog": "node scripts/validate.ts",

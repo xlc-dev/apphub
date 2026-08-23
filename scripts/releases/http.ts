@@ -1,13 +1,34 @@
 import { z } from "zod";
 
-export async function getJson(url: string, headers?: Record<string, string>) {
-  const response = await fetch(url, {
+type Fetcher = (input: string, init?: RequestInit) => Promise<Response>;
+
+function responseError(url: string, response: Response) {
+  const retryAfter = response.headers.get("retry-after");
+  const resetHeader = response.headers.get("x-ratelimit-reset");
+  const reset = resetHeader ? Number(resetHeader) : Number.NaN;
+  let limit = "";
+
+  if (retryAfter) {
+    limit = `; retry after ${retryAfter} seconds`;
+  } else if (response.headers.get("x-ratelimit-remaining") === "0" && Number.isFinite(reset)) {
+    limit = `; rate limit resets at ${new Date(reset * 1000).toISOString()}`;
+  }
+
+  return new Error(`${url}: returned ${response.status}${limit}`);
+}
+
+export async function getJson(
+  url: string,
+  headers?: Record<string, string>,
+  fetcher: Fetcher = fetch
+) {
+  const response = await fetcher(url, {
     ...(headers ? { headers } : {}),
     signal: AbortSignal.timeout(30_000),
   });
 
   if (!response.ok) {
-    throw new Error(`${url}: returned ${response.status}`);
+    throw responseError(url, response);
   }
 
   return response.json();

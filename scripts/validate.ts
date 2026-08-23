@@ -1,7 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { downloadHistorySchema } from "#catalog/downloads";
 import { readApps, root } from "#catalog/core";
-import { repositoryStarsSchema } from "#catalog/stars";
+import { repositoryStarEtagsSchema, repositoryStarsSchema } from "#catalog/stars";
 
 const entries = await readApps();
 
@@ -17,6 +17,10 @@ downloadHistorySchema.parse(
 
 repositoryStarsSchema.parse(
   JSON.parse(await readFile(new URL(".generated/stars.json", root), "utf8"))
+);
+
+repositoryStarEtagsSchema.parse(
+  JSON.parse(await readFile(new URL(".generated/star-etags.json", root), "utf8"))
 );
 
 console.log(`Validated ${entries.length} application${entries.length === 1 ? "" : "s"}.`);

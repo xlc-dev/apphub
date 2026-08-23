@@ -4,7 +4,8 @@ on:
   push:
     branches: [main]
   schedule:
-    - cron: "7 4 * * *"
+    - cron: "7 4 * * 1-6"
+    - cron: "7 4 * * 0"
   workflow_dispatch:
 
 permissions: {}
@@ -23,7 +24,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 30
     steps:
       - name: Check out repository
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
@@ -48,14 +49,17 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: sh scripts/generate-changed-apps.sh "$BASE_SHA"
 
-      - name: Refresh catalog and statistics
-        if: github.event_name != 'push'
+      - name: Refresh releases and statistics
+        if: github.event.schedule == '7 4 * * 1-6'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          bun run generate-catalog
-          bun run update-downloads
-          bun run update-stars
+        run: bun run refresh-statistics
+
+      - name: Refresh catalog and statistics
+        if: github.event_name == 'workflow_dispatch' || github.event.schedule == '7 4 * * 0'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bun run refresh-catalog
 
       - name: Validate generated catalog
         run: bun run validate:catalog

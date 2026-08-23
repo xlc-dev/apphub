@@ -1,11 +1,19 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { repositoryStarsSchema } from "#catalog/stars";
-import { fetchRepositoryStars, repositoryStarRequest } from "#lib/repository-stars";
+import { repositoryStarEtagsSchema, repositoryStarsSchema } from "#catalog/stars";
+import {
+  fetchRepositoryStars,
+  RepositoryRateLimitError,
+  repositoryStarRequest,
+} from "#lib/repository-stars";
 
 test("validates stored repository stars", () => {
   assert.deepEqual(repositoryStarsSchema.parse({ app: 42 }), { app: 42 });
   assert.throws(() => repositoryStarsSchema.parse({ app: -1 }));
+  assert.deepEqual(repositoryStarEtagsSchema.parse({ app: '"stars"' }), {
+    app: '"stars"',
+  });
+  assert.throws(() => repositoryStarEtagsSchema.parse({ app: "" }));
 });
 
 async function rejectionMessage(promise: Promise<unknown>) {
@@ -46,9 +54,27 @@ test("reads a valid star count", async () => {
       })
     );
 
-  assert.equal(
-    await fetchRepositoryStars("https://gitlab.com/example/app", undefined, fetcher),
-    42
+  assert.deepEqual(
+    await fetchRepositoryStars("https://gitlab.com/example/app", undefined, undefined, fetcher),
+    { count: 42 }
+  );
+});
+
+test("reuses repository stars after a conditional response", async () => {
+  const fetcher = (_url: string, init?: RequestInit) => {
+    assert.deepEqual(init?.headers, {
+      Accept: "application/vnd.github+json",
+      "X-GitHub-Api-Version": "2022-11-28",
+      Authorization: "Bearer token",
+      "If-None-Match": '"stars"',
+    });
+
+    return Promise.resolve(new Response(null, { status: 304 }));
+  };
+
+  assert.deepEqual(
+    await fetchRepositoryStars("https://github.com/example/app", "token", '"stars"', fetcher),
+    { etag: '"stars"' }
   );
 });
 
@@ -58,14 +84,29 @@ test("rejects invalid and failed responses", async () => {
 
   assert.notEqual(
     await rejectionMessage(
-      fetchRepositoryStars("https://codeberg.org/example/app", undefined, invalid)
+      fetchRepositoryStars("https://codeberg.org/example/app", undefined, undefined, invalid)
     ),
     ""
   );
   assert.match(
     await rejectionMessage(
-      fetchRepositoryStars("https://github.com/example/app", undefined, failed)
+      fetchRepositoryStars("https://github.com/example/app", undefined, undefined, failed)
     ),
     /503/
+  );
+});
+
+test("identifies rate-limit responses", async () => {
+  const fetcher = () =>
+    Promise.resolve(
+      new Response(null, {
+        status: 429,
+        headers: { "retry-after": "60" },
+      })
+    );
+
+  await assert.rejects(
+    fetchRepositoryStars("https://github.com/example/app", undefined, undefined, fetcher),
+    RepositoryRateLimitError
   );
 });

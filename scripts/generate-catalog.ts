@@ -128,6 +128,7 @@ const generatedPath = `.generated/apps.tmp-${process.pid}`;
 
 await mkdir(".generated", { recursive: true });
 await createFileIfMissing(".generated/downloads.json", '{\n  "snapshots": []\n}\n');
+await createFileIfMissing(".generated/star-etags.json", "{}\n");
 await createFileIfMissing(".generated/stars.json", "{}\n");
 
 await rm(generatedPath, { recursive: true, force: true });
