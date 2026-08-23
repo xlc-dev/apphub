@@ -37,10 +37,6 @@ jobs:
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
         run: |
-          if ! git cat-file -e "$BASE_SHA:.generated" 2>/dev/null; then
-            exit 0
-          fi
-
           if ! git diff --quiet "$BASE_SHA" HEAD -- .generated; then
             echo "Do not submit .generated changes; CI owns generated catalog data."
             exit 1

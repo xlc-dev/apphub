@@ -76,6 +76,16 @@ async function readManifest(path: string) {
   return appManifestSchema.parse(JSON.parse(await readFile(path, "utf8")));
 }
 
+async function createFileIfMissing(path: string, contents: string) {
+  try {
+    await writeFile(path, contents, { flag: "wx" });
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code !== "EEXIST") {
+      throw error;
+    }
+  }
+}
+
 async function preserveReleaseLock(slug: string, appId: string, path: string) {
   const source = `.generated/apps/${slug}/releases.json`;
 
@@ -115,6 +125,10 @@ const selected = requested.size
   : directories;
 
 const generatedPath = `.generated/apps.tmp-${process.pid}`;
+
+await mkdir(".generated", { recursive: true });
+await createFileIfMissing(".generated/downloads.json", '{\n  "snapshots": []\n}\n');
+await createFileIfMissing(".generated/stars.json", "{}\n");
 
 await rm(generatedPath, { recursive: true, force: true });
 await mkdir(generatedPath, { recursive: true });
