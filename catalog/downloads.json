@@ -8,6 +8,30 @@
         "com.github.PintaProject.Pinta": 4289,
         "com.github.flxzt.rnote": 1185
       }
+    },
+    {
+      "date": "2026-08-23",
+      "apps": {
+        "com.belmoussaoui.Authenticator": 1817,
+        "org.gnome.Calculator": 1318,
+        "dev.geopjr.Collision": 733,
+        "org.DolphinEmu.dolphin-emu": 25989,
+        "com.github.finefindus.eyedropper": 692,
+        "com.github.neithern.g4music": 907,
+        "it.mijorus.gearlever": 2027,
+        "io.github.htop_dev.htop": 1233,
+        "org.gnome.gitlab.YaLTeR.Identity": 664,
+        "io.gitlab.adhami3310.Impression": 1153,
+        "org.librecad.librecad": 445,
+        "org.localsend.localsend_app": 405,
+        "io.github.seadve.Mousai": 678,
+        "io.gitlab.news_flash.NewsFlash": 1021,
+        "com.github.PintaProject.Pinta": 4301,
+        "com.github.flxzt.rnote": 1189,
+        "org.gnome.TextEditor": 857,
+        "org.gnome.gitlab.YaLTeR.VideoTrimmer": 868,
+        "app.drey.Warp": 729
+      }
     }
   ]
 }
