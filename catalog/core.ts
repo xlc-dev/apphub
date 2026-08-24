@@ -160,15 +160,12 @@ export async function readApps(
       throw new Error(`${slug}: AppStream metadata has the wrong application id`);
     }
 
-    const { appstream: _appstream, mediaLicense, ...maintained } = manifest;
+    const { appstream: _appstream, ...maintained } = manifest;
     const app = appSchema.parse({
       ...metadata,
       ...maintained,
-      icon: { license: mediaLicense.icon, source: media.icon.source },
-      screenshots: media.screenshots.map((screenshot) => ({
-        ...screenshot,
-        license: mediaLicense.screenshots,
-      })),
+      icon: { source: media.icon.source },
+      screenshots: media.screenshots,
     });
     const icons = names.filter((name) => iconFile.test(name));
 

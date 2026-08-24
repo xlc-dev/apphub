@@ -5,10 +5,6 @@
   },
   "addedAt": "2026-08-22",
   "source": "community",
-  "mediaLicense": {
-    "icon": "BSD-2-Clause",
-    "screenshots": "BSD-2-Clause"
-  },
   "releaseSource": {
     "type": "github",
     "repository": "pkgforge-dev/Collision-AppImage"

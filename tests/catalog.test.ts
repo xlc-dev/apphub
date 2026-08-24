@@ -28,12 +28,11 @@ const app: App = {
   categories: ["Utility"],
   source: "official",
   releaseSource: { type: "github", repository: "example/app" },
-  icon: { license: "CC0-1.0", source: "https://example.org/icon.png" },
+  icon: { source: "https://example.org/icon.png" },
   screenshots: [
     {
       file: "screenshot-1.png",
       caption: "Main window",
-      license: "CC0-1.0",
       source: "https://example.org/screenshot.png",
     },
   ],

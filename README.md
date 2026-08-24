@@ -23,6 +23,8 @@ upstream artifacts.
 - Browse, search, and filter applications by category.
 - Find new, recently updated, and trending applications.
 - Download original AppImages directly from their publishers.
+- Stay current through automatic AppStream and GitHub, GitLab, Codeberg, or feed-based release
+  updates.
 - Install apps in one click through the `appmgr://` protocol, used directly by
   [AppManager](https://github.com/kem-a/AppManager).
 - Inspect architectures, file sizes, SHA-256 checksums, and sandbox requirements.
@@ -39,8 +41,7 @@ upstream artifacts.
 
 AppHub source code is licensed under the
 [GNU Affero General Public License, version 3 or later](LICENSE). Catalog metadata and generated API
-data are available under [CC0 1.0](LICENSE-CC0). Generated icons and screenshots retain the licenses
-recorded in each application manifest.
+data are available under [CC0 1.0](LICENSE-CC0).
 
 The AppHub name and logo are not licensed for use as the identity of another project or service.
 Application names and trademarks remain the property of their respective owners.

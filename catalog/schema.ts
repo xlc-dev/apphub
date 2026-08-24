@@ -153,22 +153,12 @@ const screenshotSchema = z
   .object({
     file: z.string().regex(/^screenshot-[1-9][0-9]*\.(?:png|jpe?g|webp|avif)$/i),
     caption: z.string().min(1).max(200),
-    license: z
-      .string()
-      .min(1)
-      .max(100)
-      .refine(isSpdxExpression, "Must be a valid SPDX license expression"),
     source: httpsUrlSchema,
   })
   .strict();
 
 const iconSchema = z
   .object({
-    license: z
-      .string()
-      .min(1)
-      .max(100)
-      .refine(isSpdxExpression, "Must be a valid SPDX license expression"),
     source: httpsUrlSchema,
   })
   .strict();
@@ -289,13 +279,6 @@ const appstreamSourceSchema = z.discriminatedUnion("type", [
     .strict(),
 ]);
 
-const mediaLicenseSchema = z
-  .object({
-    icon: iconSchema.shape.license,
-    screenshots: screenshotSchema.shape.license,
-  })
-  .strict();
-
 export const generatedMediaSchema = z
   .object({
     icon: z
@@ -304,10 +287,7 @@ export const generatedMediaSchema = z
         source: httpsUrlSchema,
       })
       .strict(),
-    screenshots: z
-      .array(screenshotSchema.omit({ license: true }))
-      .min(1)
-      .max(10),
+    screenshots: z.array(screenshotSchema).min(1).max(10),
   })
   .strict();
 
@@ -318,7 +298,6 @@ export const appManifestSchema = z
     source: z.enum(["official", "community"]),
     deprecated: z.boolean().optional(),
     replacedBy: generatedAppstreamFields.id.optional(),
-    mediaLicense: mediaLicenseSchema,
     releaseSource: releaseSourceSchema,
     sandbox: sandboxSchema,
     assets: z

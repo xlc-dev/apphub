@@ -5,10 +5,6 @@
   },
   "addedAt": "2026-08-22",
   "source": "community",
-  "mediaLicense": {
-    "icon": "Apache-2.0",
-    "screenshots": "Apache-2.0"
-  },
   "releaseSource": {
     "type": "github",
     "repository": "pkgforge-dev/LocalSend-AppImage"

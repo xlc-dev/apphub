@@ -5,10 +5,6 @@
   },
   "addedAt": "2026-08-22",
   "source": "community",
-  "mediaLicense": {
-    "icon": "GPL-3.0-only",
-    "screenshots": "GPL-3.0-only"
-  },
   "releaseSource": {
     "type": "github",
     "repository": "pkgforge-dev/Warp-AppImage"

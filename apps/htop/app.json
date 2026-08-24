@@ -37,10 +37,6 @@
   },
   "addedAt": "2026-08-20",
   "source": "community",
-  "mediaLicense": {
-    "icon": "GPL-2.0-or-later",
-    "screenshots": "GPL-2.0-or-later"
-  },
   "releaseSource": {
     "type": "github",
     "repository": "pkgforge-dev/htop-AppImage"

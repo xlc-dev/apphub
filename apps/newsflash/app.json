@@ -5,10 +5,6 @@
   },
   "addedAt": "2026-08-22",
   "source": "community",
-  "mediaLicense": {
-    "icon": "GPL-3.0+",
-    "screenshots": "GPL-3.0+"
-  },
   "releaseSource": {
     "type": "github",
     "repository": "pkgforge-dev/NewsFlash-AppImage"

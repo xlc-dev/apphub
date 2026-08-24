@@ -36,7 +36,6 @@ const app = {
   },
   addedAt: "2026-08-20",
   source: "community",
-  mediaLicense: { icon: "CC0-1.0", screenshots: "CC0-1.0" },
   releaseSource: { type: "github", repository: "example/app" },
   sandbox: {
     network: "none",

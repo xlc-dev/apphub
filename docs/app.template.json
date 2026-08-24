@@ -5,22 +5,18 @@
   },
   "addedAt": "YYYY-MM-DD",
   "source": "community",
-  "mediaLicense": {
-    "icon": "SPDX-LICENSE",
-    "screenshots": "SPDX-LICENSE"
-  },
   "releaseSource": {
     "type": "github",
     "repository": "owner/appimage-repository"
   },
   "sandbox": {
     "network": "none",
-    "display": "wayland-and-x11",
+    "display": "none",
     "audio": "none",
     "processes": "isolated",
     "ipc": false,
     "filesystem": [],
-    "devices": ["gpu"],
+    "devices": [],
     "portals": [],
     "sessionBus": [],
     "systemBus": []

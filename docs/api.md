@@ -58,7 +58,6 @@ returns the same object directly:
   "mimeTypes": ["application/example"],
   "source": "official",
   "icon": {
-    "license": "CC0-1.0",
     "source": "https://example.org/icon.png",
     "url": "/assets/example-icon.hash.webp",
     "type": "image/webp"
@@ -66,7 +65,6 @@ returns the same object directly:
   "screenshots": [
     {
       "caption": "Main window",
-      "license": "CC0-1.0",
       "source": "https://example.org/screenshot.png",
       "url": "/assets/example-screenshot.hash.webp",
       "type": "image/webp"

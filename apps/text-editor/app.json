@@ -5,10 +5,6 @@
   },
   "addedAt": "2026-08-22",
   "source": "community",
-  "mediaLicense": {
-    "icon": "GPL-3.0-or-later",
-    "screenshots": "GPL-3.0-or-later"
-  },
   "releaseSource": {
     "type": "github",
     "repository": "pkgforge-dev/Gnome-Text-Editor-AppImage"

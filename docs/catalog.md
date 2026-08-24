@@ -7,8 +7,36 @@ apps/example-app/app.json
 ```
 
 Copy the [application template](app.template.json) to `apps/<slug>/app.json`, using a lowercase,
-hyphen-separated slug, and fill it in. A contributor pull request must add only that file. Any other
-file in the application directory is rejected.
+hyphen-separated slug. A contributor pull request must add only that file. Any other file in the
+application directory is rejected.
+
+## Fill in the template
+
+The template contains the common Flathub and GitHub setup. Change these required fields:
+
+1. Set `appstream.id` to the application's AppStream ID from Flathub. If the application is not on
+   Flathub, use one of the alternative AppStream sources described below.
+2. Set `addedAt` to the date the listing is added to AppHub, formatted as `YYYY-MM-DD`.
+3. Keep `source` as `community` unless the application developer maintains the AppImage listing. In
+   that case, use `official`.
+4. Set `releaseSource.repository` to the repository that publishes the AppImage, formatted as
+   `owner/repository`. Change the release source when it uses GitLab, Codeberg, or a release feed.
+5. Describe the minimum host access the application needs under `sandbox`.
+
+The template sandbox denies network, display, audio, IPC, filesystem, device, portal, and D-Bus
+access. It also isolates the application's processes. Keep those values and empty arrays unless the
+application needs additional access. Grant only the specific access it requires, using the sandbox
+reference below.
+
+Do not add optional fields unless they apply:
+
+- `assets` overrides automatic AppImage architecture detection when filenames are ambiguous.
+- `deprecated` marks a discontinued listing.
+- `replacedBy` points to the AppStream ID of its replacement.
+
+The generator obtains names, descriptions, categories, links, icons, screenshots, releases,
+checksums, and other derived data automatically. Do not add those fields or generated files to the
+pull request.
 
 CI reads `app.json`, fetches upstream data, and writes the result under `.generated/apps/`. The
 generated catalog is committed by the production workflow so ordinary builds are fast,
@@ -16,46 +44,14 @@ deterministic, and do not need network access. Contributor pull requests must no
 
 ## Manifest
 
-```json
-{
-  "appstream": {
-    "type": "flathub",
-    "id": "org.example.App"
-  },
-  "addedAt": "2026-08-23",
-  "source": "community",
-  "mediaLicense": {
-    "icon": "GPL-3.0-or-later",
-    "screenshots": "GPL-3.0-or-later"
-  },
-  "releaseSource": {
-    "type": "github",
-    "repository": "example/app-appimage"
-  },
-  "sandbox": {
-    "network": "none",
-    "display": "wayland-and-x11",
-    "audio": "none",
-    "processes": "isolated",
-    "ipc": false,
-    "filesystem": [],
-    "devices": ["gpu"],
-    "portals": [],
-    "sessionBus": [],
-    "systemBus": []
-  }
-}
-```
-
 `app.json` contains only source pointers and information AppHub cannot determine safely:
 
 - The AppStream and AppImage release sources.
 - The catalog addition date and whether the package is official or community maintained.
-- Icon and screenshot redistribution licenses.
 - The required sandbox access.
 - Optional lifecycle and AppImage filename overrides.
 
-Unknown fields are rejected. URLs must use HTTPS and licenses must be SPDX expressions.
+Unknown fields are rejected. URLs must use HTTPS and project licenses must be SPDX expressions.
 
 ## Generated information
 
@@ -146,7 +142,8 @@ denied. Every field is required so omission cannot accidentally broaden access.
 - `audio`: `none`, `playback`, `capture`, or `playback-and-capture`.
 - `processes`: `isolated`, `read`, or `control`.
 - `ipc`: access to the host IPC namespace.
-- `filesystem`: named locations with `read-only` or `read-write` access.
+- `filesystem`: `home`, `desktop`, `documents`, `downloads`, `music`, `pictures`, `public-share`,
+  `templates`, `videos`, or `removable-media`, with `read-only` or `read-write` access.
 - `devices`: direct access to `gpu`, `input`, `camera`, `usb`, `serial`, `optical`, `fuse`, or
   `kvm`.
 - `portals`: required desktop portals.

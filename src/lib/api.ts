@@ -11,7 +11,6 @@ const imageTypeSchema = z.enum(["image/avif", "image/jpeg", "image/png", "image/
 const apiScreenshotSchema = z
   .object({
     caption: z.string().min(1),
-    license: z.string().min(1),
     source: z.url(),
     url: z.string().min(1),
     type: imageTypeSchema,
@@ -24,7 +23,6 @@ const apiAppSchema = appSchema
     slug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
     icon: z
       .object({
-        license: z.string().min(1),
         source: z.url(),
         url: z.string().min(1),
         type: imageTypeSchema,
