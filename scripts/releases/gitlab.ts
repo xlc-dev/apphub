@@ -1,21 +1,19 @@
 import { z } from "zod";
 import { selectAssets, type ReleaseLock } from "#catalog/core";
-import type { App } from "#catalog/schema";
+import { httpsUrlSchema, type App } from "#catalog/schema";
 import { getPages } from "#scripts/releases/http";
 import { normalizeDate, selectCurrent, type SourceRelease } from "#scripts/releases/model";
-
-const httpsUrl = z.url().refine((value) => new URL(value).protocol === "https:");
 
 const releaseSchema = z.object({
   tag_name: z.string().min(1),
   released_at: z.iso.datetime({ offset: true }),
   upcoming_release: z.boolean().optional(),
-  _links: z.object({ self: httpsUrl }),
+  _links: z.object({ self: httpsUrlSchema }),
   assets: z.object({
     links: z.array(
       z.object({
         name: z.string().min(1),
-        direct_asset_url: httpsUrl,
+        direct_asset_url: httpsUrlSchema,
       })
     ),
   }),

@@ -27,7 +27,7 @@ const releaseDate = latest
           <Link href={latest.page}>Version {formatVersion(latest.version)}</Link>
           {releaseDate && (
             <>
-              {" · "}
+              {", "}
               <time datetime={latest.publishedAt}>{releaseDate}</time>
             </>
           )}

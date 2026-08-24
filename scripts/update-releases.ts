@@ -5,6 +5,8 @@ import { fetchSourceReleases } from "#scripts/releases/index";
 import type { SourceRelease } from "#scripts/releases/model";
 
 const sha256 = z.string().regex(/^[a-f0-9]{64}$/);
+const maximumArtifactSize = 2 * 1024 * 1024 * 1024;
+const maximumReleaseSize = 4 * 1024 * 1024 * 1024;
 
 function verifyRecorded(appId: string, source: SourceRelease, lock: ReleaseLock) {
   const recorded = lock.releases.find(({ version }) => version === source.version);
@@ -48,14 +50,27 @@ function verifyRecorded(appId: string, source: SourceRelease, lock: ReleaseLock)
 
 async function recordRelease(release: SourceRelease): Promise<ReleaseLock["releases"][number]> {
   const artifacts: Artifact[] = [];
+  let releaseSize = 0;
 
   for (const artifact of release.artifacts) {
+    const remaining = maximumReleaseSize - releaseSize;
+    const limit = Math.min(maximumArtifactSize, remaining);
+
+    if (limit <= 0) {
+      throw new Error(`${release.version}: artifacts exceed the combined download limit`);
+    }
+
     const checksum =
       artifact.sha256 && artifact.size !== undefined
         ? { size: artifact.size, sha256: sha256.parse(artifact.sha256) }
-        : await hashDownload(artifact);
+        : await hashDownload(artifact, { maximumSize: limit });
+
+    if (checksum.size > limit) {
+      throw new Error(`${release.version}: artifacts exceed the combined download limit`);
+    }
 
     artifacts.push({ ...artifact, ...checksum });
+    releaseSize += checksum.size;
   }
 
   return { ...release, artifacts };

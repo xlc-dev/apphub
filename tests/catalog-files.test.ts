@@ -132,6 +132,7 @@ describe("catalog files", () => {
 
   test("reads a synthetic app without a release lock", async () => {
     const root = await temporaryDirectory();
+
     await writeApp(root);
 
     const entries = await readApps(
@@ -140,9 +141,12 @@ describe("catalog files", () => {
     );
 
     assert.equal(entries.length, 1);
-    assert.equal(entries[0]?.slug, "example-app");
-    assert.equal(entries[0]?.hasLock, false);
-    assert.deepEqual(entries[0]?.lock, { appId: "org.example.App", releases: [] });
+    const [entry] = entries;
+
+    assert.ok(entry);
+    assert.equal(entry.slug, "example-app");
+    assert.equal(entry.hasLock, false);
+    assert.deepEqual(entry.lock, { appId: "org.example.App", releases: [] });
   });
 
   test("rejects unexpected catalog files", async () => {

@@ -10,12 +10,12 @@ interface Props {
 
 const { categories, current, class: className } = Astro.props;
 const itemClass =
-  "grid min-h-9 grid-cols-[minmax(0,1fr)_auto] items-center gap-2 rounded-md px-2 text-sm hover:bg-[var(--card-raised)] focus-visible:-outline-offset-2 focus-visible:outline-2 focus-visible:outline-[var(--primary)] aria-[current=page]:bg-[var(--card-raised)] aria-[current=page]:font-medium aria-[current=page]:text-[var(--primary)]";
+  "grid min-h-11 grid-cols-[minmax(0,1fr)_auto] items-center gap-2 rounded-md px-2 text-sm hover:bg-[var(--card-raised)] focus-visible:-outline-offset-2 focus-visible:outline-2 focus-visible:outline-[var(--primary)] aria-[current=page]:bg-[var(--card-raised)] aria-[current=page]:font-medium aria-[current=page]:text-[var(--primary)]";
 ---
 
 <div class:list={["flex min-h-0 flex-col", className]} data-category-list>
   <input
-    class="my-2 min-h-9 w-full rounded-md border border-[var(--border)] bg-[var(--control-bg)] px-2 text-sm outline-none focus-visible:border-[var(--primary)]"
+    class="my-2 min-h-11 w-full rounded-md border border-[var(--border)] bg-[var(--control-bg)] px-2 text-sm outline-none focus-visible:border-[var(--primary)]"
     type="search"
     placeholder="Filter categories"
     aria-label="Filter categories"
@@ -23,6 +23,7 @@ const itemClass =
     hidden
     data-category-search
   />
+  <p class="sr-only" aria-live="polite" data-category-status></p>
   <nav class="min-h-0 grow [scrollbar-gutter:stable] overflow-y-auto pr-2" aria-label="Categories">
     <Link unstyled class={itemClass} href="/apps/" aria-current={!current ? "page" : undefined}>
       <span class="truncate">All apps</span>
@@ -49,17 +50,40 @@ const itemClass =
     for (const list of document.querySelectorAll<HTMLElement>("[data-category-list]")) {
       const input = list.querySelector<HTMLInputElement>("[data-category-search]");
       const options = Array.from(list.querySelectorAll<HTMLElement>("[data-category-option]"));
+      const status = list.querySelector<HTMLElement>("[data-category-status]");
       if (!input || input.dataset.initialized) {
         continue;
       }
 
       input.dataset.initialized = "true";
       input.hidden = false;
+
+      const navigation = list.querySelector<HTMLElement>("nav");
+      const selected = list.querySelector<HTMLElement>(
+        '[data-category-option][aria-current="page"]'
+      );
+
+      if (navigation && selected && list.offsetParent) {
+        const selectedTop =
+          selected.getBoundingClientRect().top -
+          navigation.getBoundingClientRect().top +
+          navigation.scrollTop;
+
+        navigation.scrollTop = selectedTop - (navigation.clientHeight - selected.offsetHeight) / 2;
+      }
+
       input.addEventListener("input", () => {
         const query = input.value.trim().toLowerCase();
-        options.forEach(
-          (option) => (option.hidden = !option.dataset.categoryValue!.includes(query))
-        );
+        let matches = 0;
+        options.forEach((option) => {
+          option.hidden = !option.dataset.categoryValue!.includes(query);
+          matches += option.hidden ? 0 : 1;
+        });
+        if (status) {
+          status.textContent = query
+            ? `${matches} ${matches === 1 ? "category" : "categories"} found`
+            : "";
+        }
       });
     }
   }

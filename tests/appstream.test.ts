@@ -25,6 +25,19 @@ describe("AppStream metadata", () => {
     );
   });
 
+  test("rejects document declarations and custom entities", () => {
+    assert.throws(
+      () => parseDescription('<!DOCTYPE p [<!ENTITY x "value">]><p>&x;</p>'),
+      /must not contain/
+    );
+  });
+
+  test("decodes standard XML entities", () => {
+    assert.deepEqual(parseDescription("<p>A &amp; B</p>"), [
+      { type: "paragraph", content: [{ type: "text", value: "A & B" }] },
+    ]);
+  });
+
   test("reads a direct MetaInfo document", () => {
     const metadata = readAppstreamXml(
       `

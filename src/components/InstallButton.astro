@@ -13,15 +13,16 @@ const artifacts = Astro.props.artifacts.map(({ architecture, sha256, url }) => (
 }));
 ---
 
-<div class="relative mt-4 inline-block" data-install data-artifacts={JSON.stringify(artifacts)}>
+<div
+  class="relative mt-4 inline-block"
+  hidden
+  data-install
+  data-artifacts={JSON.stringify(artifacts)}>
   <Button
     large
     variant="primary"
-    class="aria-disabled:cursor-not-allowed aria-disabled:opacity-50"
-    aria-disabled="true"
     aria-expanded="false"
     aria-controls="install-message"
-    aria-describedby="install-message"
     data-install-button>
     Install
   </Button>
@@ -29,8 +30,9 @@ const artifacts = Astro.props.artifacts.map(({ architecture, sha256, url }) => (
     class="m-0 w-80 max-w-[calc(100vw-2rem)] rounded-md border border-[var(--border)] bg-[var(--card)] p-4 text-sm text-[var(--foreground)] shadow-md"
     id="install-message"
     popover
+    role="status"
     data-install-message>
-    Checking your device architecture…
+    Checking your device architecture...
   </div>
 </div>
 
@@ -91,6 +93,7 @@ const artifacts = Astro.props.artifacts.map(({ architecture, sha256, url }) => (
       const artifacts = JSON.parse(install.dataset.artifacts ?? "[]") as Artifact[];
       const architecture = await deviceArchitecture();
       const artifact = artifacts.find((candidate) => candidate.architecture === architecture);
+      const events = new AbortController();
 
       const positionMessage = () => {
         const gap = 8;
@@ -114,14 +117,22 @@ const artifacts = Astro.props.artifacts.map(({ architecture, sha256, url }) => (
       const handleToggle = (event: ToggleEvent) => {
         const open = event.newState === "open";
         button.setAttribute("aria-expanded", String(open));
-        window[open ? "addEventListener" : "removeEventListener"]("resize", positionMessage);
-        window[open ? "addEventListener" : "removeEventListener"]("scroll", positionMessage, true);
+        if (open) {
+          window.addEventListener("resize", positionMessage, { signal: events.signal });
+          window.addEventListener("scroll", positionMessage, {
+            capture: true,
+            signal: events.signal,
+          });
+        } else {
+          window.removeEventListener("resize", positionMessage);
+          window.removeEventListener("scroll", positionMessage, true);
+        }
       };
 
-      message.addEventListener("toggle", handleToggle);
+      message.addEventListener("toggle", handleToggle, { signal: events.signal });
 
       if (artifact) {
-        button.setAttribute("aria-disabled", "false");
+        message.textContent = `Install the ${artifact.architecture} AppImage with AppManager.`;
       } else if (!architecture) {
         message.textContent = "Your device architecture could not be detected.";
       } else if (artifacts.length === 1) {
@@ -130,22 +141,32 @@ const artifacts = Astro.props.artifacts.map(({ architecture, sha256, url }) => (
         message.textContent = `This app does not provide an AppImage for your ${architecture} device.`;
       }
 
-      button.addEventListener("click", () => {
-        if (!artifact) {
-          if (message.matches(":popover-open")) {
-            message.hidePopover();
-          } else {
-            message.showPopover();
-            positionMessage();
-          }
-          return;
-        }
+      if (!artifact) {
+        button.textContent = "Install unavailable";
+      }
+      install.hidden = false;
 
-        const url = new URL("appmgr://install");
-        url.searchParams.set("url", artifact.url);
-        url.searchParams.set("sha256", artifact.sha256);
-        window.location.href = url.href;
-      });
+      button.addEventListener(
+        "click",
+        () => {
+          if (!artifact) {
+            if (message.matches(":popover-open")) {
+              message.hidePopover();
+            } else {
+              message.showPopover();
+              positionMessage();
+            }
+            return;
+          }
+
+          const url = new URL("appmgr://install");
+          url.searchParams.set("url", artifact.url);
+          url.searchParams.set("sha256", artifact.sha256);
+          window.location.href = url.href;
+        },
+        { signal: events.signal }
+      );
+      document.addEventListener("astro:before-swap", () => events.abort(), { once: true });
     }
   }
 

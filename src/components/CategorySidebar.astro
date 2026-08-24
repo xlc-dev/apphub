@@ -11,8 +11,17 @@ const { categories, current, currentName } = Astro.props;
 ---
 
 <details class="rounded-lg border border-[var(--border)] bg-[var(--card)] lg:hidden">
-  <summary class="flex min-h-10 cursor-pointer items-center justify-between px-3 py-2 font-medium">
-    <span>{currentName ?? "All categories"}</span><span aria-hidden="true">⌄</span>
+  <summary class="flex min-h-11 cursor-pointer items-center justify-between px-3 py-2 font-medium">
+    <span>{currentName ?? "All categories"}</span>
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      class="size-4"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2.5">
+      <path d="m6 9 6 6 6-6"></path>
+    </svg>
   </summary>
   <div class="border-t border-[var(--border)] p-2">
     <CategoryList class="max-h-72" categories={categories} current={current} />

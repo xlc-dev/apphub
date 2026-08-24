@@ -15,7 +15,9 @@ Read the documentation relevant to your change:
 An application listing consists only of `apps/<slug>/app.json`. Do not submit downloaded metadata,
 images, release files, or changes under `.generated/`; CI generates them from the reviewed sources
 in that manifest. Start with the [application template](docs/app.template.json); every field is
-explained in the [catalog documentation](docs/catalog.md).
+explained in the [catalog documentation](docs/catalog.md). When your branch is ready, open an
+[application submission pull request](https://github.com/xlc-dev/apphub/compare/main...HEAD?quick_pull=1&template=app-submission.md)
+to use the application checklist.
 
 ## Development
 

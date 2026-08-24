@@ -13,6 +13,7 @@ const links = [
     current: path.startsWith("/apps/") || path.startsWith("/categories/"),
   },
   { href: "/new/", label: "New", current: path.startsWith("/new/") },
+  { href: "/updated/", label: "Updated", current: path.startsWith("/updated/") },
   { href: "/trending/", label: "Trending", current: path.startsWith("/trending/") },
 ];
 ---
@@ -31,10 +32,9 @@ const links = [
     </Link>
     <div class="col-start-2 row-start-1 flex items-center gap-2 md:hidden">
       <ThemeSelect id="mobile-theme" />
-      <details class="group" data-mobile-menu>
+      <details class="group">
         <summary
-          class="relative flex size-9 cursor-pointer list-none items-center justify-center rounded-md border border-[var(--border)] bg-[var(--control-bg)] shadow-sm hover:bg-[var(--card-raised)] focus-visible:border-[var(--primary)] focus-visible:ring-[3px] focus-visible:ring-[color-mix(in_srgb,var(--primary)_20%,transparent)] focus-visible:outline-none [&::-webkit-details-marker]:hidden"
-          data-mobile-menu-summary
+          class="relative flex size-11 cursor-pointer list-none items-center justify-center rounded-md border border-[var(--border)] bg-[var(--control-bg)] shadow-sm hover:bg-[var(--card-raised)] focus-visible:border-[var(--primary)] focus-visible:ring-[3px] focus-visible:ring-[color-mix(in_srgb,var(--primary)_20%,transparent)] focus-visible:outline-none [&::-webkit-details-marker]:hidden"
           aria-label="Main menu">
           <svg
             class="absolute transition-[opacity,transform] duration-150 group-open:rotate-90 group-open:opacity-0 motion-reduce:transition-none"
@@ -63,7 +63,6 @@ const links = [
         </summary>
         <nav
           class="absolute top-full right-0 left-0 border-t border-[var(--border)] bg-[var(--page)] shadow-lg"
-          data-mobile-menu-content
           aria-label="Main navigation">
           <div class="mx-auto grid max-w-6xl gap-1 px-4 py-3">
             {
@@ -89,7 +88,7 @@ const links = [
       data-catalog-search>
       <label class="sr-only" for="catalog-search">Search apps</label>
       <input
-        class="min-h-9 w-full rounded-md border border-[var(--border)] bg-[var(--control-bg)] px-3 py-1 text-sm shadow-sm outline-none placeholder:text-[var(--muted)] focus-visible:border-[var(--primary)] focus-visible:ring-[3px] focus-visible:ring-[color-mix(in_srgb,var(--primary)_20%,transparent)]"
+        class="min-h-11 w-full rounded-md border border-[var(--border)] bg-[var(--control-bg)] px-3 py-1 text-sm shadow-sm outline-none placeholder:text-[var(--muted)] focus-visible:border-[var(--primary)] focus-visible:ring-[3px] focus-visible:ring-[color-mix(in_srgb,var(--primary)_20%,transparent)]"
         id="catalog-search"
         type="search"
         name="q"
@@ -115,43 +114,6 @@ const links = [
 </header>
 
 <script>
-  function initializeMobileMenu() {
-    const menu = document.querySelector<HTMLDetailsElement>("[data-mobile-menu]");
-    const summary = menu?.querySelector<HTMLElement>("[data-mobile-menu-summary]");
-    const content = menu?.querySelector<HTMLElement>("[data-mobile-menu-content]");
-    if (!menu || !summary || !content || menu.dataset.initialized) {
-      return;
-    }
-
-    menu.dataset.initialized = "true";
-    const duration = matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 150;
-
-    summary.addEventListener("click", (event) => {
-      event.preventDefault();
-
-      if (!menu.open) {
-        menu.open = true;
-        content.animate(
-          [
-            { opacity: 0, transform: "translateY(-0.5rem)" },
-            { opacity: 1, transform: "translateY(0)" },
-          ],
-          { duration, easing: "ease-out" }
-        );
-        return;
-      }
-
-      const animation = content.animate(
-        [
-          { opacity: 1, transform: "translateY(0)" },
-          { opacity: 0, transform: "translateY(-0.5rem)" },
-        ],
-        { duration, easing: "ease-in" }
-      );
-      animation.finished.then(() => menu.removeAttribute("open"));
-    });
-  }
-
   function showHeaderSearch() {
     const search = document.querySelector<HTMLFormElement>("[data-catalog-search]");
     if (search) {
@@ -161,6 +123,5 @@ const links = [
 
   document.addEventListener("astro:page-load", () => {
     showHeaderSearch();
-    initializeMobileMenu();
   });
 </script>

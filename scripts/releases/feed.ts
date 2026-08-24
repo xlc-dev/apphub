@@ -1,39 +1,39 @@
 import { z } from "zod";
 import type { ReleaseLock } from "#catalog/core";
-import type { App } from "#catalog/schema";
+import { architectureSchema, httpsUrlSchema, type App } from "#catalog/schema";
 import { getJson } from "#scripts/releases/http";
 import { normalizeDate, selectCurrent } from "#scripts/releases/model";
 
-const httpsUrl = z.url().refine((value) => new URL(value).protocol === "https:");
-
 const feedSchema = z
   .object({
-    releases: z.array(
-      z
-        .object({
-          version: z.string().min(1).max(200),
-          publishedAt: z.iso.datetime({ offset: true }),
-          page: httpsUrl,
-          artifacts: z
-            .array(
-              z
-                .object({
-                  architecture: z.string().regex(/^[a-z0-9][a-z0-9_+-]*$/),
-                  name: z.string().min(1).max(255),
-                  url: httpsUrl,
-                  size: z.number().int().positive(),
-                  sha256: z
-                    .string()
-                    .regex(/^[a-f0-9]{64}$/)
-                    .optional(),
-                })
-                .strict()
-            )
-            .min(1)
-            .max(50),
-        })
-        .strict()
-    ),
+    releases: z
+      .array(
+        z
+          .object({
+            version: z.string().min(1).max(200),
+            publishedAt: z.iso.datetime({ offset: true }),
+            page: httpsUrlSchema,
+            artifacts: z
+              .array(
+                z
+                  .object({
+                    architecture: architectureSchema,
+                    name: z.string().min(1).max(255),
+                    url: httpsUrlSchema,
+                    size: z.number().int().positive(),
+                    sha256: z
+                      .string()
+                      .regex(/^[a-f0-9]{64}$/)
+                      .optional(),
+                  })
+                  .strict()
+              )
+              .min(1)
+              .max(10),
+          })
+          .strict()
+      )
+      .max(1_000),
   })
   .strict();
 

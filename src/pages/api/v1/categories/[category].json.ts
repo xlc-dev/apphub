@@ -1,5 +1,5 @@
 import type { APIRoute, GetStaticPaths } from "astro";
-import { apiCategoryDetailsSchema, getCategories, getCategory } from "@/lib/api";
+import { type apiCategoryDetailsSchema, getCategories, getCategory } from "@/lib/api";
 import type { z } from "zod";
 
 type CategoryDetails = z.infer<typeof apiCategoryDetailsSchema>;
@@ -10,9 +10,9 @@ export const getStaticPaths = (async () => {
   const categories = await getCategories();
 
   return Promise.all(
-    categories.map(async ({ slug }) => ({
-      params: { category: slug },
-      props: { category: (await getCategory(slug))! },
+    categories.map(async ({ id }) => ({
+      params: { category: id },
+      props: { category: (await getCategory(id))! },
     }))
   );
 }) satisfies GetStaticPaths;

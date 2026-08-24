@@ -2,11 +2,11 @@ import { z } from "zod";
 import parseSpdxExpression from "spdx-expression-parse";
 import { mainCategories, registeredCategories } from "#catalog/categories";
 
-const httpsUrlSchema = z.url().refine((value) => new URL(value).protocol === "https:", {
+export const httpsUrlSchema = z.url().refine((value) => new URL(value).protocol === "https:", {
   message: "Must use HTTPS",
 });
 
-const architectureSchema = z
+export const architectureSchema = z
   .string()
   .regex(/^[a-z0-9][a-z0-9_+-]*$/)
   .describe("Linux architecture name");
@@ -139,6 +139,7 @@ const categorySchema = z
 function isSpdxExpression(value: string) {
   try {
     parseSpdxExpression(value);
+
     return true;
   } catch {
     return false;
@@ -164,19 +165,22 @@ const iconSchema = z
   .strict();
 
 const descriptionTextSchema = z.discriminatedUnion("type", [
-  z.object({ type: z.literal("text"), value: z.string().min(1) }).strict(),
-  z.object({ type: z.literal("emphasis"), value: z.string().min(1) }).strict(),
-  z.object({ type: z.literal("code"), value: z.string().min(1) }).strict(),
+  z.object({ type: z.literal("text"), value: z.string().min(1).max(10_000) }).strict(),
+  z.object({ type: z.literal("emphasis"), value: z.string().min(1).max(10_000) }).strict(),
+  z.object({ type: z.literal("code"), value: z.string().min(1).max(10_000) }).strict(),
 ]);
 
 const descriptionBlockSchema = z.discriminatedUnion("type", [
   z
-    .object({ type: z.literal("paragraph"), content: z.array(descriptionTextSchema).min(1) })
+    .object({
+      type: z.literal("paragraph"),
+      content: z.array(descriptionTextSchema).min(1).max(100),
+    })
     .strict(),
   z
     .object({
       type: z.enum(["ordered-list", "unordered-list"]),
-      items: z.array(z.array(descriptionTextSchema).min(1)).min(1),
+      items: z.array(z.array(descriptionTextSchema).min(1).max(100)).min(1).max(100),
     })
     .strict(),
 ]);
@@ -196,7 +200,11 @@ const generatedAppstreamFields = {
     .regex(/^[A-Za-z0-9][A-Za-z0-9._-]+$/),
   name: z.string().min(1).max(100),
   summary: z.string().min(1).max(200),
-  description: z.array(descriptionBlockSchema).min(1).max(100),
+  description: z
+    .array(descriptionBlockSchema)
+    .min(1)
+    .max(100)
+    .refine((blocks) => JSON.stringify(blocks).length <= 100_000, "Description is too large"),
   projectLicense: z
     .string()
     .min(1)
@@ -349,7 +357,7 @@ export const releaseSchema = z
     version: z.string().min(1).max(200),
     publishedAt: z.iso.datetime(),
     page: httpsUrlSchema,
-    artifacts: z.array(artifactSchema).min(1).max(50),
+    artifacts: z.array(artifactSchema).min(1).max(10),
   })
   .strict()
   .refine(

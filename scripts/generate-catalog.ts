@@ -2,6 +2,7 @@ import { copyFile, lstat, mkdir, readFile, readdir, rename, rm, writeFile } from
 import { pathToFileURL } from "node:url";
 import { appManifestSchema, releaseLockSchema } from "#catalog/schema";
 import { readAppstreamXml, readFlathubAppstream, readFlathubAssets } from "#catalog/appstream";
+import { readResponse, safeFetch } from "#catalog/http";
 import { generateReleases } from "#scripts/update-releases";
 
 const imageTypes = new Map([
@@ -11,37 +12,8 @@ const imageTypes = new Map([
   ["image/avif", "avif"],
 ]);
 
-async function readResponse(response: Response, sizeLimit: number, source: string) {
-  if (!response.body) {
-    throw new Error(`Empty response from ${source}`);
-  }
-
-  const chunks: Uint8Array[] = [];
-  const reader = response.body.getReader();
-  let size = 0;
-
-  for (;;) {
-    const { done, value } = await reader.read();
-
-    if (done) {
-      break;
-    }
-
-    size += value.byteLength;
-
-    if (size > sizeLimit) {
-      await reader.cancel();
-      throw new Error(`Response is too large: ${source}`);
-    }
-
-    chunks.push(value);
-  }
-
-  return Buffer.concat(chunks, size);
-}
-
 async function downloadImage(url: string, basename: string) {
-  const response = await fetch(url, { signal: AbortSignal.timeout(30_000) });
+  const response = await safeFetch(url, { signal: AbortSignal.timeout(30_000) });
 
   if (!response.ok) {
     throw new Error(`Image request failed with HTTP ${response.status}: ${url}`);
@@ -57,6 +29,7 @@ async function downloadImage(url: string, basename: string) {
   const content = await readResponse(response, 10 * 1024 * 1024, url);
 
   const file = `${basename}.${extension}`;
+
   await writeFile(file, content);
 
   return file.split("/").at(-1)!;
@@ -146,6 +119,7 @@ try {
     }
 
     const path = `${generatedPath}/${directory}`;
+
     await mkdir(path);
 
     const manifest = await readManifest(`${sourcePath}/app.json`);
@@ -157,7 +131,7 @@ try {
       metadata = appstream.metadata;
       media = appstream.media;
     } else {
-      const response = await fetch(
+      const response = await safeFetch(
         appstream.type === "flathub"
           ? `https://flathub.org/api/v2/appstream/${appstream.id}`
           : appstream.url,
@@ -169,7 +143,7 @@ try {
       }
 
       if (appstream.type === "flathub") {
-        const source = JSON.parse(
+        const source: unknown = JSON.parse(
           (await readResponse(response, 2 * 1024 * 1024, appstream.id)).toString("utf8")
         );
 

@@ -132,6 +132,11 @@ Patterns match filenames only and must end in `.AppImage`.
 A release feed exposes a `releases` array. Artifact sizes and SHA-256 values are optional; AppHub
 downloads an artifact to calculate missing values.
 
+Remote sources must use HTTPS, resolve exclusively to public addresses, and stay within response and
+timeout limits. Redirect destinations are checked as new requests. AppStream XML document
+declarations and custom entities are rejected. A release can contain at most ten artifacts. Each
+downloaded artifact is limited to 2 GiB and their combined release size is limited to 4 GiB.
+
 ## Sandbox policy
 
 The sandbox is an allowlist. Private application storage is implicit and unspecified host access is

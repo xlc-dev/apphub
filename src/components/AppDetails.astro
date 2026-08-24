@@ -1,6 +1,7 @@
 ---
 import type { ApiApp } from "@/lib/api";
 import Link from "@/components/ui/Link.astro";
+import StarIcon from "@/components/icons/StarIcon.astro";
 
 interface Props {
   app: ApiApp;
@@ -67,7 +68,10 @@ const repositoryLabel =
         <div>
           <dt class="text-sm text-[var(--muted)]">Repository stars</dt>
           <dd class="m-0 mt-1">
-            <Link href={app.repository}>★ {stars.toLocaleString("en")}</Link>
+            <Link class="inline-flex items-center gap-1.5" href={app.repository}>
+              <StarIcon class="size-4" />
+              {stars.toLocaleString("en")}
+            </Link>
           </dd>
         </div>
       )

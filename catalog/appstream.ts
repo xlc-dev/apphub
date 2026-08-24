@@ -32,9 +32,7 @@ const flathubSchema = z.object({
   ),
 });
 
-interface XmlNode {
-  [name: string]: XmlNode[] | string;
-}
+type XmlNode = Record<string, XmlNode[] | string>;
 
 const parser = new XMLParser({ preserveOrder: true, trimValues: false });
 const metadataParser = new XMLParser({
@@ -54,6 +52,12 @@ const metadataParser = new XMLParser({
     ].includes(name),
 });
 
+function rejectDeclarations(value: string, source: string) {
+  if (/<!DOCTYPE|<!ENTITY/i.test(value)) {
+    throw new Error(`${source} must not contain document declarations or entities`);
+  }
+}
+
 function text(nodes: XmlNode[], allowed: Set<string>) {
   const parts: Array<{ type: "text" | "emphasis" | "code"; value: string }> = [];
 
@@ -72,6 +76,7 @@ function text(nodes: XmlNode[], allowed: Set<string>) {
     const value = text(node[name] as XmlNode[], new Set())
       .map((part) => part.value)
       .join("");
+
     parts.push({ type: name === "em" ? "emphasis" : "code", value });
   }
 
@@ -87,6 +92,8 @@ function text(nodes: XmlNode[], allowed: Set<string>) {
 }
 
 export function parseDescription(value: string) {
+  rejectDeclarations(value, "AppStream descriptions");
+
   const document = parser.parse(`<description>${value}</description>`) as XmlNode[];
   const root = document[0]?.description;
 
@@ -99,7 +106,7 @@ export function parseDescription(value: string) {
   for (const node of root) {
     const name = Object.keys(node)[0];
 
-    if (name === "#text" && String(node[name]).trim().length === 0) {
+    if (name === "#text" && typeof node[name] === "string" && node[name].trim().length === 0) {
       continue;
     }
 
@@ -150,13 +157,13 @@ export function readFlathubAssets(value: unknown) {
   return {
     icon: app.icon,
     screenshots: app.screenshots
-      .sort((left, right) => Number(right.default) - Number(left.default))
+      .toSorted((left, right) => Number(right.default) - Number(left.default))
       .slice(0, 10)
       .map((screenshot) => ({
-        caption: screenshot.caption || `${app.name} screenshot`,
+        caption: screenshot.caption?.trim() ? screenshot.caption : `${app.name} screenshot`,
         source:
           screenshot.sizes.find(({ src }) => src.includes("_orig."))?.src ??
-          screenshot.sizes.sort(
+          screenshot.sizes.toSorted(
             (left, right) =>
               Number(right.width) * Number(right.height) - Number(left.width) * Number(left.height)
           )[0]?.src,
@@ -183,9 +190,11 @@ function defaultText(value: unknown) {
 }
 
 export function readAppstreamXml(xml: string, expectedId: string) {
+  rejectDeclarations(xml, "AppStream XML");
+
   const parsed = metadataParser.parse(xml) as Record<string, unknown>;
-  const component = (parsed.component ??
-    (parsed.components as Record<string, unknown>)?.component) as
+  const components = parsed.components as Record<string, unknown> | undefined;
+  const component = (parsed.component ?? components?.component) as
     Record<string, unknown> | undefined;
 
   if (!component) {
@@ -211,7 +220,7 @@ export function readAppstreamXml(xml: string, expectedId: string) {
 
   const url = (type: string) =>
     urls.find((item) => item.type === type)?.["#text"] ??
-    urls.find((item) => item.type === type)?.["text"];
+    urls.find((item) => item.type === type)?.text;
 
   if (!description) {
     throw new Error("Default AppStream description is missing");

@@ -1,4 +1,4 @@
-import { getNewApps, getRanking, type RankingPeriod } from "#lib/api";
+import { getNewApps, getRanking, getUpdatedApps, type RankingPeriod } from "#lib/api";
 import { catalogPageSize } from "#lib/pagination";
 
 function pagePaths(total: number) {
@@ -12,6 +12,10 @@ function pagePaths(total: number) {
 
 export async function newAppPagePaths() {
   return pagePaths((await getNewApps()).apps.length);
+}
+
+export async function updatedAppPagePaths() {
+  return pagePaths((await getUpdatedApps()).apps.length);
 }
 
 export async function rankingPagePaths(period: RankingPeriod) {

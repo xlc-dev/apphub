@@ -7,7 +7,6 @@ import PageHeader from "@/components/ui/PageHeader.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { getNewApps } from "@/lib/api";
 import { paginationState } from "@/lib/pagination";
-import { getRepositoryStars } from "@/lib/repository-stars";
 
 interface Props {
   page?: number;
@@ -15,7 +14,6 @@ interface Props {
 
 const { page = 1 } = Astro.props;
 const { apps, windowDays } = await getNewApps();
-const stars = await getRepositoryStars();
 const state = paginationState(apps.length, page);
 const displayedApps = apps.slice(state.start, state.end);
 ---
@@ -31,7 +29,7 @@ const displayedApps = apps.slice(state.start, state.end);
           </h2>
           <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {displayedApps.map((app, index) => (
-              <AppCard app={app} priority={index < 6} stars={stars[app.slug]} />
+              <AppCard app={app} priority={index < 6} stars={app.statistics.stars ?? undefined} />
             ))}
           </div>
           <Pagination

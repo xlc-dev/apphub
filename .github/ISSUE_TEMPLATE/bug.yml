@@ -1,0 +1,36 @@
+name: Bug report
+description: Report behavior that is broken or incorrect
+labels: [bug]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Describe the problem and what you expected instead.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: How can we reproduce it?
+      description: Include the shortest reliable steps and any relevant application.
+      placeholder: |
+        1. Open ...
+        2. Select ...
+        3. See ...
+    validations:
+      required: true
+
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: Browser, Distro, and device architecture when relevant.
+      placeholder: Firefox 142, Fedora, x86_64
+
+  - type: textarea
+    id: details
+    attributes:
+      label: Additional details
+      description: Add screenshots, logs, links, or other useful context.

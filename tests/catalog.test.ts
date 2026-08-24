@@ -373,17 +373,18 @@ describe("asset matching", () => {
 });
 
 describe("download hashing", () => {
-  const url = "data:application/octet-stream;base64,YXBwaHVi";
+  const url = "https://example.org/fixture.AppImage";
+  const fetcher = () => Promise.resolve(new Response("apphub"));
 
   test("hashes an exact-size download", async () => {
-    assert.deepEqual(await hashDownload({ name: "fixture", url, size: 6 }), {
+    assert.deepEqual(await hashDownload({ name: "fixture", url, size: 6 }, { fetcher }), {
       size: 6,
       sha256: sha256(Buffer.from("apphub")),
     });
   });
 
   test("measures a download without a published size", async () => {
-    assert.deepEqual(await hashDownload({ name: "fixture", url }), {
+    assert.deepEqual(await hashDownload({ name: "fixture", url }, { fetcher }), {
       size: 6,
       sha256: sha256(Buffer.from("apphub")),
     });
@@ -391,14 +392,14 @@ describe("download hashing", () => {
 
   test("rejects downloads with a different published size", async () => {
     assert.match(
-      await errorMessage(hashDownload({ name: "fixture", url, size: 7 })),
+      await errorMessage(hashDownload({ name: "fixture", url, size: 7 }, { fetcher })),
       /differs from published size/
     );
   });
 
   test("stops downloads that exceed their published size", async () => {
     assert.match(
-      await errorMessage(hashDownload({ name: "fixture", url, size: 5 })),
+      await errorMessage(hashDownload({ name: "fixture", url, size: 5 }, { fetcher })),
       /exceeds published size/
     );
   });

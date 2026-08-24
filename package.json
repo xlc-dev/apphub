@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "license": "AGPL-3.0-or-later",
   "engines": {
-    "node": ">=22.18.0"
+    "node": ">=22.22.3"
   },
   "imports": {
     "#catalog/*": "./catalog/*.ts",
@@ -17,6 +17,8 @@
     "preview": "astro preview",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "check": "astro check",
     "test": "bun test",
     "test:node": "node --test tests/*.test.ts",
@@ -27,13 +29,13 @@
     "update-stars": "node scripts/update-stars.ts",
     "validate:catalog": "node scripts/validate.ts",
     "validate:project": "astro check && astro build && node scripts/validate.ts",
-    "validate": "prettier --check . && bun test && bun run validate:project",
-    "validate:node": "prettier --check . && node --test tests/*.test.ts && astro check && astro build && node scripts/validate.ts"
+    "validate": "prettier --check . && eslint . && bun test && bun run validate:project",
+    "validate:node": "prettier --check . && eslint . && node --test tests/*.test.ts && astro check && astro build && node scripts/validate.ts"
   },
   "dependencies": {
     "@fontsource-variable/inter": "^5.3.0",
     "@tailwindcss/vite": "^4.3.3",
-    "astro": "^7.2.4",
+    "astro": "^7.2.6",
     "fast-xml-parser": "^5.11.0",
     "sharp": "^0.35.3",
     "spdx-expression-parse": "^5.0.0",
@@ -42,10 +44,17 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
-    "@types/node": "^22.18.0",
+    "@eslint/js": "^10.0.1",
+    "@stylistic/eslint-plugin": "^5.10.0",
+    "@types/node": "^22.20.1",
+    "eslint": "^10.9.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-astro": "~3.1.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
     "prettier": "^3.9.6",
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-tailwindcss": "^0.8.1",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.68.0"
   }
 }
