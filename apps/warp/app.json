@@ -1,35 +1,14 @@
 {
-  "id": "app.drey.Warp",
-  "name": "Warp",
-  "summary": "Fast and secure file transfer",
-  "description": "Warp sends encrypted files over the internet or local network using the Magic Wormhole protocol. Devices connect with a word-based code or QR code, and compatible command-line clients can join the transfer.",
-  "projectLicense": "GPL-3.0-only",
-  "developer": {
-    "name": "Fina Wilke",
-    "url": "https://apps.gnome.org/Warp/"
+  "appstream": {
+    "type": "flathub",
+    "id": "app.drey.Warp"
   },
-  "homepage": "https://apps.gnome.org/Warp/",
-  "repository": "https://gitlab.gnome.org/World/warp/",
   "addedAt": "2026-08-22",
-  "keywords": ["gnome", "gtk", "wormhole"],
-  "categories": ["Utility"],
   "source": "community",
   "releaseSource": {
     "type": "github",
     "repository": "pkgforge-dev/Warp-AppImage"
   },
-  "icon": {
-    "license": "GPL-3.0-only",
-    "source": "https://dl.flathub.org/media/app/drey/Warp/66b2b74abeecd4bc7aa79644c759a203/icons/128x128/app.drey.Warp.png"
-  },
-  "screenshots": [
-    {
-      "file": "screenshot-1.png",
-      "caption": "Main Window",
-      "license": "GPL-3.0-only",
-      "source": "https://dl.flathub.org/media/app/drey/Warp/66b2b74abeecd4bc7aa79644c759a203/screenshots/image-1_orig.png"
-    }
-  ],
   "sandbox": {
     "network": "client-and-server",
     "display": "wayland-and-x11",

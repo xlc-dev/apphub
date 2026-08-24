@@ -1,6 +1,6 @@
 import { z } from "zod";
 import parseSpdxExpression from "spdx-expression-parse";
-import { mainCategories, registeredCategories } from "@catalog/categories";
+import { mainCategories, registeredCategories } from "#catalog/categories";
 
 const httpsUrlSchema = z.url().refine((value) => new URL(value).protocol === "https:", {
   message: "Must use HTTPS",
@@ -42,10 +42,6 @@ const releaseSourceSchema = z.discriminatedUnion("type", [
     .object({ type: z.literal("feed"), url: httpsUrlSchema })
     .strict()
     .describe("Release metadata is read from an AppHub JSON release feed"),
-  z
-    .object({ type: z.literal("direct") })
-    .strict()
-    .describe("Release metadata and artifact URLs are maintained in releases.json"),
 ]);
 
 const filesystemLocationSchema = z.enum([
@@ -157,88 +153,168 @@ const screenshotSchema = z
   .object({
     file: z.string().regex(/^screenshot-[1-9][0-9]*\.(?:png|jpe?g|webp|avif)$/i),
     caption: z.string().min(1).max(200),
-    license: z
-      .string()
-      .min(1)
-      .max(100)
-      .refine(isSpdxExpression, "Must be a valid SPDX license expression"),
     source: httpsUrlSchema,
   })
   .strict();
 
 const iconSchema = z
   .object({
-    license: z
-      .string()
-      .min(1)
-      .max(100)
-      .refine(isSpdxExpression, "Must be a valid SPDX license expression"),
     source: httpsUrlSchema,
   })
   .strict();
 
-export const appSchema = z
+const descriptionTextSchema = z.discriminatedUnion("type", [
+  z.object({ type: z.literal("text"), value: z.string().min(1) }).strict(),
+  z.object({ type: z.literal("emphasis"), value: z.string().min(1) }).strict(),
+  z.object({ type: z.literal("code"), value: z.string().min(1) }).strict(),
+]);
+
+const descriptionBlockSchema = z.discriminatedUnion("type", [
+  z
+    .object({ type: z.literal("paragraph"), content: z.array(descriptionTextSchema).min(1) })
+    .strict(),
+  z
+    .object({
+      type: z.enum(["ordered-list", "unordered-list"]),
+      items: z.array(z.array(descriptionTextSchema).min(1)).min(1),
+    })
+    .strict(),
+]);
+
+const developerSchema = z
   .object({
-    id: z
-      .string()
-      .min(2)
-      .max(255)
-      .regex(/^[A-Za-z0-9][A-Za-z0-9._-]+$/),
     name: z.string().min(1).max(100),
-    summary: z.string().min(1).max(200),
-    description: z.string().min(1).max(10_000),
-    projectLicense: z
-      .string()
+    url: httpsUrlSchema.optional(),
+  })
+  .strict();
+
+const generatedAppstreamFields = {
+  id: z
+    .string()
+    .min(2)
+    .max(255)
+    .regex(/^[A-Za-z0-9][A-Za-z0-9._-]+$/),
+  name: z.string().min(1).max(100),
+  summary: z.string().min(1).max(200),
+  description: z.array(descriptionBlockSchema).min(1).max(100),
+  projectLicense: z
+    .string()
+    .min(1)
+    .max(100)
+    .refine(isSpdxExpression, "Must be a valid SPDX license expression"),
+  developer: developerSchema,
+  homepage: httpsUrlSchema,
+  repository: httpsUrlSchema.optional(),
+  keywords: z
+    .array(z.string().min(1).max(100))
+    .max(50)
+    .refine(
+      (keywords) =>
+        new Set(keywords.map((keyword) => keyword.toLowerCase())).size === keywords.length,
+      "Keywords must be unique"
+    )
+    .optional(),
+  categories: z
+    .array(categorySchema)
+    .min(1)
+    .max(20)
+    .refine((categories) => new Set(categories).size === categories.length, {
+      message: "Categories must be unique",
+    })
+    .refine(
+      (categories) => categories.some((category) => mainCategories.has(category)),
+      "At least one main category is required"
+    ),
+  mimeTypes: z
+    .array(mimeTypeSchema)
+    .max(100)
+    .refine(
+      (mimeTypes) =>
+        new Set(mimeTypes.map((mimeType) => mimeType.toLowerCase())).size === mimeTypes.length,
+      "MIME types must be unique"
+    )
+    .optional(),
+};
+
+export const appstreamMetadataSchema = z.object(generatedAppstreamFields).strict();
+
+const upstreamMediaSchema = z
+  .object({
+    icon: httpsUrlSchema,
+    screenshots: z
+      .array(
+        z
+          .object({
+            caption: z.string().min(1).max(200),
+            source: httpsUrlSchema,
+          })
+          .strict()
+      )
       .min(1)
-      .max(100)
-      .refine(isSpdxExpression, "Must be a valid SPDX license expression"),
-    developer: z
+      .max(10),
+  })
+  .strict();
+
+const appstreamSourceSchema = z.discriminatedUnion("type", [
+  z
+    .object({
+      type: z.literal("manual"),
+      metadata: appstreamMetadataSchema,
+      media: upstreamMediaSchema,
+    })
+    .strict(),
+  z
+    .object({
+      type: z.literal("flathub"),
+      id: generatedAppstreamFields.id,
+    })
+    .strict(),
+  z
+    .object({
+      type: z.literal("url"),
+      id: generatedAppstreamFields.id,
+      url: httpsUrlSchema,
+      media: upstreamMediaSchema,
+    })
+    .strict(),
+]);
+
+export const generatedMediaSchema = z
+  .object({
+    icon: z
       .object({
-        name: z.string().min(1).max(100),
-        url: httpsUrlSchema.optional(),
+        file: z.string().regex(/^icon\.(?:png|jpe?g|webp|avif)$/i),
+        source: httpsUrlSchema,
       })
       .strict(),
-    homepage: httpsUrlSchema,
-    repository: httpsUrlSchema.optional(),
+    screenshots: z.array(screenshotSchema).min(1).max(10),
+  })
+  .strict();
+
+export const appManifestSchema = z
+  .object({
+    appstream: appstreamSourceSchema,
     addedAt: z.iso.date(),
-    keywords: z
-      .array(z.string().min(1).max(100))
-      .max(50)
-      .refine(
-        (keywords) =>
-          new Set(keywords.map((keyword) => keyword.toLowerCase())).size === keywords.length,
-        "Keywords must be unique"
-      )
-      .optional(),
-    categories: z
-      .array(categorySchema)
-      .min(1)
-      .max(20)
-      .refine(
-        (categories) => new Set(categories).size === categories.length,
-        "Categories must be unique"
-      )
-      .refine(
-        (categories) => categories.some((category) => mainCategories.has(category)),
-        "At least one main category is required"
-      ),
-    mimeTypes: z
-      .array(mimeTypeSchema)
-      .max(100)
-      .refine(
-        (mimeTypes) =>
-          new Set(mimeTypes.map((mimeType) => mimeType.toLowerCase())).size === mimeTypes.length,
-        "MIME types must be unique"
-      )
-      .optional(),
     source: z.enum(["official", "community"]),
     deprecated: z.boolean().optional(),
-    replacedBy: z
-      .string()
-      .min(2)
-      .max(255)
-      .regex(/^[A-Za-z0-9][A-Za-z0-9._-]+$/)
+    replacedBy: generatedAppstreamFields.id.optional(),
+    releaseSource: releaseSourceSchema,
+    sandbox: sandboxSchema,
+    assets: z
+      .record(architectureSchema, assetPattern)
+      .refine((assets) => Object.keys(assets).length > 0, "At least one asset is required")
       .optional(),
+  })
+  .strict()
+  .meta({ title: "AppHub application manifest" });
+
+export const appSchema = z
+  .object({
+    ...generatedAppstreamFields,
+    addedAt: z.iso.date(),
+    source: z.enum(["official", "community"]),
+    deprecated: z.boolean().optional(),
+    replacedBy: generatedAppstreamFields.id.optional(),
     releaseSource: releaseSourceSchema,
     icon: iconSchema,
     screenshots: z
@@ -304,6 +380,10 @@ export const releaseLockSchema = z
   );
 
 export type App = z.infer<typeof appSchema>;
+export type AppManifest = z.infer<typeof appManifestSchema>;
+export type AppstreamMetadata = z.infer<typeof appstreamMetadataSchema>;
+export type GeneratedMedia = z.infer<typeof generatedMediaSchema>;
+export type DescriptionBlock = z.infer<typeof descriptionBlockSchema>;
 export type Architecture = z.infer<typeof architectureSchema>;
 export type Artifact = z.infer<typeof artifactSchema>;
 export type ReleaseLock = z.infer<typeof releaseLockSchema>;

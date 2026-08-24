@@ -1,5 +1,6 @@
-import { describe, expect, test } from "bun:test";
-import { newApps } from "@/lib/new-apps";
+import assert from "node:assert/strict";
+import { describe, test } from "node:test";
+import { newApps } from "#lib/new-apps";
 
 const now = new Date("2026-08-19T12:00:00Z");
 
@@ -12,17 +13,17 @@ describe("new apps", () => {
     const oldApp = app("Old", "2026-01-01");
     const newApp = app("New", "2026-08-10");
 
-    expect(newApps([oldApp, newApp], now)).toEqual([newApp]);
+    assert.deepEqual(newApps([oldApp, newApp], now), [newApp]);
   });
 
   test("includes the threshold and sorts newest first", () => {
     const newest = app("Newest", "2026-08-18");
     const threshold = app("Threshold", "2026-07-20");
 
-    expect(newApps([threshold, newest], now)).toEqual([newest, threshold]);
+    assert.deepEqual(newApps([threshold, newest], now), [newest, threshold]);
   });
 
   test("excludes future dates", () => {
-    expect(newApps([app("Future", "2026-08-20")], now)).toEqual([]);
+    assert.deepEqual(newApps([app("Future", "2026-08-20")], now), []);
   });
 });

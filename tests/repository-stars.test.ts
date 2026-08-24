@@ -1,10 +1,19 @@
-import { expect, test } from "bun:test";
-import { repositoryStarsSchema } from "@catalog/stars";
-import { fetchRepositoryStars, repositoryStarRequest } from "@/lib/repository-stars";
+import assert from "node:assert/strict";
+import { test } from "node:test";
+import { repositoryStarEtagsSchema, repositoryStarsSchema } from "#catalog/stars";
+import {
+  fetchRepositoryStars,
+  RepositoryRateLimitError,
+  repositoryStarRequest,
+} from "#lib/repository-stars";
 
 test("validates stored repository stars", () => {
-  expect(repositoryStarsSchema.parse({ app: 42 })).toEqual({ app: 42 });
-  expect(() => repositoryStarsSchema.parse({ app: -1 })).toThrow();
+  assert.deepEqual(repositoryStarsSchema.parse({ app: 42 }), { app: 42 });
+  assert.throws(() => repositoryStarsSchema.parse({ app: -1 }));
+  assert.deepEqual(repositoryStarEtagsSchema.parse({ app: '"stars"' }), {
+    app: '"stars"',
+  });
+  assert.throws(() => repositoryStarEtagsSchema.parse({ app: "" }));
 });
 
 async function rejectionMessage(promise: Promise<unknown>) {
@@ -17,7 +26,7 @@ async function rejectionMessage(promise: Promise<unknown>) {
 }
 
 test("builds requests for supported repository hosts", () => {
-  expect(repositoryStarRequest("https://github.com/example/app.git", "token")).toEqual({
+  assert.deepEqual(repositoryStarRequest("https://github.com/example/app.git", "token"), {
     url: "https://api.github.com/repos/example/app",
     field: "stargazers_count",
     headers: {
@@ -26,15 +35,15 @@ test("builds requests for supported repository hosts", () => {
       "X-GitHub-Api-Version": "2022-11-28",
     },
   });
-  expect(repositoryStarRequest("https://gitlab.com/example/tools/app")).toEqual({
+  assert.deepEqual(repositoryStarRequest("https://gitlab.com/example/tools/app"), {
     url: "https://gitlab.com/api/v4/projects/example%2Ftools%2Fapp",
     field: "star_count",
   });
-  expect(repositoryStarRequest("https://codeberg.org/example/app")).toEqual({
+  assert.deepEqual(repositoryStarRequest("https://codeberg.org/example/app"), {
     url: "https://codeberg.org/api/v1/repos/example/app",
     field: "stars_count",
   });
-  expect(repositoryStarRequest("https://example.org/example/app")).toBeNull();
+  assert.equal(repositoryStarRequest("https://example.org/example/app"), null);
 });
 
 test("reads a valid star count", async () => {
@@ -45,21 +54,59 @@ test("reads a valid star count", async () => {
       })
     );
 
-  expect(await fetchRepositoryStars("https://gitlab.com/example/app", undefined, fetcher)).toBe(42);
+  assert.deepEqual(
+    await fetchRepositoryStars("https://gitlab.com/example/app", undefined, undefined, fetcher),
+    { count: 42 }
+  );
+});
+
+test("reuses repository stars after a conditional response", async () => {
+  const fetcher = (_url: string, init?: RequestInit) => {
+    assert.deepEqual(init?.headers, {
+      Accept: "application/vnd.github+json",
+      "X-GitHub-Api-Version": "2022-11-28",
+      Authorization: "Bearer token",
+      "If-None-Match": '"stars"',
+    });
+
+    return Promise.resolve(new Response(null, { status: 304 }));
+  };
+
+  assert.deepEqual(
+    await fetchRepositoryStars("https://github.com/example/app", "token", '"stars"', fetcher),
+    { etag: '"stars"' }
+  );
 });
 
 test("rejects invalid and failed responses", async () => {
   const invalid = () => Promise.resolve(new Response(JSON.stringify({ stars_count: -1 })));
   const failed = () => Promise.resolve(new Response(null, { status: 503 }));
 
-  expect(
+  assert.notEqual(
     await rejectionMessage(
-      fetchRepositoryStars("https://codeberg.org/example/app", undefined, invalid)
-    )
-  ).not.toBe("");
-  expect(
+      fetchRepositoryStars("https://codeberg.org/example/app", undefined, undefined, invalid)
+    ),
+    ""
+  );
+  assert.match(
     await rejectionMessage(
-      fetchRepositoryStars("https://github.com/example/app", undefined, failed)
-    )
-  ).toContain("503");
+      fetchRepositoryStars("https://github.com/example/app", undefined, undefined, failed)
+    ),
+    /503/
+  );
+});
+
+test("identifies rate-limit responses", async () => {
+  const fetcher = () =>
+    Promise.resolve(
+      new Response(null, {
+        status: 429,
+        headers: { "retry-after": "60" },
+      })
+    );
+
+  await assert.rejects(
+    fetchRepositoryStars("https://github.com/example/app", undefined, undefined, fetcher),
+    RepositoryRateLimitError
+  );
 });

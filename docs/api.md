@@ -35,7 +35,16 @@ returns the same object directly:
   "slug": "example-app",
   "name": "Example App",
   "summary": "A short description of the application",
-  "description": "A longer plain-text description.",
+  "description": [
+    {
+      "type": "paragraph",
+      "content": [{ "type": "text", "value": "A longer description." }]
+    },
+    {
+      "type": "unordered-list",
+      "items": [[{ "type": "text", "value": "A feature" }]]
+    }
+  ],
   "projectLicense": "MIT",
   "developer": {
     "name": "Example Developers",
@@ -49,7 +58,6 @@ returns the same object directly:
   "mimeTypes": ["application/example"],
   "source": "official",
   "icon": {
-    "license": "CC0-1.0",
     "source": "https://example.org/icon.png",
     "url": "/assets/example-icon.hash.webp",
     "type": "image/webp"
@@ -57,7 +65,6 @@ returns the same object directly:
   "screenshots": [
     {
       "caption": "Main window",
-      "license": "CC0-1.0",
       "source": "https://example.org/screenshot.png",
       "url": "/assets/example-screenshot.hash.webp",
       "type": "image/webp"

@@ -1,20 +1,21 @@
-import { describe, expect, test } from "bun:test";
-import { categoryName, categoryPath, categorySlug } from "@/lib/categories";
+import assert from "node:assert/strict";
+import { describe, test } from "node:test";
+import { categoryName, categoryPath, categorySlug } from "#lib/categories";
 
 describe("category URLs", () => {
   test("creates labels and stable paths from category identifiers", () => {
-    expect(categoryName("AudioVideo")).toBe("Audio & Video");
-    expect(categorySlug("AudioVideo")).toBe("audio-video");
-    expect(categoryPath("AudioVideo")).toBe("/categories/audio-video/");
+    assert.equal(categoryName("AudioVideo"), "Audio & Video");
+    assert.equal(categorySlug("AudioVideo"), "audio-video");
+    assert.equal(categoryPath("AudioVideo"), "/categories/audio-video/");
   });
 
   test("separates words in category identifiers", () => {
-    expect(categorySlug("AudioVideoEditing")).toBe("audio-video-editing");
-    expect(categoryName("2DGraphics")).toBe("2D Graphics");
-    expect(categorySlug("2DGraphics")).toBe("2d-graphics");
+    assert.equal(categorySlug("AudioVideoEditing"), "audio-video-editing");
+    assert.equal(categoryName("2DGraphics"), "2D Graphics");
+    assert.equal(categorySlug("2DGraphics"), "2d-graphics");
   });
 
   test("rejects categories without a usable slug", () => {
-    expect(() => categorySlug("---")).toThrow("no usable URL slug");
+    assert.throws(() => categorySlug("---"), /no usable URL slug/);
   });
 });

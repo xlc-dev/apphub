@@ -1,9 +1,9 @@
 import { z } from "zod";
-import { sumReleaseDownloads } from "@catalog/downloads";
-import { selectAssets, type ReleaseLock } from "@catalog/core";
-import type { App } from "@catalog/schema";
-import { getPages } from "./http";
-import { normalizeDate, selectCurrent, type SourceRelease } from "./model";
+import { sumReleaseDownloads } from "#catalog/downloads";
+import { selectAssets, type ReleaseLock } from "#catalog/core";
+import type { App } from "#catalog/schema";
+import { getJson, getPages } from "#scripts/releases/http";
+import { normalizeDate, selectCurrent, type SourceRelease } from "#scripts/releases/model";
 
 const httpsUrl = z.url().refine((value) => new URL(value).protocol === "https:");
 
@@ -37,8 +37,11 @@ const downloadSchema = z.array(
   })
 );
 
-type ForgeRelease = z.infer<typeof releaseSchema> & { published_at: string };
+type ForgeResponse = z.infer<typeof releaseSchema>;
+type ForgeRelease = ForgeResponse & { published_at: string };
 type ForgeType = "github" | "codeberg";
+
+const releaseRequests = new Map<string, Promise<ForgeResponse[]>>();
 
 const githubHeaders: Record<string, string> = {
   Accept: "application/vnd.github+json",
@@ -68,20 +71,42 @@ function stableReleases(releases: z.infer<typeof releaseSchema>[]) {
 }
 
 function getForgeReleases(type: ForgeType, repository: string) {
-  if (type === "github") {
-    return getPages(
-      z.array(releaseSchema),
-      (page) => `https://api.github.com/repos/${repository}/releases?per_page=100&page=${page}`,
-      100,
-      githubHeaders
-    );
+  const key = `${type}:${repository}`;
+  const existing = releaseRequests.get(key);
+
+  if (existing) {
+    return existing;
   }
 
-  return getPages(
-    z.array(releaseSchema),
-    (page) => `https://codeberg.org/api/v1/repos/${repository}/releases?limit=50&page=${page}`,
-    50
-  );
+  const request =
+    type === "github"
+      ? getPages(
+          z.array(releaseSchema),
+          (page) => `https://api.github.com/repos/${repository}/releases?per_page=100&page=${page}`,
+          100,
+          githubHeaders
+        )
+      : getPages(
+          z.array(releaseSchema),
+          (page) =>
+            `https://codeberg.org/api/v1/repos/${repository}/releases?limit=50&page=${page}`,
+          50
+        );
+
+  releaseRequests.set(key, request);
+
+  return request;
+}
+
+async function getForgeReleasePage(type: ForgeType, repository: string) {
+  const url =
+    type === "github"
+      ? `https://api.github.com/repos/${repository}/releases?per_page=100&page=1`
+      : `https://codeberg.org/api/v1/repos/${repository}/releases?limit=50&page=1`;
+
+  const value = await getJson(url, type === "github" ? githubHeaders : undefined);
+
+  return z.array(releaseSchema).parse(value);
 }
 
 export function forgeSourceReleases(app: App, lock: ReleaseLock, releases: ForgeRelease[]) {
@@ -127,7 +152,9 @@ export function forgeSourceReleases(app: App, lock: ReleaseLock, releases: Forge
 
 export async function fetchForgeReleases(app: App, lock: ReleaseLock) {
   const source = repository(app);
-  const releases = await getForgeReleases(source.type, source.repository);
+  const releases = await (lock.releases.length
+    ? getForgeReleases(source.type, source.repository)
+    : getForgeReleasePage(source.type, source.repository));
 
   return forgeSourceReleases(app, lock, stableReleases(releases));
 }

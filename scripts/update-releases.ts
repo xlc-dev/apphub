@@ -1,8 +1,8 @@
 import { writeFile } from "node:fs/promises";
 import { z } from "zod";
-import { hashDownload, readApps, type Artifact, type ReleaseLock } from "@catalog/core";
-import { fetchSourceReleases } from "./releases";
-import type { SourceRelease } from "./releases/model";
+import { hashDownload, readApps, type Artifact, type ReleaseLock } from "#catalog/core";
+import { fetchSourceReleases } from "#scripts/releases/index";
+import type { SourceRelease } from "#scripts/releases/model";
 
 const sha256 = z.string().regex(/^[a-f0-9]{64}$/);
 
@@ -65,12 +65,6 @@ async function updateEntry(entry: Awaited<ReturnType<typeof readApps>>[number]) 
   const { app, directory, lock } = entry;
   const releases = await fetchSourceReleases(app, lock);
 
-  if (!releases) {
-    console.log(`${app.id}: releases are maintained directly`);
-
-    return;
-  }
-
   const updated = structuredClone(lock);
 
   for (const release of releases.reverse()) {
@@ -90,25 +84,25 @@ async function updateEntry(entry: Awaited<ReturnType<typeof readApps>>[number]) 
   console.log(`${app.id}: found new releases`);
 }
 
-async function main() {
-  const requestedSlug = process.argv[2];
+export async function generateReleases(
+  generatedDirectory?: URL,
+  requestedSlugs = process.argv.slice(2)
+) {
+  const slugs = new Set(requestedSlugs);
+  const entries = await readApps(undefined, generatedDirectory, slugs.size ? slugs : undefined);
 
-  if (process.argv.length > 3) {
-    throw new Error("Usage: bun run update-releases [slug]");
+  if (entries.length !== slugs.size && slugs.size) {
+    const found = new Set(entries.map(({ slug }) => slug));
+    const unknown = requestedSlugs.find((slug) => !found.has(slug));
+
+    throw new Error(`Unknown application: ${unknown}`);
   }
 
-  const entries = await readApps();
-  const selected = requestedSlug ? entries.filter(({ slug }) => slug === requestedSlug) : entries;
-
-  if (requestedSlug && selected.length === 0) {
-    throw new Error(`Unknown application: ${requestedSlug}`);
-  }
-
-  for (const entry of selected) {
+  for (const entry of entries) {
     await updateEntry(entry);
   }
 }
 
 if (import.meta.main) {
-  await main();
+  await generateReleases();
 }

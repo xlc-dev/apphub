@@ -1,8 +1,8 @@
 import { z } from "zod";
-import type { ReleaseLock } from "@catalog/core";
-import type { App } from "@catalog/schema";
-import { getJson } from "./http";
-import { normalizeDate, selectCurrent } from "./model";
+import type { ReleaseLock } from "#catalog/core";
+import type { App } from "#catalog/schema";
+import { getJson } from "#scripts/releases/http";
+import { normalizeDate, selectCurrent } from "#scripts/releases/model";
 
 const httpsUrl = z.url().refine((value) => new URL(value).protocol === "https:");
 

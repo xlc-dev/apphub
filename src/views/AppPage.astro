@@ -2,6 +2,7 @@
 import type { ApiApp } from "@/lib/api";
 import Capabilities from "@/components/Capabilities.astro";
 import AppDetails from "@/components/AppDetails.astro";
+import AppDescription from "@/components/AppDescription.astro";
 import AppDownloads from "@/components/AppDownloads.astro";
 import CategoryLinks from "@/components/CategoryLinks.astro";
 import InstallButton from "@/components/InstallButton.astro";
@@ -68,7 +69,7 @@ const latest = app.releases[0];
             title="About"
             headingId="about-heading"
             aria-labelledby="about-heading">
-            <p class="leading-6 text-[var(--muted)]">{app.description}</p>
+            <AppDescription blocks={app.description} />
           </Section>
         </div>
         <div class="order-4 lg:mt-10">

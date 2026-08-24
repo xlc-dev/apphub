@@ -1,23 +1,23 @@
 {
   "appstream": {
     "type": "flathub",
-    "id": "org.librecad.librecad"
+    "id": "org.example.App"
   },
-  "addedAt": "2026-08-22",
+  "addedAt": "YYYY-MM-DD",
   "source": "community",
   "releaseSource": {
     "type": "github",
-    "repository": "pkgforge-dev/LibreCAD-AppImage"
+    "repository": "owner/appimage-repository"
   },
   "sandbox": {
     "network": "none",
-    "display": "wayland-and-x11",
+    "display": "none",
     "audio": "none",
     "processes": "isolated",
     "ipc": false,
     "filesystem": [],
-    "devices": ["gpu"],
-    "portals": ["file-chooser", "open-uri", "printing", "settings"],
+    "devices": [],
+    "portals": [],
     "sessionBus": [],
     "systemBus": []
   }

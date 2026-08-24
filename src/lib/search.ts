@@ -1,7 +1,9 @@
+import type { DescriptionBlock } from "#catalog/schema";
+
 export interface SearchableApp {
   name: string;
   summary: string;
-  description: string;
+  description: DescriptionBlock[];
   developer: { name: string };
   keywords?: string[] | undefined;
   categories: string[];
@@ -10,10 +12,14 @@ export interface SearchableApp {
 }
 
 export function catalogSearchValue(app: SearchableApp) {
+  const description = app.description.flatMap((block) =>
+    block.type === "paragraph" ? block.content : block.items.flat()
+  );
+
   return [
     app.name,
     app.summary,
-    app.description,
+    ...description.map(({ value }) => value),
     app.developer.name,
     app.source,
     ...app.categories,

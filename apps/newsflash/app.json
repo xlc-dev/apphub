@@ -1,35 +1,14 @@
 {
-  "id": "io.gitlab.news_flash.NewsFlash",
-  "name": "Newsflash",
-  "summary": "Keep up with your feeds",
-  "description": "Newsflash is a program designed to complement an already existing web-based RSS reader account. It combines all the advantages of web based services like syncing across all your devices with everything you expect from a modern desktop program: Desktop notifications, fast search and filtering, tagging, handy keyboard shortcuts and having access to all your articles for as long as you like.",
-  "projectLicense": "GPL-3.0+",
-  "developer": {
-    "name": "Jan Lukas Gernert",
-    "url": "https://gitlab.com/news-flash/news_flash_gtk"
+  "appstream": {
+    "type": "flathub",
+    "id": "io.gitlab.news_flash.NewsFlash"
   },
-  "homepage": "https://gitlab.com/news-flash/news_flash_gtk",
-  "repository": "https://gitlab.com/news-flash/news_flash_gtk",
   "addedAt": "2026-08-22",
-  "keywords": ["gnome", "gtk", "rss"],
-  "categories": ["Network", "Feed"],
   "source": "community",
   "releaseSource": {
     "type": "github",
     "repository": "pkgforge-dev/NewsFlash-AppImage"
   },
-  "icon": {
-    "license": "GPL-3.0+",
-    "source": "https://dl.flathub.org/media/io/gitlab/news_flash.NewsFlash/018362c334e8d0fe55477e1e8a876dd8/icons/128x128/io.gitlab.news_flash.NewsFlash.png"
-  },
-  "screenshots": [
-    {
-      "file": "screenshot-1.png",
-      "caption": "Main Window",
-      "license": "GPL-3.0+",
-      "source": "https://dl.flathub.org/media/io/gitlab/news_flash.NewsFlash/018362c334e8d0fe55477e1e8a876dd8/screenshots/image-1_orig.png"
-    }
-  ],
   "sandbox": {
     "network": "client",
     "display": "wayland-and-x11",

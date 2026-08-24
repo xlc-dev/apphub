@@ -3,14 +3,17 @@ import { lstat, readFile, readdir } from "node:fs/promises";
 import { pathToFileURL } from "node:url";
 import sharp from "sharp";
 import {
+  appManifestSchema,
   appSchema,
+  appstreamMetadataSchema,
+  generatedMediaSchema,
   releaseLockSchema,
   type App,
   type Architecture,
   type ReleaseLock,
-} from "@catalog/schema";
+} from "#catalog/schema";
 
-export type { Artifact, ReleaseLock } from "@catalog/schema";
+export type { Artifact, ReleaseLock } from "#catalog/schema";
 
 interface AppEntry {
   slug: string;
@@ -37,15 +40,20 @@ interface SelectedAsset<T extends SelectableAsset> {
 }
 
 export const root = pathToFileURL(`${process.cwd()}/`);
+
 const appsDirectory = new URL("apps/", root);
+const generatedAppsDirectory = new URL(".generated/apps/", root);
+
 const manifestSizeLimit = 64 * 1024;
 const releaseLockSizeLimit = 1024 * 1024;
 const iconSizeLimit = 2 * 1024 * 1024;
 const screenshotSizeLimit = 10 * 1024 * 1024;
-const allowedFiles = new Set(["app.json", "releases.json"]);
+
+const generatedFiles = new Set(["appstream.json", "media.json", "releases.json"]);
 const imageExtension = "(?:png|jpe?g|webp|avif)";
 const iconFile = new RegExp(`^icon\\.${imageExtension}$`, "i");
 const screenshotFile = new RegExp(`^screenshot-[1-9][0-9]*\\.${imageExtension}$`, "i");
+
 const architectureMatchers: Array<[Architecture, RegExp]> = [
   ["x86_64", /(?:^|[^a-z0-9])(?:x86[_-]?64|amd64)(?:[^a-z0-9]|$)/i],
   ["i686", /(?:^|[^a-z0-9])(?:i[3-6]86|x86[_-]?32)(?:[^a-z0-9]|$)/i],
@@ -89,7 +97,11 @@ async function readOptionalLock(url: URL, appId: string) {
   }
 }
 
-export async function readApps(directory = appsDirectory) {
+export async function readApps(
+  directory = appsDirectory,
+  generatedDirectory = generatedAppsDirectory,
+  selectedSlugs?: ReadonlySet<string>
+) {
   let contents;
 
   try {
@@ -103,7 +115,7 @@ export async function readApps(directory = appsDirectory) {
   }
 
   const directories = contents
-    .filter((entry) => entry.isDirectory())
+    .filter((entry) => entry.isDirectory() && (!selectedSlugs || selectedSlugs.has(entry.name)))
     .map((entry) => entry.name)
     .sort();
   const entries: AppEntry[] = [];
@@ -114,27 +126,57 @@ export async function readApps(directory = appsDirectory) {
     }
 
     const appDirectory = new URL(`${slug}/`, directory);
-    const names = await readdir(appDirectory);
+    const sourceNames = await readdir(appDirectory);
 
-    for (const name of names) {
-      if (!allowedFiles.has(name) && !iconFile.test(name) && !screenshotFile.test(name)) {
+    for (const name of sourceNames) {
+      if (name !== "app.json") {
         throw new Error(`${slug}: unexpected file ${name}`);
       }
     }
 
-    const app = appSchema.parse(
+    const generatedAppDirectory = new URL(`${slug}/`, generatedDirectory);
+    const names = await readdir(generatedAppDirectory);
+
+    for (const name of names) {
+      if (!generatedFiles.has(name) && !iconFile.test(name) && !screenshotFile.test(name)) {
+        throw new Error(`${slug}: unexpected generated file ${name}`);
+      }
+    }
+
+    const manifest = appManifestSchema.parse(
       await readJson(new URL("app.json", appDirectory), manifestSizeLimit)
     );
+    const metadata = appstreamMetadataSchema.parse(
+      await readJson(new URL("appstream.json", generatedAppDirectory), manifestSizeLimit)
+    );
+    const media = generatedMediaSchema.parse(
+      await readJson(new URL("media.json", generatedAppDirectory), manifestSizeLimit)
+    );
+
+    const expectedId =
+      manifest.appstream.type === "manual" ? manifest.appstream.metadata.id : manifest.appstream.id;
+
+    if (metadata.id !== expectedId) {
+      throw new Error(`${slug}: AppStream metadata has the wrong application id`);
+    }
+
+    const { appstream: _appstream, ...maintained } = manifest;
+    const app = appSchema.parse({
+      ...metadata,
+      ...maintained,
+      icon: { source: media.icon.source },
+      screenshots: media.screenshots,
+    });
     const icons = names.filter((name) => iconFile.test(name));
 
-    if (icons.length !== 1) {
+    if (icons.length !== 1 || icons[0] !== media.icon.file) {
       throw new Error(`${slug}: expected one icon, found ${icons.length}`);
     }
 
-    const appIconFile = icons[0]!;
+    const appIconFile = media.icon.file;
 
     await validateImage(
-      await readBoundedFile(new URL(appIconFile, appDirectory), iconSizeLimit),
+      await readBoundedFile(new URL(appIconFile, generatedAppDirectory), iconSizeLimit),
       appIconFile,
       app.id,
       { icon: true }
@@ -146,7 +188,7 @@ export async function readApps(directory = appsDirectory) {
       }
 
       await validateImage(
-        await readBoundedFile(new URL(screenshot.file, appDirectory), screenshotSizeLimit),
+        await readBoundedFile(new URL(screenshot.file, generatedAppDirectory), screenshotSizeLimit),
         screenshot.file,
         app.id
       );
@@ -160,7 +202,10 @@ export async function readApps(directory = appsDirectory) {
       }
     }
 
-    const { lock, exists } = await readOptionalLock(new URL("releases.json", appDirectory), app.id);
+    const { lock, exists } = await readOptionalLock(
+      new URL("releases.json", generatedAppDirectory),
+      app.id
+    );
 
     if (lock.appId !== app.id) {
       throw new Error(`${slug}: release lock has the wrong application id`);
@@ -168,7 +213,7 @@ export async function readApps(directory = appsDirectory) {
 
     entries.push({
       slug,
-      directory: appDirectory,
+      directory: generatedAppDirectory,
       iconFile: appIconFile,
       app,
       lock,

@@ -1,6 +1,7 @@
-import { describe, expect, test } from "bun:test";
-import { normalizeDate, selectCurrent, type SourceRelease } from "../scripts/releases/model";
-import type { ReleaseLock } from "@catalog/core";
+import assert from "node:assert/strict";
+import { describe, test } from "node:test";
+import { normalizeDate, selectCurrent, type SourceRelease } from "#scripts/releases/model";
+import type { ReleaseLock } from "#catalog/core";
 
 const releases: SourceRelease[] = [
   {
@@ -40,28 +41,31 @@ function lock(version?: string): ReleaseLock {
 }
 
 test("normalizes timestamps with offsets", () => {
-  expect(normalizeDate("2026-08-20T10:49:50+02:00")).toBe("2026-08-20T08:49:50.000Z");
-  expect(normalizeDate("2026-08-20T08:49:50Z")).toBe("2026-08-20T08:49:50Z");
+  assert.equal(normalizeDate("2026-08-20T10:49:50+02:00"), "2026-08-20T08:49:50.000Z");
+  assert.equal(normalizeDate("2026-08-20T08:49:50Z"), "2026-08-20T08:49:50Z");
 });
 
 describe("current releases", () => {
   test("selects only the latest release for a new app", () => {
-    expect(selectCurrent(releases, lock(), "fixture")).toEqual([releases[0]!]);
+    assert.deepEqual(selectCurrent(releases, lock(), "fixture"), [releases[0]!]);
   });
 
   test("selects releases through the recorded version", () => {
-    expect(selectCurrent(releases, lock("2.0"), "fixture")).toEqual(releases.slice(0, 2));
+    assert.deepEqual(selectCurrent(releases, lock("2.0"), "fixture"), releases.slice(0, 2));
   });
 
   test("rejects invalid release histories", () => {
-    expect(() => selectCurrent([releases[0]!, releases[0]!], lock(), "fixture")).toThrow(
-      "versions are not unique"
+    assert.throws(
+      () => selectCurrent([releases[0]!, releases[0]!], lock(), "fixture"),
+      /versions are not unique/
     );
-    expect(() => selectCurrent([...releases].reverse(), lock(), "fixture")).toThrow(
-      "not ordered newest first"
+    assert.throws(
+      () => selectCurrent([...releases].reverse(), lock(), "fixture"),
+      /not ordered newest first/
     );
-    expect(() => selectCurrent(releases, lock("missing"), "fixture")).toThrow(
-      "recorded release not found"
+    assert.throws(
+      () => selectCurrent(releases, lock("missing"), "fixture"),
+      /recorded release not found/
     );
   });
 });

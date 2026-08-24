@@ -1,7 +1,8 @@
-import { describe, expect, test } from "bun:test";
-import { forgeSourceReleases } from "../scripts/releases/forge";
-import { gitlabSourceReleases } from "../scripts/releases/gitlab";
-import type { App, ReleaseLock } from "@catalog/schema";
+import assert from "node:assert/strict";
+import { describe, test } from "node:test";
+import { forgeSourceReleases } from "#scripts/releases/forge";
+import { gitlabSourceReleases } from "#scripts/releases/gitlab";
+import type { App, ReleaseLock } from "#catalog/schema";
 
 const app = {
   id: "org.example.App",
@@ -66,8 +67,14 @@ describe("GitHub release updates", () => {
 
     const releases = forgeSourceReleases(app, lock, source);
 
-    expect(releases.map(({ version }) => version)).toEqual(["3.0", "2.0"]);
-    expect(source.map(({ tag_name }) => tag_name)).toEqual(["1.0", "2.0", "3.0"]);
+    assert.deepEqual(
+      releases.map(({ version }) => version),
+      ["3.0", "2.0"]
+    );
+    assert.deepEqual(
+      source.map(({ tag_name }) => tag_name),
+      ["1.0", "2.0", "3.0"]
+    );
   });
 });
 
@@ -95,7 +102,7 @@ describe("GitLab release updates", () => {
       },
     ]);
 
-    expect(releases).toEqual([
+    assert.deepEqual(releases, [
       {
         version: "3.0",
         publishedAt: "2026-08-21T12:00:00Z",
@@ -137,7 +144,7 @@ describe("Codeberg release updates", () => {
       },
     ]);
 
-    expect(releases[0]?.artifacts[0]).toEqual({
+    assert.deepEqual(releases[0]?.artifacts[0], {
       architecture: "x86_64",
       name: "Example-3.0-x86_64.AppImage",
       url: "https://codeberg.org/example/app/releases/download/3.0/Example.AppImage",
