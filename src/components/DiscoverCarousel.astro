@@ -32,7 +32,7 @@ const { apps } = Astro.props;
             aria-label={`${index + 1} of ${apps.length}`}
             aria-roledescription="slide"
             data-discover-slide>
-            <div class="flex min-w-0 flex-col justify-center px-6 pt-8 pb-14 sm:px-10 md:py-12 md:pr-8 md:pl-14">
+            <div class="flex min-w-0 flex-col items-center justify-center px-14 pt-8 pb-16 text-center sm:px-16 md:items-start md:py-12 md:pr-8 md:pl-14 md:text-left">
               <div class="flex items-center gap-3">
                 <Image
                   class="size-14 shrink-0 rounded-xl"
@@ -50,7 +50,7 @@ const { apps } = Astro.props;
                 </Link>
               </h2>
               <p class="mt-2 line-clamp-3 max-w-xl leading-6 text-[var(--muted)]">{app.summary}</p>
-              <div class="mt-5 flex flex-wrap items-center gap-4">
+              <div class="mt-5 flex flex-wrap items-center justify-center gap-4 md:justify-start">
                 <ButtonLink href={`/apps/${app.slug}/`}>View app</ButtonLink>
                 {app.statistics.stars !== null && (
                   <span
@@ -84,7 +84,7 @@ const { apps } = Astro.props;
         <>
           <Button
             icon
-            class="absolute top-1/2 left-3 z-10 hidden -translate-y-1/2"
+            class="absolute bottom-2 left-3 z-10 hidden md:top-1/2 md:bottom-auto md:-translate-y-1/2"
             aria-label="Previous discovered app"
             data-discover-previous>
             <svg
@@ -117,7 +117,7 @@ const { apps } = Astro.props;
           </nav>
           <Button
             icon
-            class="absolute top-1/2 right-3 z-10 hidden -translate-y-1/2"
+            class="absolute right-3 bottom-2 z-10 hidden md:top-1/2 md:bottom-auto md:-translate-y-1/2"
             aria-label="Next discovered app"
             data-discover-next>
             <svg
