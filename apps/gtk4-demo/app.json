@@ -1,0 +1,64 @@
+{
+  "appstream": {
+    "type": "manual",
+    "metadata": {
+      "id": "org.gtk.Demo4",
+      "name": "GTK Demo",
+      "summary": "Program to demonstrate GTK functions",
+      "description": [
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "value": "GTK Demo is a collection of examples that demonstrate the major features of the GTK toolkit."
+            }
+          ]
+        }
+      ],
+      "projectLicense": "LGPL-2.1-or-later",
+      "developer": {
+        "name": "Matthias Clasen and others"
+      },
+      "homepage": "https://www.gtk.org/",
+      "repository": "https://github.com/GNOME/gtk",
+      "keywords": ["GTK", "demo", "development"],
+      "categories": ["Development"]
+    },
+    "media": {
+      "icon": "https://avatars.githubusercontent.com/u/1801039?v=4",
+      "screenshots": [
+        {
+          "caption": "The main window",
+          "source": "https://static.gnome.org/appdata/gtk4-demo/gtk-demo1.png"
+        },
+        {
+          "caption": "An example",
+          "source": "https://static.gnome.org/appdata/gtk4-demo/gtk-demo2.png"
+        }
+      ]
+    }
+  },
+  "addedAt": "2026-08-24",
+  "source": "community",
+  "releaseSource": {
+    "type": "github",
+    "repository": "pkgforge-dev/Anylinux-AppImages"
+  },
+  "sandbox": {
+    "network": "none",
+    "display": "wayland-and-x11",
+    "audio": "none",
+    "processes": "isolated",
+    "ipc": false,
+    "filesystem": [],
+    "devices": ["gpu"],
+    "portals": [],
+    "sessionBus": [],
+    "systemBus": []
+  },
+  "assets": {
+    "x86_64": "gtk4-demo-x86_64.AppImage",
+    "aarch64": "gtk4-demo-aarch64.AppImage"
+  }
+}
