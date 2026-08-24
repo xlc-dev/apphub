@@ -1,13 +1,17 @@
 ---
 import type { ApiApp } from "@/lib/api";
 import SourceBadge from "@/components/SourceBadge.astro";
+import StarIcon from "@/components/icons/StarIcon.astro";
 import CardLink from "@/components/ui/CardLink.astro";
 import { catalogSearchValue } from "@/lib/search";
 import { categoryName } from "@/lib/categories";
 import { Image } from "astro:assets";
 
+type CardApp = Pick<ApiApp, "slug" | "name" | "summary" | "source" | "categories" | "icon"> &
+  Partial<Pick<ApiApp, "description" | "developer" | "keywords" | "mimeTypes">>;
+
 interface Props {
-  app: ApiApp;
+  app: CardApp;
   detail?: string;
   headingLevel?: 2 | 3;
   priority?: boolean;
@@ -25,10 +29,11 @@ const {
   stars,
   visible = true,
 } = Astro.props;
-const searchValue = searchable ? catalogSearchValue(app) : undefined;
+const searchValue =
+  searchable && app.description && app.developer ? catalogSearchValue(app as ApiApp) : undefined;
 const visibleCategories = app.categories.slice(0, 2).map(categoryName);
 const hiddenCategoryCount = app.categories.length - visibleCategories.length;
-const categories = visibleCategories.join(" · ");
+const categories = visibleCategories.join(", ");
 ---
 
 <article
@@ -71,16 +76,14 @@ const categories = visibleCategories.join(" · ");
             <span
               class="inline-flex shrink-0 items-center gap-1"
               aria-label={`${stars.toLocaleString("en")} repository stars`}>
-              <svg aria-hidden="true" viewBox="0 0 24 24" class="size-3.5" fill="currentColor">
-                <path d="m12 2.5 2.9 5.9 6.5.9-4.7 4.6 1.1 6.5-5.8-3-5.8 3 1.1-6.5-4.7-4.6 6.5-.9L12 2.5Z" />
-              </svg>
+              <StarIcon class="size-3.5" />
               {stars.toLocaleString("en")}
             </span>
           )
         }
         <span class="flex min-w-0 items-center">
           <span class="truncate">{categories}</span>
-          {hiddenCategoryCount > 0 && <span class="shrink-0">&nbsp;· +{hiddenCategoryCount}</span>}
+          {hiddenCategoryCount > 0 && <span class="shrink-0">, +{hiddenCategoryCount}</span>}
         </span>
       </div>
     </div>

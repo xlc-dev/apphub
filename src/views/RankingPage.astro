@@ -8,7 +8,6 @@ import Page from "@/components/ui/Page.astro";
 import PageHeader from "@/components/ui/PageHeader.astro";
 import { getRanking, type RankingPeriod } from "@/lib/api";
 import { paginationState } from "@/lib/pagination";
-import { getRepositoryStars } from "@/lib/repository-stars";
 
 interface Props {
   title: string;
@@ -19,7 +18,6 @@ interface Props {
 
 const { title, description, page = 1, period } = Astro.props;
 const { entries: ranking } = await getRanking(period);
-const stars = await getRepositoryStars();
 const state = paginationState(ranking?.length ?? 0, page);
 const entries = ranking?.slice(state.start, state.end) ?? [];
 const basePath =
@@ -55,7 +53,7 @@ const basePath =
                 app={app}
                 detail={`${state.start + index + 1}. ${downloads.toLocaleString("en")} downloads`}
                 priority={index < 6}
-                stars={stars[app.slug]}
+                stars={app.statistics.stars ?? undefined}
               />
             ))}
           </div>

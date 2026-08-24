@@ -5,7 +5,8 @@ import EmptyState from "@/components/ui/EmptyState.astro";
 import Page from "@/components/ui/Page.astro";
 import PageHeader from "@/components/ui/PageHeader.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import { getNewApps } from "@/lib/api";
+import { getUpdatedApps } from "@/lib/api";
+import { formatVersion } from "@/lib/format";
 import { paginationState } from "@/lib/pagination";
 
 interface Props {
@@ -13,35 +14,44 @@ interface Props {
 }
 
 const { page = 1 } = Astro.props;
-const { apps, windowDays } = await getNewApps();
+const { apps } = await getUpdatedApps();
 const state = paginationState(apps.length, page);
 const displayedApps = apps.slice(state.start, state.end);
+const releaseDate = new Intl.DateTimeFormat("en", { dateStyle: "medium" });
 ---
 
-<BaseLayout title="New apps" description={`Apps added to AppHub in the last ${windowDays} days.`}>
+<BaseLayout title="Recently updated" description="AppImages with the newest upstream releases.">
   <Page>
-    <PageHeader title="New apps" description={`Added to AppHub in the last ${windowDays} days.`} />
+    <PageHeader
+      title="Recently updated"
+      description="AppImages with the newest upstream releases."
+    />
     {
       apps.length > 0 ? (
-        <section aria-labelledby="new-apps-heading">
-          <h2 class="sr-only" id="new-apps-heading">
+        <section aria-labelledby="updated-apps-heading">
+          <h2 class="sr-only" id="updated-apps-heading">
             Applications
           </h2>
           <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {displayedApps.map((app, index) => (
-              <AppCard app={app} priority={index < 6} stars={app.statistics.stars ?? undefined} />
+              <AppCard
+                app={app}
+                detail={`${formatVersion(app.latestRelease!.version)}, ${releaseDate.format(new Date(app.latestRelease!.publishedAt))}`}
+                priority={index < 6}
+                stars={app.statistics.stars ?? undefined}
+              />
             ))}
           </div>
           <Pagination
             class="mt-8"
-            basePath="/new/"
-            label="New app pages"
+            basePath="/updated/"
+            label="Recently updated app pages"
             page={state.page}
             pages={state.pages}
           />
         </section>
       ) : (
-        <EmptyState>No new apps are available.</EmptyState>
+        <EmptyState>No releases are available.</EmptyState>
       )
     }
   </Page>

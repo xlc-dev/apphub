@@ -5,9 +5,9 @@ const base =
   "inline-flex cursor-pointer items-center justify-center rounded-md text-sm font-medium shadow-sm focus-visible:ring-[3px] focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50";
 
 const sizes: Record<ButtonSize, string> = {
-  default: "min-h-9 px-4",
+  default: "min-h-11 px-4",
   large: "min-h-11 px-4 py-2.5",
-  icon: "size-9",
+  icon: "size-11",
 };
 
 const variants: Record<ButtonVariant, string> = {

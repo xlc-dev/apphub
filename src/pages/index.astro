@@ -1,60 +1,61 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import AppCard from "@/components/AppCard.astro";
-import FeaturedCarousel from "@/components/FeaturedCarousel.astro";
+import DiscoverCarousel from "@/components/DiscoverCarousel.astro";
 import EmptyState from "@/components/ui/EmptyState.astro";
 import Link from "@/components/ui/Link.astro";
-import CardLink from "@/components/ui/CardLink.astro";
+import ButtonLink from "@/components/ui/ButtonLink.astro";
 import Page from "@/components/ui/Page.astro";
 import Section from "@/components/ui/Section.astro";
-import { getApps, getCategories, getRanking } from "@/lib/api";
+import { getApiApps, getArchitectures, getCategories, getRanking, getUpdatedApps } from "@/lib/api";
 import { formatVersion } from "@/lib/format";
-import { featuredAppSlugs } from "@/lib/featured";
-import { getRepositoryStars } from "@/lib/repository-stars";
+import { discoverApps } from "@/lib/discover";
 
-const catalog = await getApps();
-const recentlyUpdated = catalog
-  .filter((app) => app.releases[0])
-  .sort(
-    (left, right) =>
-      Date.parse(right.releases[0]!.publishedAt) - Date.parse(left.releases[0]!.publishedAt)
-  )
-  .slice(0, 3);
+const catalog = await getApiApps();
+const recentlyUpdated = (await getUpdatedApps()).apps.slice(0, 3);
 const ranking = await getRanking("week");
 const trending = ranking.entries?.slice(0, 3) ?? null;
 const categories = await getCategories();
+const architectures = await getArchitectures();
 const popularCategories = [...categories]
   .sort((left, right) => right.count - left.count || left.name.localeCompare(right.name))
   .slice(0, 12);
-const stars = await getRepositoryStars();
-const featured = featuredAppSlugs
-  .flatMap((slug) => {
-    const app = catalog.find((entry) => entry.slug === slug);
-    return app ? [app] : [];
-  })
-  .slice(0, 3);
+const discovered = discoverApps(catalog);
 const releaseDate = new Intl.DateTimeFormat("en", { dateStyle: "medium" });
 ---
 
 <BaseLayout title="AppHub" description="The Universal AppImage Store.">
   <Page>
-    <h1 class="sr-only">AppHub</h1>
-    <div>
-      <FeaturedCarousel apps={featured} stars={stars} />
+    <header class="mx-auto max-w-3xl text-center">
+      <h1 class="text-3xl font-bold tracking-tight sm:text-4xl">The Universal AppImage Store</h1>
+      <p class="mx-auto mt-3 max-w-2xl text-lg leading-7 text-[var(--muted)]">
+        Discover portable Linux applications, inspect their permissions, and download verified
+        AppImages directly from their publishers.
+      </p>
+      <div class="mt-5 flex flex-wrap justify-center gap-3">
+        <ButtonLink href="/apps/">Browse apps</ButtonLink>
+        <ButtonLink href="/new/" variant="outline">See new apps</ButtonLink>
+      </div>
+    </header>
+
+    <div class="mt-8">
+      <DiscoverCarousel apps={discovered} />
     </div>
 
-    <Section title="Recently updated">
-      <Link slot="actions" href="/apps/" aria-label="More recently updated apps">More</Link>
+    <Section
+      title="Recently updated"
+      description="Apps with the newest upstream AppImage releases.">
+      <Link slot="actions" href="/updated/" aria-label="More recently updated apps">More</Link>
       {
         recentlyUpdated.length > 0 ? (
           <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {recentlyUpdated.map((app, index) => (
               <AppCard
                 app={app}
-                detail={`${formatVersion(app.releases[0]!.version)} · ${releaseDate.format(new Date(app.releases[0]!.publishedAt))}`}
+                detail={`${formatVersion(app.latestRelease!.version)}, ${releaseDate.format(new Date(app.latestRelease!.publishedAt))}`}
                 headingLevel={3}
                 priority={index < 3}
-                stars={stars[app.slug]}
+                stars={app.statistics.stars ?? undefined}
               />
             ))}
           </div>
@@ -64,7 +65,7 @@ const releaseDate = new Intl.DateTimeFormat("en", { dateStyle: "medium" });
       }
     </Section>
 
-    <Section title="Trending this week">
+    <Section title="Trending this week" description="Most downloaded during the last seven days.">
       <Link slot="actions" href="/trending/" aria-label="More trending apps">More</Link>
       {
         trending === null ? (
@@ -78,7 +79,7 @@ const releaseDate = new Intl.DateTimeFormat("en", { dateStyle: "medium" });
                 app={app}
                 detail={`${downloads.toLocaleString("en")} downloads`}
                 headingLevel={3}
-                stars={stars[app.slug]}
+                stars={app.statistics.stars ?? undefined}
               />
             ))}
           </div>
@@ -86,19 +87,22 @@ const releaseDate = new Intl.DateTimeFormat("en", { dateStyle: "medium" });
       }
     </Section>
 
-    <Section title="Categories">
+    <Section
+      title="Browse by category"
+      description={`${catalog.length} apps available across ${categories.length} categories and ${architectures.length} architectures.`}>
       <Link slot="actions" href="/apps/" aria-label="Browse all categories">More</Link>
       {
         popularCategories.length > 0 ? (
-          <ul class="grid list-none grid-cols-2 gap-2 p-0 sm:gap-3 lg:grid-cols-3">
+          <ul class="flex list-none flex-wrap gap-2 p-0">
             {popularCategories.map(({ name, slug, count }) => (
               <li>
-                <CardLink
-                  class="flex min-h-16 items-center justify-between gap-2 px-3 py-3 font-semibold sm:px-5"
+                <Link
+                  chip
+                  class="inline-flex min-h-11 items-center gap-2 px-4 py-2 text-sm"
                   href={`/categories/${slug}/`}>
                   <span>{name}</span>
-                  <span class="text-sm font-normal text-[var(--muted)]">{count}</span>
-                </CardLink>
+                  <span class="font-normal opacity-70">{count}</span>
+                </Link>
               </li>
             ))}
           </ul>

@@ -8,11 +8,12 @@ import CategoryLinks from "@/components/CategoryLinks.astro";
 import InstallButton from "@/components/InstallButton.astro";
 import ScreenshotCarousel from "@/components/ScreenshotCarousel.astro";
 import SourceBadge from "@/components/SourceBadge.astro";
+import Link from "@/components/ui/Link.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Page from "@/components/ui/Page.astro";
 import Section from "@/components/ui/Section.astro";
 import { Image } from "astro:assets";
-import { getAppDownloads } from "@/lib/api";
+import { getAppDownloads, getApps } from "@/lib/api";
 import { getRepositoryStars } from "@/lib/repository-stars";
 
 interface Props {
@@ -26,6 +27,9 @@ const [repositoryStars, downloads] = await Promise.all([
 ]);
 const stars = repositoryStars[app.slug];
 const latest = app.releases[0];
+const replacement = app.replacedBy
+  ? (await getApps()).find((candidate) => candidate.id === app.replacedBy)
+  : undefined;
 ---
 
 <BaseLayout
@@ -55,9 +59,29 @@ const latest = app.releases[0];
           {app.summary}
         </p>
         <CategoryLinks categories={app.categories} />
-        {latest && <InstallButton artifacts={latest.artifacts} />}
+        {latest && !app.deprecated && <InstallButton artifacts={latest.artifacts} />}
       </div>
     </div>
+    {
+      app.deprecated && (
+        <aside
+          class="mt-6 rounded-xl border border-[var(--border)] bg-[var(--card-raised)] p-4"
+          aria-label="Deprecated application">
+          <p class="m-0 font-semibold">
+            This listing is deprecated and may no longer receive updates.
+          </p>
+          {replacement && (
+            <p class="m-0 mt-2">
+              Use{" "}
+              <Link accent href={`/apps/${replacement.slug}/`}>
+                {replacement.name}
+              </Link>{" "}
+              instead.
+            </p>
+          )}
+        </aside>
+      )
+    }
     <div class="mt-10 min-w-0">
       <ScreenshotCarousel label="Screenshots" screenshots={app.screenshots} />
     </div>

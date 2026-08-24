@@ -126,7 +126,7 @@ const id = `${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-carousel`;
         <nav class="flex" aria-label="Choose screenshot">
           {screenshots.map((_, index) => (
             <a
-              class="group flex size-8 cursor-pointer items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-[-0.25rem]"
+              class="group flex size-11 cursor-pointer items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-[-0.25rem] focus-visible:outline-[var(--primary)]"
               href={`#${id}-${index + 1}`}
               aria-label={`Show screenshot ${index + 1} of ${screenshots.length}`}
               aria-current={index === 0 ? "true" : undefined}
@@ -144,7 +144,7 @@ const id = `${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-carousel`;
 </Section>
 
 <script>
-  import { currentSlide, markCurrentSlide, showSlide } from "@/lib/carousel";
+  import { connectCarousel } from "@/lib/carousel";
 
   function initializeCarousels() {
     for (const carousel of document.querySelectorAll<HTMLElement>("[data-carousel]")) {
@@ -168,12 +168,26 @@ const id = `${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-carousel`;
       next?.classList.replace("hidden", "flex");
       fullscreen.classList.replace("hidden", "flex");
 
-      let current = 0;
       const events = new AbortController();
+      let inertElements: HTMLElement[] = [];
 
-      const update = () => {
-        current = currentSlide(track, slides);
-        markCurrentSlide(dots, current);
+      const setBackgroundInert = (inert: boolean) => {
+        if (!inert) {
+          inertElements.forEach((element) => (element.inert = false));
+          inertElements = [];
+          return;
+        }
+
+        for (let child: HTMLElement = carousel; child.parentElement;) {
+          const parent = child.parentElement;
+          for (const sibling of parent.children) {
+            if (sibling !== child && sibling instanceof HTMLElement && !sibling.inert) {
+              sibling.inert = true;
+              inertElements.push(sibling);
+            }
+          }
+          child = parent;
+        }
       };
 
       const setExpanded = (expanded: boolean) => {
@@ -181,6 +195,7 @@ const id = `${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-carousel`;
         carousel.setAttribute("role", expanded ? "dialog" : "region");
         carousel.toggleAttribute("aria-modal", expanded);
         document.body.classList.toggle("overflow-hidden", expanded);
+        setBackgroundInert(expanded);
         fullscreen.setAttribute("aria-expanded", String(expanded));
         fullscreen.setAttribute(
           "aria-label",
@@ -188,23 +203,10 @@ const id = `${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-carousel`;
         );
       };
 
-      previous?.addEventListener("click", () => {
-        showSlide(slides, current - 1);
-      });
-      next?.addEventListener("click", () => {
-        showSlide(slides, current + 1);
-      });
-      dots.forEach((dot, index) =>
-        dot.addEventListener("click", (event) => {
-          event.preventDefault();
-          showSlide(slides, index);
-        })
-      );
+      connectCarousel({ track, slides, dots, previous, next });
       fullscreen.addEventListener("click", () => {
         setExpanded(!carousel.hasAttribute("data-carousel-expanded"));
       });
-      track.addEventListener("scrollend", update);
-      track.addEventListener("scroll", update, { passive: true });
       document.addEventListener(
         "keydown",
         (event) => {
@@ -250,7 +252,6 @@ const id = `${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-carousel`;
         },
         { once: true }
       );
-      update();
     }
   }
 

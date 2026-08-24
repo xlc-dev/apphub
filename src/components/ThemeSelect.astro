@@ -10,12 +10,13 @@ const { id } = Astro.props;
 const modes: ThemeMode[] = ["system", "light", "dark"];
 ---
 
-<details class="relative" data-theme-menu>
+<details class="relative" hidden data-theme-menu>
   <summary
-    class="flex size-9 cursor-pointer list-none items-center justify-center rounded-md border border-[var(--border)] bg-[var(--control-bg)] shadow-sm hover:bg-[var(--card-raised)] focus-visible:border-[var(--primary)] focus-visible:ring-[3px] focus-visible:ring-[color-mix(in_srgb,var(--primary)_20%,transparent)] focus-visible:outline-none [&::-webkit-details-marker]:hidden"
+    class="flex size-11 cursor-pointer list-none items-center justify-center rounded-md border border-[var(--border)] bg-[var(--control-bg)] shadow-sm hover:bg-[var(--card-raised)] focus-visible:border-[var(--primary)] focus-visible:ring-[3px] focus-visible:ring-[color-mix(in_srgb,var(--primary)_20%,transparent)] focus-visible:outline-none [&::-webkit-details-marker]:hidden"
     aria-label="Theme"
     aria-haspopup="menu"
     aria-expanded="false"
+    aria-controls={id}
     title="Theme"
     data-theme-summary>
     {
@@ -34,7 +35,7 @@ const modes: ThemeMode[] = ["system", "light", "dark"];
     {
       modes.map((mode) => (
         <button
-          class="flex min-h-9 w-full cursor-pointer items-center gap-2 rounded-md px-2 text-left text-sm hover:bg-[var(--card-raised)] focus-visible:bg-[var(--card-raised)] focus-visible:outline-none aria-[checked=true]:bg-[var(--card-raised)]"
+          class="flex min-h-11 w-full cursor-pointer items-center gap-2 rounded-md px-2 text-left text-sm hover:bg-[var(--card-raised)] focus-visible:bg-[var(--card-raised)] focus-visible:outline-none aria-[checked=true]:bg-[var(--card-raised)]"
           type="button"
           role="menuitemradio"
           aria-checked="false"
@@ -102,7 +103,10 @@ const modes: ThemeMode[] = ["system", "light", "dark"];
     } catch {}
 
     apply(parseThemeMode(stored));
-    menus.forEach((menu) => (menu.dataset.initialized = "true"));
+    menus.forEach((menu) => {
+      menu.dataset.initialized = "true";
+      menu.hidden = false;
+    });
 
     options.forEach((option) =>
       option.addEventListener(

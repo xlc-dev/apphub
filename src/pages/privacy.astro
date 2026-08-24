@@ -10,8 +10,8 @@ import Section from "@/components/ui/Section.astro";
   <Page narrow>
     <PageHeader
       title="Privacy"
-      description="AppHub does not track individual visitors. We only use aggregate download counts."
-      meta="Last updated August 19, 2026"
+      description="AppHub does not track individual visitors. It uses only public aggregate catalog statistics."
+      meta="Last updated August 24, 2026"
     />
 
     <div class="space-y-10">
@@ -20,9 +20,9 @@ import Section from "@/components/ui/Section.astro";
         class="border-t border-[var(--border)] pt-8"
         title="What AppHub collects">
         <p class="leading-7 text-[var(--muted)]">
-          AppHub records aggregate AppImage download totals published by release providers. These
-          totals generate the trending lists. They are not used to identify you or build a profile
-          about you.
+          AppHub records aggregate AppImage download totals and repository star counts published by
+          release and source-code providers. These public statistics generate the trending lists and
+          repository details. They contain no information about individual AppHub visitors.
         </p>
       </Section>
 
@@ -36,14 +36,22 @@ import Section from "@/components/ui/Section.astro";
         </p>
       </Section>
 
+      <Section spaced={false} class="border-t border-[var(--border)] pt-8" title="Local settings">
+        <p class="leading-7 text-[var(--muted)]">
+          Your selected color theme is stored in your browser's local storage. It remains on your
+          device and is not sent to AppHub.
+        </p>
+      </Section>
+
       <Section
         spaced={false}
         class="border-t border-[var(--border)] pt-8"
         title="Hosting and downloads">
         <p class="leading-7 text-[var(--muted)]">
-          AppHub is hosted by GitHub Pages. App downloads are provided by their publishers,
-          including through GitHub. Those services process requests under their own privacy
-          policies. GitHub's processing is governed by the{" "}
+          AppHub is hosted by GitHub Pages, which processes ordinary request information such as IP
+          addresses and browser details. App downloads are provided by their publishers, including
+          through GitHub. Those services process requests under their own privacy policies. GitHub's
+          processing is governed by the{" "}
           <Link
             accent
             href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement"
@@ -54,9 +62,10 @@ import Section from "@/components/ui/Section.astro";
 
       <Section spaced={false} class="border-t border-[var(--border)] pt-8" title="Data retention">
         <p class="leading-7 text-[var(--muted)]">
-          AppHub keeps aggregate download snapshots for trending calculations. We do not store
-          individual visit or download records. Hosting and release providers control the retention
-          of data they process.
+          AppHub keeps aggregate download snapshots for trending calculations, along with the latest
+          public repository star counts and cache identifiers. We do not store individual visit or
+          download records. Hosting and release providers control the retention of data they
+          process.
         </p>
       </Section>
 

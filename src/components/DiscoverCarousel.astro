@@ -1,0 +1,181 @@
+---
+import type { ApiAppResource } from "@/lib/api";
+import Link from "@/components/ui/Link.astro";
+import Button from "@/components/ui/Button.astro";
+import ButtonLink from "@/components/ui/ButtonLink.astro";
+import SourceBadge from "@/components/SourceBadge.astro";
+import StarIcon from "@/components/icons/StarIcon.astro";
+import { Image } from "astro:assets";
+
+interface Props {
+  apps: ApiAppResource[];
+}
+
+const { apps } = Astro.props;
+---
+
+{
+  apps.length > 0 && (
+    <section
+      class="relative overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--card)] shadow-sm"
+      aria-label="Discover apps"
+      aria-roledescription="carousel"
+      data-discover-carousel>
+      <div
+        class="flex snap-x snap-mandatory overflow-x-auto overscroll-x-contain scroll-smooth motion-reduce:scroll-auto"
+        aria-live="off"
+        data-discover-track>
+        {apps.map((app, index) => (
+          <article
+            class="grid min-h-80 w-full shrink-0 snap-center md:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]"
+            id={`discover-app-${index + 1}`}
+            aria-label={`${index + 1} of ${apps.length}`}
+            aria-roledescription="slide"
+            data-discover-slide>
+            <div class="flex min-w-0 flex-col justify-center px-6 pt-8 pb-14 sm:px-10 md:py-12 md:pr-8 md:pl-14">
+              <div class="flex items-center gap-3">
+                <Image
+                  class="size-14 shrink-0 rounded-xl"
+                  src={app.icon.url}
+                  alt=""
+                  width={56}
+                  height={56}
+                  loading="eager"
+                />
+                <SourceBadge source={app.source} />
+              </div>
+              <h2 class="mt-5 text-2xl font-bold sm:text-3xl">
+                <Link accent href={`/apps/${app.slug}/`}>
+                  {app.name}
+                </Link>
+              </h2>
+              <p class="mt-2 line-clamp-3 max-w-xl leading-6 text-[var(--muted)]">{app.summary}</p>
+              <div class="mt-5 flex flex-wrap items-center gap-4">
+                <ButtonLink href={`/apps/${app.slug}/`}>View app</ButtonLink>
+                {app.statistics.stars !== null && (
+                  <span
+                    class="inline-flex items-center gap-1.5 text-sm text-[var(--muted)]"
+                    aria-label={`${app.statistics.stars.toLocaleString("en")} repository stars`}>
+                    <StarIcon class="size-4" />
+                    {app.statistics.stars.toLocaleString("en")} stars
+                  </span>
+                )}
+              </div>
+            </div>
+            <Link
+              unstyled
+              class="group relative hidden min-h-80 overflow-hidden bg-[var(--control-bg)] focus-visible:ring-[3px] focus-visible:ring-[color-mix(in_srgb,var(--primary)_20%,transparent)] focus-visible:outline-none focus-visible:ring-inset md:block"
+              href={`/apps/${app.slug}/`}
+              aria-label={`View ${app.name}`}>
+              <Image
+                class="absolute inset-0 size-full object-cover transition-transform duration-300 group-hover:scale-[1.02] motion-reduce:transition-none"
+                src={app.screenshots[0]!.url}
+                alt={app.screenshots[0]!.caption}
+                width={960}
+                height={720}
+                loading={index === 0 ? "eager" : "lazy"}
+                fetchpriority={index === 0 ? "high" : "auto"}
+              />
+            </Link>
+          </article>
+        ))}
+      </div>
+      {apps.length > 1 && (
+        <>
+          <Button
+            icon
+            class="absolute top-1/2 left-3 z-10 hidden -translate-y-1/2"
+            aria-label="Previous discovered app"
+            data-discover-previous>
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 24 24"
+              class="size-4"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2">
+              <path d="m15 18-6-6 6-6" />
+            </svg>
+          </Button>
+          <nav
+            class="absolute bottom-2 left-1/2 z-10 flex -translate-x-1/2"
+            aria-label="Choose app to discover">
+            {apps.map((_, index) => (
+              <Link
+                unstyled
+                class="group flex size-11 cursor-pointer items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-[-0.25rem] focus-visible:outline-[var(--primary)]"
+                href={`#discover-app-${index + 1}`}
+                aria-label={`Show app ${index + 1} of ${apps.length}`}
+                aria-current={index === 0 ? "true" : undefined}
+                data-discover-dot>
+                <span
+                  class="size-2.5 rounded-full bg-[var(--border)] group-hover:bg-[var(--primary)]"
+                  aria-hidden="true"
+                />
+              </Link>
+            ))}
+          </nav>
+          <Button
+            icon
+            class="absolute top-1/2 right-3 z-10 hidden -translate-y-1/2"
+            aria-label="Next discovered app"
+            data-discover-next>
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 24 24"
+              class="size-4"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2">
+              <path d="m9 18 6-6-6-6" />
+            </svg>
+          </Button>
+        </>
+      )}
+    </section>
+  )
+}
+
+<script>
+  import { connectCarousel } from "@/lib/carousel";
+
+  function initializeDiscoverCarousels() {
+    for (const carousel of document.querySelectorAll<HTMLElement>("[data-discover-carousel]")) {
+      if (carousel.dataset.initialized) {
+        continue;
+      }
+
+      const track = carousel.querySelector<HTMLElement>("[data-discover-track]");
+      const slides = Array.from(carousel.querySelectorAll<HTMLElement>("[data-discover-slide]"));
+      const dots = Array.from(carousel.querySelectorAll<HTMLAnchorElement>("[data-discover-dot]"));
+      const previous = carousel.querySelector<HTMLButtonElement>("[data-discover-previous]");
+      const next = carousel.querySelector<HTMLButtonElement>("[data-discover-next]");
+
+      if (!track || slides.length < 2 || !previous || !next) {
+        continue;
+      }
+
+      carousel.dataset.initialized = "true";
+      previous.classList.replace("hidden", "flex");
+      next.classList.replace("hidden", "flex");
+
+      connectCarousel({ track, slides, dots, previous, next });
+    }
+  }
+
+  document.addEventListener("astro:page-load", initializeDiscoverCarousels);
+</script>
+
+<style>
+  [data-discover-track] {
+    scrollbar-width: none;
+  }
+
+  [data-discover-track]::-webkit-scrollbar {
+    display: none;
+  }
+
+  [data-discover-dot][aria-current="true"] span {
+    background: var(--primary);
+  }
+</style>
