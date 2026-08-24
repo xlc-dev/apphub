@@ -23,6 +23,10 @@ The workflow:
 The job has read-only repository access. Generated files created during validation are temporary and
 are never committed from a pull request.
 
+Contributor-controlled network requests accept only HTTPS destinations resolving exclusively to
+public addresses. Redirect destinations are validated again, credentials are removed from
+cross-origin redirects, and response, artifact, release, request, and job limits bound runner use.
+
 ## Pull request previews
 
 Pull requests originating from this repository receive a static preview. The preview workflow:

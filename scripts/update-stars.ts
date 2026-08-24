@@ -1,11 +1,7 @@
 import { readFile, writeFile } from "node:fs/promises";
 import { readApps, root } from "#catalog/core";
 import { repositoryStarEtagsSchema, repositoryStarsSchema } from "#catalog/stars";
-import {
-  fetchRepositoryStars,
-  RepositoryRateLimitError,
-  repositoryStarRequest,
-} from "#lib/repository-stars";
+import { fetchRepositoryStars, RepositoryRateLimitError } from "#lib/repository-stars";
 
 const starsUrl = new URL(".generated/stars.json", root);
 const etagsUrl = new URL(".generated/star-etags.json", root);
@@ -17,7 +13,7 @@ const stars: Record<string, number> = {};
 const etags: Record<string, string> = {};
 
 for (const { slug, app } of entries) {
-  if (!app.repository || !repositoryStarRequest(app.repository)) {
+  if (!app.repository) {
     continue;
   }
 
@@ -58,13 +54,9 @@ for (const { slug, app } of entries) {
   }
 }
 
-const sortedStars = Object.fromEntries(
-  Object.entries(stars).sort(([left], [right]) => left.localeCompare(right))
-);
-const sortedEtags = Object.fromEntries(
-  Object.entries(etags).sort(([left], [right]) => left.localeCompare(right))
-);
+const sortRecord = <T>(record: Record<string, T>) =>
+  Object.fromEntries(Object.entries(record).sort(([left], [right]) => left.localeCompare(right)));
 
-await writeFile(starsUrl, `${JSON.stringify(sortedStars, null, 2)}\n`);
-await writeFile(etagsUrl, `${JSON.stringify(sortedEtags, null, 2)}\n`);
+await writeFile(starsUrl, `${JSON.stringify(sortRecord(stars), null, 2)}\n`);
+await writeFile(etagsUrl, `${JSON.stringify(sortRecord(etags), null, 2)}\n`);
 console.log(`Wrote ${Object.keys(stars).length} repository star counts`);

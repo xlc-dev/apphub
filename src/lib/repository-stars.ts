@@ -1,6 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { z } from "zod";
 import { root } from "#catalog/core";
+import { readResponse, safeFetch } from "#catalog/http";
 import { repositoryStarsSchema } from "#catalog/stars";
 
 interface StarRequest {
@@ -96,9 +97,10 @@ export async function fetchRepositoryStars(
     return undefined;
   }
 
-  const response = await fetcher(
+  const response = await safeFetch(
     request.url,
-    request.headers ? { headers: request.headers } : undefined
+    request.headers ? { headers: request.headers } : {},
+    fetcher
   );
 
   const responseEtag = response.headers.get("etag") ?? etag;
@@ -120,7 +122,9 @@ export async function fetchRepositoryStars(
     throw new Error(`${response.status} ${response.statusText}`);
   }
 
-  const data = z.record(z.string(), z.unknown()).parse(await response.json());
+  const data = z
+    .record(z.string(), z.unknown())
+    .parse(JSON.parse((await readResponse(response, 1024 * 1024, request.url)).toString("utf8")));
   const count = z.number().int().nonnegative().parse(data[request.field]);
 
   return { count, ...(responseEtag ? { etag: responseEtag } : {}) };

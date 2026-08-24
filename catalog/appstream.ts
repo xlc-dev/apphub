@@ -54,6 +54,12 @@ const metadataParser = new XMLParser({
     ].includes(name),
 });
 
+function rejectDeclarations(value: string, source: string) {
+  if (/<!DOCTYPE|<!ENTITY/i.test(value)) {
+    throw new Error(`${source} must not contain document declarations or entities`);
+  }
+}
+
 function text(nodes: XmlNode[], allowed: Set<string>) {
   const parts: Array<{ type: "text" | "emphasis" | "code"; value: string }> = [];
 
@@ -87,6 +93,8 @@ function text(nodes: XmlNode[], allowed: Set<string>) {
 }
 
 export function parseDescription(value: string) {
+  rejectDeclarations(value, "AppStream descriptions");
+
   const document = parser.parse(`<description>${value}</description>`) as XmlNode[];
   const root = document[0]?.description;
 
@@ -150,13 +158,13 @@ export function readFlathubAssets(value: unknown) {
   return {
     icon: app.icon,
     screenshots: app.screenshots
-      .sort((left, right) => Number(right.default) - Number(left.default))
+      .toSorted((left, right) => Number(right.default) - Number(left.default))
       .slice(0, 10)
       .map((screenshot) => ({
         caption: screenshot.caption || `${app.name} screenshot`,
         source:
           screenshot.sizes.find(({ src }) => src.includes("_orig."))?.src ??
-          screenshot.sizes.sort(
+          screenshot.sizes.toSorted(
             (left, right) =>
               Number(right.width) * Number(right.height) - Number(left.width) * Number(left.height)
           )[0]?.src,
@@ -183,6 +191,8 @@ function defaultText(value: unknown) {
 }
 
 export function readAppstreamXml(xml: string, expectedId: string) {
+  rejectDeclarations(xml, "AppStream XML");
+
   const parsed = metadataParser.parse(xml) as Record<string, unknown>;
   const component = (parsed.component ??
     (parsed.components as Record<string, unknown>)?.component) as

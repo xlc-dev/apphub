@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { readResponse, safeFetch } from "#catalog/http";
 
 type Fetcher = (input: string, init?: RequestInit) => Promise<Response>;
 
@@ -22,16 +23,20 @@ export async function getJson(
   headers?: Record<string, string>,
   fetcher: Fetcher = fetch
 ) {
-  const response = await fetcher(url, {
-    ...(headers ? { headers } : {}),
-    signal: AbortSignal.timeout(30_000),
-  });
+  const response = await safeFetch(
+    url,
+    {
+      ...(headers ? { headers } : {}),
+      signal: AbortSignal.timeout(30_000),
+    },
+    fetcher
+  );
 
   if (!response.ok) {
     throw responseError(url, response);
   }
 
-  return response.json();
+  return JSON.parse((await readResponse(response, 2 * 1024 * 1024, url)).toString("utf8"));
 }
 
 export async function collectPages<T>(

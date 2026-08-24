@@ -2,6 +2,7 @@ import { createHash } from "node:crypto";
 import { lstat, readFile, readdir } from "node:fs/promises";
 import { pathToFileURL } from "node:url";
 import sharp from "sharp";
+import { safeFetch } from "#catalog/http";
 import {
   appManifestSchema,
   appSchema,
@@ -299,11 +300,20 @@ export function sha256(data: Uint8Array) {
   return createHash("sha256").update(data).digest("hex");
 }
 
-export async function hashDownload(file: Download) {
-  const response = await fetch(file.url, {
-    redirect: "follow",
-    signal: AbortSignal.timeout(600_000),
-  });
+export async function hashDownload(
+  file: Download,
+  options: {
+    maximumSize?: number;
+    fetcher?: (input: string, init?: RequestInit) => Promise<Response>;
+  } = {}
+) {
+  const { maximumSize = 2 * 1024 * 1024 * 1024, fetcher = fetch } = options;
+
+  if (file.size !== undefined && file.size > maximumSize) {
+    throw new Error(`${file.name}: published size exceeds download limit`);
+  }
+
+  const response = await safeFetch(file.url, { signal: AbortSignal.timeout(300_000) }, fetcher);
 
   if (!response.ok || !response.body) {
     throw new Error(`${file.name}: download returned ${response.status}`);
@@ -312,7 +322,7 @@ export async function hashDownload(file: Download) {
   const hash = createHash("sha256");
   const reader = response.body.getReader();
   let size = 0;
-  const sizeLimit = file.size ?? 4 * 1024 * 1024 * 1024;
+  const sizeLimit = file.size ?? maximumSize;
 
   for (;;) {
     const { done, value } = await reader.read();
@@ -324,6 +334,7 @@ export async function hashDownload(file: Download) {
     size += value.byteLength;
 
     if (size > sizeLimit) {
+      await reader.cancel();
       throw new Error(
         `${file.name}: download exceeds ${file.size === undefined ? "size limit" : "published size"}`
       );

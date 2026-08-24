@@ -1,15 +1,13 @@
 import { z } from "zod";
 import { sumReleaseDownloads } from "#catalog/downloads";
 import { selectAssets, type ReleaseLock } from "#catalog/core";
-import type { App } from "#catalog/schema";
+import { httpsUrlSchema, type App } from "#catalog/schema";
 import { getJson, getPages } from "#scripts/releases/http";
 import { normalizeDate, selectCurrent, type SourceRelease } from "#scripts/releases/model";
 
-const httpsUrl = z.url().refine((value) => new URL(value).protocol === "https:");
-
 const assetSchema = z.object({
   name: z.string().min(1),
-  browser_download_url: httpsUrl,
+  browser_download_url: httpsUrlSchema,
   size: z.number().int().positive(),
   digest: z.string().nullable().optional(),
   download_count: z.number().int().nonnegative().optional(),
@@ -18,7 +16,7 @@ const assetSchema = z.object({
 const releaseSchema = z.object({
   tag_name: z.string().min(1),
   published_at: z.iso.datetime({ offset: true }).nullable(),
-  html_url: httpsUrl,
+  html_url: httpsUrlSchema,
   draft: z.boolean(),
   prerelease: z.boolean(),
   assets: z.array(assetSchema),

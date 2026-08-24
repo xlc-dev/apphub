@@ -62,11 +62,11 @@ test("reads a valid star count", async () => {
 
 test("reuses repository stars after a conditional response", async () => {
   const fetcher = (_url: string, init?: RequestInit) => {
-    assert.deepEqual(init?.headers, {
-      Accept: "application/vnd.github+json",
-      "X-GitHub-Api-Version": "2022-11-28",
-      Authorization: "Bearer token",
-      "If-None-Match": '"stars"',
+    assert.deepEqual(Object.fromEntries(new Headers(init?.headers)), {
+      accept: "application/vnd.github+json",
+      authorization: "Bearer token",
+      "if-none-match": '"stars"',
+      "x-github-api-version": "2022-11-28",
     });
 
     return Promise.resolve(new Response(null, { status: 304 }));
@@ -81,6 +81,8 @@ test("reuses repository stars after a conditional response", async () => {
 test("rejects invalid and failed responses", async () => {
   const invalid = () => Promise.resolve(new Response(JSON.stringify({ stars_count: -1 })));
   const failed = () => Promise.resolve(new Response(null, { status: 503 }));
+  const oversized = () =>
+    Promise.resolve(new Response(null, { headers: { "content-length": String(1024 * 1024 + 1) } }));
 
   assert.notEqual(
     await rejectionMessage(
@@ -93,6 +95,12 @@ test("rejects invalid and failed responses", async () => {
       fetchRepositoryStars("https://github.com/example/app", undefined, undefined, failed)
     ),
     /503/
+  );
+  assert.match(
+    await rejectionMessage(
+      fetchRepositoryStars("https://codeberg.org/example/app", undefined, undefined, oversized)
+    ),
+    /too large/
   );
 });
 
