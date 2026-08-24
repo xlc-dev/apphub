@@ -14,26 +14,12 @@ const artifacts = Astro.props.artifacts.map(({ architecture, sha256, url }) => (
 ---
 
 <div
-  class="relative mt-4 inline-block"
+  class="relative mt-4 inline-flex flex-col items-start gap-2"
   hidden
   data-install
   data-artifacts={JSON.stringify(artifacts)}>
-  <Button
-    large
-    variant="primary"
-    aria-expanded="false"
-    aria-controls="install-message"
-    data-install-button>
-    Install
-  </Button>
-  <div
-    class="m-0 w-80 max-w-[calc(100vw-2rem)] rounded-md border border-[var(--border)] bg-[var(--card)] p-4 text-sm text-[var(--foreground)] shadow-md"
-    id="install-message"
-    popover
-    role="status"
-    data-install-message>
-    Checking your device architecture...
-  </div>
+  <Button large variant="primary" data-install-button> Install </Button>
+  <p class="m-0 max-w-sm text-sm text-[var(--muted)]" hidden data-install-message></p>
 </div>
 
 <script>
@@ -95,44 +81,17 @@ const artifacts = Astro.props.artifacts.map(({ architecture, sha256, url }) => (
       const artifact = artifacts.find((candidate) => candidate.architecture === architecture);
       const events = new AbortController();
 
-      const positionMessage = () => {
-        const gap = 8;
-        const margin = 16;
-        const buttonBounds = button.getBoundingClientRect();
-        const messageBounds = message.getBoundingClientRect();
-        const left = Math.min(
-          Math.max(buttonBounds.left, margin),
-          window.innerWidth - messageBounds.width - margin
-        );
-        const below = buttonBounds.bottom + gap;
-        const top =
-          below + messageBounds.height <= window.innerHeight - margin
-            ? below
-            : Math.max(margin, buttonBounds.top - messageBounds.height - gap);
-
-        message.style.left = `${left}px`;
-        message.style.top = `${top}px`;
-      };
-
-      const handleToggle = (event: ToggleEvent) => {
-        const open = event.newState === "open";
-        button.setAttribute("aria-expanded", String(open));
-        if (open) {
-          window.addEventListener("resize", positionMessage, { signal: events.signal });
-          window.addEventListener("scroll", positionMessage, {
-            capture: true,
-            signal: events.signal,
-          });
-        } else {
-          window.removeEventListener("resize", positionMessage);
-          window.removeEventListener("scroll", positionMessage, true);
-        }
-      };
-
-      message.addEventListener("toggle", handleToggle, { signal: events.signal });
-
       if (artifact) {
-        message.textContent = `Install the ${artifact.architecture} AppImage with AppManager.`;
+        button.addEventListener(
+          "click",
+          () => {
+            const url = new URL("appmgr://install");
+            url.searchParams.set("url", artifact.url);
+            url.searchParams.set("sha256", artifact.sha256);
+            window.location.href = url.href;
+          },
+          { signal: events.signal }
+        );
       } else if (!architecture) {
         message.textContent = "Your device architecture could not be detected.";
       } else if (artifacts.length === 1) {
@@ -143,32 +102,24 @@ const artifacts = Astro.props.artifacts.map(({ architecture, sha256, url }) => (
 
       if (!artifact) {
         button.textContent = "Install unavailable";
+        button.disabled = true;
+        button.dataset.unavailable = "";
+        message.hidden = false;
       }
       install.hidden = false;
-
-      button.addEventListener(
-        "click",
-        () => {
-          if (!artifact) {
-            if (message.matches(":popover-open")) {
-              message.hidePopover();
-            } else {
-              message.showPopover();
-              positionMessage();
-            }
-            return;
-          }
-
-          const url = new URL("appmgr://install");
-          url.searchParams.set("url", artifact.url);
-          url.searchParams.set("sha256", artifact.sha256);
-          window.location.href = url.href;
-        },
-        { signal: events.signal }
-      );
       document.addEventListener("astro:before-swap", () => events.abort(), { once: true });
     }
   }
 
   document.addEventListener("astro:page-load", initializeInstallButtons);
 </script>
+
+<style is:global>
+  [data-install-button][data-unavailable] {
+    border: 1px solid var(--border);
+    background: var(--control-bg);
+    color: var(--muted);
+    box-shadow: none;
+    opacity: 1;
+  }
+</style>
