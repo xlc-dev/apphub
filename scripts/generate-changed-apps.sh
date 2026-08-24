@@ -6,6 +6,7 @@ base_sha=$1
 
 if ! git diff --quiet "$base_sha" HEAD -- \
   catalog/appstream.ts \
+  catalog/core.ts \
   catalog/schema.ts \
   scripts/generate-catalog.ts \
   scripts/update-releases.ts \
