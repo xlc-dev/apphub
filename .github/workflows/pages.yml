@@ -3,6 +3,8 @@ name: Deploy GitHub Pages
 on:
   push:
     branches: [main]
+    paths-ignore:
+      - ".generated/**"
   schedule:
     - cron: "7 4 * * 1-6"
     - cron: "7 4 * * 0"
@@ -17,7 +19,7 @@ concurrency:
 jobs:
   deploy:
     permissions:
-      contents: write
+      contents: read
       pages: write
       id-token: write
     environment:
@@ -25,11 +27,13 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
+
     steps:
       - name: Check out repository
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Set up Bun
         uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
@@ -64,8 +68,20 @@ jobs:
       - name: Validate generated catalog
         run: bun run validate:catalog
 
+      - name: Create App token
+        id: app-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          client-id: ${{ vars.APP_CLIENT_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          permission-contents: write
+
       - name: Commit generated catalog
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
+          gh auth setup-git
+
           git add .generated
 
           if git diff --cached --quiet; then
@@ -84,7 +100,11 @@ jobs:
         run: bun run build
 
       - name: Update Pages content
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
+          gh auth setup-git
+
           mv dist /tmp/apphub-dist
 
           if git fetch origin gh-pages; then
