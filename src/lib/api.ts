@@ -141,17 +141,17 @@ export type ApiApp = z.infer<typeof apiAppSchema>;
 export type ApiAppResource = z.infer<typeof apiAppResourceSchema>;
 export type RankingPeriod = z.infer<typeof rankingPeriodSchema>;
 
-const icons = import.meta.glob("/.generated/apps/*/icon.*", {
+const icons = import.meta.glob<string>("/.generated/apps/*/icon.*", {
   eager: true,
   import: "default",
   query: "?url&no-inline",
-}) as Record<string, string>;
+});
 
-const screenshots = import.meta.glob("/.generated/apps/*/screenshot-*.*", {
+const screenshots = import.meta.glob<string>("/.generated/apps/*/screenshot-*.*", {
   eager: true,
   import: "default",
   query: "?url&no-inline",
-}) as Record<string, string>;
+});
 
 let appsPromise: Promise<ApiApp[]> | undefined;
 let downloadHistoryPromise: Promise<z.infer<typeof downloadHistorySchema>> | undefined;

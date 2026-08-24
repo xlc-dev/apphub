@@ -19,6 +19,7 @@ test("validates stored repository stars", () => {
 async function rejectionMessage(promise: Promise<unknown>) {
   try {
     await promise;
+
     return "";
   } catch (error) {
     return String(error);

@@ -63,6 +63,7 @@ describe("GitHub release updates", () => {
         assets: [],
       },
     ];
+
     source.reverse();
 
     const releases = forgeSourceReleases(app, lock, source);

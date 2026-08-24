@@ -29,6 +29,7 @@ async function downloadImage(url: string, basename: string) {
   const content = await readResponse(response, 10 * 1024 * 1024, url);
 
   const file = `${basename}.${extension}`;
+
   await writeFile(file, content);
 
   return file.split("/").at(-1)!;
@@ -118,6 +119,7 @@ try {
     }
 
     const path = `${generatedPath}/${directory}`;
+
     await mkdir(path);
 
     const manifest = await readManifest(`${sourcePath}/app.json`);
@@ -141,7 +143,7 @@ try {
       }
 
       if (appstream.type === "flathub") {
-        const source = JSON.parse(
+        const source: unknown = JSON.parse(
           (await readResponse(response, 2 * 1024 * 1024, appstream.id)).toString("utf8")
         );
 

@@ -61,7 +61,7 @@ function repository(app: App) {
   throw new Error("Expected a GitHub or Codeberg source");
 }
 
-function stableReleases(releases: z.infer<typeof releaseSchema>[]) {
+function stableReleases(releases: Array<z.infer<typeof releaseSchema>>) {
   return releases.filter(
     (release): release is ForgeRelease =>
       !release.draft && !release.prerelease && release.published_at !== null

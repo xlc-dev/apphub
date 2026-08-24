@@ -36,7 +36,7 @@ function isPrivateIpv4(address: string) {
 
 function isPrivateAddress(address: string) {
   const normalized = address.toLowerCase().split("%")[0]!;
-  const mapped = normalized.match(/::ffff:(\d+\.\d+\.\d+\.\d+)$/)?.[1];
+  const mapped = /::ffff:(\d+\.\d+\.\d+\.\d+)$/.exec(normalized)?.[1];
 
   if (mapped) {
     return isPrivateIpv4(mapped);
@@ -83,7 +83,7 @@ export async function safeFetch(
   let url = new URL(input);
   let headers = new Headers(init.headers);
   const urlResolver =
-    resolver ?? (fetcher === fetch ? resolve : async () => [{ address: "1.1.1.1" }]);
+    resolver ?? (fetcher === fetch ? resolve : () => Promise.resolve([{ address: "1.1.1.1" }]));
 
   for (let redirects = 0; ; redirects++) {
     await assertPublicUrl(url, urlResolver);

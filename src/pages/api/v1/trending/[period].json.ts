@@ -1,5 +1,5 @@
 import type { APIRoute, GetStaticPaths } from "astro";
-import { apiRankingSchema, getRanking, type RankingPeriod } from "@/lib/api";
+import { type apiRankingSchema, getRanking, type RankingPeriod } from "@/lib/api";
 import type { z } from "zod";
 
 type Ranking = z.infer<typeof apiRankingSchema>;

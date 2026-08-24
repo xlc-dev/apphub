@@ -1,5 +1,5 @@
 import type { APIRoute, GetStaticPaths } from "astro";
-import { apiCategoryDetailsSchema, getCategories, getCategory } from "@/lib/api";
+import { type apiCategoryDetailsSchema, getCategories, getCategory } from "@/lib/api";
 import type { z } from "zod";
 
 type CategoryDetails = z.infer<typeof apiCategoryDetailsSchema>;

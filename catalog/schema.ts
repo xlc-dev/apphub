@@ -139,6 +139,7 @@ const categorySchema = z
 function isSpdxExpression(value: string) {
   try {
     parseSpdxExpression(value);
+
     return true;
   } catch {
     return false;

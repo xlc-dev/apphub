@@ -1,4 +1,4 @@
-import { z } from "zod";
+import type { z } from "zod";
 import { readResponse, safeFetch } from "#catalog/http";
 
 type Fetcher = (input: string, init?: RequestInit) => Promise<Response>;
@@ -36,7 +36,11 @@ export async function getJson(
     throw responseError(url, response);
   }
 
-  return JSON.parse((await readResponse(response, 2 * 1024 * 1024, url)).toString("utf8"));
+  const value: unknown = JSON.parse(
+    (await readResponse(response, 2 * 1024 * 1024, url)).toString("utf8")
+  );
+
+  return value;
 }
 
 export async function collectPages<T>(

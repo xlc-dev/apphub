@@ -417,6 +417,6 @@ export async function validateImage(
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
 
-    throw new Error(`${appId}: ${message}`);
+    throw new Error(`${appId}: ${message}`, { cause: error });
   }
 }

@@ -1,5 +1,5 @@
 import type { APIRoute, GetStaticPaths } from "astro";
-import { apiArchitectureDetailsSchema, getArchitecture, getArchitectures } from "@/lib/api";
+import { type apiArchitectureDetailsSchema, getArchitecture, getArchitectures } from "@/lib/api";
 import type { z } from "zod";
 
 type ArchitectureDetails = z.infer<typeof apiArchitectureDetailsSchema>;
