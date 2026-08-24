@@ -1,55 +1,66 @@
 # API
 
-AppHub exposes a read-only JSON API under `/api/v1`. The API and website are generated from the same
-validated catalog during the static build. There is no authentication, mutation API, or runtime
-database.
+AppHub exposes a read-only JSON API under `/api/v1`. It is generated from the same validated catalog
+as the website. There is no authentication, mutation API, runtime database, or pagination.
 
-All endpoints are pre-rendered JSON documents. Consumers should treat the versioned response
-structures as stable within `v1`, while allowing new catalog entries and releases to appear at any
-time.
+Responses are static files and change when AppHub rebuilds. Structures remain compatible within
+`v1`; catalog entries, releases, statistics, and additive object fields may change between builds.
 
 ## Endpoints
 
-| Endpoint                         | Response                                             |
-| -------------------------------- | ---------------------------------------------------- |
-| `/api/v1/apps.json`              | All applications, ordered by name                    |
-| `/api/v1/apps/{slug}.json`       | One application                                      |
-| `/api/v1/categories.json`        | All non-empty categories                             |
-| `/api/v1/categories/{slug}.json` | One category and its applications                    |
-| `/api/v1/new.json`               | Applications added within the current new-app window |
-| `/api/v1/trending/week.json`     | Download ranking for the last seven days             |
-| `/api/v1/trending/month.json`    | Download ranking for the last 30 days                |
-| `/api/v1/trending/all-time.json` | Latest recorded cumulative download ranking          |
+| Endpoint                                    | Response                                   |
+| ------------------------------------------- | ------------------------------------------ |
+| `/api/v1/meta.json`                         | API version, freshness, and catalog counts |
+| `/api/v1/apps.json`                         | Complete applications ordered by name      |
+| `/api/v1/apps/{id}.json`                    | One application by AppStream ID            |
+| `/api/v1/categories.json`                   | Non-empty categories                       |
+| `/api/v1/categories/{id}.json`              | One category and application summaries     |
+| `/api/v1/architectures.json`                | Architectures with available AppImages     |
+| `/api/v1/architectures/{architecture}.json` | One architecture and app summaries         |
+| `/api/v1/new.json`                          | Recently added application summaries       |
+| `/api/v1/updated.json`                      | Recently released application summaries    |
+| `/api/v1/trending/week.json`                | Seven-day download ranking                 |
+| `/api/v1/trending/month.json`               | 30-day download ranking                    |
+| `/api/v1/trending/all-time.json`            | Latest cumulative download ranking         |
 
-Slugs come from generated API data; application IDs and category IDs are not interchangeable with
-slugs.
+Application endpoints use the stable AppStream ID. The `slug` field is the website path component.
+Category endpoints use Freedesktop category IDs.
 
-## Application
+## Catalog metadata
 
-The application collection is an array of application objects. The single-application endpoint
-returns the same object directly:
+`/api/v1/meta.json` describes the generated response set:
+
+```json
+{
+  "version": "v1",
+  "generatedAt": "2026-08-24T20:00:00.000Z",
+  "downloadsUpdatedAt": "2026-08-24",
+  "counts": { "apps": 20, "categories": 8, "architectures": 2 }
+}
+```
+
+`downloadsUpdatedAt` is `null` until a download snapshot exists. `generatedAt` is the site build
+time, not the time every upstream source was last changed.
+
+## Applications
+
+`/api/v1/apps.json` is an array of complete objects. The individual endpoint returns the same
+object:
 
 ```json
 {
   "id": "org.example.App",
   "slug": "example-app",
   "name": "Example App",
-  "summary": "A short description of the application",
+  "summary": "A short description",
   "description": [
     {
       "type": "paragraph",
       "content": [{ "type": "text", "value": "A longer description." }]
-    },
-    {
-      "type": "unordered-list",
-      "items": [[{ "type": "text", "value": "A feature" }]]
     }
   ],
   "projectLicense": "MIT",
-  "developer": {
-    "name": "Example Developers",
-    "url": "https://example.org/"
-  },
+  "developer": { "name": "Example Developers", "url": "https://example.org/" },
   "homepage": "https://example.org/",
   "repository": "https://github.com/example/app",
   "addedAt": "2026-08-20",
@@ -91,100 +102,133 @@ returns the same object directly:
         {
           "architecture": "x86_64",
           "name": "Example-1.0.0-x86_64.AppImage",
-          "url": "https://example.org/Example-1.0.0-x86_64.AppImage",
+          "url": "https://example.org/Example.AppImage",
           "size": 12345678,
           "sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
         }
       ]
     }
-  ]
+  ],
+  "url": "/api/v1/apps/org.example.App.json",
+  "webUrl": "/apps/example-app/",
+  "statistics": {
+    "stars": 120,
+    "downloads": {
+      "updatedAt": "2026-08-24",
+      "week": 30,
+      "month": 100,
+      "allTime": 500
+    }
+  }
 }
 ```
 
-Optional manifest fields are omitted when absent. Deprecated applications may include
-`deprecated: true` and `replacedBy`. Internal catalog fields used to locate release sources and
-match upstream assets are never exposed.
+Optional fields are omitted when absent. Deprecated applications may include `deprecated: true` and
+`replacedBy`, which is the stable ID accepted by the application endpoint. Internal source and
+asset-matching configuration is not exposed.
 
-Image `url` values point to files generated and served by AppHub. Artifact `url` values point to
-upstream publishers. `type` is one of `image/avif`, `image/jpeg`, `image/png`, or `image/webp`.
+Image `url` values are hosted by AppHub. Image `source` and artifact `url` values identify upstream
+publisher resources. Statistics values are `null` when AppHub has no applicable measurement; this
+does not mean zero. Download periods come from cumulative upstream counts. Repository stars are
+available for supported GitHub, GitLab, and Codeberg URLs.
 
-For the full meaning and allowed values of catalog fields, see [Catalog](catalog.md).
+See [Catalog](catalog.md) for catalog-field meanings and sandbox values.
 
-## Categories
+## Application summaries
 
-The category collection contains only categories used by at least one application:
+Category, architecture, new, updated, and ranking responses embed summaries instead of repeating
+descriptions, screenshots, sandbox data, and complete release histories:
 
 ```json
-[
-  {
-    "id": "AudioVideo",
-    "name": "Audio Video",
-    "slug": "audio-video",
-    "count": 4
+{
+  "id": "org.example.App",
+  "slug": "example-app",
+  "name": "Example App",
+  "summary": "A short description",
+  "source": "official",
+  "addedAt": "2026-08-20",
+  "categories": ["Utility"],
+  "icon": {
+    "source": "https://example.org/icon.png",
+    "url": "/assets/example-icon.hash.webp",
+    "type": "image/webp"
+  },
+  "url": "/api/v1/apps/org.example.App.json",
+  "webUrl": "/apps/example-app/",
+  "statistics": {
+    "stars": 120,
+    "downloads": {
+      "updatedAt": "2026-08-24",
+      "week": 30,
+      "month": 100,
+      "allTime": 500
+    }
+  },
+  "latestRelease": {
+    "version": "1.0.0",
+    "publishedAt": "2026-08-20T12:00:00Z",
+    "architectures": ["x86_64"]
   }
-]
+}
 ```
 
-`id` is the Freedesktop category identifier, `name` is its display label, and `slug` is its URL-safe
-identifier. Categories are ordered by display name.
+`latestRelease` is `null` when no release is recorded. Fetch `url` for complete data.
 
-The category detail endpoint omits `count` and embeds its matching applications:
+## Categories and architectures
+
+Collection entries contain an ID, application count, and canonical detail URL. Categories also
+include their display name and website slug:
 
 ```json
 {
   "id": "AudioVideo",
   "name": "Audio Video",
   "slug": "audio-video",
-  "apps": []
+  "count": 4,
+  "url": "/api/v1/categories/AudioVideo.json",
+  "webUrl": "/categories/audio-video/"
 }
 ```
 
-Each entry in `apps` has the complete application structure described above.
+Detail resources contain the same fields plus an `apps` array of summaries. Architecture membership
+means the latest release has an artifact for that architecture. Architectures have no `webUrl`
+because AppHub does not have architecture pages.
 
-## New applications
+## Discovery lists
 
-The new-app endpoint returns the configured window and applications whose `addedAt` date falls
-within it:
+`/api/v1/new.json` returns the active addition window and matching summaries, newest first:
 
 ```json
-{
-  "windowDays": 30,
-  "apps": []
-}
+{ "windowDays": 30, "apps": [] }
 ```
 
-Applications are ordered by addition date, newest first. Future dates are excluded. Consumers should
-use `windowDays` from the response rather than assuming a fixed duration.
+`/api/v1/updated.json` returns non-deprecated applications with releases ordered by latest release:
+
+```json
+{ "apps": [] }
+```
 
 ## Rankings
 
-Ranking endpoints return the requested period and either an ordered list of entries or `null`:
+Ranking endpoints return their period and either ordered entries or `null`:
 
 ```json
 {
   "period": "week",
-  "entries": [
-    {
-      "app": {},
-      "downloads": 120
-    }
-  ]
+  "entries": []
 }
 ```
 
-`period` is `week`, `month`, or `all-time`. Each `app` is a complete application object. Entries are
-ordered by downloads descending, then by application name.
+Each entry contains `app`, with the complete application summary shape shown above, and its numeric
+`downloads` count.
 
-An empty array means download history exists but no applications have counts for that ranking.
-`null` means there is not enough stored history to calculate the requested period. Weekly and
-monthly counts are differences between cumulative upstream totals; all-time counts are the latest
-recorded totals.
+`entries: null` means there is not enough history to calculate the period. An empty array means
+history exists but no applications have a count. Entries are ordered by downloads descending and
+then application name.
 
 ## Static behavior
 
-Because the API is generated at build time:
-
-- Responses change only when AppHub rebuilds and deploys.
-- Unknown application, category, or ranking paths are static 404 responses.
-- The API has no pagination; catalog collection endpoints return complete results.
-- Asset URLs may include build-generated hashes and should be read from each response.
+- Unknown application, category, architecture, and ranking paths return static 404 responses.
+- Collection endpoints return complete results without pagination.
+- Consumers can search and filter the application collection locally.
+- Asset and canonical URLs can contain the deployment base path and should be read from responses.

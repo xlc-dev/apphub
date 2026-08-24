@@ -10,9 +10,9 @@ export const getStaticPaths = (async () => {
   const categories = await getCategories();
 
   return Promise.all(
-    categories.map(async ({ slug }) => ({
-      params: { category: slug },
-      props: { category: (await getCategory(slug))! },
+    categories.map(async ({ id }) => ({
+      params: { category: id },
+      props: { category: (await getCategory(id))! },
     }))
   );
 }) satisfies GetStaticPaths;

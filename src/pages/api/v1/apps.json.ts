@@ -1,6 +1,6 @@
 import type { APIRoute } from "astro";
-import { getApps } from "@/lib/api";
+import { getApiApps } from "@/lib/api";
 
 export const prerender = true;
 
-export const GET: APIRoute = async () => Response.json(await getApps());
+export const GET: APIRoute = async () => Response.json(await getApiApps());

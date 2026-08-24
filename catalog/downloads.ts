@@ -20,6 +20,10 @@ export const downloadHistorySchema = z
 
 type DownloadHistory = z.infer<typeof downloadHistorySchema>;
 
+export function latestDownloadDate(history: DownloadHistory) {
+  return history.snapshots.at(-1)?.date ?? null;
+}
+
 interface ForgeReleaseDownloads {
   draft: boolean;
   prerelease: boolean;
