@@ -1,0 +1,31 @@
+name: Feature request
+description: Suggest an improvement to AppHub
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem would this solve?
+      description: Explain the need or limitation rather than only the proposed interface.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What would you like to happen?
+      description: Describe the smallest useful change.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Include existing workarounds or other approaches when relevant.
+
+  - type: textarea
+    id: details
+    attributes:
+      label: Additional details
+      description: Add examples, mockups, links, or other useful context.
