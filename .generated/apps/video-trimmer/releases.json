@@ -1,0 +1,26 @@
+{
+  "appId": "org.gnome.gitlab.YaLTeR.VideoTrimmer",
+  "releases": [
+    {
+      "version": "26.03.1-1@2026-08-24_1787565539",
+      "publishedAt": "2026-08-24T09:59:01Z",
+      "page": "https://github.com/pkgforge-dev/Video-Trimmer-AppImage/releases/tag/26.03.1-1%402026-08-24_1787565539",
+      "artifacts": [
+        {
+          "architecture": "x86_64",
+          "name": "Video_Trimmer-26.03.1-1-anylinux-x86_64.AppImage",
+          "url": "https://github.com/pkgforge-dev/Video-Trimmer-AppImage/releases/download/26.03.1-1%402026-08-24_1787565539/Video_Trimmer-26.03.1-1-anylinux-x86_64.AppImage",
+          "size": 106427184,
+          "sha256": "025fb9e0d7e67770e5dd595112ba883061eb189187a2c42ce97a6f683b86566f"
+        },
+        {
+          "architecture": "aarch64",
+          "name": "Video_Trimmer-26.03.1-1-anylinux-aarch64.AppImage",
+          "url": "https://github.com/pkgforge-dev/Video-Trimmer-AppImage/releases/download/26.03.1-1%402026-08-24_1787565539/Video_Trimmer-26.03.1-1-anylinux-aarch64.AppImage",
+          "size": 98044264,
+          "sha256": "a63ad66727ce57a691aca46810812aee7843599bd75f13e30aadb54327567aaa"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "icon": {
+    "file": "icon.png",
+    "source": "https://dl.flathub.org/media/org/gnome/gitlab.YaLTeR.VideoTrimmer/45d748bc1bb2fe824c27b28e05b4c01c/icons/128x128/org.gnome.gitlab.YaLTeR.VideoTrimmer.png"
+  },
+  "screenshots": [
+    {
+      "file": "screenshot-1.png",
+      "caption": "Main Window",
+      "source": "https://dl.flathub.org/media/org/gnome/gitlab.YaLTeR.VideoTrimmer/45d748bc1bb2fe824c27b28e05b4c01c/screenshots/image-1_orig.png"
+    }
+  ]
+}

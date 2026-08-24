@@ -1,0 +1,28 @@
+{
+  "icon": {
+    "file": "icon.png",
+    "source": "https://dl.flathub.org/media/org/dolphinemu/dolphin-emu/04b084eb314d529332a126349ab1791c/icons/128x128/org.DolphinEmu.dolphin-emu.png"
+  },
+  "screenshots": [
+    {
+      "file": "screenshot-1.png",
+      "caption": "Dolpin's main window",
+      "source": "https://dl.flathub.org/media/org/dolphinemu/dolphin-emu/04b084eb314d529332a126349ab1791c/screenshots/image-1_orig.png"
+    },
+    {
+      "file": "screenshot-2.png",
+      "caption": "In-game",
+      "source": "https://dl.flathub.org/media/org/dolphinemu/dolphin-emu/04b084eb314d529332a126349ab1791c/screenshots/image-2_orig.png"
+    },
+    {
+      "file": "screenshot-3.png",
+      "caption": "Grapics configuration",
+      "source": "https://dl.flathub.org/media/org/dolphinemu/dolphin-emu/04b084eb314d529332a126349ab1791c/screenshots/image-3_orig.png"
+    },
+    {
+      "file": "screenshot-4.png",
+      "caption": "Controller configuration",
+      "source": "https://dl.flathub.org/media/org/dolphinemu/dolphin-emu/04b084eb314d529332a126349ab1791c/screenshots/image-4_orig.png"
+    }
+  ]
+}

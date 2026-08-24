@@ -1,0 +1,58 @@
+{
+  "icon": {
+    "file": "icon.png",
+    "source": "https://dl.flathub.org/media/app/drey/Warp/66b2b74abeecd4bc7aa79644c759a203/icons/128x128/app.drey.Warp.png"
+  },
+  "screenshots": [
+    {
+      "file": "screenshot-1.png",
+      "caption": "Main Window",
+      "source": "https://dl.flathub.org/media/app/drey/Warp/66b2b74abeecd4bc7aa79644c759a203/screenshots/image-1_orig.png"
+    },
+    {
+      "file": "screenshot-2.png",
+      "caption": "Transmit Code",
+      "source": "https://dl.flathub.org/media/app/drey/Warp/66b2b74abeecd4bc7aa79644c759a203/screenshots/image-2_orig.png"
+    },
+    {
+      "file": "screenshot-3.png",
+      "caption": "Accept File Transfer",
+      "source": "https://dl.flathub.org/media/app/drey/Warp/66b2b74abeecd4bc7aa79644c759a203/screenshots/image-3_orig.png"
+    },
+    {
+      "file": "screenshot-4.png",
+      "caption": "Receiving File",
+      "source": "https://dl.flathub.org/media/app/drey/Warp/66b2b74abeecd4bc7aa79644c759a203/screenshots/image-4_orig.png"
+    },
+    {
+      "file": "screenshot-5.png",
+      "caption": "File Transfer Complete",
+      "source": "https://dl.flathub.org/media/app/drey/Warp/66b2b74abeecd4bc7aa79644c759a203/screenshots/image-5_orig.png"
+    },
+    {
+      "file": "screenshot-6.png",
+      "caption": "Main Window",
+      "source": "https://dl.flathub.org/media/app/drey/Warp/66b2b74abeecd4bc7aa79644c759a203/screenshots/image-6_orig.png"
+    },
+    {
+      "file": "screenshot-7.png",
+      "caption": "Transmit Code",
+      "source": "https://dl.flathub.org/media/app/drey/Warp/66b2b74abeecd4bc7aa79644c759a203/screenshots/image-7_orig.png"
+    },
+    {
+      "file": "screenshot-8.png",
+      "caption": "Accept File Transfer",
+      "source": "https://dl.flathub.org/media/app/drey/Warp/66b2b74abeecd4bc7aa79644c759a203/screenshots/image-8_orig.png"
+    },
+    {
+      "file": "screenshot-9.png",
+      "caption": "Receiving File",
+      "source": "https://dl.flathub.org/media/app/drey/Warp/66b2b74abeecd4bc7aa79644c759a203/screenshots/image-9_orig.png"
+    },
+    {
+      "file": "screenshot-10.png",
+      "caption": "File Transfer Complete",
+      "source": "https://dl.flathub.org/media/app/drey/Warp/66b2b74abeecd4bc7aa79644c759a203/screenshots/image-10_orig.png"
+    }
+  ]
+}

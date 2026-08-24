@@ -1,0 +1,28 @@
+{
+  "icon": {
+    "file": "icon.png",
+    "source": "https://dl.flathub.org/media/io/gitlab/adhami3310.Impression/05aa7f73a71b0cec60d9ba432376066d/icons/128x128/io.gitlab.adhami3310.Impression.png"
+  },
+  "screenshots": [
+    {
+      "file": "screenshot-1.png",
+      "caption": "Screen with a choice of a local image or internet download",
+      "source": "https://dl.flathub.org/media/io/gitlab/adhami3310.Impression/05aa7f73a71b0cec60d9ba432376066d/screenshots/image-1_orig.png"
+    },
+    {
+      "file": "screenshot-2.png",
+      "caption": "Screen with a chosen ISO and available USB memories",
+      "source": "https://dl.flathub.org/media/io/gitlab/adhami3310.Impression/05aa7f73a71b0cec60d9ba432376066d/screenshots/image-2_orig.png"
+    },
+    {
+      "file": "screenshot-3.png",
+      "caption": "Writing the ISO in progress",
+      "source": "https://dl.flathub.org/media/io/gitlab/adhami3310.Impression/05aa7f73a71b0cec60d9ba432376066d/screenshots/image-3_orig.png"
+    },
+    {
+      "file": "screenshot-4.png",
+      "caption": "Success screen with a big check mark",
+      "source": "https://dl.flathub.org/media/io/gitlab/adhami3310.Impression/05aa7f73a71b0cec60d9ba432376066d/screenshots/image-4_orig.png"
+    }
+  ]
+}

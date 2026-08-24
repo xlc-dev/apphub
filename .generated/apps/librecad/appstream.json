@@ -1,0 +1,26 @@
+{
+  "id": "org.librecad.librecad",
+  "name": "LibreCAD",
+  "summary": "2D Computer Aided Design (CAD)",
+  "description": [
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "value": "LibreCAD is a 2D Computer Aided Design (CAD) application for creating plans and designs on your computer. It can be used to make accurate 2D representations of floorplans, part designs and just about anything that can be represented as a flat 2D plan."
+        }
+      ]
+    }
+  ],
+  "projectLicense": "GPL-2.0",
+  "developer": {
+    "name": "LibreCAD Developers"
+  },
+  "homepage": "https://librecad.org/",
+  "repository": "https://github.com/LibreCAD/LibreCAD",
+  "categories": [
+    "Graphics",
+    "Engineering"
+  ]
+}

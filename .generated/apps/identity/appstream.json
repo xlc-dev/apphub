@@ -1,0 +1,34 @@
+{
+  "id": "org.gnome.gitlab.YaLTeR.Identity",
+  "name": "Identity",
+  "summary": "Compare images and videos",
+  "description": [
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "value": "A program for comparing multiple versions of an image or video."
+        }
+      ]
+    }
+  ],
+  "projectLicense": "GPL-3.0-or-later",
+  "developer": {
+    "name": "Ivan Molodetskikh"
+  },
+  "homepage": "https://gitlab.gnome.org/YaLTeR/identity",
+  "repository": "https://gitlab.gnome.org/YaLTeR/identity",
+  "keywords": [
+    "Movie",
+    "Film",
+    "Clip"
+  ],
+  "categories": [
+    "Video",
+    "AudioVideo",
+    "Graphics",
+    "2DGraphics",
+    "Science"
+  ]
+}
