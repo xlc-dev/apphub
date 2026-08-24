@@ -19,20 +19,20 @@ explained in the [catalog documentation](docs/catalog.md).
 
 ## Development
 
-The recommended setup uses Bun:
+Bun is the first-class development environment and the only one fully supported by the project:
 
 ```sh
 bun install
 ```
 
-Node.js 22.18 or newer also works:
+Node.js 22.18 or newer with npm is expected to work, but may have compatibility issues:
 
 ```sh
 npm install
 npm run validate:node
 ```
 
-Or with pnpm:
+The same applies to pnpm:
 
 ```sh
 pnpm install
