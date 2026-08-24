@@ -22,6 +22,7 @@ jobs:
       contents: read
     runs-on: ubuntu-latest
     timeout-minutes: 30
+
     steps:
       - name: Check out pull request
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
@@ -80,7 +81,7 @@ jobs:
   deploy:
     needs: build
     permissions:
-      contents: write
+      contents: read
       pages: write
       id-token: write
     environment:
@@ -88,9 +89,12 @@ jobs:
       url: https://xlc-dev.github.io/apphub/${{ env.PREVIEW_PATH }}/
     runs-on: ubuntu-latest
     timeout-minutes: 10
+
     steps:
       - name: Check out repository
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
 
       - name: Set up Pages
         uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5
@@ -107,10 +111,21 @@ jobs:
           name: production
           path: /tmp/apphub-production
 
+      - name: Create App token
+        id: app-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          client-id: ${{ vars.APP_CLIENT_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          permission-contents: write
+
       - name: Update Pages content
         env:
           PREVIOUS_PREVIEW: ${{ github.event.before }}
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
+          gh auth setup-git
+
           new_branch=false
 
           if git fetch origin gh-pages; then
@@ -158,24 +173,38 @@ jobs:
       github.event.action == 'closed' && github.event.pull_request.head.repo.full_name ==
       github.repository
     permissions:
-      contents: write
+      contents: read
       pages: write
       id-token: write
     environment:
       name: preview
     runs-on: ubuntu-latest
     timeout-minutes: 10
+
     steps:
       - name: Check out Pages content
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
           ref: gh-pages
+          persist-credentials: false
 
       - name: Set up Pages
         uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5
 
+      - name: Create App token
+        id: app-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          client-id: ${{ vars.APP_CLIENT_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          permission-contents: write
+
       - name: Remove preview
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
+          gh auth setup-git
+
           rm -rf "$PREVIEW_PATH"
 
           git add --all
