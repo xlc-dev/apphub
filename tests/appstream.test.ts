@@ -39,15 +39,17 @@ describe("AppStream metadata", () => {
   });
 
   test("reads a direct MetaInfo document", () => {
-    const metadata = readAppstreamXml(
+    const document = readAppstreamXml(
       `
           <component type="desktop-application">
             <id>org.example.App</id>
+            <metadata_license>CC0-1.0</metadata_license>
             <name>Example</name>
             <summary>Do example things</summary>
             <description><p>An example app.</p></description>
             <project_license>MIT</project_license>
-            <developer><name>Example Developers</name></developer>
+            <developer id="org.example"><name>Example Developers</name></developer>
+            <icon type="remote">https://example.org/icon.png</icon>
             <url type="homepage">https://example.org/</url>
             <url type="vcs-browser">https://example.org/source</url>
             <url type="bugtracker">https://example.org/issues</url>
@@ -58,10 +60,18 @@ describe("AppStream metadata", () => {
               <content_attribute id="violence-cartoon">mild</content_attribute>
               <content_attribute id="social-chat">none</content_attribute>
             </content_rating>
+            <screenshots>
+              <screenshot type="default">
+                <caption>Main window</caption>
+                <image type="source">https://example.org/screenshot.png</image>
+              </screenshot>
+            </screenshots>
           </component>
         `,
       "org.example.App"
     );
+
+    const { metadata } = document;
 
     assert.deepEqual(
       {
@@ -82,9 +92,55 @@ describe("AppStream metadata", () => {
         links: { bugtracker: "https://example.org/issues" },
         contentRating: {
           scheme: "oars-1.1",
-          attributes: { "violence-cartoon": "mild", "social-chat": "none" },
+          warnings: ["Violence cartoon: mild"],
         },
       }
+    );
+    assert.deepEqual(document.media, {
+      icon: "https://example.org/icon.png",
+      screenshots: [{ caption: "Main window", source: "https://example.org/screenshot.png" }],
+    });
+  });
+
+  test("rejects unsupported component types", () => {
+    assert.throws(
+      () =>
+        readAppstreamXml(
+          `
+            <component type="addon">
+              <id>org.example.Addon</id>
+            </component>
+          `,
+          "org.example.Addon"
+        ),
+      /expected desktop-application/
+    );
+  });
+
+  test("rejects collection documents", () => {
+    assert.throws(
+      () =>
+        readAppstreamXml(
+          `<components><component type="desktop-application" /></components>`,
+          "org.example.App"
+        ),
+      /provide one MetaInfo file/
+    );
+  });
+
+  test("requires a redistributable metadata license", () => {
+    assert.throws(
+      () =>
+        readAppstreamXml(
+          `
+            <component type="desktop-application">
+              <id>org.example.App</id>
+              <metadata_license>GPL-3.0-only</metadata_license>
+            </component>
+          `,
+          "org.example.App"
+        ),
+      /not suitable for redistribution/
     );
   });
 
@@ -123,8 +179,7 @@ describe("AppStream metadata", () => {
       donation: "https://example.org/donate",
     });
     assert.deepEqual(metadata.contentRating, {
-      ratingSystem: "ESRB",
-      rating: "Teen",
+      label: "Teen",
       minimumAge: 13,
       warnings: ["Mild cartoon violence"],
     });

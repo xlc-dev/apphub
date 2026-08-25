@@ -151,14 +151,22 @@ try {
         media = readFlathubAssets(source);
       } else {
         const xml = await readResponse(response, 2 * 1024 * 1024, appstream.url);
+        const document = readAppstreamXml(xml.toString("utf8"), appstream.id);
 
-        metadata = readAppstreamXml(xml.toString("utf8"), appstream.id);
-        media = appstream.media;
+        metadata = document.metadata;
+        media = {
+          icon: document.media.icon ?? appstream.media?.icon,
+          screenshots: document.media.screenshots ?? appstream.media?.screenshots ?? [],
+        };
       }
 
       if (metadata.id !== appstream.id) {
         throw new Error(`${directory}: AppStream response has the wrong application id`);
       }
+    }
+
+    if (!media.icon) {
+      throw new Error(`${directory}: AppStream metadata has no usable icon`);
     }
 
     if (!media.screenshots.length || media.screenshots.some(({ source }) => !source)) {

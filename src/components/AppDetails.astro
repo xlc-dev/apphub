@@ -25,13 +25,7 @@ const linkLabels = {
   faq: "FAQ",
 };
 const projectLinks = Object.entries(app.links ?? {}).filter(([type]) => type !== "donation");
-const rawWarnings = Object.entries(app.contentRating?.attributes ?? {})
-  .filter(([, level]) => level !== "none")
-  .map(
-    ([name, level]) =>
-      `${name.replaceAll("-", " ").replace(/^./, (character) => character.toUpperCase())}: ${level}`
-  );
-const contentWarnings = app.contentRating?.warnings ?? rawWarnings;
+const contentWarnings = app.contentRating?.warnings ?? [];
 ---
 
 <aside
@@ -43,15 +37,7 @@ const contentWarnings = app.contentRating?.warnings ?? rawWarnings;
   <dl class="m-0 divide-y divide-[var(--border)]">
     <div class="px-5 py-3.5">
       <dt class="text-sm text-[var(--muted)]">Developer</dt>
-      <dd class="m-0 mt-1">
-        {
-          app.developer.url ? (
-            <Link href={app.developer.url}>{app.developer.name}</Link>
-          ) : (
-            app.developer.name
-          )
-        }
-      </dd>
+      <dd class="m-0 mt-1">{app.developer.name}</dd>
     </div>
     {
       downloads !== undefined && (

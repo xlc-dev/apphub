@@ -88,8 +88,9 @@ The normal source is Flathub:
 }
 ```
 
-An application that is not on Flathub may point to its upstream MetaInfo XML. Because generic
-AppStream XML does not guarantee remotely downloadable media, include those source URLs explicitly:
+An application that is not on Flathub may point to its standalone upstream MetaInfo XML. AppHub uses
+remote HTTPS icons and screenshots from the XML when available. Add explicit media only as a
+fallback for package-local icons or missing screenshots:
 
 ```json
 {
@@ -110,6 +111,10 @@ AppStream XML does not guarantee remotely downloadable media, include those sour
 
 `manual` is the last resort when upstream publishes no AppStream metadata. Its `metadata` and
 `media` objects live inside `app.json`, keeping the application review surface to one file.
+
+Direct MetaInfo sources must describe one `desktop-application`, match the configured application
+ID, and use a redistributable AppStream metadata license. Collection catalogs and compressed indexes
+are not application submission sources.
 
 ## Release sources
 

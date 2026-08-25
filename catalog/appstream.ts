@@ -1,4 +1,5 @@
 import { XMLParser } from "fast-xml-parser";
+import parseSpdxExpression from "spdx-expression-parse";
 import { z } from "zod";
 import { appstreamMetadataSchema, type DescriptionBlock } from "#catalog/schema";
 
@@ -28,7 +29,6 @@ const flathubSchema = z.object({
       z.string(),
       z.object({
         minimumAgeText: z.string(),
-        contentRatingSystem: z.string(),
         minimumAge: z.number().int().nonnegative(),
         categories: z.array(
           z.object({ level: z.string(), description: z.string().nullable(), id: z.string() })
@@ -69,9 +69,60 @@ const metadataParser = new XMLParser({
       "mimetype",
       "mediatype",
       "url",
+      "icon",
+      "screenshot",
+      "image",
+      "caption",
       "content_attribute",
     ].includes(name),
 });
+
+type SpdxExpression =
+  | { license: string; exception?: string }
+  | { left: SpdxExpression; conjunction: "and" | "or"; right: SpdxExpression };
+
+const metadataLicenses = new Set([
+  "0BSD",
+  "BSL-1.0",
+  "CC0-1.0",
+  "CC-BY-3.0",
+  "CC-BY-4.0",
+  "CC-BY-SA-3.0",
+  "CC-BY-SA-4.0",
+  "FSFAP",
+  "FSFUL",
+  "FTL",
+  "GFDL-1.1",
+  "GFDL-1.2",
+  "GFDL-1.3",
+  "MIT",
+]);
+
+function isMetadataLicense(expression: SpdxExpression): boolean {
+  if ("license" in expression) {
+    return !expression.exception && metadataLicenses.has(expression.license);
+  }
+
+  return expression.conjunction === "and"
+    ? isMetadataLicense(expression.left) && isMetadataLicense(expression.right)
+    : isMetadataLicense(expression.left) || isMetadataLicense(expression.right);
+}
+
+function validateMetadataLicense(value: unknown) {
+  if (typeof value !== "string") {
+    throw new Error("AppStream metadata license is missing");
+  }
+
+  try {
+    if (isMetadataLicense(parseSpdxExpression(value) as SpdxExpression)) {
+      return;
+    }
+  } catch {
+    // Report malformed and unsuitable licenses consistently.
+  }
+
+  throw new Error(`AppStream metadata license ${value} is not suitable for redistribution`);
+}
 
 function rejectDeclarations(value: string, source: string) {
   if (/<!DOCTYPE|<!ENTITY/i.test(value)) {
@@ -176,8 +227,7 @@ export function readFlathubAppstream(value: unknown) {
     ...(rating
       ? {
           contentRating: {
-            ratingSystem: rating.contentRatingSystem,
-            rating: rating.minimumAgeText,
+            label: rating.minimumAgeText,
             minimumAge: rating.minimumAge,
             ...(warnings?.length ? { warnings } : {}),
           },
@@ -213,6 +263,26 @@ function optionalArray(value: unknown) {
   return Array.isArray(value)
     ? value.filter((item): item is string => typeof item === "string")
     : [];
+}
+
+function optionalObjects(value: unknown) {
+  return Array.isArray(value)
+    ? value.filter((item): item is Record<string, unknown> =>
+        Boolean(item && typeof item === "object")
+      )
+    : [];
+}
+
+function isHttpsUrl(value: unknown): value is string {
+  if (typeof value !== "string") {
+    return false;
+  }
+
+  try {
+    return new URL(value).protocol === "https:";
+  } catch {
+    return false;
+  }
 }
 
 function defaultText(value: unknown) {
@@ -251,12 +321,24 @@ export function readAppstreamXml(xml: string, expectedId: string) {
 
   const parsed = metadataParser.parse(xml) as Record<string, unknown>;
   const components = parsed.components as Record<string, unknown> | undefined;
-  const component = (parsed.component ?? components?.component) as
-    Record<string, unknown> | undefined;
+
+  if (components) {
+    throw new Error("AppStream collection documents are not supported; provide one MetaInfo file");
+  }
+
+  const component = parsed.component as Record<string, unknown> | undefined;
 
   if (!component) {
     throw new Error("AppStream component is missing");
   }
+
+  if (component.type !== "desktop-application") {
+    const type = typeof component.type === "string" ? component.type : "unknown";
+
+    throw new Error(`AppStream component has type ${type}, expected desktop-application`);
+  }
+
+  validateMetadataLicense(component.metadata_license);
 
   const id = defaultText(component.id);
 
@@ -275,6 +357,7 @@ export function readAppstreamXml(xml: string, expectedId: string) {
   const provides = component.provides as Record<string, unknown> | undefined;
   const mimetypes = component.mimetypes as Record<string, unknown> | undefined;
   const contentRating = component.content_rating as Record<string, unknown> | undefined;
+  const screenshots = component.screenshots as Record<string, unknown> | undefined;
 
   const url = (type: string) =>
     urls.find((item) => item.type === type)?.["#text"] ??
@@ -286,17 +369,20 @@ export function readAppstreamXml(xml: string, expectedId: string) {
 
   const homepage = url("homepage");
   const repository = url("vcs-browser");
+  const name = defaultText(component.name);
   const keywordValues = optionalArray(keywords?.keyword);
   const mimeTypes = optionalArray(mimetypes?.mimetype ?? provides?.mediatype);
   const contentAttributes = (
     Array.isArray(contentRating?.content_attribute) ? contentRating.content_attribute : []
   ) as Array<Record<string, unknown>>;
-  const attributes = Object.fromEntries(
-    contentAttributes.flatMap((attribute) =>
-      typeof attribute.id === "string" && typeof attribute["#text"] === "string"
-        ? [[attribute.id, attribute["#text"]]]
-        : []
-    )
+  const warnings = contentAttributes.flatMap((attribute) =>
+    typeof attribute.id === "string" &&
+    typeof attribute["#text"] === "string" &&
+    attribute["#text"] !== "none"
+      ? [
+          `${attribute.id.replaceAll("-", " ").replace(/^./, (character) => character.toUpperCase())}: ${attribute["#text"]}`,
+        ]
+      : []
   );
   const links = projectLinks(
     Object.fromEntries(
@@ -308,9 +394,24 @@ export function readAppstreamXml(xml: string, expectedId: string) {
     )
   );
 
-  return appstreamMetadataSchema.parse({
+  const remoteIcon = optionalObjects(component.icon).find(
+    (icon) => icon.type === "remote" && isHttpsUrl(icon["#text"])
+  )?.["#text"] as string | undefined;
+  const remoteScreenshots = optionalObjects(screenshots?.screenshot)
+    .flatMap((screenshot) => {
+      const source = optionalObjects(screenshot.image).find(
+        (image) => image.type === "source" && isHttpsUrl(image["#text"])
+      )?.["#text"] as string | undefined;
+
+      return source
+        ? [{ caption: defaultText(screenshot.caption) ?? `${name} screenshot`, source }]
+        : [];
+    })
+    .slice(0, 10);
+
+  const metadata = appstreamMetadataSchema.parse({
     id,
-    name: defaultText(component.name),
+    name,
     summary: defaultText(component.summary),
     description: parseDescription(description),
     projectLicense: defaultText(component.project_license),
@@ -319,10 +420,23 @@ export function readAppstreamXml(xml: string, expectedId: string) {
     ...(repository ? { repository } : {}),
     ...(links ? { links } : {}),
     ...(typeof contentRating?.type === "string"
-      ? { contentRating: { scheme: contentRating.type, attributes } }
+      ? {
+          contentRating: {
+            scheme: contentRating.type,
+            ...(warnings.length ? { warnings } : {}),
+          },
+        }
       : {}),
     ...(keywordValues.length ? { keywords: keywordValues } : {}),
     categories: optionalArray(categories?.category),
     ...(mimeTypes.length ? { mimeTypes } : {}),
   });
+
+  return {
+    metadata,
+    media: {
+      ...(remoteIcon ? { icon: remoteIcon } : {}),
+      ...(remoteScreenshots.length ? { screenshots: remoteScreenshots } : {}),
+    },
+  };
 }

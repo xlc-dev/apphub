@@ -185,12 +185,7 @@ const descriptionBlockSchema = z.discriminatedUnion("type", [
     .strict(),
 ]);
 
-const developerSchema = z
-  .object({
-    name: z.string().min(1).max(100),
-    url: httpsUrlSchema.optional(),
-  })
-  .strict();
+const developerSchema = z.object({ name: z.string().min(1).max(100) }).strict();
 
 const projectLinkTypeSchema = z.enum([
   "bugtracker",
@@ -205,13 +200,9 @@ const projectLinkTypeSchema = z.enum([
 const contentRatingSchema = z
   .object({
     scheme: z.string().min(1).max(50).optional(),
-    ratingSystem: z.string().min(1).max(50).optional(),
-    rating: z.string().min(1).max(100).optional(),
+    label: z.string().min(1).max(100).optional(),
     minimumAge: z.number().int().min(0).max(21).optional(),
     warnings: z.array(z.string().min(1).max(500)).max(50).optional(),
-    attributes: z
-      .record(z.string().regex(/^[a-z0-9-]+$/), z.enum(["none", "mild", "moderate", "intense"]))
-      .optional(),
   })
   .strict()
   .refine((rating) => Object.values(rating).some((value) => value !== undefined), {
@@ -291,6 +282,13 @@ const upstreamMediaSchema = z
   })
   .strict();
 
+const fallbackMediaSchema = z
+  .object({
+    icon: httpsUrlSchema.optional(),
+    screenshots: upstreamMediaSchema.shape.screenshots.optional(),
+  })
+  .strict();
+
 const appstreamSourceSchema = z.discriminatedUnion("type", [
   z
     .object({
@@ -310,7 +308,7 @@ const appstreamSourceSchema = z.discriminatedUnion("type", [
       type: z.literal("url"),
       id: generatedAppstreamFields.id,
       url: httpsUrlSchema,
-      media: upstreamMediaSchema,
+      media: fallbackMediaSchema.optional(),
     })
     .strict(),
 ]);

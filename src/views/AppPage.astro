@@ -65,10 +65,10 @@ const replacement = app.replacedBy
           {
             ageRating && (
               <span
-                class="inline-flex items-center gap-1.5 rounded-full border border-[color-mix(in_srgb,var(--primary)_35%,var(--border))] bg-[color-mix(in_srgb,var(--primary)_10%,var(--card))] px-2.5 py-1 text-xs font-medium text-[var(--text)]"
-                title={app.contentRating?.rating}
-                aria-label={`Ages ${ageRating}${app.contentRating?.rating ? `, ${app.contentRating.rating}` : ""}`}>
-                <Icon name="age-rating" class="size-3.5 text-[var(--primary)]" />
+                class="inline-flex items-center gap-1.5 rounded-full border border-[var(--border)] bg-[var(--control-bg)] px-2.5 py-1 text-xs font-medium text-[var(--text)]"
+                title={app.contentRating?.label}
+                aria-label={`Ages ${ageRating}${app.contentRating?.label ? `, ${app.contentRating.label}` : ""}`}>
+                <Icon name="age-rating" class="size-3.5 text-[var(--muted)]" />
                 Ages {ageRating}
               </span>
             )
