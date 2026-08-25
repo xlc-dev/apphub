@@ -1,0 +1,36 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import { sitePath } from "@/lib/paths";
+
+interface Props extends HTMLAttributes<"span"> {
+  name:
+    | "age-rating"
+    | "category"
+    | "check"
+    | "chevron-down"
+    | "chevron-left"
+    | "chevron-right"
+    | "close"
+    | "community"
+    | "donate"
+    | "external"
+    | "license"
+    | "menu"
+    | "official"
+    | "star"
+    | "theme-dark"
+    | "theme-light"
+    | "theme-system"
+    | "zoom";
+  class?: string;
+}
+
+const { name, class: className, ...attributes } = Astro.props;
+const mask = `url("${sitePath(`/icons/${name}.svg`)}") center / contain no-repeat`;
+---
+
+<span
+  {...attributes}
+  class:list={["shrink-0 bg-current", className]}
+  style={`mask: ${mask}; -webkit-mask: ${mask}`}
+  aria-hidden="true"></span>

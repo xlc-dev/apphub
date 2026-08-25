@@ -3,8 +3,7 @@ import type { ApiAppResource } from "@/lib/api";
 import Link from "@/components/ui/Link.astro";
 import Button from "@/components/ui/Button.astro";
 import ButtonLink from "@/components/ui/ButtonLink.astro";
-import SourceBadge from "@/components/SourceBadge.astro";
-import StarIcon from "@/components/icons/StarIcon.astro";
+import Icon from "@/components/Icon.astro";
 import { Image } from "astro:assets";
 
 interface Props {
@@ -17,7 +16,7 @@ const { apps } = Astro.props;
 {
   apps.length > 0 && (
     <section
-      class="relative overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--card)] shadow-sm"
+      class="overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--card)] shadow-sm"
       aria-label="Discover apps"
       aria-roledescription="carousel"
       data-discover-carousel>
@@ -33,42 +32,31 @@ const { apps } = Astro.props;
             aria-roledescription="slide"
             data-discover-slide>
             <div class="flex min-w-0 flex-col items-center justify-center px-14 pt-8 pb-16 text-center sm:px-16 md:items-start md:py-12 md:pr-8 md:pl-14 md:text-left">
-              <div class="flex items-center gap-3">
-                <Image
-                  class="size-14 shrink-0 rounded-xl"
-                  src={app.icon.url}
-                  alt=""
-                  width={56}
-                  height={56}
-                  loading="eager"
-                />
-                <SourceBadge source={app.source} />
-              </div>
+              <Image
+                class="size-14 shrink-0 rounded-xl"
+                src={app.icon.url}
+                alt=""
+                width={56}
+                height={56}
+                loading="eager"
+              />
               <h2 class="mt-5 text-2xl font-bold sm:text-3xl">
                 <Link accent href={`/apps/${app.slug}/`}>
                   {app.name}
                 </Link>
               </h2>
               <p class="mt-2 line-clamp-3 max-w-xl leading-6 text-[var(--muted)]">{app.summary}</p>
-              <div class="mt-5 flex flex-wrap items-center justify-center gap-4 md:justify-start">
-                <ButtonLink href={`/apps/${app.slug}/`}>View app</ButtonLink>
-                {app.statistics.stars !== null && (
-                  <span
-                    class="inline-flex items-center gap-1.5 text-sm text-[var(--muted)]"
-                    aria-label={`${app.statistics.stars.toLocaleString("en")} repository stars`}>
-                    <StarIcon class="size-4" />
-                    {app.statistics.stars.toLocaleString("en")} stars
-                  </span>
-                )}
-              </div>
+              <ButtonLink class="mt-5" href={`/apps/${app.slug}/`}>
+                View app
+              </ButtonLink>
             </div>
             <Link
               unstyled
-              class="group relative hidden min-h-80 overflow-hidden bg-[var(--control-bg)] focus-visible:ring-[3px] focus-visible:ring-[color-mix(in_srgb,var(--primary)_20%,transparent)] focus-visible:outline-none focus-visible:ring-inset md:block"
+              class="relative hidden min-h-80 overflow-hidden bg-[var(--control-bg)] focus-visible:ring-[3px] focus-visible:ring-[color-mix(in_srgb,var(--primary)_20%,transparent)] focus-visible:outline-none focus-visible:ring-inset md:block"
               href={`/apps/${app.slug}/`}
               aria-label={`View ${app.name}`}>
               <Image
-                class="absolute inset-0 size-full object-cover transition-transform duration-300 group-hover:scale-[1.02] motion-reduce:transition-none"
+                class="absolute inset-0 size-full scale-x-[1.12] object-cover"
                 src={app.screenshots[0]!.url}
                 alt={app.screenshots[0]!.caption}
                 width={960}
@@ -81,25 +69,15 @@ const { apps } = Astro.props;
         ))}
       </div>
       {apps.length > 1 && (
-        <>
+        <div class="flex min-h-14 items-center justify-center border-t border-[var(--border)]">
           <Button
             icon
-            class="absolute bottom-2 left-3 z-10 hidden md:top-1/2 md:bottom-auto md:-translate-y-1/2"
+            class="hidden border-0 bg-transparent shadow-none"
             aria-label="Previous discovered app"
             data-discover-previous>
-            <svg
-              aria-hidden="true"
-              viewBox="0 0 24 24"
-              class="size-4"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2">
-              <path d="m15 18-6-6 6-6" />
-            </svg>
+            <Icon name="chevron-left" class="size-4" />
           </Button>
-          <nav
-            class="absolute bottom-2 left-1/2 z-10 flex -translate-x-1/2"
-            aria-label="Choose app to discover">
+          <nav class="flex" aria-label="Choose app to discover">
             {apps.map((_, index) => (
               <Link
                 unstyled
@@ -117,20 +95,12 @@ const { apps } = Astro.props;
           </nav>
           <Button
             icon
-            class="absolute right-3 bottom-2 z-10 hidden md:top-1/2 md:bottom-auto md:-translate-y-1/2"
+            class="hidden border-0 bg-transparent shadow-none"
             aria-label="Next discovered app"
             data-discover-next>
-            <svg
-              aria-hidden="true"
-              viewBox="0 0 24 24"
-              class="size-4"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2">
-              <path d="m9 18 6-6-6-6" />
-            </svg>
+            <Icon name="chevron-right" class="size-4" />
           </Button>
-        </>
+        </div>
       )}
     </section>
   )

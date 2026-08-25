@@ -1,6 +1,7 @@
 ---
 import Section from "@/components/ui/Section.astro";
 import Button from "@/components/ui/Button.astro";
+import Icon from "@/components/Icon.astro";
 import { Image } from "astro:assets";
 
 interface Props {
@@ -30,26 +31,8 @@ const id = `${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-carousel`;
     aria-label="Enlarge screenshots"
     aria-expanded="false"
     data-carousel-fullscreen>
-    <svg
-      data-carousel-expand-icon
-      aria-hidden="true"
-      viewBox="0 0 24 24"
-      class="size-5"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2">
-      <path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5"></path>
-    </svg>
-    <svg
-      class="hidden size-5"
-      data-carousel-close-icon
-      aria-hidden="true"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2">
-      <path d="m6 6 12 12M18 6 6 18"></path>
-    </svg>
+    <Icon name="zoom" class="size-5" data-carousel-expand-icon />
+    <Icon name="close" class="hidden size-5" data-carousel-close-icon />
   </Button>
   <div
     class="relative grid grid-cols-[minmax(0,1fr)] items-center sm:grid-cols-[2.75rem_minmax(0,1fr)_2.75rem] sm:gap-3"
@@ -90,30 +73,14 @@ const id = `${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-carousel`;
             class="absolute top-1/2 left-2 z-10 hidden size-11 -translate-y-1/2 rounded-full sm:static sm:col-start-1 sm:row-start-1 sm:translate-y-0"
             aria-label="Previous screenshot"
             data-carousel-previous>
-            <svg
-              aria-hidden="true"
-              viewBox="0 0 24 24"
-              class="size-5"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2.5">
-              <path d="m15 18-6-6 6-6" />
-            </svg>
+            <Icon name="chevron-left" class="size-5" />
           </Button>
           <Button
             icon
             class="absolute top-1/2 right-2 z-10 hidden size-11 -translate-y-1/2 rounded-full sm:static sm:col-start-3 sm:row-start-1 sm:translate-y-0"
             aria-label="Next screenshot"
             data-carousel-next>
-            <svg
-              aria-hidden="true"
-              viewBox="0 0 24 24"
-              class="size-5"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2.5">
-              <path d="m9 18 6-6-6-6" />
-            </svg>
+            <Icon name="chevron-right" class="size-5" />
           </Button>
         </>
       )
