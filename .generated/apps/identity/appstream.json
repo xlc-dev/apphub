@@ -19,6 +19,14 @@
   },
   "homepage": "https://gitlab.gnome.org/YaLTeR/identity",
   "repository": "https://gitlab.gnome.org/YaLTeR/identity",
+  "links": {
+    "bugtracker": "https://gitlab.gnome.org/YaLTeR/identity/issues",
+    "translate": "https://l10n.gnome.org/module/identity/"
+  },
+  "contentRating": {
+    "label": "Early Childhood",
+    "minimumAge": 3
+  },
   "keywords": [
     "Movie",
     "Film",

@@ -19,6 +19,14 @@
   },
   "homepage": "https://gearlever.mijorus.it",
   "repository": "https://github.com/mijorus/gearlever",
+  "links": {
+    "bugtracker": "https://github.com/mijorus/gearlever/issues",
+    "donation": "https://ko-fi.com/mijorus"
+  },
+  "contentRating": {
+    "label": "Early Childhood",
+    "minimumAge": 3
+  },
   "keywords": [
     "AppImage"
   ],

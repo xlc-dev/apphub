@@ -19,6 +19,18 @@
   },
   "homepage": "https://apps.gnome.org/Impression/",
   "repository": "https://gitlab.com/adhami3310/Impression",
+  "links": {
+    "bugtracker": "https://gitlab.com/adhami3310/Impression/-/issues",
+    "help": "https://gitlab.com/adhami3310/Impression/-/issues",
+    "contact": "https://matrix.to/#/@khaleela:gnome.org",
+    "donation": "https://opencollective.com/impression",
+    "translate": "https://gitlab.com/adhami3310/Impression/-/tree/main/po",
+    "contribute": "https://gitlab.com/adhami3310/Impression"
+  },
+  "contentRating": {
+    "label": "Early Childhood",
+    "minimumAge": 3
+  },
   "keywords": [
     "usb",
     "flash",

@@ -28,6 +28,14 @@
   },
   "homepage": "https://rnote.flxzt.net",
   "repository": "https://github.com/flxzt/rnote",
+  "links": {
+    "bugtracker": "https://github.com/flxzt/rnote/issues",
+    "donation": "https://rnote.flxzt.net/donate/"
+  },
+  "contentRating": {
+    "label": "Early Childhood",
+    "minimumAge": 3
+  },
   "keywords": [
     "Gnome",
     "GTK",

@@ -110,6 +110,14 @@
     "name": "Nanling"
   },
   "homepage": "https://gitlab.gnome.org/neithern/g4music",
+  "links": {
+    "bugtracker": "https://gitlab.gnome.org/neithern/g4music/issues",
+    "translate": "https://l10n.gnome.org/module/g4music"
+  },
+  "contentRating": {
+    "label": "Early Childhood",
+    "minimumAge": 3
+  },
   "keywords": [
     "music",
     "sound",

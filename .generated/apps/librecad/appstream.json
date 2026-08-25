@@ -19,6 +19,10 @@
   },
   "homepage": "https://librecad.org/",
   "repository": "https://github.com/LibreCAD/LibreCAD",
+  "contentRating": {
+    "label": "Early Childhood",
+    "minimumAge": 3
+  },
   "categories": [
     "Graphics",
     "Engineering"

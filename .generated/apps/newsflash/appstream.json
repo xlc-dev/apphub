@@ -28,6 +28,14 @@
   },
   "homepage": "https://gitlab.com/news-flash/news_flash_gtk",
   "repository": "https://gitlab.com/news-flash/news_flash_gtk",
+  "links": {
+    "bugtracker": "https://gitlab.com/news-flash/news_flash_gtk/-/issues",
+    "translate": "https://hosted.weblate.org/projects/newsflash/news_flash_gtk/"
+  },
+  "contentRating": {
+    "label": "Early Childhood",
+    "minimumAge": 3
+  },
   "keywords": [
     "Gnome",
     "GTK",

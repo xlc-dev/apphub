@@ -78,6 +78,15 @@
   },
   "homepage": "https://apps.gnome.org/Warp/",
   "repository": "https://gitlab.gnome.org/World/warp/",
+  "links": {
+    "bugtracker": "https://gitlab.gnome.org/World/warp/issues",
+    "contact": "https://matrix.to/#/#warp:gnome.org",
+    "translate": "https://l10n.gnome.org/module/warp/"
+  },
+  "contentRating": {
+    "label": "Early Childhood",
+    "minimumAge": 3
+  },
   "keywords": [
     "Gnome",
     "GTK",

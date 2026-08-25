@@ -19,6 +19,14 @@
   },
   "homepage": "https://gitlab.gnome.org/YaLTeR/video-trimmer",
   "repository": "https://gitlab.gnome.org/YaLTeR/video-trimmer",
+  "links": {
+    "bugtracker": "https://gitlab.gnome.org/YaLTeR/video-trimmer/-/issues",
+    "translate": "https://l10n.gnome.org/module/video-trimmer/"
+  },
+  "contentRating": {
+    "label": "Early Childhood",
+    "minimumAge": 3
+  },
   "keywords": [
     "Cut",
     "Movie",

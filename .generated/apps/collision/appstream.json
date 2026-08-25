@@ -28,6 +28,16 @@
   },
   "homepage": "https://collision.geopjr.dev/",
   "repository": "https://codeberg.org/GeopJr/Collision/",
+  "links": {
+    "bugtracker": "https://codeberg.org/GeopJr/Collision/issues",
+    "donation": "https://geopjr.dev/donate",
+    "translate": "https://translate.codeberg.org/engage/collision/",
+    "contribute": "https://welcome.gnome.org/app/Collision/"
+  },
+  "contentRating": {
+    "label": "Early Childhood",
+    "minimumAge": 3
+  },
   "keywords": [
     "md5",
     "sha1",

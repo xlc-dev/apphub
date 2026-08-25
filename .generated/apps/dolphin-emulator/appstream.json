@@ -19,6 +19,18 @@
   },
   "homepage": "https://dolphin-emu.org",
   "repository": "https://github.com/dolphin-emu/dolphin",
+  "links": {
+    "bugtracker": "https://github.com/flathub/org.DolphinEmu.dolphin-emu/issues",
+    "help": "https://dolphin-emu.org/docs/guides/",
+    "contact": "https://dolphin-emu.org/docs/faq/#ive-got-idea-make-dolphin-better-how-should-i-tell",
+    "translate": "https://www.transifex.com/projects/p/dolphin-emu",
+    "contribute": "https://github.com/dolphin-emu/dolphin/blob/master/Contributing.md",
+    "faq": "https://dolphin-emu.org/docs/faq/"
+  },
+  "contentRating": {
+    "label": "Early Childhood",
+    "minimumAge": 3
+  },
   "categories": [
     "Game",
     "Emulator"

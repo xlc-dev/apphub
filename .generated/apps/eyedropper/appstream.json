@@ -57,6 +57,15 @@
   },
   "homepage": "https://apps.gnome.org/Eyedropper",
   "repository": "https://github.com/FineFindus/eyedropper",
+  "links": {
+    "bugtracker": "https://github.com/FineFindus/eyedropper/issues",
+    "translate": "https://github.com/FineFindus/eyedropper#translation",
+    "contribute": "https://github.com/FineFindus/eyedropper#contributing"
+  },
+  "contentRating": {
+    "label": "Early Childhood",
+    "minimumAge": 3
+  },
   "keywords": [
     "Gnome",
     "GTK",

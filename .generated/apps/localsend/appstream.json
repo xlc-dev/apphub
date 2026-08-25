@@ -28,6 +28,13 @@
   },
   "homepage": "https://localsend.org/",
   "repository": "https://github.com/localsend/localsend",
+  "links": {
+    "bugtracker": "https://github.com/localsend/localsend/issues"
+  },
+  "contentRating": {
+    "label": "Early Childhood",
+    "minimumAge": 3
+  },
   "categories": [
     "Utility"
   ]

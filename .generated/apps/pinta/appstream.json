@@ -18,6 +18,16 @@
     "name": "Jonathan Pobst"
   },
   "homepage": "https://www.pinta-project.com",
+  "links": {
+    "bugtracker": "https://github.com/PintaProject/Pinta/issues",
+    "help": "https://www.pinta-project.com/howto",
+    "translate": "https://hosted.weblate.org/engage/pinta/",
+    "faq": "https://github.com/PintaProject/Pinta/discussions/categories/q-a"
+  },
+  "contentRating": {
+    "label": "Early Childhood",
+    "minimumAge": 3
+  },
   "keywords": [
     "draw",
     "drawing",

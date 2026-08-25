@@ -19,6 +19,16 @@
   },
   "homepage": "https://apps.gnome.org/TextEditor/",
   "repository": "https://gitlab.gnome.org/GNOME/gnome-text-editor",
+  "links": {
+    "bugtracker": "https://gitlab.gnome.org/GNOME/gnome-text-editor/issues",
+    "donation": "https://www.gnome.org/donate/",
+    "translate": "https://l10n.gnome.org/module/gnome-text-editor/",
+    "contribute": "https://welcome.gnome.org/app/TextEditor/"
+  },
+  "contentRating": {
+    "label": "Early Childhood",
+    "minimumAge": 3
+  },
   "keywords": [
     "write",
     "notepad"

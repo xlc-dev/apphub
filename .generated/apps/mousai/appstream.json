@@ -87,6 +87,15 @@
   },
   "homepage": "https://github.com/SeaDve/Mousai",
   "repository": "https://github.com/SeaDve/Mousai",
+  "links": {
+    "bugtracker": "https://github.com/SeaDve/Mousai/issues",
+    "donation": "https://seadve.github.io/donate/",
+    "translate": "https://hosted.weblate.org/projects/seadve/mousai"
+  },
+  "contentRating": {
+    "label": "Early Childhood",
+    "minimumAge": 3
+  },
   "keywords": [
     "Shazam",
     "Audio",
