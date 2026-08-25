@@ -63,6 +63,16 @@ object:
   "developer": { "name": "Example Developers", "url": "https://example.org/" },
   "homepage": "https://example.org/",
   "repository": "https://github.com/example/app",
+  "links": {
+    "bugtracker": "https://github.com/example/app/issues",
+    "donation": "https://example.org/donate"
+  },
+  "contentRating": {
+    "ratingSystem": "ESRB",
+    "rating": "Everyone 10+",
+    "minimumAge": 10,
+    "warnings": ["Mild fantasy violence"]
+  },
   "addedAt": "2026-08-20",
   "keywords": ["example"],
   "categories": ["Utility"],
@@ -126,6 +136,11 @@ object:
 Optional fields are omitted when absent. Deprecated applications may include `deprecated: true` and
 `replacedBy`, which is the stable ID accepted by the application endpoint. Internal source and
 asset-matching configuration is not exposed.
+
+`links` may contain `bugtracker`, `help`, `contact`, `donation`, `translate`, `contribute`, and
+`faq`. Content ratings retain raw OARS `scheme` and `attributes` when direct AppStream XML supplies
+them. Flathub sources provide their localized `ratingSystem`, `rating`, `minimumAge`, and active
+`warnings` instead.
 
 Image `url` values are hosted by AppHub. Image `source` and artifact `url` values identify upstream
 publisher resources. Statistics values are `null` when AppHub has no applicable measurement; this

@@ -57,8 +57,9 @@ Unknown fields are rejected. URLs must use HTTPS and project licenses must be SP
 
 For a Flathub source, the generator obtains the following from its AppStream record:
 
-- ID, name, summary, description, project license, developer, and links.
+- ID, name, summary, description, project license, developer, and project links.
 - Categories, keywords, and MIME types.
+- Content rating and warnings when the source provides them.
 - Icon and screenshot sources and captions.
 
 Descriptions preserve AppStream paragraphs, ordered and unordered lists, emphasis, and code as

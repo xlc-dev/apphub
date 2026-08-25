@@ -1,6 +1,7 @@
 ---
 import type { ApiApp } from "@/lib/api";
 import Link from "@/components/ui/Link.astro";
+import Icon from "@/components/icons/Icon.astro";
 import StarIcon from "@/components/icons/StarIcon.astro";
 
 interface Props {
@@ -16,14 +17,32 @@ const repository = app.repository && new URL(app.repository);
 const repositoryLabel =
   repository &&
   (repository.hostname.replace(/^www\./, "") + repository.pathname).replace(/\/$/, "");
+const linkLabels = {
+  bugtracker: "Report an issue",
+  help: "Help",
+  contact: "Contact",
+  translate: "Translate",
+  contribute: "Contribute",
+  faq: "FAQ",
+};
+const projectLinks = Object.entries(app.links ?? {}).filter(([type]) => type !== "donation");
+const rawWarnings = Object.entries(app.contentRating?.attributes ?? {})
+  .filter(([, level]) => level !== "none")
+  .map(
+    ([name, level]) =>
+      `${name.replaceAll("-", " ").replace(/^./, (character) => character.toUpperCase())}: ${level}`
+  );
+const contentWarnings = app.contentRating?.warnings ?? rawWarnings;
 ---
 
 <aside
-  class="self-start rounded-xl border border-[var(--border)] bg-[var(--card)] p-5 shadow-sm"
+  class="self-start overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--card)] shadow-sm"
   aria-labelledby="details-heading">
-  <h2 class="m-0 text-xl font-bold" id="details-heading">Details</h2>
-  <dl class="mb-0 grid gap-4">
-    <div>
+  <div class="border-b border-[var(--border)] bg-[var(--card-raised)] px-5 py-4">
+    <h2 class="m-0 text-xl font-bold" id="details-heading">Details</h2>
+  </div>
+  <dl class="m-0 divide-y divide-[var(--border)]">
+    <div class="px-5 py-3.5">
       <dt class="text-sm text-[var(--muted)]">Developer</dt>
       <dd class="m-0 mt-1">
         {
@@ -35,19 +54,15 @@ const repositoryLabel =
         }
       </dd>
     </div>
-    <div>
-      <dt class="text-sm text-[var(--muted)]">License</dt>
-      <dd class="m-0 mt-1">{app.projectLicense}</dd>
-    </div>
     {
       downloads !== undefined && (
-        <div>
+        <div class="px-5 py-3.5">
           <dt class="text-sm text-[var(--muted)]">Total downloads</dt>
-          <dd class="m-0 mt-1">{downloads.toLocaleString("en")}</dd>
+          <dd class="m-0 mt-1 font-medium tabular-nums">{downloads.toLocaleString("en")}</dd>
         </div>
       )
     }
-    <div>
+    <div class="px-5 py-3.5">
       <dt class="text-sm text-[var(--muted)]">Website</dt>
       <dd class="m-0 mt-1 break-words">
         <Link href={app.homepage}>{websiteLabel}</Link>
@@ -55,23 +70,55 @@ const repositoryLabel =
     </div>
     {
       app.repository && (
-        <div>
+        <div class="px-5 py-3.5">
           <dt class="text-sm text-[var(--muted)]">Repository</dt>
-          <dd class="m-0 mt-1 break-words">
+          <dd class="m-0 mt-1 flex flex-wrap items-center justify-between gap-2 break-words">
             <Link href={app.repository}>{repositoryLabel}</Link>
+            {stars !== undefined && (
+              <Link
+                class="inline-flex shrink-0 items-center gap-1.5 text-sm text-[var(--muted)]"
+                href={app.repository}
+                aria-label={`${stars.toLocaleString("en")} repository stars`}>
+                <StarIcon class="size-4" />
+                {stars.toLocaleString("en")}
+              </Link>
+            )}
           </dd>
         </div>
       )
     }
     {
-      app.repository && stars !== undefined && (
-        <div>
-          <dt class="text-sm text-[var(--muted)]">Repository stars</dt>
+      projectLinks.length > 0 && (
+        <div class="px-5 py-3.5">
+          <dt class="text-sm text-[var(--muted)]">Resources</dt>
+          <dd class="m-0 mt-2">
+            <ul class="m-0 list-none divide-y divide-[var(--border)] overflow-hidden rounded-lg border border-[var(--border)] p-0">
+              {projectLinks.map(([type, url]) => (
+                <li>
+                  <Link
+                    unstyled
+                    class="flex min-h-11 items-center justify-between gap-3 bg-[var(--control-bg)] px-3 text-sm hover:bg-[var(--card-raised)] focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--primary)]"
+                    href={url}>
+                    {linkLabels[type as keyof typeof linkLabels]}
+                    <Icon name="external" class="size-4 shrink-0 text-[var(--muted)]" />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </dd>
+        </div>
+      )
+    }
+    {
+      contentWarnings.length > 0 && (
+        <div class="px-5 py-3.5">
+          <dt class="text-sm text-[var(--muted)]">Content notes</dt>
           <dd class="m-0 mt-1">
-            <Link class="inline-flex items-center gap-1.5" href={app.repository}>
-              <StarIcon class="size-4" />
-              {stars.toLocaleString("en")}
-            </Link>
+            <ul class="m-0 space-y-1 pl-5 text-sm text-[var(--muted)]">
+              {contentWarnings.map((warning) => (
+                <li>{warning}</li>
+              ))}
+            </ul>
           </dd>
         </div>
       )

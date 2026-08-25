@@ -15,7 +15,27 @@ const flathubSchema = z.object({
   urls: z.object({
     homepage: z.string(),
     vcs_browser: z.string().nullable(),
+    bugtracker: z.string().nullable().optional(),
+    help: z.string().nullable().optional(),
+    contact: z.string().nullable().optional(),
+    donation: z.string().nullable().optional(),
+    translate: z.string().nullable().optional(),
+    contribute: z.string().nullable().optional(),
+    faq: z.string().nullable().optional(),
   }),
+  content_rating_details: z
+    .record(
+      z.string(),
+      z.object({
+        minimumAgeText: z.string(),
+        contentRatingSystem: z.string(),
+        minimumAge: z.number().int().nonnegative(),
+        categories: z.array(
+          z.object({ level: z.string(), description: z.string().nullable(), id: z.string() })
+        ),
+      })
+    )
+    .nullish(),
   icon: z.string(),
   screenshots: z.array(
     z.object({
@@ -49,6 +69,7 @@ const metadataParser = new XMLParser({
       "mimetype",
       "mediatype",
       "url",
+      "content_attribute",
     ].includes(name),
 });
 
@@ -135,6 +156,12 @@ export function parseDescription(value: string) {
 
 export function readFlathubAppstream(value: unknown) {
   const app = flathubSchema.parse(value);
+  const rating =
+    app.content_rating_details?.en_US ?? Object.values(app.content_rating_details ?? {})[0];
+  const warnings = rating?.categories.flatMap(({ level, description }) =>
+    level !== "none" && description ? [description] : []
+  );
+  const links = projectLinks(app.urls);
 
   return appstreamMetadataSchema.parse({
     id: app.id,
@@ -145,6 +172,17 @@ export function readFlathubAppstream(value: unknown) {
     developer: { name: app.developer_name },
     homepage: app.urls.homepage,
     ...(app.urls.vcs_browser ? { repository: app.urls.vcs_browser } : {}),
+    ...(links ? { links } : {}),
+    ...(rating
+      ? {
+          contentRating: {
+            ratingSystem: rating.contentRatingSystem,
+            rating: rating.minimumAgeText,
+            minimumAge: rating.minimumAge,
+            ...(warnings?.length ? { warnings } : {}),
+          },
+        }
+      : {}),
     ...(app.keywords?.length ? { keywords: app.keywords } : {}),
     categories: app.categories,
     ...(app.mimetypes?.length ? { mimeTypes: app.mimetypes } : {}),
@@ -189,6 +227,25 @@ function defaultText(value: unknown) {
   return undefined;
 }
 
+function projectLinks(urls: Record<string, unknown>) {
+  const types = [
+    "bugtracker",
+    "help",
+    "contact",
+    "donation",
+    "translate",
+    "contribute",
+    "faq",
+  ] as const;
+  const links = Object.fromEntries(
+    types.flatMap((type) =>
+      typeof urls[type] === "string" && urls[type] ? [[type, urls[type]]] : []
+    )
+  );
+
+  return Object.keys(links).length ? links : undefined;
+}
+
 export function readAppstreamXml(xml: string, expectedId: string) {
   rejectDeclarations(xml, "AppStream XML");
 
@@ -217,6 +274,7 @@ export function readAppstreamXml(xml: string, expectedId: string) {
   const keywords = component.keywords as Record<string, unknown> | undefined;
   const provides = component.provides as Record<string, unknown> | undefined;
   const mimetypes = component.mimetypes as Record<string, unknown> | undefined;
+  const contentRating = component.content_rating as Record<string, unknown> | undefined;
 
   const url = (type: string) =>
     urls.find((item) => item.type === type)?.["#text"] ??
@@ -230,6 +288,25 @@ export function readAppstreamXml(xml: string, expectedId: string) {
   const repository = url("vcs-browser");
   const keywordValues = optionalArray(keywords?.keyword);
   const mimeTypes = optionalArray(mimetypes?.mimetype ?? provides?.mediatype);
+  const contentAttributes = (
+    Array.isArray(contentRating?.content_attribute) ? contentRating.content_attribute : []
+  ) as Array<Record<string, unknown>>;
+  const attributes = Object.fromEntries(
+    contentAttributes.flatMap((attribute) =>
+      typeof attribute.id === "string" && typeof attribute["#text"] === "string"
+        ? [[attribute.id, attribute["#text"]]]
+        : []
+    )
+  );
+  const links = projectLinks(
+    Object.fromEntries(
+      urls.flatMap((item) =>
+        typeof item.type === "string" && typeof (item["#text"] ?? item.text) === "string"
+          ? [[item.type, item["#text"] ?? item.text]]
+          : []
+      )
+    )
+  );
 
   return appstreamMetadataSchema.parse({
     id,
@@ -240,6 +317,10 @@ export function readAppstreamXml(xml: string, expectedId: string) {
     developer: { name: defaultText(developer?.name ?? component.developer_name) },
     homepage,
     ...(repository ? { repository } : {}),
+    ...(links ? { links } : {}),
+    ...(typeof contentRating?.type === "string"
+      ? { contentRating: { scheme: contentRating.type, attributes } }
+      : {}),
     ...(keywordValues.length ? { keywords: keywordValues } : {}),
     categories: optionalArray(categories?.category),
     ...(mimeTypes.length ? { mimeTypes } : {}),

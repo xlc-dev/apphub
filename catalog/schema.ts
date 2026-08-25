@@ -192,6 +192,32 @@ const developerSchema = z
   })
   .strict();
 
+const projectLinkTypeSchema = z.enum([
+  "bugtracker",
+  "help",
+  "contact",
+  "donation",
+  "translate",
+  "contribute",
+  "faq",
+]);
+
+const contentRatingSchema = z
+  .object({
+    scheme: z.string().min(1).max(50).optional(),
+    ratingSystem: z.string().min(1).max(50).optional(),
+    rating: z.string().min(1).max(100).optional(),
+    minimumAge: z.number().int().min(0).max(21).optional(),
+    warnings: z.array(z.string().min(1).max(500)).max(50).optional(),
+    attributes: z
+      .record(z.string().regex(/^[a-z0-9-]+$/), z.enum(["none", "mild", "moderate", "intense"]))
+      .optional(),
+  })
+  .strict()
+  .refine((rating) => Object.values(rating).some((value) => value !== undefined), {
+    message: "Content rating must not be empty",
+  });
+
 const generatedAppstreamFields = {
   id: z
     .string()
@@ -213,6 +239,8 @@ const generatedAppstreamFields = {
   developer: developerSchema,
   homepage: httpsUrlSchema,
   repository: httpsUrlSchema.optional(),
+  links: z.partialRecord(projectLinkTypeSchema, httpsUrlSchema).optional(),
+  contentRating: contentRatingSchema.optional(),
   keywords: z
     .array(z.string().min(1).max(100))
     .max(50)
