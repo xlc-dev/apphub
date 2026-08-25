@@ -1,7 +1,7 @@
 ---
 import type { ApiApp } from "@/lib/api";
 import SourceBadge from "@/components/SourceBadge.astro";
-import StarIcon from "@/components/icons/StarIcon.astro";
+import Icon from "@/components/Icon.astro";
 import CardLink from "@/components/ui/CardLink.astro";
 import { catalogSearchValue } from "@/lib/search";
 import { categoryName } from "@/lib/categories";
@@ -76,7 +76,7 @@ const categories = visibleCategories.join(", ");
             <span
               class="inline-flex shrink-0 items-center gap-1"
               aria-label={`${stars.toLocaleString("en")} repository stars`}>
-              <StarIcon class="size-3.5" />
+              <Icon name="star" class="size-3.5" />
               {stars.toLocaleString("en")}
             </span>
           )

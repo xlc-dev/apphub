@@ -1,5 +1,5 @@
 ---
-import ThemeIcon from "@/components/ThemeIcon.astro";
+import Icon from "@/components/Icon.astro";
 import type { ThemeMode } from "@/lib/theme";
 
 interface Props {
@@ -8,6 +8,11 @@ interface Props {
 
 const { id } = Astro.props;
 const modes: ThemeMode[] = ["system", "light", "dark"];
+const iconNames = {
+  system: "theme-system",
+  light: "theme-light",
+  dark: "theme-dark",
+} as const;
 ---
 
 <details class="relative" hidden data-theme-menu>
@@ -22,7 +27,7 @@ const modes: ThemeMode[] = ["system", "light", "dark"];
     {
       modes.map((mode) => (
         <span class:list={[mode !== "system" && "hidden"]} data-theme-current={mode}>
-          <ThemeIcon mode={mode} class="size-5" />
+          <Icon name={iconNames[mode]} class="block size-5" />
         </span>
       ))
     }
@@ -40,18 +45,9 @@ const modes: ThemeMode[] = ["system", "light", "dark"];
           role="menuitemradio"
           aria-checked="false"
           data-theme-option={mode}>
-          <ThemeIcon mode={mode} />
+          <Icon name={iconNames[mode]} class="size-4" />
           <span class="grow">{mode[0]!.toUpperCase() + mode.slice(1)}</span>
-          <svg
-            data-theme-check
-            aria-hidden="true"
-            viewBox="0 0 24 24"
-            class="invisible size-4"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2.5">
-            <path d="m5 12 4 4L19 6" />
-          </svg>
+          <Icon name="check" class="invisible size-4" data-theme-check />
         </button>
       ))
     }

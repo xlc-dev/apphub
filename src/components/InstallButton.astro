@@ -14,7 +14,7 @@ const artifacts = Astro.props.artifacts.map(({ architecture, sha256, url }) => (
 ---
 
 <div
-  class="relative mt-4 inline-flex flex-col items-start gap-2"
+  class="relative inline-flex flex-col items-start gap-2"
   hidden
   data-install
   data-artifacts={JSON.stringify(artifacts)}>

@@ -185,12 +185,29 @@ const descriptionBlockSchema = z.discriminatedUnion("type", [
     .strict(),
 ]);
 
-const developerSchema = z
+const developerSchema = z.object({ name: z.string().min(1).max(100) }).strict();
+
+const projectLinkTypeSchema = z.enum([
+  "bugtracker",
+  "help",
+  "contact",
+  "donation",
+  "translate",
+  "contribute",
+  "faq",
+]);
+
+const contentRatingSchema = z
   .object({
-    name: z.string().min(1).max(100),
-    url: httpsUrlSchema.optional(),
+    scheme: z.string().min(1).max(50).optional(),
+    label: z.string().min(1).max(100).optional(),
+    minimumAge: z.number().int().min(0).max(21).optional(),
+    warnings: z.array(z.string().min(1).max(500)).max(50).optional(),
   })
-  .strict();
+  .strict()
+  .refine((rating) => Object.values(rating).some((value) => value !== undefined), {
+    message: "Content rating must not be empty",
+  });
 
 const generatedAppstreamFields = {
   id: z
@@ -213,6 +230,8 @@ const generatedAppstreamFields = {
   developer: developerSchema,
   homepage: httpsUrlSchema,
   repository: httpsUrlSchema.optional(),
+  links: z.partialRecord(projectLinkTypeSchema, httpsUrlSchema).optional(),
+  contentRating: contentRatingSchema.optional(),
   keywords: z
     .array(z.string().min(1).max(100))
     .max(50)
@@ -263,6 +282,13 @@ const upstreamMediaSchema = z
   })
   .strict();
 
+const fallbackMediaSchema = z
+  .object({
+    icon: httpsUrlSchema.optional(),
+    screenshots: upstreamMediaSchema.shape.screenshots.optional(),
+  })
+  .strict();
+
 const appstreamSourceSchema = z.discriminatedUnion("type", [
   z
     .object({
@@ -282,7 +308,7 @@ const appstreamSourceSchema = z.discriminatedUnion("type", [
       type: z.literal("url"),
       id: generatedAppstreamFields.id,
       url: httpsUrlSchema,
-      media: upstreamMediaSchema,
+      media: fallbackMediaSchema.optional(),
     })
     .strict(),
 ]);

@@ -1,4 +1,6 @@
 ---
+import Icon from "@/components/Icon.astro";
+
 interface Props {
   source: "official" | "community";
 }
@@ -9,10 +11,11 @@ const official = source === "official";
 
 <span
   class:list={[
-    "inline-flex shrink-0 rounded-full border text-xs",
+    "inline-flex shrink-0 items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs",
     official
-      ? "border-[var(--primary)] bg-[var(--primary)] px-2 py-0.5 font-bold text-[var(--primary-text)]"
-      : "border-[var(--border)] px-2 py-0.5 font-medium text-[var(--muted)]",
+      ? "border-[var(--primary)] bg-[var(--primary)] font-bold text-[var(--primary-text)]"
+      : "border-[var(--border)] bg-[var(--control-bg)] font-medium text-[var(--text)]",
   ]}>
+  <Icon name={official ? "official" : "community"} class="size-3.5" />
   {official ? "Official" : "Community"}
 </span>

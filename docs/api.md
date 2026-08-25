@@ -60,9 +60,18 @@ object:
     }
   ],
   "projectLicense": "MIT",
-  "developer": { "name": "Example Developers", "url": "https://example.org/" },
+  "developer": { "name": "Example Developers" },
   "homepage": "https://example.org/",
   "repository": "https://github.com/example/app",
+  "links": {
+    "bugtracker": "https://github.com/example/app/issues",
+    "donation": "https://example.org/donate"
+  },
+  "contentRating": {
+    "label": "Everyone 10+",
+    "minimumAge": 10,
+    "warnings": ["Mild fantasy violence"]
+  },
   "addedAt": "2026-08-20",
   "keywords": ["example"],
   "categories": ["Utility"],
@@ -126,6 +135,11 @@ object:
 Optional fields are omitted when absent. Deprecated applications may include `deprecated: true` and
 `replacedBy`, which is the stable ID accepted by the application endpoint. Internal source and
 asset-matching configuration is not exposed.
+
+`links` may contain `bugtracker`, `help`, `contact`, `donation`, `translate`, `contribute`, and
+`faq`. Content ratings use one normalized representation for every source: the AppStream `scheme`
+when available, a localized `label` and `minimumAge` when the source provides them, and active
+`warnings`.
 
 Image `url` values are hosted by AppHub. Image `source` and artifact `url` values identify upstream
 publisher resources. Statistics values are `null` when AppHub has no applicable measurement; this

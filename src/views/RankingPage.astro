@@ -51,7 +51,7 @@ const basePath =
             {entries.map(({ app, downloads }, index) => (
               <AppCard
                 app={app}
-                detail={`${state.start + index + 1}. ${downloads.toLocaleString("en")} downloads`}
+                detail={`${downloads.toLocaleString("en")} downloads`}
                 priority={index < 6}
                 stars={app.statistics.stars ?? undefined}
               />

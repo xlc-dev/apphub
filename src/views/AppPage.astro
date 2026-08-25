@@ -6,8 +6,10 @@ import AppDescription from "@/components/AppDescription.astro";
 import AppDownloads from "@/components/AppDownloads.astro";
 import CategoryLinks from "@/components/CategoryLinks.astro";
 import InstallButton from "@/components/InstallButton.astro";
+import Icon from "@/components/Icon.astro";
 import ScreenshotCarousel from "@/components/ScreenshotCarousel.astro";
 import SourceBadge from "@/components/SourceBadge.astro";
+import ButtonLink from "@/components/ui/ButtonLink.astro";
 import Link from "@/components/ui/Link.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Page from "@/components/ui/Page.astro";
@@ -27,6 +29,9 @@ const [repositoryStars, downloads] = await Promise.all([
 ]);
 const stars = repositoryStars[app.slug];
 const latest = app.releases[0];
+const ageRating =
+  app.contentRating?.minimumAge !== undefined ? `${app.contentRating.minimumAge}+` : undefined;
+const donation = app.links?.donation;
 const replacement = app.replacedBy
   ? (await getApps()).find((candidate) => candidate.id === app.replacedBy)
   : undefined;
@@ -40,7 +45,7 @@ const replacement = app.replacedBy
   imageType={app.screenshots[0]!.type}
   pageType="product">
   <Page>
-    <div class="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-6">
+    <div class="flex flex-col items-start gap-5 py-2 sm:flex-row sm:items-center sm:gap-6">
       <Image
         class="size-20 rounded-2xl sm:size-24"
         src={app.icon.url}
@@ -51,15 +56,43 @@ const replacement = app.replacedBy
         fetchpriority="high"
       />
       <div class="min-w-0 break-words">
-        <div class="flex items-center gap-3">
-          <h1 class="text-3xl font-bold sm:text-4xl">{app.name}</h1>
-          <SourceBadge source={app.source} />
-        </div>
+        <h1 class="text-3xl font-bold sm:text-4xl">{app.name}</h1>
         <p class="mt-1 max-w-2xl leading-6 text-[var(--muted)]">
           {app.summary}
         </p>
-        <CategoryLinks categories={app.categories} />
-        {latest && !app.deprecated && <InstallButton artifacts={latest.artifacts} />}
+        <div class="mt-3 flex flex-wrap items-center gap-2">
+          <SourceBadge source={app.source} />
+          {
+            ageRating && (
+              <span
+                class="inline-flex items-center gap-1.5 rounded-full border border-[var(--border)] bg-[var(--control-bg)] px-2.5 py-1 text-xs font-medium text-[var(--text)]"
+                title={app.contentRating?.label}
+                aria-label={`Ages ${ageRating}${app.contentRating?.label ? `, ${app.contentRating.label}` : ""}`}>
+                <Icon name="age-rating" class="size-3.5 text-[var(--muted)]" />
+                Ages {ageRating}
+              </span>
+            )
+          }
+          <span
+            class="inline-flex items-center gap-1.5 rounded-full border border-[var(--border)] bg-[var(--control-bg)] px-2.5 py-1 text-xs font-medium text-[var(--text)]">
+            <Icon name="license" class="size-3.5 text-[var(--muted)]" />
+            {app.projectLicense}
+          </span>
+          <CategoryLinks inline prominent categories={app.categories} />
+        </div>
+        {
+          !app.deprecated && (latest || donation) && (
+            <div class="mt-5 flex flex-wrap items-start gap-2">
+              {latest && <InstallButton artifacts={latest.artifacts} />}
+              {donation && (
+                <ButtonLink class="gap-2" href={donation} variant="outline">
+                  <Icon name="donate" class="size-4" />
+                  Donate
+                </ButtonLink>
+              )}
+            </div>
+          )
+        }
       </div>
     </div>
     {

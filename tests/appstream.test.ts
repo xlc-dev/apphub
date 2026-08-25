@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { describe, test } from "node:test";
-import { parseDescription, readAppstreamXml } from "#catalog/appstream";
+import { parseDescription, readAppstreamXml, readFlathubAppstream } from "#catalog/appstream";
 
 describe("AppStream metadata", () => {
   test("preserves supported description structure", () => {
@@ -39,24 +39,39 @@ describe("AppStream metadata", () => {
   });
 
   test("reads a direct MetaInfo document", () => {
-    const metadata = readAppstreamXml(
+    const document = readAppstreamXml(
       `
           <component type="desktop-application">
             <id>org.example.App</id>
+            <metadata_license>CC0-1.0</metadata_license>
             <name>Example</name>
             <summary>Do example things</summary>
             <description><p>An example app.</p></description>
             <project_license>MIT</project_license>
-            <developer><name>Example Developers</name></developer>
+            <developer id="org.example"><name>Example Developers</name></developer>
+            <icon type="remote">https://example.org/icon.png</icon>
             <url type="homepage">https://example.org/</url>
             <url type="vcs-browser">https://example.org/source</url>
+            <url type="bugtracker">https://example.org/issues</url>
             <categories><category>Utility</category></categories>
             <keywords><keyword>example</keyword></keywords>
             <provides><mediatype>text/plain</mediatype></provides>
+            <content_rating type="oars-1.1">
+              <content_attribute id="violence-cartoon">mild</content_attribute>
+              <content_attribute id="social-chat">none</content_attribute>
+            </content_rating>
+            <screenshots>
+              <screenshot type="default">
+                <caption>Main window</caption>
+                <image type="source">https://example.org/screenshot.png</image>
+              </screenshot>
+            </screenshots>
           </component>
         `,
       "org.example.App"
     );
+
+    const { metadata } = document;
 
     assert.deepEqual(
       {
@@ -65,6 +80,8 @@ describe("AppStream metadata", () => {
         repository: metadata.repository,
         keywords: metadata.keywords,
         mimeTypes: metadata.mimeTypes,
+        links: metadata.links,
+        contentRating: metadata.contentRating,
       },
       {
         id: "org.example.App",
@@ -72,7 +89,99 @@ describe("AppStream metadata", () => {
         repository: "https://example.org/source",
         keywords: ["example"],
         mimeTypes: ["text/plain"],
+        links: { bugtracker: "https://example.org/issues" },
+        contentRating: {
+          scheme: "oars-1.1",
+          warnings: ["Violence cartoon: mild"],
+        },
       }
     );
+    assert.deepEqual(document.media, {
+      icon: "https://example.org/icon.png",
+      screenshots: [{ caption: "Main window", source: "https://example.org/screenshot.png" }],
+    });
+  });
+
+  test("rejects unsupported component types", () => {
+    assert.throws(
+      () =>
+        readAppstreamXml(
+          `
+            <component type="addon">
+              <id>org.example.Addon</id>
+            </component>
+          `,
+          "org.example.Addon"
+        ),
+      /expected desktop-application/
+    );
+  });
+
+  test("rejects collection documents", () => {
+    assert.throws(
+      () =>
+        readAppstreamXml(
+          `<components><component type="desktop-application" /></components>`,
+          "org.example.App"
+        ),
+      /provide one MetaInfo file/
+    );
+  });
+
+  test("requires a redistributable metadata license", () => {
+    assert.throws(
+      () =>
+        readAppstreamXml(
+          `
+            <component type="desktop-application">
+              <id>org.example.App</id>
+              <metadata_license>GPL-3.0-only</metadata_license>
+            </component>
+          `,
+          "org.example.App"
+        ),
+      /not suitable for redistribution/
+    );
+  });
+
+  test("reads Flathub links and content ratings", () => {
+    const metadata = readFlathubAppstream({
+      id: "org.example.App",
+      name: "Example",
+      summary: "Do example things",
+      description: "<p>An example app.</p>",
+      developer_name: "Example Developers",
+      project_license: "MIT",
+      categories: ["Utility"],
+      urls: {
+        homepage: "https://example.org/",
+        vcs_browser: "https://example.org/source",
+        bugtracker: "https://example.org/issues",
+        donation: "https://example.org/donate",
+      },
+      content_rating_details: {
+        en_US: {
+          minimumAgeText: "Teen",
+          contentRatingSystem: "ESRB",
+          minimumAge: 13,
+          categories: [
+            { id: "violence", level: "mild", description: "Mild cartoon violence" },
+            { id: "money", level: "none", description: "No ability to spend money" },
+          ],
+        },
+      },
+      icon: "https://example.org/icon.png",
+      screenshots: [],
+    });
+
+    assert.deepEqual(metadata.links, {
+      bugtracker: "https://example.org/issues",
+      donation: "https://example.org/donate",
+    });
+    assert.deepEqual(metadata.contentRating, {
+      label: "Teen",
+      minimumAge: 13,
+      warnings: ["Mild cartoon violence"],
+    });
   });
 });
