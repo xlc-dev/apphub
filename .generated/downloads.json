@@ -47,6 +47,30 @@
         "org.gnome.gitlab.YaLTeR.VideoTrimmer": 891,
         "app.drey.Warp": 741
       }
+    },
+    {
+      "date": "2026-08-26",
+      "apps": {
+        "com.belmoussaoui.Authenticator": 1838,
+        "org.gnome.Calculator": 1337,
+        "dev.geopjr.Collision": 756,
+        "org.DolphinEmu.dolphin-emu": 26365,
+        "com.github.finefindus.eyedropper": 705,
+        "com.github.neithern.g4music": 931,
+        "it.mijorus.gearlever": 2071,
+        "io.github.htop_dev.htop": 1245,
+        "org.gnome.gitlab.YaLTeR.Identity": 683,
+        "io.gitlab.adhami3310.Impression": 1175,
+        "org.librecad.librecad": 465,
+        "org.localsend.localsend_app": 412,
+        "io.github.seadve.Mousai": 702,
+        "io.gitlab.news_flash.NewsFlash": 1045,
+        "com.github.PintaProject.Pinta": 4354,
+        "com.github.flxzt.rnote": 1212,
+        "org.gnome.TextEditor": 872,
+        "org.gnome.gitlab.YaLTeR.VideoTrimmer": 902,
+        "app.drey.Warp": 748
+      }
     }
   ]
 }
