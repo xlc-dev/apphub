@@ -1,0 +1,24 @@
+{
+  "metadata": {
+    "provider": "flathub",
+    "sourceUrl": "https://flathub.org/api/v2/appstream/app.drey.Warp",
+    "providerId": "app.drey.Warp"
+  },
+  "releaseSource": {
+    "provider": "github",
+    "configuredUrl": "https://github.com/pkgforge-dev/Warp-AppImage",
+    "sourceUrl": "https://github.com/pkgforge-dev/Warp-AppImage",
+    "projectId": "1093509763",
+    "ownerId": "189202376"
+  },
+  "refresh": {
+    "metadata": {
+      "lastAttemptAt": "2026-08-26T18:39:08.177Z",
+      "lastSuccessAt": "2026-08-26T18:39:08.177Z"
+    },
+    "releases": {
+      "lastAttemptAt": "2026-08-27T18:14:56.076Z",
+      "lastSuccessAt": "2026-08-27T18:14:56.076Z"
+    }
+  }
+}

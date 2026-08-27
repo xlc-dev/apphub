@@ -1,0 +1,62 @@
+{
+  "id": "org.gnome.gitlab.YaLTeR.Identity",
+  "name": "Identity",
+  "summary": "Compare images and videos",
+  "description": [
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "value": "A program for comparing multiple versions of an image or video."
+        }
+      ]
+    }
+  ],
+  "projectLicense": "GPL-3.0-or-later",
+  "developer": {
+    "name": "Ivan Molodetskikh"
+  },
+  "homepage": "https://gitlab.gnome.org/YaLTeR/identity",
+  "repository": "https://gitlab.gnome.org/YaLTeR/identity",
+  "links": {
+    "bugtracker": "https://gitlab.gnome.org/YaLTeR/identity/issues",
+    "translate": "https://l10n.gnome.org/module/identity/"
+  },
+  "contentRating": {
+    "label": "Early Childhood",
+    "minimumAge": 3
+  },
+  "keywords": [
+    "Movie",
+    "Film",
+    "Clip"
+  ],
+  "categories": [
+    "Video",
+    "AudioVideo",
+    "Graphics",
+    "2DGraphics",
+    "Science"
+  ],
+  "translations": {
+    "nl": {
+      "name": "Identiteit",
+      "summary": "Vergelijk afbeeldingen en video’s",
+      "description": [
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "value": "Een toepassing voor het vergelijken van meerdere versies van een afbeelding of video."
+            }
+          ]
+        }
+      ],
+      "contentRating": {
+        "label": "3"
+      }
+    }
+  }
+}

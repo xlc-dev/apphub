@@ -1,0 +1,24 @@
+{
+  "metadata": {
+    "provider": "flathub",
+    "sourceUrl": "https://flathub.org/api/v2/appstream/com.github.PintaProject.Pinta",
+    "providerId": "com.github.PintaProject.Pinta"
+  },
+  "releaseSource": {
+    "provider": "github",
+    "configuredUrl": "https://github.com/pkgforge-dev/Pinta-AppImage",
+    "sourceUrl": "https://github.com/pkgforge-dev/Pinta-AppImage",
+    "projectId": "1091654192",
+    "ownerId": "189202376"
+  },
+  "refresh": {
+    "metadata": {
+      "lastAttemptAt": "2026-08-26T18:39:07.804Z",
+      "lastSuccessAt": "2026-08-26T18:39:07.804Z"
+    },
+    "releases": {
+      "lastAttemptAt": "2026-08-27T18:14:54.618Z",
+      "lastSuccessAt": "2026-08-27T18:14:54.618Z"
+    }
+  }
+}

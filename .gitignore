@@ -1,0 +1,6 @@
+dist/
+node_modules/
+.astro/
+/.generated/*.tmp-*/
+package-lock.json
+pnpm-lock.yaml

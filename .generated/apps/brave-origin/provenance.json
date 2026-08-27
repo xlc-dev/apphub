@@ -1,0 +1,23 @@
+{
+  "metadata": {
+    "provider": "manifest",
+    "providerId": "com.brave.Browser.Origin"
+  },
+  "releaseSource": {
+    "provider": "github",
+    "configuredUrl": "https://github.com/pkgforge-dev/Brave-Origin-AppImage",
+    "sourceUrl": "https://github.com/pkgforge-dev/Brave-Origin-AppImage",
+    "projectId": "1267489258",
+    "ownerId": "189202376"
+  },
+  "refresh": {
+    "metadata": {
+      "lastAttemptAt": "2026-08-27T18:26:07.085Z",
+      "lastSuccessAt": "2026-08-27T18:26:07.085Z"
+    },
+    "releases": {
+      "lastAttemptAt": "2026-08-27T18:26:49.434Z",
+      "lastSuccessAt": "2026-08-27T18:26:49.434Z"
+    }
+  }
+}

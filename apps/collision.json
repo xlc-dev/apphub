@@ -1,0 +1,26 @@
+{
+  "appstream": {
+    "type": "flathub",
+    "id": "dev.geopjr.Collision"
+  },
+  "addedAt": "2026-08-22",
+  "origin": {
+    "type": "third-party"
+  },
+  "releaseSource": {
+    "type": "github",
+    "repository": "pkgforge-dev/Collision-AppImage"
+  },
+  "sandbox": {
+    "network": "none",
+    "display": "wayland-and-x11",
+    "audio": "none",
+    "processes": "isolated",
+    "ipc": false,
+    "filesystem": [],
+    "devices": ["gpu"],
+    "portals": ["file-chooser", "settings"],
+    "sessionBus": [],
+    "systemBus": []
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "icon": {
+    "file": "3d22aac2ba369ea1629ae399337652db6b41014675697c5b94b46d90afe79143.webp",
+    "source": "https://dl.flathub.org/media/org/gnome/Calculator/d16bfbadda92316e8d9e31c97f951dc9/icons/128x128/org.gnome.Calculator.png"
+  },
+  "screenshots": [
+    {
+      "file": "369736186ae908a6fadd018e6744f561cd9cb101c2f40740711bfe070a13bb38.webp",
+      "caption": "Basic Mode",
+      "captionTranslations": {
+        "nl": "Eenvoudige modus"
+      },
+      "source": "https://dl.flathub.org/media/org/gnome/Calculator/d16bfbadda92316e8d9e31c97f951dc9/screenshots/image-1_orig.png"
+    },
+    {
+      "file": "1ea311442d32bd3b7f0519cd4334bac346dd43be6f44bbc3ad421ca6bce4e71c.webp",
+      "caption": "Advanced Mode",
+      "captionTranslations": {
+        "nl": "Geavanceerde modus"
+      },
+      "source": "https://dl.flathub.org/media/org/gnome/Calculator/d16bfbadda92316e8d9e31c97f951dc9/screenshots/image-2_orig.png"
+    },
+    {
+      "file": "f5e1a00a3aa6390542bd3f35b650752e408a0c590a2fabfd82301766a6a20de8.webp",
+      "caption": "Financial Mode",
+      "captionTranslations": {
+        "nl": "Financiële modus"
+      },
+      "source": "https://dl.flathub.org/media/org/gnome/Calculator/d16bfbadda92316e8d9e31c97f951dc9/screenshots/image-3_orig.png"
+    },
+    {
+      "file": "93b30c049bcfb1c2b38f565f88caa708c0950efa7f02c9a8c8f0ab39f047446c.webp",
+      "caption": "Programming Mode",
+      "captionTranslations": {
+        "nl": "Programmeermodus"
+      },
+      "source": "https://dl.flathub.org/media/org/gnome/Calculator/d16bfbadda92316e8d9e31c97f951dc9/screenshots/image-4_orig.png"
+    },
+    {
+      "file": "aaf76faf1a68e7a280121c0fa5d7cf8554d613710babf6d002acb4d77641ff78.webp",
+      "caption": "Keyboard Mode",
+      "captionTranslations": {
+        "nl": "Toetsenbordmodus"
+      },
+      "source": "https://dl.flathub.org/media/org/gnome/Calculator/d16bfbadda92316e8d9e31c97f951dc9/screenshots/image-5_orig.png"
+    }
+  ]
+}

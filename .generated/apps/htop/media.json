@@ -1,0 +1,13 @@
+{
+  "icon": {
+    "file": "6e5155e23770a0380eb42150a34518e24b96698ad81f37dc43f29d7c82fdf4ac.webp",
+    "source": "https://raw.githubusercontent.com/htop-dev/htop/main/htop.png"
+  },
+  "screenshots": [
+    {
+      "file": "a17ab743719786c9512eba8a6baaf8e765d7af018f135aeaba93e5c9d1356064.webp",
+      "caption": "Process list and system meters",
+      "source": "https://raw.githubusercontent.com/htop-dev/htop/main/docs/images/screenshot.png"
+    }
+  ]
+}

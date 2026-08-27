@@ -1,0 +1,23 @@
+{
+  "metadata": {
+    "provider": "manifest",
+    "providerId": "io.github.htop_dev.htop"
+  },
+  "releaseSource": {
+    "provider": "github",
+    "configuredUrl": "https://github.com/pkgforge-dev/htop-AppImage",
+    "sourceUrl": "https://github.com/pkgforge-dev/htop-AppImage",
+    "projectId": "789213175",
+    "ownerId": "189202376"
+  },
+  "refresh": {
+    "metadata": {
+      "lastAttemptAt": "2026-08-26T18:39:06.670Z",
+      "lastSuccessAt": "2026-08-26T18:39:06.670Z"
+    },
+    "releases": {
+      "lastAttemptAt": "2026-08-27T18:14:52.301Z",
+      "lastSuccessAt": "2026-08-27T18:14:52.301Z"
+    }
+  }
+}

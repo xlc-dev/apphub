@@ -1,0 +1,48 @@
+{
+  "icon": {
+    "file": "f05f73ffc3de4b864a8033a7975a0db4f99be1b39691af3d47675fd5af6b5a44.webp",
+    "source": "https://dl.flathub.org/media/com/github/flxzt.rnote/93b04722947997f1b9c5cc51f10e3ced/icons/128x128/com.github.flxzt.rnote.png"
+  },
+  "screenshots": [
+    {
+      "file": "4d4161ba64e2c735bc48112c568c5022d31befd9b6967989834f1bcda362d72d.webp",
+      "caption": "An overview",
+      "captionTranslations": {
+        "nl": "Een overzicht"
+      },
+      "source": "https://dl.flathub.org/media/com/github/flxzt.rnote/93b04722947997f1b9c5cc51f10e3ced/screenshots/image-1_orig.png"
+    },
+    {
+      "file": "8a7f397a49959f264e3c7da58eb9c36e193be1cea92aab8a554f71fc6485cda1.webp",
+      "caption": "A selection",
+      "captionTranslations": {
+        "nl": "Een selectie"
+      },
+      "source": "https://dl.flathub.org/media/com/github/flxzt.rnote/93b04722947997f1b9c5cc51f10e3ced/screenshots/image-2_orig.png"
+    },
+    {
+      "file": "27c141bcf4bdc9a14eb1ad8d2c521787347f097251abd52e5145a54aa9467046.webp",
+      "caption": "Write text with the typewriter",
+      "captionTranslations": {
+        "nl": "Schrĳf tekst met de typ­machine"
+      },
+      "source": "https://dl.flathub.org/media/com/github/flxzt.rnote/93b04722947997f1b9c5cc51f10e3ced/screenshots/image-3_orig.png"
+    },
+    {
+      "file": "2f1416e29d83478b7f48055d1263c9c5b85cf7cfe0cada1be6b0f4a2a3fd70e2.webp",
+      "caption": "Hide toolbars with the focus mode",
+      "captionTranslations": {
+        "nl": "Verberg werk­balken met de focus­modus"
+      },
+      "source": "https://dl.flathub.org/media/com/github/flxzt.rnote/93b04722947997f1b9c5cc51f10e3ced/screenshots/image-4_orig.png"
+    },
+    {
+      "file": "87c019dd9c661b3046db60e1a4829f3c86355aa8c20719f32a220738b13c3811.webp",
+      "caption": "Quickly access files through workspace",
+      "captionTranslations": {
+        "nl": "Krĳg snel toegang tot bestanden via de werk­ruimte"
+      },
+      "source": "https://dl.flathub.org/media/com/github/flxzt.rnote/93b04722947997f1b9c5cc51f10e3ced/screenshots/image-5_orig.png"
+    }
+  ]
+}

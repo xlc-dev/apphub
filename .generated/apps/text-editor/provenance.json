@@ -1,0 +1,24 @@
+{
+  "metadata": {
+    "provider": "flathub",
+    "sourceUrl": "https://flathub.org/api/v2/appstream/org.gnome.TextEditor",
+    "providerId": "org.gnome.TextEditor"
+  },
+  "releaseSource": {
+    "provider": "github",
+    "configuredUrl": "https://github.com/pkgforge-dev/Gnome-Text-Editor-AppImage",
+    "sourceUrl": "https://github.com/pkgforge-dev/Gnome-Text-Editor-AppImage",
+    "projectId": "1056494744",
+    "ownerId": "189202376"
+  },
+  "refresh": {
+    "metadata": {
+      "lastAttemptAt": "2026-08-26T18:39:08.070Z",
+      "lastSuccessAt": "2026-08-26T18:39:08.070Z"
+    },
+    "releases": {
+      "lastAttemptAt": "2026-08-27T18:14:55.377Z",
+      "lastSuccessAt": "2026-08-27T18:14:55.377Z"
+    }
+  }
+}

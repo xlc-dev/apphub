@@ -1,0 +1,24 @@
+{
+  "metadata": {
+    "provider": "flathub",
+    "sourceUrl": "https://flathub.org/api/v2/appstream/io.gitlab.adhami3310.Impression",
+    "providerId": "io.gitlab.adhami3310.Impression"
+  },
+  "releaseSource": {
+    "provider": "github",
+    "configuredUrl": "https://github.com/pkgforge-dev/Impression-AppImage",
+    "sourceUrl": "https://github.com/pkgforge-dev/Impression-AppImage",
+    "projectId": "1093114533",
+    "ownerId": "189202376"
+  },
+  "refresh": {
+    "metadata": {
+      "lastAttemptAt": "2026-08-26T18:39:07.321Z",
+      "lastSuccessAt": "2026-08-26T18:39:07.321Z"
+    },
+    "releases": {
+      "lastAttemptAt": "2026-08-27T18:14:53.152Z",
+      "lastSuccessAt": "2026-08-27T18:14:53.152Z"
+    }
+  }
+}

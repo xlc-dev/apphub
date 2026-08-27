@@ -1,0 +1,13 @@
+{
+  "icon": {
+    "file": "4cb4c53ebb207a665e21747bfd98f43f8702d0b62854d18c2f7a2cac5ee04c84.webp",
+    "source": "https://dl.flathub.org/media/com/github/PintaProject.Pinta/6036b596f8f5a6ce7c2dc8a7d9c0565f/icons/128x128/com.github.PintaProject.Pinta.png"
+  },
+  "screenshots": [
+    {
+      "file": "86bb91e59795c2bf50a08c35912b86ee1a29878a6a4be0ab9dbb0fa0d06d4cdd.webp",
+      "caption": "Main window",
+      "source": "https://dl.flathub.org/media/com/github/PintaProject.Pinta/6036b596f8f5a6ce7c2dc8a7d9c0565f/screenshots/image-1_orig.png"
+    }
+  ]
+}

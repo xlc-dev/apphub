@@ -1,0 +1,44 @@
+{
+  "id": "it.mijorus.gearlever",
+  "name": "Gear Lever",
+  "summary": "Manage AppImages",
+  "description": [
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "value": "An utility to manage AppImages with ease! Gear lever will organize and manage AppImage files for you, generate desktop entries and app metadata, update apps in-place or keep multiple versions side-by-side."
+        }
+      ]
+    }
+  ],
+  "projectLicense": "GPL-3.0-or-later",
+  "developer": {
+    "name": "Lorenzo Paderi"
+  },
+  "homepage": "https://gearlever.mijorus.it",
+  "repository": "https://github.com/mijorus/gearlever",
+  "links": {
+    "bugtracker": "https://github.com/mijorus/gearlever/issues",
+    "donation": "https://ko-fi.com/mijorus"
+  },
+  "contentRating": {
+    "label": "Early Childhood",
+    "minimumAge": 3
+  },
+  "keywords": [
+    "AppImage"
+  ],
+  "categories": [
+    "Utility"
+  ],
+  "translations": {
+    "nl": {
+      "name": "Versnellingspook",
+      "contentRating": {
+        "label": "3"
+      }
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "icon": {
+    "file": "050ed2b3b0d87a3188ac32eded00df50eac68e36cab23f4437427148d393d465.webp",
+    "source": "https://dl.flathub.org/media/org/localsend/localsend_app/e1bb6e9a29b498c0a48de1a5683c652a/icons/128x128/org.localsend.localsend_app.png"
+  },
+  "screenshots": [
+    {
+      "file": "15430bd4d2f74f562fcf305a9c9dbae11a99de1b98e3b7b35c541a7a4956de37.webp",
+      "caption": "Receiving interface",
+      "source": "https://dl.flathub.org/media/org/localsend/localsend_app/e1bb6e9a29b498c0a48de1a5683c652a/screenshots/image-1_orig.png"
+    },
+    {
+      "file": "39e440ac1a06d7287a868902814c8fefd76443163dc4b1e41182f456a2c17133.webp",
+      "caption": "Sending interface",
+      "source": "https://dl.flathub.org/media/org/localsend/localsend_app/e1bb6e9a29b498c0a48de1a5683c652a/screenshots/image-2_orig.png"
+    },
+    {
+      "file": "e5f3093fa9edf23be9f2810b4fdbb47a6219d28dcfd8b1d7e06859087c2fe305.webp",
+      "caption": "Settings interface",
+      "source": "https://dl.flathub.org/media/org/localsend/localsend_app/e1bb6e9a29b498c0a48de1a5683c652a/screenshots/image-3_orig.png"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "appstream": {
+    "type": "flathub",
+    "id": "com.github.flxzt.rnote"
+  },
+  "addedAt": "2026-08-20",
+  "origin": {
+    "type": "third-party"
+  },
+  "releaseSource": {
+    "type": "github",
+    "repository": "pkgforge-dev/Rnote-AppImage"
+  },
+  "sandbox": {
+    "network": "none",
+    "display": "wayland-and-x11",
+    "audio": "none",
+    "processes": "isolated",
+    "ipc": false,
+    "filesystem": [],
+    "devices": ["gpu", "input"],
+    "portals": ["file-chooser", "open-uri", "printing"],
+    "sessionBus": [],
+    "systemBus": []
+  }
+}

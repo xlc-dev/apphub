@@ -1,0 +1,26 @@
+{
+  "appstream": {
+    "type": "flathub",
+    "id": "io.github.seadve.Mousai"
+  },
+  "addedAt": "2026-08-22",
+  "origin": {
+    "type": "third-party"
+  },
+  "releaseSource": {
+    "type": "github",
+    "repository": "pkgforge-dev/Mousai-AppImage"
+  },
+  "sandbox": {
+    "network": "client",
+    "display": "wayland-and-x11",
+    "audio": "capture",
+    "processes": "isolated",
+    "ipc": false,
+    "filesystem": [],
+    "devices": ["gpu"],
+    "portals": ["notifications", "open-uri", "settings"],
+    "sessionBus": [],
+    "systemBus": []
+  }
+}

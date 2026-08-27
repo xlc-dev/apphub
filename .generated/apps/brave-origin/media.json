@@ -1,0 +1,29 @@
+{
+  "icon": {
+    "file": "df8fd414aaa34a241758ef8f479cd58530b27b968fa0e86d0c3994b6bb6a4a2c.webp",
+    "validator": {
+      "etag": "\"29d2b0c499138f2205ad2a2b858f905baffc4446ce245f8554049a445bf619b6\""
+    },
+    "source": "https://raw.githubusercontent.com/brave/brave-core/refs/heads/master/app/theme/brave_origin/linux/product_logo_128.png"
+  },
+  "screenshots": [
+    {
+      "file": "13162270b176f3bd8f3ea560c7ce210779aba208eae436852a664264bc195d45.webp",
+      "caption": "Welcome screen",
+      "source": "https://github.com/user-attachments/assets/e40de7aa-8605-4a81-9487-582f13f77f0c",
+      "validator": {
+        "etag": "\"60d4c582dc1fd6c4db1592946413148f\"",
+        "lastModified": "Wed, 26 Aug 2026 09:56:56 GMT"
+      }
+    },
+    {
+      "file": "8e189aca639e0807188c8a5abaa78c00faf865b26c40135e04de86d0c3c8d076.webp",
+      "caption": "New tab page",
+      "source": "https://github.com/user-attachments/assets/2e291e68-782d-4eeb-878e-a72f42b57867",
+      "validator": {
+        "etag": "\"cd512d86fee56c4eab7b0de8d1ab2328\"",
+        "lastModified": "Wed, 26 Aug 2026 09:56:59 GMT"
+      }
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "icon": {
+    "file": "2cec6d4a517070001f2191de26fa8c15c252a03bda3c6f3f805b7b31c2187df7.webp",
+    "source": "https://dl.flathub.org/media/org/gnome/gitlab.YaLTeR.Identity/4ba862e25a993efcf2ef39d5498b0251/icons/128x128/org.gnome.gitlab.YaLTeR.Identity.png"
+  },
+  "screenshots": [
+    {
+      "file": "245fbb392760117a009ea0fdc3d3e1aabe17c4c8c84a717a27a0e2cf15637295.webp",
+      "caption": "You can arrange videos in a row",
+      "captionTranslations": {
+        "nl": "U kunt video’s ordenen in een rij"
+      },
+      "source": "https://dl.flathub.org/media/org/gnome/gitlab.YaLTeR.Identity/4ba862e25a993efcf2ef39d5498b0251/screenshots/image-1_orig.png"
+    },
+    {
+      "file": "a2737ba32dcab6999d2f77ab00c68142293eadfc42e279a6aa4b1ebc581a989a.webp",
+      "caption": "You can arrange images in a column",
+      "captionTranslations": {
+        "nl": "U kunt afbeeldingen ordenen in een kolom"
+      },
+      "source": "https://dl.flathub.org/media/org/gnome/gitlab.YaLTeR.Identity/4ba862e25a993efcf2ef39d5498b0251/screenshots/image-2_orig.png"
+    },
+    {
+      "file": "9c6eadaeec3d7d0cdff4e17c640338592988d2e054c5b0ae7cbd3747bb772432.webp",
+      "caption": "You can open files as tabs",
+      "captionTranslations": {
+        "nl": "U kunt bestanden openen als tabbladen"
+      },
+      "source": "https://dl.flathub.org/media/org/gnome/gitlab.YaLTeR.Identity/4ba862e25a993efcf2ef39d5498b0251/screenshots/image-3_orig.png"
+    },
+    {
+      "file": "5bac0ab8f0f1907bc0e8e8a7194e386005b67cde70038ad69ec71ccf6a575d59.webp",
+      "caption": "Inspect a few properties of a video in a dialog",
+      "captionTranslations": {
+        "nl": "Inspecteer enkele eigenschappen van een video in een dialoogvenster"
+      },
+      "source": "https://dl.flathub.org/media/org/gnome/gitlab.YaLTeR.Identity/4ba862e25a993efcf2ef39d5498b0251/screenshots/image-4_orig.png"
+    }
+  ]
+}

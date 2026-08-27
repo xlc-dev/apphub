@@ -1,0 +1,16 @@
+{
+  "icon": {
+    "file": "7100f2f653671175496475507de12a5861ae7bd0ead0c145c49b616565b127be.webp",
+    "source": "https://dl.flathub.org/media/org/gnome/gitlab.YaLTeR.VideoTrimmer/45d748bc1bb2fe824c27b28e05b4c01c/icons/128x128/org.gnome.gitlab.YaLTeR.VideoTrimmer.png"
+  },
+  "screenshots": [
+    {
+      "file": "8f1299180506eeae063fee048c0f6b2df4c1071079ac6a157614275b43dd81a0.webp",
+      "caption": "Main Window",
+      "captionTranslations": {
+        "nl": "Hoofdvenster"
+      },
+      "source": "https://dl.flathub.org/media/org/gnome/gitlab.YaLTeR.VideoTrimmer/45d748bc1bb2fe824c27b28e05b4c01c/screenshots/image-1_orig.png"
+    }
+  ]
+}

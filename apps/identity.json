@@ -1,0 +1,26 @@
+{
+  "appstream": {
+    "type": "flathub",
+    "id": "org.gnome.gitlab.YaLTeR.Identity"
+  },
+  "addedAt": "2026-08-22",
+  "origin": {
+    "type": "third-party"
+  },
+  "releaseSource": {
+    "type": "github",
+    "repository": "pkgforge-dev/Identity-AppImage"
+  },
+  "sandbox": {
+    "network": "none",
+    "display": "wayland-and-x11",
+    "audio": "playback",
+    "processes": "isolated",
+    "ipc": false,
+    "filesystem": [],
+    "devices": ["gpu"],
+    "portals": ["file-chooser", "open-uri", "settings"],
+    "sessionBus": [],
+    "systemBus": []
+  }
+}

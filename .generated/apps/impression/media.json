@@ -1,0 +1,40 @@
+{
+  "icon": {
+    "file": "0122131eaa46630ff9655d108801513e058370be5e566eebc7cd1f9ad6d24fca.webp",
+    "source": "https://dl.flathub.org/media/io/gitlab/adhami3310.Impression/05aa7f73a71b0cec60d9ba432376066d/icons/128x128/io.gitlab.adhami3310.Impression.png"
+  },
+  "screenshots": [
+    {
+      "file": "7c9acb5dd56ea10428d9d2c8020ce125f11591ebe916ad99925927f06ee25c0f.webp",
+      "caption": "Screen with a choice of a local image or internet download",
+      "captionTranslations": {
+        "nl": "Scherm met keuze uit lokale schijfkopie of download"
+      },
+      "source": "https://dl.flathub.org/media/io/gitlab/adhami3310.Impression/05aa7f73a71b0cec60d9ba432376066d/screenshots/image-1_orig.png"
+    },
+    {
+      "file": "66cb0d72d12f6fe4a047e79f5da191c345e0566dc2e27ac2ff4e363ab79ffa25.webp",
+      "caption": "Screen with a chosen ISO and available USB memories",
+      "captionTranslations": {
+        "nl": "Scherm met gekozen iso-bestand en beschikbare schijven"
+      },
+      "source": "https://dl.flathub.org/media/io/gitlab/adhami3310.Impression/05aa7f73a71b0cec60d9ba432376066d/screenshots/image-2_orig.png"
+    },
+    {
+      "file": "c20b76e9fba96679de5937a86bf515b640d01e81b47835410b77281206cb1fc9.webp",
+      "caption": "Writing the ISO in progress",
+      "captionTranslations": {
+        "nl": "Scherm met voortgangsstatus"
+      },
+      "source": "https://dl.flathub.org/media/io/gitlab/adhami3310.Impression/05aa7f73a71b0cec60d9ba432376066d/screenshots/image-3_orig.png"
+    },
+    {
+      "file": "4fef48a551de7cd92ae6b5fa8c1b3f384611aecb904f4810865c7d551ada189d.webp",
+      "caption": "Success screen with a big check mark",
+      "captionTranslations": {
+        "nl": "Afrondingsscherm met groot vinkje"
+      },
+      "source": "https://dl.flathub.org/media/io/gitlab/adhami3310.Impression/05aa7f73a71b0cec60d9ba432376066d/screenshots/image-4_orig.png"
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "appstream": {
+    "type": "flathub",
+    "id": "io.gitlab.adhami3310.Impression"
+  },
+  "addedAt": "2026-08-22",
+  "origin": {
+    "type": "third-party"
+  },
+  "releaseSource": {
+    "type": "github",
+    "repository": "pkgforge-dev/Impression-AppImage"
+  },
+  "sandbox": {
+    "network": "client",
+    "display": "wayland-and-x11",
+    "audio": "none",
+    "processes": "isolated",
+    "ipc": false,
+    "filesystem": [
+      {
+        "location": "downloads",
+        "access": "read-only"
+      },
+      {
+        "location": "removable-media",
+        "access": "read-write"
+      }
+    ],
+    "devices": ["gpu", "usb"],
+    "portals": ["file-chooser", "notifications", "settings"],
+    "sessionBus": [],
+    "systemBus": [
+      {
+        "name": "org.freedesktop.UDisks2",
+        "access": "talk"
+      }
+    ]
+  }
+}

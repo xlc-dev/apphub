@@ -1,0 +1,26 @@
+{
+  "appstream": {
+    "type": "flathub",
+    "id": "org.gnome.Calculator"
+  },
+  "addedAt": "2026-08-22",
+  "origin": {
+    "type": "third-party"
+  },
+  "releaseSource": {
+    "type": "github",
+    "repository": "pkgforge-dev/Gnome-Calculator-AppImage"
+  },
+  "sandbox": {
+    "network": "client",
+    "display": "wayland-and-x11",
+    "audio": "none",
+    "processes": "isolated",
+    "ipc": false,
+    "filesystem": [],
+    "devices": ["gpu"],
+    "portals": ["settings"],
+    "sessionBus": [],
+    "systemBus": []
+  }
+}

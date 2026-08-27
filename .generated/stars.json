@@ -1,0 +1,66 @@
+{
+  "values": {
+    "brave-origin": 23446,
+    "collision": 7,
+    "dolphin-emulator": 15446,
+    "eyedropper": 328,
+    "gear-lever": 2137,
+    "htop": 8287,
+    "impression": 57,
+    "librecad": 6286,
+    "localsend": 89512,
+    "mousai": 1217,
+    "newsflash": 585,
+    "rnote": 11590
+  },
+  "refresh": {
+    "brave-origin": {
+      "lastAttemptAt": "2026-08-27T18:27:25.460Z",
+      "lastSuccessAt": "2026-08-27T18:27:25.460Z"
+    },
+    "collision": {
+      "lastAttemptAt": "2026-08-27T18:15:12.716Z",
+      "lastSuccessAt": "2026-08-27T18:15:12.716Z"
+    },
+    "dolphin-emulator": {
+      "lastAttemptAt": "2026-08-27T18:15:13.179Z",
+      "lastSuccessAt": "2026-08-27T18:15:13.179Z"
+    },
+    "eyedropper": {
+      "lastAttemptAt": "2026-08-27T18:15:12.954Z",
+      "lastSuccessAt": "2026-08-27T18:15:12.954Z"
+    },
+    "gear-lever": {
+      "lastAttemptAt": "2026-08-27T18:15:13.144Z",
+      "lastSuccessAt": "2026-08-27T18:15:13.144Z"
+    },
+    "htop": {
+      "lastAttemptAt": "2026-08-27T18:15:13.506Z",
+      "lastSuccessAt": "2026-08-27T18:15:13.506Z"
+    },
+    "impression": {
+      "lastAttemptAt": "2026-08-27T18:15:13.503Z",
+      "lastSuccessAt": "2026-08-27T18:15:13.503Z"
+    },
+    "librecad": {
+      "lastAttemptAt": "2026-08-27T18:15:13.508Z",
+      "lastSuccessAt": "2026-08-27T18:15:13.508Z"
+    },
+    "localsend": {
+      "lastAttemptAt": "2026-08-27T18:15:13.728Z",
+      "lastSuccessAt": "2026-08-27T18:15:13.728Z"
+    },
+    "mousai": {
+      "lastAttemptAt": "2026-08-27T18:15:13.740Z",
+      "lastSuccessAt": "2026-08-27T18:15:13.740Z"
+    },
+    "newsflash": {
+      "lastAttemptAt": "2026-08-27T18:15:13.729Z",
+      "lastSuccessAt": "2026-08-27T18:15:13.729Z"
+    },
+    "rnote": {
+      "lastAttemptAt": "2026-08-27T18:15:13.963Z",
+      "lastSuccessAt": "2026-08-27T18:15:13.963Z"
+    }
+  }
+}

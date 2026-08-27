@@ -1,0 +1,242 @@
+{
+  "id": "com.github.neithern.g4music",
+  "name": "Gapless",
+  "summary": "Play your music elegantly",
+  "description": [
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "value": "Gapless (AKA: G4Music) is a light weight music player written in GTK4, focuses on large music collection."
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "value": "Features"
+        }
+      ]
+    },
+    {
+      "type": "unordered-list",
+      "items": [
+        [
+          {
+            "type": "text",
+            "value": "Supports most music file types, Samba and any other remote protocols (depends on GIO and GStreamer)."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "value": "Fast loading and parsing thousands of music files in very few seconds, monitor local changes."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "value": "Low memory usage for large music collection with album covers (embedded and external), no thumbnail caches to store."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "value": "Group and sorts by album/artist/title, shuffle list, full-text searching."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "value": "Fluent adaptive user interface for different screen (Desktop, Tablet, Mobile)."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "value": "Gaussian blurred cover as background, follows GNOME light/dark mode."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "value": "Supports creating and editing playlists, drag cover to change order or add to another playlist."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "value": "Supports drag and drop with other apps."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "value": "Supports audio peaks visualizer."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "value": "Supports gapless playback."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "value": "Supports normalizing volume with ReplayGain."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "value": "Supports specified audio sink."
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "value": "Supports MPRIS control."
+          }
+        ]
+      ]
+    }
+  ],
+  "projectLicense": "GPL-3.0-or-later",
+  "developer": {
+    "name": "Nanling"
+  },
+  "homepage": "https://gitlab.gnome.org/neithern/g4music",
+  "links": {
+    "bugtracker": "https://gitlab.gnome.org/neithern/g4music/issues",
+    "translate": "https://l10n.gnome.org/module/g4music"
+  },
+  "contentRating": {
+    "label": "Early Childhood",
+    "minimumAge": 3
+  },
+  "keywords": [
+    "music",
+    "sound",
+    "player"
+  ],
+  "categories": [
+    "Music",
+    "Audio",
+    "AudioVideo"
+  ],
+  "translations": {
+    "nl": {
+      "summary": "Speel uw muziek op elegante wijze af",
+      "description": [
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "value": "Gapless (AKA: G4Music) is een lichte muziekspeler, gemaakt in GTK4, gericht op grote muziekverzamelingen."
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "value": "Functies"
+            }
+          ]
+        },
+        {
+          "type": "unordered-list",
+          "items": [
+            [
+              {
+                "type": "text",
+                "value": "Ondersteunt de meeste muziekbestandstypes, Samba en andere netwerkprotocollen (afhankelijk van GIO en GStreamer)."
+              }
+            ],
+            [
+              {
+                "type": "text",
+                "value": "Laadt snel en kan duizenden muziekbestanden verwerken in luttele seconden, controleert op lokale wijzigingen."
+              }
+            ],
+            [
+              {
+                "type": "text",
+                "value": "Heeft een laag geheugengebruik voor grote muziekverzamelingen met albumhoezen (ingebed en extern), zonder miniatuurcaches bij te houden."
+              }
+            ],
+            [
+              {
+                "type": "text",
+                "value": "Kan groeperen en sorteren op album/artiest/titel, willekeurig afspelen en zoeken in de volledige tekst."
+              }
+            ],
+            [
+              {
+                "type": "text",
+                "value": "Heeft een vlotte, adaptieve gebruikersinterface voor verschillende schermgroottes (desktop, tablet, mobiel)."
+              }
+            ],
+            [
+              {
+                "type": "text",
+                "value": "Heeft een gaussiaans vervaagde hoes als achtergrond, volgt de lichte/donkere modus van GNOME."
+              }
+            ],
+            [
+              {
+                "type": "text",
+                "value": "Ondersteunt het aanmaken en bewerken van afspeellijsten, versleep de hoes om de volgorde te wijzigen of aan een andere afspeellijst toe te voegen."
+              }
+            ],
+            [
+              {
+                "type": "text",
+                "value": "Ondersteunt inslepen uit andere toepassingen."
+              }
+            ],
+            [
+              {
+                "type": "text",
+                "value": "Ondersteunt visualisatie van het piekvolume."
+              }
+            ],
+            [
+              {
+                "type": "text",
+                "value": "Ondersteunt ononderbroken afspelen."
+              }
+            ],
+            [
+              {
+                "type": "text",
+                "value": "Ondersteunt ReplayGain om het volume te normaliseren."
+              }
+            ],
+            [
+              {
+                "type": "text",
+                "value": "Ondersteunt de opgegeven audiosink."
+              }
+            ],
+            [
+              {
+                "type": "text",
+                "value": "Ondersteunt MPRIS-besturing."
+              }
+            ]
+          ]
+        }
+      ],
+      "contentRating": {
+        "label": "3"
+      }
+    }
+  }
+}

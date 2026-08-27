@@ -1,0 +1,24 @@
+{
+  "metadata": {
+    "provider": "flathub",
+    "sourceUrl": "https://flathub.org/api/v2/appstream/io.gitlab.news_flash.NewsFlash",
+    "providerId": "io.gitlab.news_flash.NewsFlash"
+  },
+  "releaseSource": {
+    "provider": "github",
+    "configuredUrl": "https://github.com/pkgforge-dev/NewsFlash-AppImage",
+    "sourceUrl": "https://github.com/pkgforge-dev/NewsFlash-AppImage",
+    "projectId": "1092768912",
+    "ownerId": "189202376"
+  },
+  "refresh": {
+    "metadata": {
+      "lastAttemptAt": "2026-08-26T18:39:07.619Z",
+      "lastSuccessAt": "2026-08-26T18:39:07.619Z"
+    },
+    "releases": {
+      "lastAttemptAt": "2026-08-27T18:14:54.351Z",
+      "lastSuccessAt": "2026-08-27T18:14:54.351Z"
+    }
+  }
+}

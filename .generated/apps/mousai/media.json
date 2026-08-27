@@ -1,0 +1,28 @@
+{
+  "icon": {
+    "file": "25052ccf8dcfcba79ae9cd779c4c971a51375d1822a188f71775b8dd7a318e56.webp",
+    "source": "https://dl.flathub.org/media/io/github/seadve.Mousai/e1e69a271c7db203e5c68d5e802a68e1/icons/128x128/io.github.seadve.Mousai.png"
+  },
+  "screenshots": [
+    {
+      "file": "e53c40f12c963f3853d3eaf25aa147364848b33c5c9da8d315a952f15b5b3f1e.webp",
+      "caption": "Mousai Home Page",
+      "source": "https://dl.flathub.org/media/io/github/seadve.Mousai/e1e69a271c7db203e5c68d5e802a68e1/screenshots/image-1_orig.png"
+    },
+    {
+      "file": "33a8c9b92486d9975457155a38cf0d2cf9e3a620a5eac30d86b7ff1b26aef244.webp",
+      "caption": "Detailed view of identified song",
+      "source": "https://dl.flathub.org/media/io/github/seadve.Mousai/e1e69a271c7db203e5c68d5e802a68e1/screenshots/image-2_orig.png"
+    },
+    {
+      "file": "b0cd67bbba73ed2c645af8e3f90f8df38f9fd310467598eda460e2234bb620b8.webp",
+      "caption": "Listening mode detecting the song",
+      "source": "https://dl.flathub.org/media/io/github/seadve.Mousai/e1e69a271c7db203e5c68d5e802a68e1/screenshots/image-3_orig.png"
+    },
+    {
+      "file": "98984d86e8bbf3ce40b6b57d0c789782bef888c407ff1c80fbc663c17b9789a7.webp",
+      "caption": "Recognized songs",
+      "source": "https://dl.flathub.org/media/io/github/seadve.Mousai/e1e69a271c7db203e5c68d5e802a68e1/screenshots/image-4_orig.png"
+    }
+  ]
+}

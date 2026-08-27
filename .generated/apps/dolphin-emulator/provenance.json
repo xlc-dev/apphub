@@ -1,0 +1,24 @@
+{
+  "metadata": {
+    "provider": "flathub",
+    "sourceUrl": "https://flathub.org/api/v2/appstream/org.DolphinEmu.dolphin-emu",
+    "providerId": "org.DolphinEmu.dolphin-emu"
+  },
+  "releaseSource": {
+    "provider": "github",
+    "configuredUrl": "https://github.com/pkgforge-dev/Dolphin-emu-AppImage",
+    "sourceUrl": "https://github.com/pkgforge-dev/Dolphin-emu-AppImage",
+    "projectId": "707886912",
+    "ownerId": "189202376"
+  },
+  "refresh": {
+    "metadata": {
+      "lastAttemptAt": "2026-08-26T18:39:06.142Z",
+      "lastSuccessAt": "2026-08-26T18:39:06.142Z"
+    },
+    "releases": {
+      "lastAttemptAt": "2026-08-27T18:14:52.379Z",
+      "lastSuccessAt": "2026-08-27T18:14:52.379Z"
+    }
+  }
+}

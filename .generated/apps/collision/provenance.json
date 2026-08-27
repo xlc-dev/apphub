@@ -1,0 +1,24 @@
+{
+  "metadata": {
+    "provider": "flathub",
+    "sourceUrl": "https://flathub.org/api/v2/appstream/dev.geopjr.Collision",
+    "providerId": "dev.geopjr.Collision"
+  },
+  "releaseSource": {
+    "provider": "github",
+    "configuredUrl": "https://github.com/pkgforge-dev/Collision-AppImage",
+    "sourceUrl": "https://github.com/pkgforge-dev/Collision-AppImage",
+    "projectId": "1094972250",
+    "ownerId": "189202376"
+  },
+  "refresh": {
+    "metadata": {
+      "lastAttemptAt": "2026-08-26T18:39:05.992Z",
+      "lastSuccessAt": "2026-08-26T18:39:05.992Z"
+    },
+    "releases": {
+      "lastAttemptAt": "2026-08-27T18:14:50.557Z",
+      "lastSuccessAt": "2026-08-27T18:14:50.557Z"
+    }
+  }
+}

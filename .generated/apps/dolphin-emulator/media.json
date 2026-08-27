@@ -1,0 +1,28 @@
+{
+  "icon": {
+    "file": "48af4c7f73029f61e02295de65b58040a78ba907315e7fe74dad27ae2420626e.webp",
+    "source": "https://dl.flathub.org/media/org/dolphinemu/dolphin-emu/04b084eb314d529332a126349ab1791c/icons/128x128/org.DolphinEmu.dolphin-emu.png"
+  },
+  "screenshots": [
+    {
+      "file": "ac7a3b7c4fb55c9aa5b052ec078609ce1af41abed31e65311790afeec162af60.webp",
+      "caption": "Dolpin's main window",
+      "source": "https://dl.flathub.org/media/org/dolphinemu/dolphin-emu/04b084eb314d529332a126349ab1791c/screenshots/image-1_orig.png"
+    },
+    {
+      "file": "4d41cd233c706852c2204f1e75ebfec4c9ea65f8e7d2c134408e70b942cf969f.webp",
+      "caption": "In-game",
+      "source": "https://dl.flathub.org/media/org/dolphinemu/dolphin-emu/04b084eb314d529332a126349ab1791c/screenshots/image-2_orig.png"
+    },
+    {
+      "file": "d04778ac8a51cd8023542cb99b4faf38df1ab9700573883e643b3059655d804c.webp",
+      "caption": "Grapics configuration",
+      "source": "https://dl.flathub.org/media/org/dolphinemu/dolphin-emu/04b084eb314d529332a126349ab1791c/screenshots/image-3_orig.png"
+    },
+    {
+      "file": "aa5e702ed2c34ab87de145862b8161f8d3a5cef58ae291698eee41c678b23264.webp",
+      "caption": "Controller configuration",
+      "source": "https://dl.flathub.org/media/org/dolphinemu/dolphin-emu/04b084eb314d529332a126349ab1791c/screenshots/image-4_orig.png"
+    }
+  ]
+}

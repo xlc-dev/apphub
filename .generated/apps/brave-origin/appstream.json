@@ -1,0 +1,32 @@
+{
+  "id": "com.brave.Browser.Origin",
+  "name": "Brave Origin",
+  "summary": "Privacy-focused web browser with non-essential features removed",
+  "description": [
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "value": "Brave Origin is a privacy-focused variant of Brave Browser. Its dedicated builds remove non-essential features and keep the browser focused on privacy and security."
+        }
+      ]
+    }
+  ],
+  "projectLicense": "MPL-2.0",
+  "developer": {
+    "name": "Brave Software"
+  },
+  "homepage": "https://brave.com/",
+  "repository": "https://github.com/brave/brave-browser",
+  "keywords": [
+    "browser",
+    "web",
+    "internet",
+    "privacy"
+  ],
+  "categories": [
+    "Network",
+    "WebBrowser"
+  ]
+}

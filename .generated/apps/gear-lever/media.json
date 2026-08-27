@@ -1,0 +1,23 @@
+{
+  "icon": {
+    "file": "c1148cee5017ca1dcdf2df6cfa1d794858ea87fca45f4219759ce1d13237a25b.webp",
+    "source": "https://dl.flathub.org/media/it/mijorus/gearlever/b62a60074be3bc956df4f9ab3e5bdadd/icons/128x128/it.mijorus.gearlever.png"
+  },
+  "screenshots": [
+    {
+      "file": "219caeeb1d757310eca7c350a244dc2c9a06c1cf069e3a65451de72a999694c9.webp",
+      "caption": "Application showcase",
+      "source": "https://dl.flathub.org/media/it/mijorus/gearlever/b62a60074be3bc956df4f9ab3e5bdadd/screenshots/image-1_orig.png"
+    },
+    {
+      "file": "2216e7defe8658845f7d4cd320eec411eda83c1979493b96e1e6431a54ebf848.webp",
+      "caption": "Application showcase",
+      "source": "https://dl.flathub.org/media/it/mijorus/gearlever/b62a60074be3bc956df4f9ab3e5bdadd/screenshots/image-2_orig.png"
+    },
+    {
+      "file": "69f17d3c2e5ac653ee25f5cf47783b62966c4f0257390f9e7fb12cb0ce36d0ea.webp",
+      "caption": "Application showcase",
+      "source": "https://dl.flathub.org/media/it/mijorus/gearlever/b62a60074be3bc956df4f9ab3e5bdadd/screenshots/image-3_orig.png"
+    }
+  ]
+}

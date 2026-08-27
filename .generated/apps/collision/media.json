@@ -1,0 +1,28 @@
+{
+  "icon": {
+    "file": "73d87512472d1c974086e1b8eae26d9d72e6163cddeb8f1a6a3cd15703e7f0ee.webp",
+    "source": "https://dl.flathub.org/media/dev/geopjr/Collision/5b0d8fea872d336b2510c1f29bd0fcb9/icons/128x128/dev.geopjr.Collision.png"
+  },
+  "screenshots": [
+    {
+      "file": "ce58ea8297a5fcfc73c2c398977f890d83a40d65c13b35e6ef27935f96efe543.webp",
+      "caption": "Collision screenshot",
+      "source": "https://dl.flathub.org/media/dev/geopjr/Collision/5b0d8fea872d336b2510c1f29bd0fcb9/screenshots/image-1_orig.png"
+    },
+    {
+      "file": "5fa39cb952dd9d4d9413c2df310143021f77722fd28f19b16829e898ae29e723.webp",
+      "caption": "Collision screenshot",
+      "source": "https://dl.flathub.org/media/dev/geopjr/Collision/5b0d8fea872d336b2510c1f29bd0fcb9/screenshots/image-2_orig.png"
+    },
+    {
+      "file": "5d8097f862d42c74b1ad444b4393bb00070f1373c758d87dc711efae8ee095bc.webp",
+      "caption": "Collision screenshot",
+      "source": "https://dl.flathub.org/media/dev/geopjr/Collision/5b0d8fea872d336b2510c1f29bd0fcb9/screenshots/image-3_orig.png"
+    },
+    {
+      "file": "1d35cd50751fcf3ed4502868e149a073c2f2fd96fd41ff16578a0820ab2b889e.webp",
+      "caption": "Collision screenshot",
+      "source": "https://dl.flathub.org/media/dev/geopjr/Collision/5b0d8fea872d336b2510c1f29bd0fcb9/screenshots/image-4_orig.png"
+    }
+  ]
+}

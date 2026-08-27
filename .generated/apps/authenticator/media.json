@@ -1,0 +1,48 @@
+{
+  "icon": {
+    "file": "8e9e99f439fee26f83907eb6dc2abc058d866292ca3496f8be145bb2a356d74d.webp",
+    "source": "https://dl.flathub.org/media/com/belmoussaoui/Authenticator/cbb66aa59a1a410b7b890236a347dcf2/icons/128x128/com.belmoussaoui.Authenticator.png"
+  },
+  "screenshots": [
+    {
+      "file": "ced0570ea54499be7986737ca01dc5092daa6dc3835977831ae33a2058514b9e.webp",
+      "caption": "Main Window",
+      "captionTranslations": {
+        "nl": "Hoofdvenster"
+      },
+      "source": "https://dl.flathub.org/media/com/belmoussaoui/Authenticator/cbb66aa59a1a410b7b890236a347dcf2/screenshots/image-1_orig.png"
+    },
+    {
+      "file": "3fa2ca90c9ac485bb3e98f8ba57cdda5235c425d30c76ccddf2b45ccc1c7df23.webp",
+      "caption": "Add a New Account",
+      "captionTranslations": {
+        "nl": "Nieuwe account toevoegen"
+      },
+      "source": "https://dl.flathub.org/media/com/belmoussaoui/Authenticator/cbb66aa59a1a410b7b890236a347dcf2/screenshots/image-2_orig.png"
+    },
+    {
+      "file": "050372e1c5f69ecc5859a32fa86bf942fd66c57c910082250f158d044baf2280.webp",
+      "caption": "Add a New Provider",
+      "captionTranslations": {
+        "nl": "Nieuwe provider toevoegen"
+      },
+      "source": "https://dl.flathub.org/media/com/belmoussaoui/Authenticator/cbb66aa59a1a410b7b890236a347dcf2/screenshots/image-3_orig.png"
+    },
+    {
+      "file": "84e4f4bc4bf45d0095b2edb34a0d9d219aad03f114504d495f8020e49fc40580.webp",
+      "caption": "Account Details",
+      "captionTranslations": {
+        "nl": "Accountgegevens"
+      },
+      "source": "https://dl.flathub.org/media/com/belmoussaoui/Authenticator/cbb66aa59a1a410b7b890236a347dcf2/screenshots/image-4_orig.png"
+    },
+    {
+      "file": "986f16aac960b99adcedf8536f86069ada375ae8943afcd2c606044b9c1598e7.webp",
+      "caption": "Backup/Restore formats support",
+      "captionTranslations": {
+        "nl": "Ondersteuning voor back-up/herstelformaten"
+      },
+      "source": "https://dl.flathub.org/media/com/belmoussaoui/Authenticator/cbb66aa59a1a410b7b890236a347dcf2/screenshots/image-5_orig.png"
+    }
+  ]
+}

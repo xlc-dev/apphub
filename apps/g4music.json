@@ -1,0 +1,31 @@
+{
+  "appstream": {
+    "type": "flathub",
+    "id": "com.github.neithern.g4music"
+  },
+  "addedAt": "2026-08-22",
+  "origin": {
+    "type": "third-party"
+  },
+  "releaseSource": {
+    "type": "github",
+    "repository": "pkgforge-dev/Gapless-AppImage"
+  },
+  "sandbox": {
+    "network": "client",
+    "display": "wayland-and-x11",
+    "audio": "playback",
+    "processes": "isolated",
+    "ipc": false,
+    "filesystem": [
+      {
+        "location": "music",
+        "access": "read-only"
+      }
+    ],
+    "devices": ["gpu"],
+    "portals": ["file-chooser", "inhibit", "notifications", "settings"],
+    "sessionBus": [],
+    "systemBus": []
+  }
+}

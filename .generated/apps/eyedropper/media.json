@@ -1,0 +1,37 @@
+{
+  "icon": {
+    "file": "3814e599d5ecc5e3ae9d5e087cf8b555abc19b90abc1508dd6e94fcac8712e37.webp",
+    "source": "https://dl.flathub.org/media/com/github/finefindus.eyedropper/57454c390f2673554cafcf7f346528da/icons/128x128/com.github.finefindus.eyedropper.png"
+  },
+  "screenshots": [
+    {
+      "file": "9f39fce2126a752daacaed1a9d2d94250c73c5a7f1276f6f040585ff4181482f.webp",
+      "caption": "Main window with a color in different formats",
+      "captionTranslations": {
+        "nl": "Hoofdvenster met een kleur in verschillende formaten"
+      },
+      "source": "https://dl.flathub.org/media/com/github/finefindus.eyedropper/57454c390f2673554cafcf7f346528da/screenshots/image-1_orig.png"
+    },
+    {
+      "file": "59f720e9eac3220c06a7e6b7fbbf32db17563f8077365047c51a7faa6e1e9c13.webp",
+      "caption": "Main window with customized formats",
+      "captionTranslations": {
+        "nl": "Hoofdvenster met aangepaste formaten"
+      },
+      "source": "https://dl.flathub.org/media/com/github/finefindus.eyedropper/57454c390f2673554cafcf7f346528da/screenshots/image-2_orig.png"
+    },
+    {
+      "file": "e3f0ab5afce2359339306705fcb4516069aa7d47262d362500f45851a440a266.webp",
+      "caption": "Editor with an HSL editor",
+      "source": "https://dl.flathub.org/media/com/github/finefindus.eyedropper/57454c390f2673554cafcf7f346528da/screenshots/image-3_orig.png"
+    },
+    {
+      "file": "aef2ee46456237913d13b09214be6e3c8b3d92a1680f3e98515a8acf54d47838.webp",
+      "caption": "Status page stating to pick a color to get started",
+      "captionTranslations": {
+        "nl": "Statuspagina met vermelding om een kleur te kiezen om te beginnen"
+      },
+      "source": "https://dl.flathub.org/media/com/github/finefindus.eyedropper/57454c390f2673554cafcf7f346528da/screenshots/image-4_orig.png"
+    }
+  ]
+}

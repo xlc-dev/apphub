@@ -1,0 +1,24 @@
+{
+  "metadata": {
+    "provider": "flathub",
+    "sourceUrl": "https://flathub.org/api/v2/appstream/io.github.seadve.Mousai",
+    "providerId": "io.github.seadve.Mousai"
+  },
+  "releaseSource": {
+    "provider": "github",
+    "configuredUrl": "https://github.com/pkgforge-dev/Mousai-AppImage",
+    "sourceUrl": "https://github.com/pkgforge-dev/Mousai-AppImage",
+    "projectId": "1094834947",
+    "ownerId": "189202376"
+  },
+  "refresh": {
+    "metadata": {
+      "lastAttemptAt": "2026-08-26T18:39:07.508Z",
+      "lastSuccessAt": "2026-08-26T18:39:07.508Z"
+    },
+    "releases": {
+      "lastAttemptAt": "2026-08-27T18:14:54.089Z",
+      "lastSuccessAt": "2026-08-27T18:14:54.089Z"
+    }
+  }
+}

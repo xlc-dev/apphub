@@ -1,0 +1,129 @@
+{
+  "id": "org.gnome.Calculator",
+  "name": "Calculator",
+  "summary": "Perform arithmetic, scientific or financial calculations",
+  "description": [
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "value": "Calculator is an application that solves mathematical equations. Though it at first appears to be a simple calculator with only basic arithmetic operations, you can switch into Advanced, Financial, or Programming mode to find a surprising set of capabilities."
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "value": "The Advanced calculator supports many operations, including: logarithms, factorials, trigonometric and hyperbolic functions, modulus division, complex numbers, random number generation and prime factorization."
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "value": "Financial mode supports several computations, including periodic interest rate, present and future value, double declining and straight line depreciation, and many others."
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "value": "Programming mode supports calculations using common bases (binary, octal, decimal, and hexadecimal), bitwise operations, two’s complement, character to character code conversion, and more."
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "value": "Conversion mode supports conversions between common units, currencies and number bases."
+        }
+      ]
+    }
+  ],
+  "projectLicense": "GPL-3.0-or-later",
+  "developer": {
+    "name": "The GNOME Project"
+  },
+  "homepage": "https://apps.gnome.org/Calculator",
+  "repository": "https://gitlab.gnome.org/GNOME/gnome-calculator",
+  "links": {
+    "bugtracker": "https://gitlab.gnome.org/GNOME/gnome-calculator/issues",
+    "help": "https://help.gnome.org/users/gnome-calculator/stable/",
+    "donation": "https://www.gnome.org/donate/",
+    "translate": "https://l10n.gnome.org/module/gnome-calculator/"
+  },
+  "contentRating": {
+    "label": "Early Childhood",
+    "minimumAge": 3
+  },
+  "keywords": [
+    "arithmetic",
+    "scientific",
+    "financial"
+  ],
+  "categories": [
+    "Utility",
+    "Calculator"
+  ],
+  "translations": {
+    "nl": {
+      "name": "Rekenmachine",
+      "summary": "Voer rekenkundige, wetenschappelijke of financiële berekeningen uit",
+      "description": [
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "value": "Rekenmachine is een toepassing die wiskundige vergelijkingen oplost. Alhoewel het op het eerste gezicht een eenvoudige rekenmachine lijkt met slechts rekenkundige basisoperaties, kunt u omschakelen naar de modi Geavanceerd, Financieel of Programmeren en een verbazende verzameling mogelijkheden vinden."
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "value": "De geavanceerde rekenmachine ondersteunt vele operaties, waaronder: logaritmes, ontbinden in factoren, goniometrische en hyperbolische functies, modulair delen, complexe getallen, genereren van willekeurige getallen en ontbinden in priemfactoren."
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "value": "Financiële modus ondersteunt diverse berekeningen waaronder periodieke rente, huidige en toekomstige waarde, dubbel afnemende- en lineaire afschrijving en vele andere."
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "value": "Conversiemodus ondersteunt conversies tussen veelvoorkomende eenheden, munteenheden en grondtallen."
+            }
+          ]
+        }
+      ],
+      "keywords": [
+        "calculation",
+        "arithmetic",
+        "scientific"
+      ],
+      "contentRating": {
+        "label": "3"
+      }
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "metadata": {
+    "provider": "flathub",
+    "sourceUrl": "https://flathub.org/api/v2/appstream/it.mijorus.gearlever",
+    "providerId": "it.mijorus.gearlever"
+  },
+  "releaseSource": {
+    "provider": "github",
+    "configuredUrl": "https://github.com/pkgforge-dev/Gear-Lever-AppImage",
+    "sourceUrl": "https://github.com/pkgforge-dev/Gear-Lever-AppImage",
+    "projectId": "1100351342",
+    "ownerId": "189202376"
+  },
+  "refresh": {
+    "metadata": {
+      "lastAttemptAt": "2026-08-26T18:39:06.574Z",
+      "lastSuccessAt": "2026-08-26T18:39:06.574Z"
+    },
+    "releases": {
+      "lastAttemptAt": "2026-08-27T18:14:52.073Z",
+      "lastSuccessAt": "2026-08-27T18:14:52.073Z"
+    }
+  }
+}

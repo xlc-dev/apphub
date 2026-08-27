@@ -1,0 +1,85 @@
+{
+  "id": "com.github.flxzt.rnote",
+  "name": "Rnote",
+  "summary": "Sketch and take handwritten notes",
+  "description": [
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "value": "Rnote is a vector-based drawing app for sketching, handwritten notes and to annotate documents and pictures."
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "value": "Disclaimer: The file format is still unstable. It might change and break compatibility between versions."
+        }
+      ]
+    }
+  ],
+  "projectLicense": "GPL-3.0-or-later",
+  "developer": {
+    "name": "Felix Zwettler"
+  },
+  "homepage": "https://rnote.flxzt.net",
+  "repository": "https://github.com/flxzt/rnote",
+  "links": {
+    "bugtracker": "https://github.com/flxzt/rnote/issues",
+    "donation": "https://rnote.flxzt.net/donate/"
+  },
+  "contentRating": {
+    "label": "Early Childhood",
+    "minimumAge": 3
+  },
+  "keywords": [
+    "Gnome",
+    "GTK",
+    "Office"
+  ],
+  "categories": [
+    "Graphics",
+    "Education",
+    "Office",
+    "VectorGraphics",
+    "GNOME",
+    "GTK"
+  ],
+  "translations": {
+    "nl": {
+      "summary": "Maak schetsen en handgeschreven aantekeningen",
+      "description": [
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "value": "Rnote is een eenvoudig te gebruiken vector-gebaseerde app voor het maken van schetsen, handgeschreven notities en aantekeningen, ook op documenten en bestaande afbeeldingen."
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "value": "Let op: het bestandsformaat is nog niet af, dus er kunnen schoonheidsfoutjes in zitten of dingen misgaan."
+            }
+          ]
+        }
+      ],
+      "keywords": [
+        "Gnome",
+        "GTK",
+        "Kantoor"
+      ],
+      "contentRating": {
+        "label": "3"
+      }
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "appstream": {
+    "type": "flathub",
+    "id": "io.gitlab.news_flash.NewsFlash"
+  },
+  "addedAt": "2026-08-22",
+  "origin": {
+    "type": "third-party"
+  },
+  "releaseSource": {
+    "type": "github",
+    "repository": "pkgforge-dev/NewsFlash-AppImage"
+  },
+  "sandbox": {
+    "network": "client",
+    "display": "wayland-and-x11",
+    "audio": "none",
+    "processes": "isolated",
+    "ipc": false,
+    "filesystem": [],
+    "devices": ["gpu"],
+    "portals": ["notifications", "open-uri", "secrets", "settings"],
+    "sessionBus": [],
+    "systemBus": []
+  }
+}

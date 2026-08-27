@@ -1,0 +1,31 @@
+{
+  "appstream": {
+    "type": "flathub",
+    "id": "it.mijorus.gearlever"
+  },
+  "addedAt": "2026-08-22",
+  "origin": {
+    "type": "third-party"
+  },
+  "releaseSource": {
+    "type": "github",
+    "repository": "pkgforge-dev/Gear-Lever-AppImage"
+  },
+  "sandbox": {
+    "network": "client",
+    "display": "wayland-and-x11",
+    "audio": "none",
+    "processes": "control",
+    "ipc": false,
+    "filesystem": [
+      {
+        "location": "home",
+        "access": "read-write"
+      }
+    ],
+    "devices": ["gpu", "fuse"],
+    "portals": ["file-chooser", "notifications", "open-uri", "settings"],
+    "sessionBus": [],
+    "systemBus": []
+  }
+}

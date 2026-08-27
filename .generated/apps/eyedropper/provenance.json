@@ -1,0 +1,24 @@
+{
+  "metadata": {
+    "provider": "flathub",
+    "sourceUrl": "https://flathub.org/api/v2/appstream/com.github.finefindus.eyedropper",
+    "providerId": "com.github.finefindus.eyedropper"
+  },
+  "releaseSource": {
+    "provider": "github",
+    "configuredUrl": "https://github.com/pkgforge-dev/Eyedropper-AppImage",
+    "sourceUrl": "https://github.com/pkgforge-dev/Eyedropper-AppImage",
+    "projectId": "1095661487",
+    "ownerId": "189202376"
+  },
+  "refresh": {
+    "metadata": {
+      "lastAttemptAt": "2026-08-26T18:39:06.306Z",
+      "lastSuccessAt": "2026-08-26T18:39:06.306Z"
+    },
+    "releases": {
+      "lastAttemptAt": "2026-08-27T18:14:51.275Z",
+      "lastSuccessAt": "2026-08-27T18:14:51.275Z"
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "appstream": {
+    "type": "flathub",
+    "id": "org.gnome.gitlab.YaLTeR.VideoTrimmer"
+  },
+  "addedAt": "2026-08-22",
+  "origin": {
+    "type": "third-party"
+  },
+  "releaseSource": {
+    "type": "github",
+    "repository": "pkgforge-dev/Video-Trimmer-AppImage"
+  },
+  "sandbox": {
+    "network": "none",
+    "display": "wayland-and-x11",
+    "audio": "playback",
+    "processes": "isolated",
+    "ipc": false,
+    "filesystem": [],
+    "devices": ["gpu"],
+    "portals": ["file-chooser", "inhibit", "settings"],
+    "sessionBus": [],
+    "systemBus": []
+  }
+}

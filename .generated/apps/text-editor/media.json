@@ -1,0 +1,24 @@
+{
+  "icon": {
+    "file": "0dd2f3f4a61fb683bb05594ca6dfafca2b2c3b27ca0cfa913efbbc6a1f467f39.webp",
+    "source": "https://dl.flathub.org/media/org/gnome/TextEditor/5e3fd89fe3902731260943854be9b30b/icons/128x128/org.gnome.TextEditor.png"
+  },
+  "screenshots": [
+    {
+      "file": "cdabe096cfeec08c50d6b3dac9dc5922cfe6bd625a0eb838176fb486d32675a2.webp",
+      "caption": "Text Editor's main window",
+      "captionTranslations": {
+        "nl": "Het hoofdvenster van Tekstbewerker"
+      },
+      "source": "https://dl.flathub.org/media/org/gnome/TextEditor/5e3fd89fe3902731260943854be9b30b/screenshots/image-1_orig.png"
+    },
+    {
+      "file": "3a9ea2fc74c19d48aa572a0370ee7cf6c96d1bcf4fedeb898860556bc1037477.webp",
+      "caption": "Syntax highlighting",
+      "captionTranslations": {
+        "nl": "Syntaxismarkering"
+      },
+      "source": "https://dl.flathub.org/media/org/gnome/TextEditor/5e3fd89fe3902731260943854be9b30b/screenshots/image-2_orig.png"
+    }
+  ]
+}

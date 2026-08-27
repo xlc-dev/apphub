@@ -1,0 +1,48 @@
+{
+  "id": "org.localsend.localsend_app",
+  "name": "LocalSend",
+  "summary": "Share files to nearby devices",
+  "description": [
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "value": "This app allows you to send files and messages over the local LAN network."
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "value": "In contrast to most alternatives, no external servers are needed. Everything happens locally in the wifi network."
+        }
+      ]
+    }
+  ],
+  "projectLicense": "Apache-2.0",
+  "developer": {
+    "name": "Tien Do Nam"
+  },
+  "homepage": "https://localsend.org/",
+  "repository": "https://github.com/localsend/localsend",
+  "links": {
+    "bugtracker": "https://github.com/localsend/localsend/issues"
+  },
+  "contentRating": {
+    "label": "Early Childhood",
+    "minimumAge": 3
+  },
+  "categories": [
+    "Utility"
+  ],
+  "translations": {
+    "nl": {
+      "contentRating": {
+        "label": "3"
+      }
+    }
+  }
+}
