@@ -11,9 +11,12 @@ const hostLimits: Record<string, number> = {
 
 class Limiter {
   private active = 0;
+  private readonly limit: number;
   private readonly waiting: Array<() => void> = [];
 
-  constructor(private readonly limit: number) {}
+  constructor(limit: number) {
+    this.limit = limit;
+  }
 
   async run<T>(operation: () => Promise<T>) {
     if (this.active >= this.limit) {
