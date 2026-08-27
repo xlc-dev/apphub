@@ -1,0 +1,91 @@
+---
+import type { CatalogAppSummary } from "@/lib/catalog-model";
+import SourceBadge from "@/components/SourceBadge.astro";
+import Icon from "@/components/Icon.astro";
+import CardLink from "@/components/ui/CardLink.astro";
+import { categoryName } from "@/lib/categories";
+import { getLocale, translate } from "@/lib/i18n";
+import { Image } from "astro:assets";
+
+type CardApp = Pick<
+  CatalogAppSummary,
+  "slug" | "name" | "summary" | "origin" | "categories" | "icon"
+>;
+
+interface Props {
+  app: CardApp;
+  detail?: string;
+  headingLevel?: 2 | 3;
+  priority?: boolean;
+  stars?: number | undefined;
+}
+
+const { app, detail, headingLevel = 2, priority = false, stars } = Astro.props;
+const locale = getLocale(Astro.currentLocale);
+const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown>) =>
+  translate(locale, key, values);
+const visibleCategories = app.categories
+  .slice(0, 2)
+  .map((category) => categoryName(category, locale));
+const hiddenCategoryCount = app.categories.length - visibleCategories.length;
+const categories = visibleCategories.join(", ");
+---
+
+<article class="h-32 min-w-0">
+  <CardLink
+    class="flex h-full cursor-pointer gap-4 overflow-hidden p-4"
+    data-app-card-link
+    href={`/apps/${app.slug}/`}>
+    <Image
+      class="size-14 shrink-0 rounded-xl sm:size-16"
+      data-app-card-icon
+      src={app.icon.url}
+      alt=""
+      width={64}
+      height={64}
+      loading={priority ? "eager" : "lazy"}
+      fetchpriority={priority ? "high" : "auto"}
+    />
+    <div class="min-w-0 grow overflow-hidden">
+      <div class="flex min-w-0 items-center gap-2">
+        {
+          headingLevel === 3 ? (
+            <h3 class="truncate font-semibold" data-app-card-name>
+              {app.name}
+            </h3>
+          ) : (
+            <h2 class="truncate font-semibold" data-app-card-name>
+              {app.name}
+            </h2>
+          )
+        }
+        <SourceBadge origin={app.origin} />
+      </div>
+      <p
+        class="mt-1 line-clamp-2 min-h-10 text-sm leading-5 text-[var(--muted)]"
+        data-app-card-summary>
+        {app.summary}
+      </p>
+      <div
+        class="mt-3 flex min-w-0 items-center gap-3 overflow-hidden text-xs whitespace-nowrap text-[var(--muted)]">
+        {detail && <span class="shrink-0">{detail}</span>}
+        {
+          stars !== undefined && (
+            <span
+              class="inline-flex shrink-0 items-center gap-1"
+              aria-label={t("stars.repository", { count: stars.toLocaleString(locale) })}>
+              <Icon name="star" class="size-3.5" />
+              {stars.toLocaleString(locale)}
+            </span>
+          )
+        }
+        <span class="flex min-w-0 items-center">
+          <span class="truncate" data-app-card-categories>{categories}</span>
+          <span class="shrink-0" hidden={hiddenCategoryCount === 0} data-app-card-category-count>
+            , +{hiddenCategoryCount}
+          </span>
+        </span>
+      </div>
+    </div>
+  </CardLink>
+</article>

@@ -1,0 +1,85 @@
+---
+import AppCard from "@/components/AppCard.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import EmptyState from "@/components/ui/EmptyState.astro";
+import Link from "@/components/ui/Link.astro";
+import Pagination from "@/components/Pagination.astro";
+import Page from "@/components/ui/Page.astro";
+import PageHeader from "@/components/ui/PageHeader.astro";
+import { getRanking, localizeAppSummaries, type RankingPeriod } from "@/lib/catalog-queries";
+import { paginationState } from "@/lib/pagination";
+import { getLocale, translate } from "@/lib/i18n";
+
+interface Props {
+  page?: number;
+  period: RankingPeriod;
+}
+
+const { page = 1, period } = Astro.props;
+const collection = await getRanking(period);
+const locale = getLocale(Astro.currentLocale);
+const localizedApps = collection.entries
+  ? await localizeAppSummaries(
+      collection.entries.map(({ app }) => app),
+      locale
+    )
+  : [];
+const ranking =
+  collection.entries?.map((entry, index) => ({ ...entry, app: localizedApps[index]! })) ?? null;
+const state = paginationState(ranking?.length ?? 0, page);
+const entries = ranking?.slice(state.start, state.end) ?? [];
+const basePath =
+  period === "week"
+    ? "/trending/"
+    : period === "month"
+      ? "/trending/month/"
+      : "/trending/all-time/";
+const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown>) =>
+  translate(locale, key, values);
+const title = t(`ranking.${period === "all-time" ? "allTime" : period}Title`);
+const description = t(`ranking.${period === "all-time" ? "allTime" : period}Description`);
+---
+
+<BaseLayout title={title} description={description} index={page === 1}>
+  <Page>
+    <PageHeader title={title} description={description} />
+    <nav class="flex flex-wrap gap-x-4 gap-y-2" aria-label={t("ranking.navigation")}>
+      <Link href="/trending/" aria-current={period === "week" ? "page" : undefined}
+        >{t("ranking.week")}</Link
+      >
+      <Link href="/trending/month/" aria-current={period === "month" ? "page" : undefined}
+        >{t("ranking.month")}</Link
+      >
+      <Link href="/trending/all-time/" aria-current={period === "all-time" ? "page" : undefined}
+        >{t("ranking.allTime")}</Link
+      >
+    </nav>
+    {
+      ranking === null ? (
+        <EmptyState class="mt-8">{t("ranking.historyUnavailable")}</EmptyState>
+      ) : ranking.length === 0 ? (
+        <EmptyState class="mt-8">{t("ranking.none")}</EmptyState>
+      ) : (
+        <>
+          <div class="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {entries.map(({ app, downloads }, index) => (
+              <AppCard
+                app={app}
+                detail={t("downloads.count", { count: downloads.toLocaleString(locale) })}
+                priority={index < 6}
+                stars={app.statistics.stars ?? undefined}
+              />
+            ))}
+          </div>
+          <Pagination
+            class="mt-8"
+            basePath={basePath}
+            label={t("ranking.pages")}
+            page={state.page}
+            pages={state.pages}
+          />
+        </>
+      )
+    }
+  </Page>
+</BaseLayout>

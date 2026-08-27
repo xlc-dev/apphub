@@ -1,0 +1,125 @@
+---
+import type { CatalogApp } from "@/lib/catalog-loader";
+import { formatBytes, formatVersion } from "@/lib/format";
+import ButtonLink from "@/components/ui/ButtonLink.astro";
+import Button from "@/components/ui/Button.astro";
+import EmptyState from "@/components/ui/EmptyState.astro";
+import Link from "@/components/ui/Link.astro";
+import Icon from "@/components/Icon.astro";
+import { getLocale, translate } from "@/lib/i18n";
+
+interface Props {
+  releases: CatalogApp["releases"];
+  blocked?: boolean;
+}
+
+const { releases, blocked = false } = Astro.props;
+const latest = releases[0];
+const locale = getLocale(Astro.currentLocale);
+const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown>) =>
+  translate(locale, key, values);
+const releaseDate = latest
+  ? new Date(latest.publishedAt).toLocaleDateString(locale, { dateStyle: "long", timeZone: "UTC" })
+  : undefined;
+---
+
+<section
+  class="rounded-xl border border-[var(--border)] bg-[var(--card)] p-5 shadow-sm"
+  aria-labelledby="downloads-heading">
+  <h2 class="text-xl font-bold" id="downloads-heading">{t("downloads.direct")}</h2>
+  {
+    latest ? (
+      <>
+        <p class="text-[var(--muted)]">
+          {blocked ? (
+            <span>{t("downloads.version", { version: formatVersion(latest.version) })}</span>
+          ) : (
+            <Link href={latest.page}>
+              {t("downloads.version", { version: formatVersion(latest.version) })}
+            </Link>
+          )}
+          {releaseDate && (
+            <>
+              {", "}
+              <time datetime={latest.publishedAt}>{releaseDate}</time>
+            </>
+          )}
+        </p>
+        <div class="mt-4 divide-y divide-[var(--border)]">
+          {latest.artifacts.map((artifact) => (
+            <div class="py-4 first:pt-0 last:pb-0">
+              <div class="grid gap-3">
+                <div>
+                  <p class="m-0 font-semibold">{artifact.architecture}</p>
+                  <p class="m-0 mt-1 text-sm text-[var(--muted)]">{formatBytes(artifact.size)}</p>
+                </div>
+                {blocked ? (
+                  <Button class="text-center" large disabled data-unavailable>
+                    {t("downloads.unavailable")}
+                  </Button>
+                ) : (
+                  <ButtonLink
+                    class="text-center"
+                    href={artifact.url}
+                    aria-label={t("downloads.forArchitecture", {
+                      version: formatVersion(latest.version),
+                      architecture: artifact.architecture,
+                    })}>
+                    {t("download.label")}
+                  </ButtonLink>
+                )}
+              </div>
+              <details class="group mt-3 text-sm">
+                <summary
+                  class="flex min-h-11 cursor-pointer list-none items-center justify-between gap-2 rounded-sm text-[var(--muted)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)]"
+                  aria-label={t("downloads.checksum", { architecture: artifact.architecture })}>
+                  {t("downloads.checksum", { architecture: artifact.architecture })}
+                  <Icon
+                    name="chevron-down"
+                    class="size-4 transition-transform group-open:rotate-180 motion-reduce:transition-none"
+                  />
+                </summary>
+                <dl class="mt-2 grid gap-3">
+                  <div>
+                    <dt class="text-[var(--muted)]">{t("downloads.observedChecksum")}</dt>
+                    <dd class="m-0 mt-1">
+                      <code class="block break-all">{artifact.sha256}</code>
+                    </dd>
+                    {artifact.checksumEvidence && (
+                      <dd class="m-0 mt-2">
+                        <Link href={artifact.checksumEvidence.sourceUrl}>
+                          {t("downloads.upstreamChecksum")}
+                        </Link>
+                      </dd>
+                    )}
+                  </div>
+                  {artifact.signatures?.map((signature) => (
+                    <div>
+                      <dt>
+                        <Link href={signature.url}>
+                          {t("downloads.upstreamSignature", { kind: signature.kind })}
+                        </Link>
+                      </dt>
+                    </div>
+                  ))}
+                </dl>
+              </details>
+            </div>
+          ))}
+        </div>
+      </>
+    ) : (
+      <EmptyState>{t("downloads.none")}</EmptyState>
+    )
+  }
+</section>
+
+<style is:global>
+  button[data-unavailable] {
+    border: 1px solid var(--border);
+    background: var(--control-bg);
+    color: var(--muted);
+    box-shadow: none;
+    opacity: 1;
+  }
+</style>

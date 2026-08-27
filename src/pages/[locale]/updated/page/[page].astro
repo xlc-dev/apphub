@@ -1,0 +1,12 @@
+---
+import type { GetStaticPaths } from "astro";
+import UpdatedPage from "@/views/UpdatedPage.astro";
+import { localePaths, updatedAppPagePaths } from "@/lib/static-pages";
+
+export const getStaticPaths = (async () =>
+  localePaths(await updatedAppPagePaths())) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
+---
+
+<UpdatedPage page={page} />

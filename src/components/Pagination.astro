@@ -1,0 +1,47 @@
+---
+import Link from "@/components/ui/Link.astro";
+import { buttonClasses } from "@/components/ui/button";
+import { getLocale, translate } from "@/lib/i18n";
+
+interface Props {
+  basePath: string;
+  class?: string;
+  label: string;
+  page: number;
+  pages: number;
+}
+
+const { basePath, class: className, label, page, pages } = Astro.props;
+const pagePath = (number: number) => (number === 1 ? basePath : `${basePath}page/${number}/`);
+const controlClass = buttonClasses("outline", "default");
+const locale = getLocale(Astro.currentLocale);
+const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown>) =>
+  translate(locale, key, values);
+---
+
+{
+  pages > 1 && (
+    <nav
+      class:list={["flex items-center justify-center gap-4", className]}
+      aria-label={label}
+      data-static-pagination>
+      {page > 1 ? (
+        <Link unstyled class={controlClass} href={pagePath(page - 1)}>
+          {t("pagination.previous")}
+        </Link>
+      ) : (
+        <span class:list={[controlClass, "opacity-50"]}>{t("pagination.previous")}</span>
+      )}
+      <span class="min-w-24 text-center text-sm text-[var(--muted)]">
+        {t("pagination.page", { page, pages })}
+      </span>
+      {page < pages ? (
+        <Link unstyled class={controlClass} href={pagePath(page + 1)}>
+          {t("pagination.next")}
+        </Link>
+      ) : (
+        <span class:list={[controlClass, "opacity-50"]}>{t("pagination.next")}</span>
+      )}
+    </nav>
+  )
+}

@@ -1,0 +1,102 @@
+---
+import Link from "@/components/ui/Link.astro";
+import { categoryPath } from "@/lib/categories";
+import { getLocale, translate } from "@/lib/i18n";
+
+interface Props {
+  categories: Array<{ id: string; name: string; count: number }>;
+  current?: string | undefined;
+  class?: string;
+}
+
+const { categories, current, class: className } = Astro.props;
+const itemClass =
+  "grid min-h-11 grid-cols-[minmax(0,1fr)_auto] items-center gap-2 rounded-md px-2 text-sm hover:bg-[var(--card-raised)] focus-visible:-outline-offset-2 focus-visible:outline-2 focus-visible:outline-[var(--primary)] aria-[current=page]:bg-[var(--card-raised)] aria-[current=page]:font-medium aria-[current=page]:text-[var(--primary)]";
+const locale = getLocale(Astro.currentLocale);
+const t = (key: Parameters<typeof translate>[1]) => translate(locale, key);
+---
+
+<div
+  class:list={["flex min-h-0 flex-col", className]}
+  data-category-list
+  data-category-found={t("apps.categoryFound")}
+  data-categories-found={t("apps.categoriesFound")}>
+  <input
+    class="my-2 min-h-11 w-full rounded-md border border-[var(--border)] bg-[var(--control-bg)] px-2 text-sm outline-none focus-visible:border-[var(--primary)]"
+    type="search"
+    placeholder={t("apps.filterCategories")}
+    aria-label={t("apps.filterCategories")}
+    autocomplete="off"
+    hidden
+    data-category-search
+  />
+  <p class="sr-only" aria-live="polite" data-category-status></p>
+  <nav class="min-h-0 grow overflow-y-auto" aria-label={t("apps.categories")}>
+    <Link unstyled class={itemClass} href="/apps/" aria-current={!current ? "page" : undefined}>
+      <span class="truncate">{t("apps.all")}</span>
+    </Link>
+    {
+      categories.map(({ id, name, count }) => (
+        <Link
+          unstyled
+          class={itemClass}
+          href={categoryPath(id)}
+          aria-current={id === current ? "page" : undefined}
+          data-category-option
+          data-category-value={name.toLowerCase()}>
+          <span class="truncate">{name}</span>
+          <span class="text-right text-xs text-[var(--muted)] tabular-nums">{count}</span>
+        </Link>
+      ))
+    }
+  </nav>
+</div>
+
+<script>
+  function initializeCategoryLists() {
+    for (const list of document.querySelectorAll<HTMLElement>("[data-category-list]")) {
+      const input = list.querySelector<HTMLInputElement>("[data-category-search]");
+      const options = Array.from(list.querySelectorAll<HTMLElement>("[data-category-option]"));
+      const status = list.querySelector<HTMLElement>("[data-category-status]");
+      if (!input || input.dataset.initialized) {
+        continue;
+      }
+
+      input.dataset.initialized = "true";
+      input.hidden = false;
+
+      const navigation = list.querySelector<HTMLElement>("nav");
+      const selected = list.querySelector<HTMLElement>(
+        '[data-category-option][aria-current="page"]'
+      );
+
+      if (navigation && selected && list.offsetParent) {
+        const selectedTop =
+          selected.getBoundingClientRect().top -
+          navigation.getBoundingClientRect().top +
+          navigation.scrollTop;
+
+        navigation.scrollTop = selectedTop - (navigation.clientHeight - selected.offsetHeight) / 2;
+      }
+
+      input.addEventListener("input", () => {
+        const query = input.value.trim().toLowerCase();
+        let matches = 0;
+        options.forEach((option) => {
+          option.hidden = !option.dataset.categoryValue!.includes(query);
+          matches += option.hidden ? 0 : 1;
+        });
+        if (status) {
+          status.textContent = query
+            ? (matches === 1 ? list.dataset.categoryFound! : list.dataset.categoriesFound!).replace(
+                "{count}",
+                String(matches)
+              )
+            : "";
+        }
+      });
+    }
+  }
+
+  initializeCategoryLists();
+</script>

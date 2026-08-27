@@ -1,0 +1,12 @@
+---
+import type { GetStaticPaths } from "astro";
+import RankingPage from "@/views/RankingPage.astro";
+import { localePaths, rankingPagePaths } from "@/lib/static-pages";
+
+export const getStaticPaths = (async () =>
+  localePaths(await rankingPagePaths("all-time"))) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
+---
+
+<RankingPage page={page} period="all-time" />

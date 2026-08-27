@@ -1,0 +1,20 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import ButtonLink from "@/components/ui/ButtonLink.astro";
+import Page from "@/components/ui/Page.astro";
+import { getLocale, translate } from "@/lib/i18n";
+
+const locale = getLocale(Astro.currentLocale);
+const t = (key: Parameters<typeof translate>[1]) => translate(locale, key);
+---
+
+<BaseLayout title={t("notFound.title")} description={t("notFound.description")} index={false}>
+  <Page class="text-center" padding="large">
+    <p class="m-0 text-sm font-semibold text-[var(--muted)]">404</p>
+    <h1 class="mt-2 text-3xl font-bold sm:text-4xl">{t("notFound.title")}</h1>
+    <p class="mx-auto mt-4 max-w-2xl leading-6 text-[var(--muted)]">
+      {t("notFound.message")}
+    </p>
+    <ButtonLink class="mt-6" href="/apps/">{t("home.browse")}</ButtonLink>
+  </Page>
+</BaseLayout>

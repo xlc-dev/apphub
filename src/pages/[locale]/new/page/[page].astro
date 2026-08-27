@@ -1,0 +1,12 @@
+---
+import type { GetStaticPaths } from "astro";
+import NewPage from "@/views/NewPage.astro";
+import { localePaths, newAppPagePaths } from "@/lib/static-pages";
+
+export const getStaticPaths = (async () =>
+  localePaths(await newAppPagePaths())) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
+---
+
+<NewPage page={page} />

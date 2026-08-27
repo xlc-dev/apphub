@@ -1,0 +1,293 @@
+---
+import Section from "@/components/ui/Section.astro";
+import Button from "@/components/ui/Button.astro";
+import Icon from "@/components/Icon.astro";
+import { Image } from "astro:assets";
+import { getLocale, translate } from "@/lib/i18n";
+
+interface Props {
+  label: string;
+  screenshots: Array<{
+    url: string;
+    caption: string;
+  }>;
+}
+
+const { label, screenshots } = Astro.props;
+const id = `${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-carousel`;
+const locale = getLocale(Astro.currentLocale);
+const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown>) =>
+  translate(locale, key, values);
+---
+
+<Section
+  spaced={false}
+  title={label}
+  headingId={`${id}-heading`}
+  aria-labelledby={`${id}-heading`}
+  aria-roledescription={t("carousel.role")}
+  role="region"
+  data-carousel>
+  <Button
+    icon
+    slot="actions"
+    hidden
+    class="size-11 shrink-0"
+    aria-label={t("screenshots.enlarge")}
+    data-expand-label={t("screenshots.enlarge")}
+    data-close-label={t("screenshots.close")}
+    aria-expanded="false"
+    data-carousel-fullscreen>
+    <Icon name="zoom" class="size-5" data-carousel-expand-icon />
+    <Icon name="close" class="hidden size-5" data-carousel-close-icon />
+  </Button>
+  <div
+    class="relative grid grid-cols-[minmax(0,1fr)] items-center sm:grid-cols-[2.75rem_minmax(0,1fr)_2.75rem] sm:gap-3"
+    data-carousel-frame>
+    <div
+      class="col-start-1 row-start-1 flex aspect-video snap-x snap-mandatory items-center overflow-x-auto overscroll-x-contain scroll-smooth rounded-xl motion-reduce:scroll-auto sm:col-start-2"
+      aria-live="polite"
+      data-carousel-track>
+      {
+        screenshots.map((screenshot, index) => (
+          <figure
+            class="m-0 flex h-full w-full shrink-0 snap-center flex-col items-center justify-center"
+            id={`${id}-${index + 1}`}
+            role="group"
+            aria-roledescription={t("carousel.slide")}
+            aria-label={t("carousel.position", {
+              index: index + 1,
+              count: screenshots.length,
+            })}
+            data-carousel-slide>
+            <Image
+              class="block max-h-full min-h-0 max-w-full rounded-xl object-contain"
+              src={screenshot.url}
+              alt=""
+              width={1920}
+              height={1080}
+              loading={index === 0 ? "eager" : "lazy"}
+              fetchpriority={index === 0 ? "high" : "auto"}
+            />
+            <figcaption class="mt-2">{screenshot.caption}</figcaption>
+          </figure>
+        ))
+      }
+    </div>
+
+    {
+      screenshots.length > 1 && (
+        <>
+          <Button
+            icon
+            hidden
+            class="absolute top-1/2 left-2 z-10 size-11 -translate-y-1/2 rounded-full sm:static sm:col-start-1 sm:row-start-1 sm:translate-y-0"
+            aria-label={t("screenshots.previous")}
+            data-carousel-previous>
+            <Icon name="chevron-left" class="size-5" />
+          </Button>
+          <Button
+            icon
+            hidden
+            class="absolute top-1/2 right-2 z-10 size-11 -translate-y-1/2 rounded-full sm:static sm:col-start-3 sm:row-start-1 sm:translate-y-0"
+            aria-label={t("screenshots.next")}
+            data-carousel-next>
+            <Icon name="chevron-right" class="size-5" />
+          </Button>
+        </>
+      )
+    }
+  </div>
+
+  {
+    screenshots.length > 1 && (
+      <div class="mt-2 flex min-h-11 items-center justify-center">
+        <nav class="flex" aria-label={t("screenshots.choose")}>
+          {screenshots.map((_, index) => (
+            <a
+              class="group flex size-11 cursor-pointer items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-[-0.25rem] focus-visible:outline-[var(--primary)]"
+              href={`#${id}-${index + 1}`}
+              aria-label={t("screenshots.show", { index: index + 1, count: screenshots.length })}
+              aria-current={index === 0 ? "true" : undefined}
+              data-carousel-dot>
+              <span
+                class="size-2.5 rounded-full bg-[var(--border)] group-hover:bg-[var(--primary)] group-aria-[current=true]:bg-[var(--primary)]"
+                aria-hidden="true"
+              />
+            </a>
+          ))}
+        </nav>
+      </div>
+    )
+  }
+</Section>
+
+<script>
+  import { connectCarousel } from "@/lib/carousel";
+
+  function initializeCarousels() {
+    for (const carousel of document.querySelectorAll<HTMLElement>("[data-carousel]")) {
+      if (carousel.dataset.initialized) {
+        continue;
+      }
+
+      const track = carousel.querySelector<HTMLElement>("[data-carousel-track]");
+      const slides = Array.from(carousel.querySelectorAll<HTMLElement>("[data-carousel-slide]"));
+      const dots = Array.from(carousel.querySelectorAll<HTMLAnchorElement>("[data-carousel-dot]"));
+      const previous = carousel.querySelector<HTMLButtonElement>("[data-carousel-previous]");
+      const next = carousel.querySelector<HTMLButtonElement>("[data-carousel-next]");
+      const fullscreen = carousel.querySelector<HTMLButtonElement>("[data-carousel-fullscreen]");
+
+      if (!track || !fullscreen) {
+        continue;
+      }
+
+      carousel.dataset.initialized = "true";
+      if (previous) {
+        previous.hidden = false;
+      }
+      if (next) {
+        next.hidden = false;
+      }
+      fullscreen.hidden = false;
+
+      const events = new AbortController();
+      let inertElements: HTMLElement[] = [];
+
+      const setBackgroundInert = (inert: boolean) => {
+        if (!inert) {
+          inertElements.forEach((element) => (element.inert = false));
+          inertElements = [];
+          return;
+        }
+
+        for (let child: HTMLElement = carousel; child.parentElement;) {
+          const parent = child.parentElement;
+          for (const sibling of parent.children) {
+            if (sibling !== child && sibling instanceof HTMLElement && !sibling.inert) {
+              sibling.inert = true;
+              inertElements.push(sibling);
+            }
+          }
+          child = parent;
+        }
+      };
+
+      const setExpanded = (expanded: boolean) => {
+        carousel.toggleAttribute("data-carousel-expanded", expanded);
+        carousel.setAttribute("role", expanded ? "dialog" : "region");
+        carousel.toggleAttribute("aria-modal", expanded);
+        document.body.classList.toggle("overflow-hidden", expanded);
+        setBackgroundInert(expanded);
+        fullscreen.setAttribute("aria-expanded", String(expanded));
+        fullscreen.setAttribute(
+          "aria-label",
+          expanded ? fullscreen.dataset.closeLabel! : fullscreen.dataset.expandLabel!
+        );
+      };
+
+      connectCarousel({ track, slides, dots, previous, next });
+      fullscreen.addEventListener("click", () => {
+        setExpanded(!carousel.hasAttribute("data-carousel-expanded"));
+      });
+      document.addEventListener(
+        "keydown",
+        (event) => {
+          if (!carousel.hasAttribute("data-carousel-expanded")) {
+            return;
+          }
+
+          if (event.key === "Tab") {
+            const controls = Array.from(
+              carousel.querySelectorAll<HTMLElement>("button, a[href]")
+            ).filter((control) => !control.hidden);
+            const first = controls[0];
+            const last = controls.at(-1);
+
+            if (!carousel.contains(document.activeElement)) {
+              event.preventDefault();
+              (event.shiftKey ? last : first)?.focus();
+            } else if (event.shiftKey && document.activeElement === first) {
+              event.preventDefault();
+              last?.focus();
+            } else if (!event.shiftKey && document.activeElement === last) {
+              event.preventDefault();
+              first?.focus();
+            }
+
+            return;
+          }
+
+          if (event.key !== "Escape") {
+            return;
+          }
+
+          setExpanded(false);
+          fullscreen.focus();
+        },
+        { signal: events.signal }
+      );
+    }
+  }
+
+  initializeCarousels();
+</script>
+
+<style>
+  [data-carousel-track] {
+    scrollbar-width: none;
+  }
+
+  [data-carousel-track]::-webkit-scrollbar {
+    display: none;
+  }
+
+  [data-carousel-dot][aria-current="true"] span {
+    background: currentColor;
+  }
+
+  [data-carousel-expanded] {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    background: var(--color-foreground);
+    color: var(--color-surface);
+  }
+
+  :global(body:has([data-carousel-expanded]) main) {
+    z-index: 60;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    [data-carousel-expanded] {
+      background: var(--color-canvas);
+      color: var(--color-foreground);
+    }
+  }
+
+  [data-carousel-expanded] [data-carousel-frame] {
+    min-height: 0;
+    flex: 1;
+  }
+
+  [data-carousel-expanded] [data-carousel-track] {
+    height: 100%;
+    aspect-ratio: auto;
+  }
+
+  [data-carousel-expanded] [data-carousel-slide] {
+    height: 100%;
+  }
+
+  [data-carousel-expanded] [data-carousel-expand-icon] {
+    display: none;
+  }
+
+  [data-carousel-expanded] [data-carousel-close-icon] {
+    display: block;
+  }
+</style>

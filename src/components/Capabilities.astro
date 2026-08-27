@@ -1,0 +1,65 @@
+---
+import type { App } from "#catalog/schema";
+import Section from "@/components/ui/Section.astro";
+import { getLocale, translate, translateValue } from "@/lib/i18n";
+
+interface Props {
+  sandbox: App["sandbox"];
+}
+
+const { sandbox } = Astro.props;
+const locale = getLocale(Astro.currentLocale);
+const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown>) =>
+  translate(locale, key, values);
+const labels = (values: string[]) =>
+  values.map((value) => translateValue(locale, value)).join(", ");
+const capabilities = [
+  [t("sandbox.network"), translateValue(locale, sandbox.network)],
+  [t("sandbox.display"), translateValue(locale, sandbox.display)],
+  [t("sandbox.audio"), translateValue(locale, sandbox.audio)],
+  [t("sandbox.processes"), translateValue(locale, sandbox.processes)],
+  [t("sandbox.ipc"), sandbox.ipc ? t("sandbox.allowed") : t("sandbox.denied")],
+  [
+    t("sandbox.files"),
+    sandbox.filesystem.length
+      ? sandbox.filesystem
+          .map(
+            ({ location, access }) =>
+              `${translateValue(locale, location)} (${translateValue(locale, access)})`
+          )
+          .join(", ")
+      : t("sandbox.privateStorage"),
+  ],
+  [t("sandbox.devices"), sandbox.devices.length ? labels(sandbox.devices) : t("sandbox.none")],
+  [t("sandbox.portals"), sandbox.portals.length ? labels(sandbox.portals) : t("sandbox.none")],
+  [
+    t("sandbox.sessionBus"),
+    sandbox.sessionBus.length
+      ? t("sandbox.services", { count: sandbox.sessionBus.length })
+      : t("sandbox.none"),
+  ],
+  [
+    t("sandbox.systemBus"),
+    sandbox.systemBus.length
+      ? t("sandbox.services", { count: sandbox.systemBus.length })
+      : t("sandbox.none"),
+  ],
+] as const;
+---
+
+<Section
+  spaced={false}
+  title={t("sandbox.title")}
+  headingId="capabilities-heading"
+  aria-labelledby="capabilities-heading">
+  <dl class="grid grid-cols-2 gap-3">
+    {
+      capabilities.map(([name, value]) => (
+        <div class="min-w-0 rounded-xl border border-[var(--border)] bg-[var(--card)] p-3 sm:p-4">
+          <dt class="font-semibold">{name}</dt>
+          <dd class="m-0 mt-1 text-sm text-[var(--muted)] capitalize">{value}</dd>
+        </div>
+      ))
+    }
+  </dl>
+</Section>

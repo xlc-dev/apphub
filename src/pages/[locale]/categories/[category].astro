@@ -1,0 +1,18 @@
+---
+import type { GetStaticPaths } from "astro";
+import CatalogPage from "@/views/CatalogPage.astro";
+import { getCategories } from "@/lib/catalog-queries";
+import { localePaths } from "@/lib/static-pages";
+
+export const getStaticPaths = (async () =>
+  localePaths(
+    (await getCategories()).map(({ id, name, slug }) => ({
+      params: { category: slug },
+      props: { category: id, categoryName: name },
+    }))
+  )) satisfies GetStaticPaths;
+
+const { category, categoryName } = Astro.props;
+---
+
+<CatalogPage category={category} categoryName={categoryName} />

@@ -1,0 +1,102 @@
+---
+import AppCard from "@/components/AppCard.astro";
+import CategorySidebar from "@/components/CategorySidebar.astro";
+import Pagination from "@/components/Pagination.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import EmptyState from "@/components/ui/EmptyState.astro";
+import Page from "@/components/ui/Page.astro";
+import PageHeader from "@/components/ui/PageHeader.astro";
+import { getCategories, getLocalizedAppSummaries } from "@/lib/catalog-queries";
+import { paginationState } from "@/lib/pagination";
+import { getRepositoryStars } from "@/lib/repository-stars";
+import { localizeCategories } from "@/lib/categories";
+import { getLocale, translate } from "@/lib/i18n";
+
+interface Props {
+  category?: string;
+  categoryName?: string;
+  page?: number;
+}
+
+const { category, categoryName, page = 1 } = Astro.props;
+const locale = getLocale(Astro.currentLocale);
+const catalog = await getLocalizedAppSummaries(locale);
+const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown>) =>
+  translate(locale, key, values);
+const categories = localizeCategories(await getCategories(), locale);
+const stars = await getRepositoryStars();
+const localizedCategoryName = category
+  ? (categories.find(({ id }) => id === category)?.name ?? categoryName)
+  : undefined;
+const heading = category
+  ? t("apps.categoryTitle", { category: localizedCategoryName })
+  : t("apps.all");
+const displayedCatalog = category
+  ? catalog.filter((app) => app.categories.includes(category))
+  : catalog;
+const state = paginationState(displayedCatalog.length, page);
+const apps = displayedCatalog.slice(state.start, state.end);
+const basePath = category ? `/categories/${Astro.params.category}/` : "/apps/";
+---
+
+<BaseLayout
+  title={category ? heading : t("nav.apps")}
+  description={`${heading}.`}
+  index={page === 1}>
+  <Page>
+    <PageHeader title={heading} id="catalog-heading" />
+    <div class="grid gap-8 lg:grid-cols-[13rem_minmax(0,1fr)]">
+      <CategorySidebar
+        categories={categories}
+        current={category}
+        currentName={localizedCategoryName}
+      />
+      <div class="min-w-0">
+        <div data-catalog-results>
+          {
+            displayedCatalog.length > 0 ? (
+              <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3" data-catalog-grid>
+                {apps.map((app, index) => (
+                  <AppCard app={app} priority={index < 6} stars={stars[app.slug]} />
+                ))}
+              </div>
+            ) : (
+              <EmptyState>{t("apps.none")}</EmptyState>
+            )
+          }
+        </div>
+        <div class="mt-8" hidden data-search-empty>
+          <EmptyState>{t("search.empty")}</EmptyState>
+        </div>
+        {
+          catalog[0] && (
+            <template data-search-card-template>
+              <AppCard app={catalog[0]} />
+            </template>
+          )
+        }
+        <nav
+          class="mt-8 flex items-center justify-center gap-4"
+          aria-label={t("search.pages")}
+          hidden
+          data-search-pagination>
+        </nav>
+      </div>
+      <Pagination
+        class="lg:col-span-2 lg:col-start-1"
+        basePath={basePath}
+        label={category
+          ? t("apps.categoryPages", { category: localizedCategoryName })
+          : t("apps.pages")}
+        page={state.page}
+        pages={state.pages}
+      />
+    </div>
+  </Page>
+</BaseLayout>
+
+<script>
+  import { initializeCatalogSearch } from "@/client/catalog-search";
+
+  initializeCatalogSearch();
+</script>

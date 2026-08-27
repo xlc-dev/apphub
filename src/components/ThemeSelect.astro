@@ -1,0 +1,73 @@
+---
+import { getLocale, translate } from "@/lib/i18n";
+import type { ThemeMode } from "@/lib/theme";
+
+interface Props {
+  id: string;
+}
+
+const { id } = Astro.props;
+const modes: ThemeMode[] = ["system", "light", "dark"];
+const locale = getLocale(Astro.currentLocale);
+const t = (key: Parameters<typeof translate>[1]) => translate(locale, key);
+const labels = { system: t("theme.system"), light: t("theme.light"), dark: t("theme.dark") };
+---
+
+<label class="sr-only" for={id}>{t("theme.label")}</label>
+<select
+  class="min-h-11 cursor-pointer rounded-md border border-[var(--border)] bg-[var(--control-bg)] px-3 text-sm shadow-sm hover:bg-[var(--card-raised)] focus-visible:border-[var(--primary)] focus-visible:ring-[3px] focus-visible:ring-[color-mix(in_srgb,var(--primary)_20%,transparent)] focus-visible:outline-none"
+  id={id}
+  hidden
+  data-theme-select>
+  {modes.map((mode) => <option value={mode}>{labels[mode]}</option>)}
+</select>
+
+<script>
+  import { parseThemeMode, resolveTheme, type ThemeMode } from "@/lib/theme";
+
+  function initializeThemeSelects() {
+    const selects = Array.from(document.querySelectorAll<HTMLSelectElement>("[data-theme-select]"));
+
+    if (!selects.length || selects.every((select) => select.dataset.initialized)) return;
+
+    const media = matchMedia("(prefers-color-scheme: dark)");
+
+    const apply = (mode: ThemeMode, save: boolean) => {
+      const theme = resolveTheme(mode, media.matches);
+
+      document.documentElement.dataset.themeMode = mode;
+      document.documentElement.dataset.theme = theme;
+      document
+        .querySelector("[data-theme-color]")
+        ?.setAttribute("content", theme === "dark" ? "#1e1e1e" : "#fafafa");
+
+      selects.forEach((select) => (select.value = mode));
+
+      if (save) {
+        try {
+          localStorage.setItem("apphub-theme", mode);
+        } catch {}
+      }
+    };
+
+    let stored: string | null = null;
+
+    try {
+      stored = localStorage.getItem("apphub-theme");
+    } catch {}
+
+    apply(parseThemeMode(stored), false);
+
+    selects.forEach((select) => {
+      select.dataset.initialized = "true";
+      select.hidden = false;
+      select.addEventListener("change", () => apply(parseThemeMode(select.value), true));
+    });
+
+    media.addEventListener("change", () => {
+      if (document.documentElement.dataset.themeMode === "system") apply("system", false);
+    });
+  }
+
+  initializeThemeSelects();
+</script>

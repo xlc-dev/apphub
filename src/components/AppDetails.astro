@@ -1,0 +1,167 @@
+---
+import type { CatalogApp } from "@/lib/catalog-loader";
+import Link from "@/components/ui/Link.astro";
+import Icon from "@/components/Icon.astro";
+import { getLocale, translate } from "@/lib/i18n";
+
+interface Props {
+  app: CatalogApp;
+  downloads?: number | undefined;
+  stars?: number | undefined;
+}
+
+const { app, downloads, stars } = Astro.props;
+const website = new URL(app.homepage);
+const websiteLabel = website.hostname.replace(/^www\./, "") || app.homepage;
+const repository = app.repository && new URL(app.repository);
+const repositoryLabel =
+  repository &&
+  (repository.hostname.replace(/^www\./, "") + repository.pathname).replace(/\/$/, "");
+const locale = getLocale(Astro.currentLocale);
+const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown>) =>
+  translate(locale, key, values);
+const linkLabels = {
+  bugtracker: t("app.reportIssue"),
+  help: t("app.help"),
+  contact: t("app.contact"),
+  translate: t("app.translate"),
+  contribute: t("app.contribute"),
+  faq: t("app.faq"),
+};
+const projectLinks = Object.entries(app.links ?? {}).filter(([type]) => type !== "donation");
+const releaseSource = new URL(app.provenance.releaseSource.sourceUrl);
+const releaseSourceLabel =
+  releaseSource.hostname.replace(/^www\./, "") + releaseSource.pathname.replace(/\/$/, "");
+const metadataSource = app.provenance.metadata.sourceUrl
+  ? new URL(app.provenance.metadata.sourceUrl)
+  : undefined;
+const metadataSourceLabel = metadataSource
+  ? metadataSource.hostname.replace(/^www\./, "") + metadataSource.pathname.replace(/\/$/, "")
+  : app.provenance.metadata.provider;
+const lastChecked = new Intl.DateTimeFormat(locale, {
+  dateStyle: "medium",
+  timeZone: "UTC",
+}).format(new Date(app.provenance.refresh.releases.lastSuccessAt));
+---
+
+<aside
+  class="self-start overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--card)] shadow-sm"
+  aria-labelledby="details-heading">
+  <div class="border-b border-[var(--border)] bg-[var(--card-raised)] px-5 py-4">
+    <h2 class="m-0 text-xl font-bold" id="details-heading">{t("app.details")}</h2>
+  </div>
+  <dl class="m-0 divide-y divide-[var(--border)]">
+    <div class="px-5 py-3.5">
+      <dt class="text-sm text-[var(--muted)]">{t("app.developer")}</dt>
+      <dd class="m-0 mt-1">{app.developer.name}</dd>
+    </div>
+    <div class="px-5 py-3.5">
+      <dt class="text-sm text-[var(--muted)]">{t("app.website")}</dt>
+      <dd class="m-0 mt-1 break-words">
+        <Link href={app.homepage}>{websiteLabel}</Link>
+      </dd>
+    </div>
+    {
+      app.repository && (
+        <div class="px-5 py-3.5">
+          <dt class="text-sm text-[var(--muted)]">{t("app.repository")}</dt>
+          <dd class="m-0 mt-1 break-words">
+            <Link href={app.repository}>{repositoryLabel}</Link>
+            {stars !== undefined && (
+              <span
+                class="mt-2 flex items-center gap-1.5 text-sm text-[var(--muted)]"
+                aria-label={t("stars.repository", { count: stars.toLocaleString(locale) })}>
+                <Icon name="star" class="size-4" />
+                {stars.toLocaleString(locale)}
+              </span>
+            )}
+          </dd>
+        </div>
+      )
+    }
+    {
+      downloads !== undefined && (
+        <div class="px-5 py-3.5">
+          <dt class="text-sm text-[var(--muted)]">{t("downloads.total")}</dt>
+          <dd class="m-0 mt-1 font-medium tabular-nums">{downloads.toLocaleString(locale)}</dd>
+        </div>
+      )
+    }
+  </dl>
+  <details class="group border-t border-[var(--border)]">
+    <summary
+      class="flex min-h-11 cursor-pointer list-none items-center justify-between gap-3 px-5 py-3 text-sm font-medium hover:bg-[var(--card-raised)] focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--primary)] [&::-webkit-details-marker]:hidden">
+      {t("app.sourceInformation")}
+      <Icon
+        name="chevron-down"
+        class="size-4 text-[var(--muted)] transition-transform group-open:rotate-180 motion-reduce:transition-none"
+      />
+    </summary>
+    <dl class="m-0 divide-y divide-[var(--border)] border-t border-[var(--border)]">
+      <div class="px-5 py-3.5">
+        <dt class="text-sm text-[var(--muted)]">{t("app.origin")}</dt>
+        <dd class="m-0 mt-1">
+          {t(app.origin.type === "upstream" ? "origin.upstream" : "origin.thirdParty")}
+          {
+            app.origin.type === "upstream" && (
+              <>
+                {" · "}
+                <Link href={app.origin.evidence.url}>{t("app.originEvidence")}</Link>
+              </>
+            )
+          }
+        </dd>
+      </div>
+      <div class="px-5 py-3.5">
+        <dt class="text-sm text-[var(--muted)]">{t("app.releaseSource")}</dt>
+        <dd class="m-0 mt-1 break-words">
+          <Link href={app.provenance.releaseSource.sourceUrl}>{releaseSourceLabel}</Link>
+        </dd>
+      </div>
+      <div class="px-5 py-3.5">
+        <dt class="text-sm text-[var(--muted)]">{t("app.metadataSource")}</dt>
+        <dd class="m-0 mt-1 break-words">
+          {
+            metadataSource ? (
+              <Link href={metadataSource.toString()}>{metadataSourceLabel}</Link>
+            ) : (
+              metadataSourceLabel
+            )
+          }
+        </dd>
+      </div>
+      <div class="px-5 py-3.5">
+        <dt class="text-sm text-[var(--muted)]">{t("app.lastChecked")}</dt>
+        <dd class="m-0 mt-1">
+          <time datetime={app.provenance.refresh.releases.lastSuccessAt}>{lastChecked}</time>
+        </dd>
+      </div>
+    </dl>
+  </details>
+  {
+    projectLinks.length > 0 && (
+      <details class="group border-t border-[var(--border)]">
+        <summary class="flex min-h-11 cursor-pointer list-none items-center justify-between gap-3 px-5 py-3 text-sm font-medium hover:bg-[var(--card-raised)] focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--primary)] [&::-webkit-details-marker]:hidden">
+          {t("app.resources")}
+          <Icon
+            name="chevron-down"
+            class="size-4 text-[var(--muted)] transition-transform group-open:rotate-180 motion-reduce:transition-none"
+          />
+        </summary>
+        <ul class="m-0 list-none divide-y divide-[var(--border)] border-t border-[var(--border)] p-0">
+          {projectLinks.map(([type, url]) => (
+            <li>
+              <Link
+                unstyled
+                class="flex min-h-11 items-center justify-between gap-3 px-5 text-sm hover:bg-[var(--card-raised)] focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--primary)]"
+                href={url}>
+                {linkLabels[type as keyof typeof linkLabels]}
+                <Icon name="external" class="size-4 text-[var(--muted)]" />
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </details>
+    )
+  }
+</aside>

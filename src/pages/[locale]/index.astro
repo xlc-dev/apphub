@@ -1,0 +1,152 @@
+---
+import type { GetStaticPaths } from "astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import AppCard from "@/components/AppCard.astro";
+import FeaturedCarousel from "@/components/FeaturedCarousel.astro";
+import EmptyState from "@/components/ui/EmptyState.astro";
+import Link from "@/components/ui/Link.astro";
+import ButtonLink from "@/components/ui/ButtonLink.astro";
+import Page from "@/components/ui/Page.astro";
+import Section from "@/components/ui/Section.astro";
+import {
+  getArchitectures,
+  getCategories,
+  getRanking,
+  getUpdatedApps,
+  localizeAppSummaries,
+} from "@/lib/catalog-queries";
+import { getCatalogApps, getCatalogSnapshotTime } from "@/lib/catalog-loader";
+import { formatVersion } from "@/lib/format";
+import { featuredApps } from "@/lib/featured-apps";
+import { localizeCategories } from "@/lib/categories";
+import { getLocale, translate } from "@/lib/i18n";
+import { localizeApp } from "#catalog/localization";
+import { localePaths } from "@/lib/static-pages";
+
+export const getStaticPaths = (() => localePaths()) satisfies GetStaticPaths;
+
+const locale = getLocale(Astro.currentLocale);
+const catalog = (await getCatalogApps()).map((app) => localizeApp(app, locale));
+const recentlyUpdated = (await localizeAppSummaries((await getUpdatedApps()).apps, locale)).slice(
+  0,
+  3
+);
+const ranking = await getRanking("week");
+const localizedTrending = ranking.entries
+  ? await localizeAppSummaries(
+      ranking.entries.map(({ app }) => app),
+      locale
+    )
+  : [];
+const trending =
+  ranking.entries
+    ?.map((entry, index) => ({ ...entry, app: localizedTrending[index]! }))
+    .slice(0, 3) ?? null;
+const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown>) =>
+  translate(locale, key, values);
+const categories = localizeCategories(await getCategories(), locale);
+const architectures = await getArchitectures();
+const collator = new Intl.Collator(locale);
+const popularCategories = [...categories]
+  .sort((left, right) => right.count - left.count || collator.compare(left.name, right.name))
+  .slice(0, 12);
+const featured = featuredApps(catalog, getCatalogSnapshotTime());
+const releaseDate = new Intl.DateTimeFormat(locale, { dateStyle: "medium" });
+---
+
+<BaseLayout title="AppHub" description={t("home.description")}>
+  <Page>
+    <header class="mx-auto max-w-3xl text-center">
+      <h1 class="text-3xl font-bold tracking-tight sm:text-4xl">{t("home.title")}</h1>
+      <p class="mx-auto mt-3 max-w-2xl text-lg leading-7 text-[var(--muted)]">
+        {t("home.intro")}
+      </p>
+      <div class="mt-5 flex flex-wrap justify-center gap-3">
+        <ButtonLink href="/apps/">{t("home.browse")}</ButtonLink>
+        <ButtonLink href="/new/" variant="outline">{t("home.seeNew")}</ButtonLink>
+      </div>
+    </header>
+
+    <div class="mt-8">
+      <FeaturedCarousel apps={featured} />
+    </div>
+
+    <Section title={t("home.updated")} description={t("home.updatedDescription")}>
+      <Link slot="actions" href="/updated/" aria-label={t("home.moreUpdated")}
+        >{t("home.more")}</Link
+      >
+      {
+        recentlyUpdated.length > 0 ? (
+          <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {recentlyUpdated.map((app, index) => (
+              <AppCard
+                app={app}
+                detail={`${formatVersion(app.latestRelease!.version)}, ${releaseDate.format(new Date(app.latestRelease!.publishedAt))}`}
+                headingLevel={3}
+                priority={index < 3}
+                stars={app.statistics.stars ?? undefined}
+              />
+            ))}
+          </div>
+        ) : (
+          <EmptyState>{t("releases.none")}</EmptyState>
+        )
+      }
+    </Section>
+
+    <Section title={t("home.trending")} description={t("home.trendingDescription")}>
+      <Link slot="actions" href="/trending/" aria-label={t("home.moreTrending")}
+        >{t("home.more")}</Link
+      >
+      {
+        trending === null ? (
+          <EmptyState>{t("ranking.historyUnavailable")}</EmptyState>
+        ) : trending.length === 0 ? (
+          <EmptyState>{t("ranking.none")}</EmptyState>
+        ) : (
+          <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {trending.map(({ app, downloads }) => (
+              <AppCard
+                app={app}
+                detail={t("downloads.count", { count: downloads.toLocaleString(locale) })}
+                headingLevel={3}
+                stars={app.statistics.stars ?? undefined}
+              />
+            ))}
+          </div>
+        )
+      }
+    </Section>
+
+    <Section
+      title={t("home.categories")}
+      description={t("home.catalogDescription", {
+        apps: catalog.length,
+        categories: categories.length,
+        architectures: architectures.length,
+      })}>
+      <Link slot="actions" href="/apps/" aria-label={t("home.moreCategories")}
+        >{t("home.more")}</Link
+      >
+      {
+        popularCategories.length > 0 ? (
+          <ul class="flex list-none flex-wrap gap-2 p-0">
+            {popularCategories.map(({ name, slug, count }) => (
+              <li>
+                <Link
+                  chip
+                  class="inline-flex min-h-11 items-center gap-2 px-4 py-2 text-sm"
+                  href={`/categories/${slug}/`}>
+                  <span>{name}</span>
+                  <span class="font-normal opacity-70">{count}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <EmptyState>{t("categories.none")}</EmptyState>
+        )
+      }
+    </Section>
+  </Page>
+</BaseLayout>

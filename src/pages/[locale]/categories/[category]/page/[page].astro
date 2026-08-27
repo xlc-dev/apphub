@@ -1,0 +1,12 @@
+---
+import type { GetStaticPaths } from "astro";
+import CatalogPage from "@/views/CatalogPage.astro";
+import { categoryPagePaths, localePaths } from "@/lib/static-pages";
+
+export const getStaticPaths = (async () =>
+  localePaths(await categoryPagePaths())) satisfies GetStaticPaths;
+
+const { category, categoryName, page } = Astro.props;
+---
+
+<CatalogPage category={category} categoryName={categoryName} page={page} />

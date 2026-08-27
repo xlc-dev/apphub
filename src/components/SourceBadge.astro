@@ -1,0 +1,44 @@
+---
+import type { Origin } from "#catalog/schema";
+import Icon from "@/components/Icon.astro";
+import { getLocale, translate } from "@/lib/i18n";
+
+interface Props {
+  origin: Origin["type"];
+}
+
+const { origin } = Astro.props;
+const upstream = origin === "upstream";
+const locale = getLocale(Astro.currentLocale);
+---
+
+<span
+  data-origin-badge={origin}
+  class="inline-flex shrink-0 items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs">
+  <Icon name="official" class="size-3.5" data-origin-icon="upstream" />
+  <Icon name="community" class="size-3.5" data-origin-icon="third-party" />
+  <span data-origin-label>
+    {translate(locale, upstream ? "origin.upstream" : "origin.thirdParty")}
+  </span>
+</span>
+
+<style>
+  [data-origin-badge="upstream"] {
+    border-color: var(--primary);
+    background: var(--primary);
+    color: var(--primary-text);
+    font-weight: 700;
+  }
+
+  [data-origin-badge="third-party"] {
+    border-color: var(--border);
+    background: var(--control-bg);
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  [data-origin-badge="upstream"] [data-origin-icon="third-party"],
+  [data-origin-badge="third-party"] [data-origin-icon="upstream"] {
+    display: none;
+  }
+</style>

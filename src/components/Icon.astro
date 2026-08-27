@@ -1,0 +1,95 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"span"> {
+  name:
+    | "age-rating"
+    | "category"
+    | "check"
+    | "chevron-down"
+    | "chevron-left"
+    | "chevron-right"
+    | "close"
+    | "community"
+    | "donate"
+    | "external"
+    | "license"
+    | "menu"
+    | "official"
+    | "star"
+    | "theme-dark"
+    | "theme-light"
+    | "theme-system"
+    | "zoom";
+  class?: string;
+}
+
+const { name, class: className, ...attributes } = Astro.props;
+---
+
+<span
+  {...attributes}
+  class:list={["icon shrink-0 bg-current", `icon-${name}`, className]}
+  aria-hidden="true"></span>
+
+<style>
+  .icon {
+    mask: var(--icon) center / contain no-repeat;
+    -webkit-mask: var(--icon) center / contain no-repeat;
+  }
+
+  .icon-age-rating {
+    --icon: url("/icons/age-rating.svg");
+  }
+  .icon-category {
+    --icon: url("/icons/category.svg");
+  }
+  .icon-check {
+    --icon: url("/icons/check.svg");
+  }
+  .icon-chevron-down {
+    --icon: url("/icons/chevron-down.svg");
+  }
+  .icon-chevron-left {
+    --icon: url("/icons/chevron-left.svg");
+  }
+  .icon-chevron-right {
+    --icon: url("/icons/chevron-right.svg");
+  }
+  .icon-close {
+    --icon: url("/icons/close.svg");
+  }
+  .icon-community {
+    --icon: url("/icons/community.svg");
+  }
+  .icon-donate {
+    --icon: url("/icons/donate.svg");
+  }
+  .icon-external {
+    --icon: url("/icons/external.svg");
+  }
+  .icon-license {
+    --icon: url("/icons/license.svg");
+  }
+  .icon-menu {
+    --icon: url("/icons/menu.svg");
+  }
+  .icon-official {
+    --icon: url("/icons/official.svg");
+  }
+  .icon-star {
+    --icon: url("/icons/star.svg");
+  }
+  .icon-theme-dark {
+    --icon: url("/icons/theme-dark.svg");
+  }
+  .icon-theme-light {
+    --icon: url("/icons/theme-light.svg");
+  }
+  .icon-theme-system {
+    --icon: url("/icons/theme-system.svg");
+  }
+  .icon-zoom {
+    --icon: url("/icons/zoom.svg");
+  }
+</style>

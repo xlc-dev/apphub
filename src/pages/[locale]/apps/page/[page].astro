@@ -1,0 +1,21 @@
+---
+import type { GetStaticPaths } from "astro";
+import CatalogPage from "@/views/CatalogPage.astro";
+import { getAppSummaries } from "@/lib/catalog-queries";
+import { catalogPageSize } from "@/lib/pagination";
+import { localePaths } from "@/lib/static-pages";
+
+export const getStaticPaths = (async () => {
+  const pages = Math.ceil((await getAppSummaries()).length / catalogPageSize);
+  const paths = Array.from({ length: Math.max(0, pages - 1) }, (_, index) => ({
+    params: { page: String(index + 2) },
+    props: { page: index + 2 },
+  }));
+
+  return localePaths(paths);
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
+---
+
+<CatalogPage page={page} />

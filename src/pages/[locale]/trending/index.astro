@@ -1,0 +1,9 @@
+---
+import type { GetStaticPaths } from "astro";
+import RankingPage from "@/views/RankingPage.astro";
+import { localePaths } from "@/lib/static-pages";
+
+export const getStaticPaths = (() => localePaths()) satisfies GetStaticPaths;
+---
+
+<RankingPage period="week" />

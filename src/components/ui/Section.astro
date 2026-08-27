@@ -1,0 +1,30 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"section"> {
+  title: string;
+  description?: string;
+  headingId?: string;
+  spaced?: boolean;
+}
+
+const {
+  title,
+  description,
+  headingId,
+  spaced = true,
+  class: className,
+  ...attributes
+} = Astro.props;
+---
+
+<section {...attributes} class:list={[spaced && "mt-10", className]}>
+  <div class="mb-3 flex items-baseline justify-between gap-4">
+    <div>
+      <h2 class="text-2xl font-bold" id={headingId}>{title}</h2>
+      {description && <p class="mt-1 text-sm text-[var(--muted)]">{description}</p>}
+    </div>
+    <slot name="actions" />
+  </div>
+  <slot />
+</section>

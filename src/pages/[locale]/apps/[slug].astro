@@ -1,0 +1,171 @@
+---
+import type { GetStaticPaths } from "astro";
+import { Image } from "astro:assets";
+import AppDescription from "@/components/AppDescription.astro";
+import AppDetails from "@/components/AppDetails.astro";
+import AppDownloads from "@/components/AppDownloads.astro";
+import Capabilities from "@/components/Capabilities.astro";
+import CategoryLinks from "@/components/CategoryLinks.astro";
+import Icon from "@/components/Icon.astro";
+import InstallButton from "@/components/InstallButton.astro";
+import ScreenshotCarousel from "@/components/ScreenshotCarousel.astro";
+import SourceBadge from "@/components/SourceBadge.astro";
+import ButtonLink from "@/components/ui/ButtonLink.astro";
+import Page from "@/components/ui/Page.astro";
+import Section from "@/components/ui/Section.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getAppDownloads, getApps } from "@/lib/catalog-loader";
+import { isAppIndexable } from "@/lib/catalog-model";
+import { getLocale, translate } from "@/lib/i18n";
+import { getRepositoryStars } from "@/lib/repository-stars";
+import { localePaths } from "@/lib/static-pages";
+import { localizeApp } from "#catalog/localization";
+
+export const getStaticPaths = (async () =>
+  localePaths(
+    (await getApps()).map((app) => ({
+      params: { slug: app.slug },
+      props: { app },
+    }))
+  )) satisfies GetStaticPaths;
+
+const app = localizeApp(Astro.props.app, getLocale(Astro.currentLocale));
+const locale = getLocale(Astro.currentLocale);
+const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown>) =>
+  translate(locale, key, values);
+const [repositoryStars, downloads] = await Promise.all([
+  getRepositoryStars(),
+  getAppDownloads(app.id),
+]);
+const stars = repositoryStars[app.slug];
+const latest = app.releases[0];
+const downloadsBlocked = app.status === "quarantined" || app.status === "unavailable";
+const statusMessage =
+  app.status === "quarantined"
+    ? t("app.quarantined")
+    : app.status === "unavailable"
+      ? t("app.unavailable")
+      : app.status === "stale"
+        ? t("app.stale")
+        : undefined;
+const ageRating =
+  app.contentRating?.minimumAge !== undefined ? `${app.contentRating.minimumAge}+` : undefined;
+const contentWarnings = app.contentRating?.warnings ?? [];
+const donation = app.links?.donation;
+---
+
+<BaseLayout
+  title={app.name}
+  description={app.summary}
+  image={app.screenshots[0]!.url}
+  imageAlt={app.screenshots[0]!.caption ?? `${app.name} screenshot`}
+  imageType={app.screenshots[0]!.type}
+  pageType="product"
+  index={isAppIndexable(app)}>
+  <Page>
+    <div class="flex flex-col items-start gap-5 py-2 sm:flex-row sm:items-center sm:gap-6">
+      <Image
+        class="size-20 rounded-2xl sm:size-24"
+        src={app.icon.url}
+        alt=""
+        width={96}
+        height={96}
+        loading="eager"
+        fetchpriority="high"
+      />
+      <div class="min-w-0 break-words">
+        <h1 class="text-3xl font-bold sm:text-4xl">{app.name}</h1>
+        <p class="mt-1 max-w-2xl leading-6 text-[var(--muted)]">
+          {app.summary}
+        </p>
+        <div class="mt-3 flex flex-wrap items-center gap-2">
+          <SourceBadge origin={app.origin.type} />
+          {
+            ageRating && (
+              <span
+                class="inline-flex items-center gap-1.5 rounded-full border border-[var(--border)] bg-[var(--control-bg)] px-2.5 py-1 text-xs font-medium text-[var(--text)]"
+                title={app.contentRating?.label}
+                aria-label={`${t("app.ages", { age: ageRating })}${app.contentRating?.label ? `, ${app.contentRating.label}` : ""}`}>
+                <Icon name="age-rating" class="size-3.5 text-[var(--muted)]" />
+                {t("app.ages", { age: ageRating })}
+              </span>
+            )
+          }
+          <span
+            class="inline-flex items-center gap-1.5 rounded-full border border-[var(--border)] bg-[var(--control-bg)] px-2.5 py-1 text-xs font-medium text-[var(--text)]">
+            <Icon name="license" class="size-3.5 text-[var(--muted)]" />
+            {app.projectLicense}
+          </span>
+          <CategoryLinks inline prominent categories={app.categories} />
+        </div>
+        {
+          contentWarnings.length > 0 && (
+            <details class="group mt-3 max-w-2xl text-sm text-[var(--muted)]">
+              <summary class="flex min-h-11 cursor-pointer list-none items-center gap-2 rounded-sm font-medium text-[var(--text)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)] [&::-webkit-details-marker]:hidden">
+                {t("app.contentNotes")}
+                <Icon
+                  name="chevron-down"
+                  class="size-4 transition-transform group-open:rotate-180 motion-reduce:transition-none"
+                />
+              </summary>
+              <ul class="m-0 space-y-1 pl-5">
+                {contentWarnings.map((warning) => (
+                  <li>{warning}</li>
+                ))}
+              </ul>
+            </details>
+          )
+        }
+        {
+          (latest || donation) && (
+            <div class="mt-5 flex flex-wrap items-start gap-2">
+              {latest && !downloadsBlocked && <InstallButton artifacts={latest.artifacts} />}
+              {donation && (
+                <ButtonLink class="gap-2" href={donation} variant="outline">
+                  <Icon name="donate" class="size-4" />
+                  {t("app.donate")}
+                </ButtonLink>
+              )}
+            </div>
+          )
+        }
+      </div>
+    </div>
+    {
+      statusMessage && (
+        <aside
+          class="mt-6 rounded-xl border border-[var(--border)] bg-[var(--card-raised)] p-4"
+          aria-live="polite">
+          <p class="m-0">{statusMessage}</p>
+        </aside>
+      )
+    }
+    <div class="mt-10 min-w-0">
+      <ScreenshotCarousel label={t("app.screenshots")} screenshots={app.screenshots} />
+    </div>
+    <div class="mt-10 grid gap-8 lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-10">
+      <div class="contents lg:block">
+        <div class="order-1">
+          <Section
+            spaced={false}
+            title={t("app.about")}
+            headingId="about-heading"
+            aria-labelledby="about-heading">
+            <AppDescription blocks={app.description} />
+          </Section>
+        </div>
+        <div class="order-4 lg:mt-10">
+          <Capabilities sandbox={app.sandbox} />
+        </div>
+      </div>
+      <div class="contents lg:block">
+        <div class="order-2 self-start">
+          <AppDownloads releases={app.releases} blocked={downloadsBlocked} />
+        </div>
+        <div class="order-3 self-start lg:mt-8">
+          <AppDetails app={app} downloads={downloads} stars={stars} />
+        </div>
+      </div>
+    </div>
+  </Page>
+</BaseLayout>

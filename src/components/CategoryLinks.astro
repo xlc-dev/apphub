@@ -1,0 +1,34 @@
+---
+import { categoryName, categoryPath } from "@/lib/categories";
+import Link from "@/components/ui/Link.astro";
+import Icon from "@/components/Icon.astro";
+import { getLocale } from "@/lib/i18n";
+
+interface Props {
+  categories: string[];
+  inline?: boolean;
+  prominent?: boolean;
+}
+
+const { categories, inline = false, prominent = false } = Astro.props;
+const locale = getLocale(Astro.currentLocale);
+---
+
+{
+  categories.length > 0 && (
+    <p class:list={[inline ? "contents" : "flex flex-wrap gap-2"]}>
+      {categories.map((category) => (
+        <Link
+          chip
+          class:list={[
+            prominent &&
+              "inline-flex items-center gap-1.5 border border-transparent bg-[var(--card-raised)] px-2.5 py-1 text-[var(--text)] hover:border-[var(--border)]",
+          ]}
+          href={categoryPath(category)}>
+          {prominent && <Icon name="category" class="size-3.5 text-[var(--muted)]" />}
+          {categoryName(category, locale)}
+        </Link>
+      ))}
+    </p>
+  )
+}
