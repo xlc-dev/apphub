@@ -67,10 +67,11 @@ bun run validate:catalog
 
 BASE_PATH=/apphub bun run build
 
-No upstream access is required. If `.generated/` is lost locally, restore it from Git rather than
-regenerating it: current upstream data cannot recreate disappeared artifacts or historical
-observations exactly. Clean-checkout CI performs this validation and builds the production
-deployment.
+The validation and build steps do not contact application sources. `bun install` may contact the
+package registry when dependencies are not cached. If `.generated/` is lost locally, restore it from
+Git rather than regenerating it: current upstream data cannot recreate disappeared artifacts or
+historical observations exactly. Clean-checkout CI performs this validation and builds the
+production deployment.
 
 ## Manifest
 
@@ -112,9 +113,9 @@ therefore stored and deployed once, while immutable names remain safe to cache. 
 reference at most 1 MiB of normalized media. The website always serves these committed local files;
 upstream media URLs are retained only as provenance and are never used as browser image sources.
 
-CC0 covers AppHub's normalized catalog and API data, not third-party icons, screenshots, application
-names, or trademarks. Mirroring media for an application listing does not grant any additional
-rights to that media.
+Catalog content is not covered by AppHub's source-code license, including when delivered through the
+API. Individual materials remain subject to the rights and licenses of their respective sources.
+Mirroring media for an application listing does not grant any additional rights to that media.
 
 To request correction or removal of mirrored media, open a repository issue identifying the
 application and affected image, the reason for the request, and an authoritative replacement when
@@ -148,8 +149,8 @@ The normal source is Flathub:
 
 An application that is not on Flathub may point to its standalone upstream MetaInfo XML. AppHub uses
 remote HTTPS icons and screenshots from the XML when available. The document must use AppStream 1.0
-elements, including `developer/name`, `provides/mediatype`, and `xml:lang`. Add explicit media only
-for package-local icons or missing screenshots:
+conventions, including `developer/name` and `provides/mediatype` elements and `xml:lang` attributes.
+Add explicit media only for package-local icons or missing screenshots:
 
 ```json
 {
@@ -262,8 +263,10 @@ downloaded artifact is limited to 2 GiB and their combined release size is limit
 
 ## Sandbox policy
 
-The sandbox is an allowlist. Private application storage is implicit and unspecified host access is
-denied. Every field is required so omission cannot accidentally broaden access.
+The sandbox policy is a declarative allowlist for installers and runtimes that implement it. AppHub
+records and publishes the policy but does not enforce isolation itself. Within that contract,
+private application storage is implicit and unspecified host access is denied. Every field is
+required so omission cannot accidentally broaden access.
 
 - `network`: `none`, `client`, or `client-and-server`.
 - `display`: `none`, `wayland`, `x11`, or `wayland-and-x11`.
