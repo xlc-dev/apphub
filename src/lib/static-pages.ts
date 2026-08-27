@@ -7,7 +7,7 @@ import {
   type RankingPeriod,
 } from "#lib/catalog-queries";
 import { catalogPageSize } from "#lib/pagination";
-import { locales } from "#lib/locales";
+import { defaultLocale, locales } from "#lib/locales";
 
 interface StaticPath {
   params: Record<string, string>;
@@ -18,7 +18,10 @@ export function localePaths<T extends StaticPath = { params: Record<string, stri
   paths: T[] = [{ params: {} }] as T[]
 ) {
   return locales.flatMap((locale) =>
-    paths.map((path) => ({ ...path, params: { locale, ...path.params } }))
+    paths.map((path) => ({
+      ...path,
+      params: { locale: locale === defaultLocale ? undefined : locale, ...path.params },
+    }))
   );
 }
 

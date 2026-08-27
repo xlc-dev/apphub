@@ -1,5 +1,5 @@
 export const localeDefinitions = {
-  en: { name: "English", path: "/en", openGraph: "en_US" },
+  en: { name: "English", path: "", openGraph: "en_US" },
   nl: { name: "Nederlands", path: "/nl", openGraph: "nl_NL" },
 } as const;
 

@@ -15,7 +15,7 @@ export function localePath(path: string, locale: Locale) {
 export function stripLocale(path: string) {
   const definition = locales
     .map((locale) => localeDefinitions[locale])
-    .find(({ path: prefix }) => path === prefix || path.startsWith(`${prefix}/`));
+    .find(({ path: prefix }) => prefix && (path === prefix || path.startsWith(`${prefix}/`)));
 
   return definition ? path.slice(definition.path.length) || "/" : path;
 }

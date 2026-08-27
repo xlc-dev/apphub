@@ -1,5 +1,6 @@
 ---
 import type { HTMLAttributes } from "astro/types";
+import { getLocale, localePath } from "@/lib/i18n";
 import { sitePath } from "@/lib/paths";
 import { buttonClasses, type ButtonSize, type ButtonVariant } from "@/components/ui/button";
 
@@ -13,6 +14,8 @@ const { href, size = "large", variant = "primary", class: className, ...attribut
 
 <a
   {...attributes}
-  href={typeof href === "string" ? sitePath(href) : href}
+  href={typeof href === "string"
+    ? sitePath(localePath(href, getLocale(Astro.currentLocale)))
+    : href}
   class:list={[buttonClasses(variant, size), className]}><slot /></a
 >
