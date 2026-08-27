@@ -132,12 +132,15 @@ jobs:
           mv dist /tmp/apphub-dist
 
           if git fetch origin gh-pages; then
-            git checkout -B gh-pages origin/gh-pages
+            git worktree add -B gh-pages /tmp/apphub-pages FETCH_HEAD
           else
+            git worktree add --detach /tmp/apphub-pages
+            cd /tmp/apphub-pages
             git checkout --orphan gh-pages
             git rm -rf .
           fi
 
+          cd /tmp/apphub-pages
           git clean -fdx
 
           for path in ./*; do
@@ -164,7 +167,7 @@ jobs:
       - name: Upload site
         uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5
         with:
-          path: .
+          path: /tmp/apphub-pages
 
       - name: Deploy site
         id: deployment

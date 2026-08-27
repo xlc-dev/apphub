@@ -23,7 +23,7 @@ AppImages themselves.
 - Browse and search AppImages by category.
 - Find newly added apps, recent releases, and download trends.
 - See whether an AppImage is published by its developers or by a third party.
-- Review an app's permissions before installing it.
+- Review an app's declared permissions before installing it.
 - Download the right architecture directly from its release source, with its size and SHA-256 shown.
 - Install directly through [AppManager](https://github.com/kem-a/AppManager).
 - Query the catalog through the versioned JSON API.
@@ -40,10 +40,10 @@ AppImages themselves.
 
 ## License
 
-AppHub source code is licensed under the
-[GNU Affero General Public License, version 3 or later](LICENSE). Catalog metadata and generated API
-data are available under [CC0 1.0](LICENSE-CC0). This does not relicense mirrored application icons,
-screenshots, names, or trademarks; their respective owners retain their rights.
+AppHub's source code, including the API implementation and schemas, is licensed under the
+[GNU Affero General Public License, version 3 or later](LICENSE). Catalog content is not covered by
+that license, including when delivered through the API. Individual materials remain subject to the
+rights and licenses of their respective sources.
 
 The AppHub name and logo are not licensed for use as the identity of another project or service.
 Application names and trademarks remain the property of their respective owners.
