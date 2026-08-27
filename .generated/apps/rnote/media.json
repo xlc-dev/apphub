@@ -1,6 +1,10 @@
 {
   "icon": {
     "file": "f05f73ffc3de4b864a8033a7975a0db4f99be1b39691af3d47675fd5af6b5a44.webp",
+    "validator": {
+      "etag": "\"69f4ab86-17ea\"",
+      "lastModified": "Fri, 01 May 2026 13:32:54 GMT"
+    },
     "source": "https://dl.flathub.org/media/com/github/flxzt.rnote/93b04722947997f1b9c5cc51f10e3ced/icons/128x128/com.github.flxzt.rnote.png"
   },
   "screenshots": [
@@ -10,7 +14,11 @@
       "captionTranslations": {
         "nl": "Een overzicht"
       },
-      "source": "https://dl.flathub.org/media/com/github/flxzt.rnote/93b04722947997f1b9c5cc51f10e3ced/screenshots/image-1_orig.png"
+      "source": "https://dl.flathub.org/media/com/github/flxzt.rnote/93b04722947997f1b9c5cc51f10e3ced/screenshots/image-1_orig.png",
+      "validator": {
+        "etag": "\"69f4ab86-3b00b\"",
+        "lastModified": "Fri, 01 May 2026 13:32:54 GMT"
+      }
     },
     {
       "file": "8a7f397a49959f264e3c7da58eb9c36e193be1cea92aab8a554f71fc6485cda1.webp",
@@ -18,7 +26,11 @@
       "captionTranslations": {
         "nl": "Een selectie"
       },
-      "source": "https://dl.flathub.org/media/com/github/flxzt.rnote/93b04722947997f1b9c5cc51f10e3ced/screenshots/image-2_orig.png"
+      "source": "https://dl.flathub.org/media/com/github/flxzt.rnote/93b04722947997f1b9c5cc51f10e3ced/screenshots/image-2_orig.png",
+      "validator": {
+        "etag": "\"69f4ab86-20b33\"",
+        "lastModified": "Fri, 01 May 2026 13:32:54 GMT"
+      }
     },
     {
       "file": "27c141bcf4bdc9a14eb1ad8d2c521787347f097251abd52e5145a54aa9467046.webp",
@@ -26,7 +38,11 @@
       "captionTranslations": {
         "nl": "Schrĳf tekst met de typ­machine"
       },
-      "source": "https://dl.flathub.org/media/com/github/flxzt.rnote/93b04722947997f1b9c5cc51f10e3ced/screenshots/image-3_orig.png"
+      "source": "https://dl.flathub.org/media/com/github/flxzt.rnote/93b04722947997f1b9c5cc51f10e3ced/screenshots/image-3_orig.png",
+      "validator": {
+        "etag": "\"69f4ab86-1c683\"",
+        "lastModified": "Fri, 01 May 2026 13:32:54 GMT"
+      }
     },
     {
       "file": "2f1416e29d83478b7f48055d1263c9c5b85cf7cfe0cada1be6b0f4a2a3fd70e2.webp",
@@ -34,7 +50,11 @@
       "captionTranslations": {
         "nl": "Verberg werk­balken met de focus­modus"
       },
-      "source": "https://dl.flathub.org/media/com/github/flxzt.rnote/93b04722947997f1b9c5cc51f10e3ced/screenshots/image-4_orig.png"
+      "source": "https://dl.flathub.org/media/com/github/flxzt.rnote/93b04722947997f1b9c5cc51f10e3ced/screenshots/image-4_orig.png",
+      "validator": {
+        "etag": "\"69f4ab86-14503\"",
+        "lastModified": "Fri, 01 May 2026 13:32:54 GMT"
+      }
     },
     {
       "file": "87c019dd9c661b3046db60e1a4829f3c86355aa8c20719f32a220738b13c3811.webp",
@@ -42,7 +62,11 @@
       "captionTranslations": {
         "nl": "Krĳg snel toegang tot bestanden via de werk­ruimte"
       },
-      "source": "https://dl.flathub.org/media/com/github/flxzt.rnote/93b04722947997f1b9c5cc51f10e3ced/screenshots/image-5_orig.png"
+      "source": "https://dl.flathub.org/media/com/github/flxzt.rnote/93b04722947997f1b9c5cc51f10e3ced/screenshots/image-5_orig.png",
+      "validator": {
+        "etag": "\"69f4ab86-16c79\"",
+        "lastModified": "Fri, 01 May 2026 13:32:54 GMT"
+      }
     }
   ]
 }

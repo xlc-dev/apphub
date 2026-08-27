@@ -1,13 +1,21 @@
 {
   "icon": {
     "file": "c761b4a022f5aeb8942b5878a2387d823023f953d522d397b315e5ec988ef599.webp",
+    "validator": {
+      "etag": "\"69f7efde-2453\"",
+      "lastModified": "Mon, 04 May 2026 01:01:18 GMT"
+    },
     "source": "https://dl.flathub.org/media/org/librecad/librecad/3a60c174cc1e5684d32478ebe548d3fe/icons/128x128/org.librecad.librecad.png"
   },
   "screenshots": [
     {
       "file": "aa5343a5e95ad5beda1e2cb76a76821708bf28707ec9b0eaee1811dd15fc833b.webp",
       "caption": "Main Window",
-      "source": "https://dl.flathub.org/media/org/librecad/librecad/3a60c174cc1e5684d32478ebe548d3fe/screenshots/image-1_orig.png"
+      "source": "https://dl.flathub.org/media/org/librecad/librecad/3a60c174cc1e5684d32478ebe548d3fe/screenshots/image-1_orig.png",
+      "validator": {
+        "etag": "\"69f7efde-16ccd\"",
+        "lastModified": "Mon, 04 May 2026 01:01:18 GMT"
+      }
     }
   ]
 }

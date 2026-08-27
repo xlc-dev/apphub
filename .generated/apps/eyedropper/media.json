@@ -1,6 +1,10 @@
 {
   "icon": {
     "file": "3814e599d5ecc5e3ae9d5e087cf8b555abc19b90abc1508dd6e94fcac8712e37.webp",
+    "validator": {
+      "etag": "\"69c92269-1afe\"",
+      "lastModified": "Sun, 29 Mar 2026 13:00:25 GMT"
+    },
     "source": "https://dl.flathub.org/media/com/github/finefindus.eyedropper/57454c390f2673554cafcf7f346528da/icons/128x128/com.github.finefindus.eyedropper.png"
   },
   "screenshots": [
@@ -10,7 +14,11 @@
       "captionTranslations": {
         "nl": "Hoofdvenster met een kleur in verschillende formaten"
       },
-      "source": "https://dl.flathub.org/media/com/github/finefindus.eyedropper/57454c390f2673554cafcf7f346528da/screenshots/image-1_orig.png"
+      "source": "https://dl.flathub.org/media/com/github/finefindus.eyedropper/57454c390f2673554cafcf7f346528da/screenshots/image-1_orig.png",
+      "validator": {
+        "etag": "\"69c92269-5293\"",
+        "lastModified": "Sun, 29 Mar 2026 13:00:25 GMT"
+      }
     },
     {
       "file": "59f720e9eac3220c06a7e6b7fbbf32db17563f8077365047c51a7faa6e1e9c13.webp",
@@ -18,12 +26,20 @@
       "captionTranslations": {
         "nl": "Hoofdvenster met aangepaste formaten"
       },
-      "source": "https://dl.flathub.org/media/com/github/finefindus.eyedropper/57454c390f2673554cafcf7f346528da/screenshots/image-2_orig.png"
+      "source": "https://dl.flathub.org/media/com/github/finefindus.eyedropper/57454c390f2673554cafcf7f346528da/screenshots/image-2_orig.png",
+      "validator": {
+        "etag": "\"69c92269-6265\"",
+        "lastModified": "Sun, 29 Mar 2026 13:00:25 GMT"
+      }
     },
     {
       "file": "e3f0ab5afce2359339306705fcb4516069aa7d47262d362500f45851a440a266.webp",
       "caption": "Editor with an HSL editor",
-      "source": "https://dl.flathub.org/media/com/github/finefindus.eyedropper/57454c390f2673554cafcf7f346528da/screenshots/image-3_orig.png"
+      "source": "https://dl.flathub.org/media/com/github/finefindus.eyedropper/57454c390f2673554cafcf7f346528da/screenshots/image-3_orig.png",
+      "validator": {
+        "etag": "\"69c92269-5acd\"",
+        "lastModified": "Sun, 29 Mar 2026 13:00:25 GMT"
+      }
     },
     {
       "file": "aef2ee46456237913d13b09214be6e3c8b3d92a1680f3e98515a8acf54d47838.webp",
@@ -31,7 +47,11 @@
       "captionTranslations": {
         "nl": "Statuspagina met vermelding om een kleur te kiezen om te beginnen"
       },
-      "source": "https://dl.flathub.org/media/com/github/finefindus.eyedropper/57454c390f2673554cafcf7f346528da/screenshots/image-4_orig.png"
+      "source": "https://dl.flathub.org/media/com/github/finefindus.eyedropper/57454c390f2673554cafcf7f346528da/screenshots/image-4_orig.png",
+      "validator": {
+        "etag": "\"69c92269-454a\"",
+        "lastModified": "Sun, 29 Mar 2026 13:00:25 GMT"
+      }
     }
   ]
 }

@@ -1,6 +1,10 @@
 {
   "icon": {
     "file": "0dd2f3f4a61fb683bb05594ca6dfafca2b2c3b27ca0cfa913efbbc6a1f467f39.webp",
+    "validator": {
+      "etag": "\"6a3ebe40-970\"",
+      "lastModified": "Fri, 26 Jun 2026 18:00:32 GMT"
+    },
     "source": "https://dl.flathub.org/media/org/gnome/TextEditor/5e3fd89fe3902731260943854be9b30b/icons/128x128/org.gnome.TextEditor.png"
   },
   "screenshots": [
@@ -10,7 +14,11 @@
       "captionTranslations": {
         "nl": "Het hoofdvenster van Tekstbewerker"
       },
-      "source": "https://dl.flathub.org/media/org/gnome/TextEditor/5e3fd89fe3902731260943854be9b30b/screenshots/image-1_orig.png"
+      "source": "https://dl.flathub.org/media/org/gnome/TextEditor/5e3fd89fe3902731260943854be9b30b/screenshots/image-1_orig.png",
+      "validator": {
+        "etag": "\"6a3ebe40-fc7a\"",
+        "lastModified": "Fri, 26 Jun 2026 18:00:32 GMT"
+      }
     },
     {
       "file": "3a9ea2fc74c19d48aa572a0370ee7cf6c96d1bcf4fedeb898860556bc1037477.webp",
@@ -18,7 +26,11 @@
       "captionTranslations": {
         "nl": "Syntaxismarkering"
       },
-      "source": "https://dl.flathub.org/media/org/gnome/TextEditor/5e3fd89fe3902731260943854be9b30b/screenshots/image-2_orig.png"
+      "source": "https://dl.flathub.org/media/org/gnome/TextEditor/5e3fd89fe3902731260943854be9b30b/screenshots/image-2_orig.png",
+      "validator": {
+        "etag": "\"6a3ebe40-15beb\"",
+        "lastModified": "Fri, 26 Jun 2026 18:00:32 GMT"
+      }
     }
   ]
 }

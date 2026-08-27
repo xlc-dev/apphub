@@ -1,6 +1,10 @@
 {
   "icon": {
     "file": "0122131eaa46630ff9655d108801513e058370be5e566eebc7cd1f9ad6d24fca.webp",
+    "validator": {
+      "etag": "\"6a5e5448-185b\"",
+      "lastModified": "Mon, 20 Jul 2026 17:00:56 GMT"
+    },
     "source": "https://dl.flathub.org/media/io/gitlab/adhami3310.Impression/05aa7f73a71b0cec60d9ba432376066d/icons/128x128/io.gitlab.adhami3310.Impression.png"
   },
   "screenshots": [
@@ -10,7 +14,11 @@
       "captionTranslations": {
         "nl": "Scherm met keuze uit lokale schijfkopie of download"
       },
-      "source": "https://dl.flathub.org/media/io/gitlab/adhami3310.Impression/05aa7f73a71b0cec60d9ba432376066d/screenshots/image-1_orig.png"
+      "source": "https://dl.flathub.org/media/io/gitlab/adhami3310.Impression/05aa7f73a71b0cec60d9ba432376066d/screenshots/image-1_orig.png",
+      "validator": {
+        "etag": "\"6a5e5448-68e1\"",
+        "lastModified": "Mon, 20 Jul 2026 17:00:56 GMT"
+      }
     },
     {
       "file": "66cb0d72d12f6fe4a047e79f5da191c345e0566dc2e27ac2ff4e363ab79ffa25.webp",
@@ -18,7 +26,11 @@
       "captionTranslations": {
         "nl": "Scherm met gekozen iso-bestand en beschikbare schijven"
       },
-      "source": "https://dl.flathub.org/media/io/gitlab/adhami3310.Impression/05aa7f73a71b0cec60d9ba432376066d/screenshots/image-2_orig.png"
+      "source": "https://dl.flathub.org/media/io/gitlab/adhami3310.Impression/05aa7f73a71b0cec60d9ba432376066d/screenshots/image-2_orig.png",
+      "validator": {
+        "etag": "\"6a5e5448-5242\"",
+        "lastModified": "Mon, 20 Jul 2026 17:00:56 GMT"
+      }
     },
     {
       "file": "c20b76e9fba96679de5937a86bf515b640d01e81b47835410b77281206cb1fc9.webp",
@@ -26,7 +38,11 @@
       "captionTranslations": {
         "nl": "Scherm met voortgangsstatus"
       },
-      "source": "https://dl.flathub.org/media/io/gitlab/adhami3310.Impression/05aa7f73a71b0cec60d9ba432376066d/screenshots/image-3_orig.png"
+      "source": "https://dl.flathub.org/media/io/gitlab/adhami3310.Impression/05aa7f73a71b0cec60d9ba432376066d/screenshots/image-3_orig.png",
+      "validator": {
+        "etag": "\"6a5e5448-3b2b\"",
+        "lastModified": "Mon, 20 Jul 2026 17:00:56 GMT"
+      }
     },
     {
       "file": "4fef48a551de7cd92ae6b5fa8c1b3f384611aecb904f4810865c7d551ada189d.webp",
@@ -34,7 +50,11 @@
       "captionTranslations": {
         "nl": "Afrondingsscherm met groot vinkje"
       },
-      "source": "https://dl.flathub.org/media/io/gitlab/adhami3310.Impression/05aa7f73a71b0cec60d9ba432376066d/screenshots/image-4_orig.png"
+      "source": "https://dl.flathub.org/media/io/gitlab/adhami3310.Impression/05aa7f73a71b0cec60d9ba432376066d/screenshots/image-4_orig.png",
+      "validator": {
+        "etag": "\"6a5e5448-48c5\"",
+        "lastModified": "Mon, 20 Jul 2026 17:00:56 GMT"
+      }
     }
   ]
 }

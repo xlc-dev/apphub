@@ -1,6 +1,10 @@
 {
   "icon": {
     "file": "b87ea4af986668cd892c152034dfc10e6255a1974f5c8740e3f0a2e4230e1d96.webp",
+    "validator": {
+      "etag": "\"69c6c0c1-291b\"",
+      "lastModified": "Fri, 27 Mar 2026 17:39:13 GMT"
+    },
     "source": "https://dl.flathub.org/media/app/drey/Warp/66b2b74abeecd4bc7aa79644c759a203/icons/128x128/app.drey.Warp.png"
   },
   "screenshots": [
@@ -10,7 +14,11 @@
       "captionTranslations": {
         "nl": "Hoofdvenster"
       },
-      "source": "https://dl.flathub.org/media/app/drey/Warp/66b2b74abeecd4bc7aa79644c759a203/screenshots/image-1_orig.png"
+      "source": "https://dl.flathub.org/media/app/drey/Warp/66b2b74abeecd4bc7aa79644c759a203/screenshots/image-1_orig.png",
+      "validator": {
+        "etag": "\"69c6c0c1-4684\"",
+        "lastModified": "Fri, 27 Mar 2026 17:39:13 GMT"
+      }
     },
     {
       "file": "7f226513c1031c28e0089c9cbc487d4ea3851ba835ed0a6c6911f16716bf3751.webp",
@@ -18,7 +26,11 @@
       "captionTranslations": {
         "nl": "Overdrachtscode"
       },
-      "source": "https://dl.flathub.org/media/app/drey/Warp/66b2b74abeecd4bc7aa79644c759a203/screenshots/image-2_orig.png"
+      "source": "https://dl.flathub.org/media/app/drey/Warp/66b2b74abeecd4bc7aa79644c759a203/screenshots/image-2_orig.png",
+      "validator": {
+        "etag": "\"69c6c0c1-519c\"",
+        "lastModified": "Fri, 27 Mar 2026 17:39:13 GMT"
+      }
     },
     {
       "file": "6fd16badb15129ee707ddb63e6eeb9b84ac77458131908620239fad9f8b1a768.webp",
@@ -26,7 +38,11 @@
       "captionTranslations": {
         "nl": "Bestandsoverdracht accepteren"
       },
-      "source": "https://dl.flathub.org/media/app/drey/Warp/66b2b74abeecd4bc7aa79644c759a203/screenshots/image-3_orig.png"
+      "source": "https://dl.flathub.org/media/app/drey/Warp/66b2b74abeecd4bc7aa79644c759a203/screenshots/image-3_orig.png",
+      "validator": {
+        "etag": "\"69c6c0c1-5a83\"",
+        "lastModified": "Fri, 27 Mar 2026 17:39:13 GMT"
+      }
     },
     {
       "file": "90303816917d0b5a815ad688636a1a0e36512f7859e8d0a798db3500aaa5c886.webp",
@@ -34,7 +50,11 @@
       "captionTranslations": {
         "nl": "Bestand ontvangen"
       },
-      "source": "https://dl.flathub.org/media/app/drey/Warp/66b2b74abeecd4bc7aa79644c759a203/screenshots/image-4_orig.png"
+      "source": "https://dl.flathub.org/media/app/drey/Warp/66b2b74abeecd4bc7aa79644c759a203/screenshots/image-4_orig.png",
+      "validator": {
+        "etag": "\"69c6c0c1-43ed\"",
+        "lastModified": "Fri, 27 Mar 2026 17:39:13 GMT"
+      }
     },
     {
       "file": "9139357628cbcd5376594b6f937cb24a7e76e687612516c7ed282fcff098ce34.webp",
@@ -42,7 +62,11 @@
       "captionTranslations": {
         "nl": "Bestandsoverdracht voltooid"
       },
-      "source": "https://dl.flathub.org/media/app/drey/Warp/66b2b74abeecd4bc7aa79644c759a203/screenshots/image-5_orig.png"
+      "source": "https://dl.flathub.org/media/app/drey/Warp/66b2b74abeecd4bc7aa79644c759a203/screenshots/image-5_orig.png",
+      "validator": {
+        "etag": "\"69c6c0c1-4a0f\"",
+        "lastModified": "Fri, 27 Mar 2026 17:39:13 GMT"
+      }
     }
   ]
 }
