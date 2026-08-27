@@ -1,0 +1,28 @@
+User-agent: *
+Disallow: /apphub/
+
+User-agent: Googlebot
+Allow: /apphub/
+Disallow: /apphub/api/
+
+User-agent: bingbot
+Allow: /apphub/
+Disallow: /apphub/api/
+
+User-agent: DuckDuckBot
+Allow: /apphub/
+Disallow: /apphub/api/
+
+User-agent: YandexBot
+Allow: /apphub/
+Disallow: /apphub/api/
+
+User-agent: Baiduspider
+Allow: /apphub/
+Disallow: /apphub/api/
+
+User-agent: MojeekBot
+Allow: /apphub/
+Disallow: /apphub/api/
+
+Sitemap: https://xlc-dev.github.io/apphub/sitemap.xml
