@@ -48,10 +48,10 @@ describe("localization", () => {
     assert.throws(() => normalizeLocale("nl/../../"), /Invalid locale tag/);
   });
 
-  test("prefixes every localized URL", () => {
-    assert.equal(localePath("/apps/", "en"), "/en/apps/");
+  test("leaves default-locale URLs unprefixed", () => {
+    assert.equal(localePath("/apps/", "en"), "/apps/");
     assert.equal(localePath("/apps/", "nl"), "/nl/apps/");
-    assert.equal(stripLocale("/en/apps/"), "/apps/");
+    assert.equal(stripLocale("/apps/"), "/apps/");
     assert.equal(stripLocale("/nl/apps/"), "/apps/");
   });
 

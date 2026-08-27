@@ -1,11 +1,7 @@
 import { access, readFile, readdir } from "node:fs/promises";
 import { defaultLocale, localeDefinitions, locales, type Locale } from "#lib/locales";
 
-const defaultDirectory = `dist${localeDefinitions[defaultLocale].path}`;
 const otherLocales = locales.filter((locale) => locale !== defaultLocale);
-const defaultPages = (await readdir(defaultDirectory, { recursive: true })).filter((path) =>
-  path.endsWith(".html")
-);
 
 function validatePair(path: string, locale: Locale, defaultPage: string, localized: string) {
   if (
@@ -22,13 +18,20 @@ function validatePair(path: string, locale: Locale, defaultPage: string, localiz
   }
 }
 
-for (const path of defaultPages) {
-  const defaultPage = await readFile(`${defaultDirectory}/${path}`, "utf8");
+let pairs = 0;
 
-  for (const locale of otherLocales) {
+for (const locale of otherLocales) {
+  const localizedDirectory = `dist${localeDefinitions[locale].path}`;
+  const localizedPages = (await readdir(localizedDirectory, { recursive: true })).filter((path) =>
+    path.endsWith(".html")
+  );
+
+  for (const path of localizedPages) {
+    const defaultPage = await readFile(`dist/${path}`, "utf8");
     const localized = await readFile(`dist${localeDefinitions[locale].path}/${path}`, "utf8");
 
     validatePair(path, locale, defaultPage, localized);
+    pairs++;
   }
 }
 
@@ -36,4 +39,4 @@ await Promise.all(
   locales.map((locale) => access(`dist${localeDefinitions[locale].path}/search-index.json`))
 );
 
-console.log(`Validated ${defaultPages.length * otherLocales.length} localized route pairs.`);
+console.log(`Validated ${pairs} localized route pairs.`);
