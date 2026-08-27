@@ -1,0 +1,26 @@
+{
+  "appstream": {
+    "type": "flathub",
+    "id": "org.example.App"
+  },
+  "addedAt": "YYYY-MM-DD",
+  "origin": {
+    "type": "third-party"
+  },
+  "releaseSource": {
+    "type": "github",
+    "repository": "owner/appimage-repository"
+  },
+  "sandbox": {
+    "network": "none",
+    "display": "none",
+    "audio": "none",
+    "processes": "isolated",
+    "ipc": false,
+    "filesystem": [],
+    "devices": [],
+    "portals": [],
+    "sessionBus": [],
+    "systemBus": []
+  }
+}
