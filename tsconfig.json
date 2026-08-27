@@ -3,6 +3,7 @@
   "compilerOptions": {
     "exactOptionalPropertyTypes": true,
     "allowImportingTsExtensions": true,
+    "erasableSyntaxOnly": true,
     "noImplicitOverride": true,
     "noUncheckedIndexedAccess": true,
     "paths": {
