@@ -1,0 +1,73 @@
+import assert from "node:assert/strict";
+import { test } from "node:test";
+import { feedSourceReleases } from "#scripts/releases/feed";
+import type { App, ReleaseLock } from "#catalog/schema";
+
+const app = {
+  id: "org.example.App",
+  releaseSource: { type: "feed", url: "https://example.org/releases.json" },
+} as App;
+
+const lock = {
+  appId: app.id,
+  releases: [],
+} satisfies ReleaseLock;
+
+test("validates and normalizes feed releases", () => {
+  const releases = feedSourceReleases(app, lock, {
+    releases: [
+      {
+        version: "1.0",
+        publishedAt: "2026-08-20T10:49:50+02:00",
+        page: "https://example.org/releases/1.0",
+        artifacts: [
+          {
+            architecture: "x86_64",
+            name: "Example-x86_64.AppImage",
+            url: "https://example.org/Example-x86_64.AppImage",
+            size: 100,
+          },
+        ],
+      },
+    ],
+  });
+
+  assert.deepEqual(releases, [
+    {
+      version: "1.0",
+      publishedAt: "2026-08-20T08:49:50.000Z",
+      page: "https://example.org/releases/1.0",
+      artifacts: [
+        {
+          architecture: "x86_64",
+          name: "Example-x86_64.AppImage",
+          url: "https://example.org/Example-x86_64.AppImage",
+          size: 100,
+        },
+      ],
+    },
+  ]);
+});
+
+test("rejects hostile feed structures", () => {
+  const artifact = {
+    architecture: "x86_64",
+    name: "Example.AppImage",
+    url: "https://example.org/Example.AppImage",
+    size: 100,
+  };
+  const release = {
+    version: "1.0",
+    publishedAt: "2026-08-20T10:49:50Z",
+    page: "https://example.org/releases/1.0",
+    artifacts: [artifact],
+  };
+
+  assert.throws(() => feedSourceReleases(app, lock, { releases: [{ ...release, unknown: true }] }));
+  assert.throws(() =>
+    feedSourceReleases(app, lock, {
+      releases: [{ ...release, artifacts: Array(11).fill(artifact) }],
+    })
+  );
+  assert.throws(() => feedSourceReleases(app, lock, { releases: Array(1_001).fill(release) }));
+});
