@@ -1,18 +1,30 @@
 {
   "icon": {
     "file": "5a743b033b54ae92765cd3f015bae58b81d0987abea536ed7ba7e9e98db5047d.webp",
+    "validator": {
+      "etag": "\"6a6e96e6-e23\"",
+      "lastModified": "Sun, 02 Aug 2026 01:01:26 GMT"
+    },
     "source": "https://dl.flathub.org/media/io/gitlab/news_flash.NewsFlash/018362c334e8d0fe55477e1e8a876dd8/icons/128x128/io.gitlab.news_flash.NewsFlash.png"
   },
   "screenshots": [
     {
       "file": "3efb29032214ef8bfb38516c6ac6090cd05561edd1c6147b1ae68b87e620825d.webp",
       "caption": "Main Window",
-      "source": "https://dl.flathub.org/media/io/gitlab/news_flash.NewsFlash/018362c334e8d0fe55477e1e8a876dd8/screenshots/image-1_orig.png"
+      "source": "https://dl.flathub.org/media/io/gitlab/news_flash.NewsFlash/018362c334e8d0fe55477e1e8a876dd8/screenshots/image-1_orig.png",
+      "validator": {
+        "etag": "\"6a6e96e6-144d80\"",
+        "lastModified": "Sun, 02 Aug 2026 01:01:26 GMT"
+      }
     },
     {
       "file": "38fdd2c4a60c23e7e3903043aa8041248b18123d1c67172cc5ee45e9e4320e05.webp",
       "caption": "Main Window Dark",
-      "source": "https://dl.flathub.org/media/io/gitlab/news_flash.NewsFlash/018362c334e8d0fe55477e1e8a876dd8/screenshots/image-2_orig.png"
+      "source": "https://dl.flathub.org/media/io/gitlab/news_flash.NewsFlash/018362c334e8d0fe55477e1e8a876dd8/screenshots/image-2_orig.png",
+      "validator": {
+        "etag": "\"6a6e96e6-102052\"",
+        "lastModified": "Sun, 02 Aug 2026 01:01:26 GMT"
+      }
     },
     {
       "file": "1b7097d3811789dd546073144c9ad800112fa5c573f4525c06e4e8b11c142c18.webp",
@@ -20,17 +32,29 @@
       "captionTranslations": {
         "nl": "Voorkeuren"
       },
-      "source": "https://dl.flathub.org/media/io/gitlab/news_flash.NewsFlash/018362c334e8d0fe55477e1e8a876dd8/screenshots/image-3_orig.png"
+      "source": "https://dl.flathub.org/media/io/gitlab/news_flash.NewsFlash/018362c334e8d0fe55477e1e8a876dd8/screenshots/image-3_orig.png",
+      "validator": {
+        "etag": "\"6a6e96e6-84c4e\"",
+        "lastModified": "Sun, 02 Aug 2026 01:01:26 GMT"
+      }
     },
     {
       "file": "0ef389ea37e629ed9583578f339ed1dd0fe0d49afe3b1ad6f377079816e785a7.webp",
       "caption": "Adaptive Main Window",
-      "source": "https://dl.flathub.org/media/io/gitlab/news_flash.NewsFlash/018362c334e8d0fe55477e1e8a876dd8/screenshots/image-4_orig.png"
+      "source": "https://dl.flathub.org/media/io/gitlab/news_flash.NewsFlash/018362c334e8d0fe55477e1e8a876dd8/screenshots/image-4_orig.png",
+      "validator": {
+        "etag": "\"6a6e96e6-4746a\"",
+        "lastModified": "Sun, 02 Aug 2026 01:01:26 GMT"
+      }
     },
     {
       "file": "8ee089418dd3b1636dbd68579a0cdec09fa938fd89e4604b175da1a1ac74a257.webp",
       "caption": "Podcast",
-      "source": "https://dl.flathub.org/media/io/gitlab/news_flash.NewsFlash/018362c334e8d0fe55477e1e8a876dd8/screenshots/image-5_orig.png"
+      "source": "https://dl.flathub.org/media/io/gitlab/news_flash.NewsFlash/018362c334e8d0fe55477e1e8a876dd8/screenshots/image-5_orig.png",
+      "validator": {
+        "etag": "\"6a6e96e6-5003e\"",
+        "lastModified": "Sun, 02 Aug 2026 01:01:26 GMT"
+      }
     }
   ]
 }

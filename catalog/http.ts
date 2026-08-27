@@ -10,7 +10,10 @@ type Fetcher = (input: string, init?: RequestInit) => Promise<Response>;
 type Resolver = (hostname: string) => Promise<Array<{ address: string }>>;
 
 const maxRedirects = 5;
-const blockedAddresses = new BlockList();
+const blockedAddresses = {
+  ipv4: new BlockList(),
+  ipv6: new BlockList(),
+};
 
 for (const [address, prefix, family] of [
   ["0.0.0.0", 8, "ipv4"],
@@ -32,7 +35,7 @@ for (const [address, prefix, family] of [
   ["2001::", 23, "ipv6"],
   ["2002::", 16, "ipv6"],
 ] as const) {
-  blockedAddresses.addSubnet(address, prefix, family);
+  blockedAddresses[family].addSubnet(address, prefix, family);
 }
 
 export function conditionalHeaders(validator?: HttpValidator) {
@@ -55,7 +58,11 @@ function isPrivateAddress(address: string) {
   const normalized = address.toLowerCase().split("%")[0]!;
   const version = isIP(normalized);
 
-  return version === 0 || blockedAddresses.check(normalized, version === 4 ? "ipv4" : "ipv6");
+  if (version === 0) return true;
+
+  const family = version === 4 ? "ipv4" : "ipv6";
+
+  return blockedAddresses[family].check(normalized, family);
 }
 
 async function resolve(hostname: string) {
@@ -125,6 +132,7 @@ function pinnedFetch(url: URL, init: RequestInit, addresses: LookupAddress[]) {
     const request = httpsRequest(
       url,
       {
+        agent: false,
         method: init.method,
         headers: Object.fromEntries(new Headers(init.headers)),
         lookup: pinnedLookup(addresses),

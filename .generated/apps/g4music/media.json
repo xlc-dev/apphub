@@ -1,6 +1,10 @@
 {
   "icon": {
     "file": "010c32326559462db602c40e26e4b3f7ba06bcd85f78549c68f6947b0b30ae30.webp",
+    "validator": {
+      "etag": "\"6a3f5905-4a63\"",
+      "lastModified": "Sat, 27 Jun 2026 05:00:53 GMT"
+    },
     "source": "https://dl.flathub.org/media/com/github/neithern.g4music/d93db3223240a62a7226f3c899dd5a48/icons/128x128/com.github.neithern.g4music.png"
   },
   "screenshots": [
@@ -10,7 +14,11 @@
       "captionTranslations": {
         "nl": "Hoofdvenster"
       },
-      "source": "https://dl.flathub.org/media/com/github/neithern.g4music/d93db3223240a62a7226f3c899dd5a48/screenshots/image-1_orig.png"
+      "source": "https://dl.flathub.org/media/com/github/neithern.g4music/d93db3223240a62a7226f3c899dd5a48/screenshots/image-1_orig.png",
+      "validator": {
+        "etag": "\"6a3f5905-92036\"",
+        "lastModified": "Sat, 27 Jun 2026 05:00:53 GMT"
+      }
     },
     {
       "file": "df8a2c0639fd6afef8f22698ae944b5f6ea86468df27bbbfd3764156bd18fbd9.webp",
@@ -18,7 +26,11 @@
       "captionTranslations": {
         "nl": "Albumweergave"
       },
-      "source": "https://dl.flathub.org/media/com/github/neithern.g4music/d93db3223240a62a7226f3c899dd5a48/screenshots/image-2_orig.png"
+      "source": "https://dl.flathub.org/media/com/github/neithern.g4music/d93db3223240a62a7226f3c899dd5a48/screenshots/image-2_orig.png",
+      "validator": {
+        "etag": "\"6a3f5905-ec46b\"",
+        "lastModified": "Sat, 27 Jun 2026 05:00:53 GMT"
+      }
     },
     {
       "file": "7e4e4a259866f295ea03a1248013272aceb031ea8e4ddcae888d84a2ddd2d645.webp",
@@ -26,7 +38,11 @@
       "captionTranslations": {
         "nl": "Afspeelweergave"
       },
-      "source": "https://dl.flathub.org/media/com/github/neithern.g4music/d93db3223240a62a7226f3c899dd5a48/screenshots/image-3_orig.png"
+      "source": "https://dl.flathub.org/media/com/github/neithern.g4music/d93db3223240a62a7226f3c899dd5a48/screenshots/image-3_orig.png",
+      "validator": {
+        "etag": "\"6a3f5905-56530\"",
+        "lastModified": "Sat, 27 Jun 2026 05:00:53 GMT"
+      }
     },
     {
       "file": "9d4794ef9278f40721a2aa7662860aaa38c27a8be0052ba8593e4b9b9b3e01ca.webp",
@@ -34,7 +50,11 @@
       "captionTranslations": {
         "nl": "Afspeellijstweergave"
       },
-      "source": "https://dl.flathub.org/media/com/github/neithern.g4music/d93db3223240a62a7226f3c899dd5a48/screenshots/image-4_orig.png"
+      "source": "https://dl.flathub.org/media/com/github/neithern.g4music/d93db3223240a62a7226f3c899dd5a48/screenshots/image-4_orig.png",
+      "validator": {
+        "etag": "\"6a3f5905-4787b\"",
+        "lastModified": "Sat, 27 Jun 2026 05:00:53 GMT"
+      }
     }
   ]
 }

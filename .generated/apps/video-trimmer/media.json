@@ -1,6 +1,10 @@
 {
   "icon": {
     "file": "7100f2f653671175496475507de12a5861ae7bd0ead0c145c49b616565b127be.webp",
+    "validator": {
+      "etag": "\"6a154524-510\"",
+      "lastModified": "Tue, 26 May 2026 07:00:52 GMT"
+    },
     "source": "https://dl.flathub.org/media/org/gnome/gitlab.YaLTeR.VideoTrimmer/45d748bc1bb2fe824c27b28e05b4c01c/icons/128x128/org.gnome.gitlab.YaLTeR.VideoTrimmer.png"
   },
   "screenshots": [
@@ -10,7 +14,11 @@
       "captionTranslations": {
         "nl": "Hoofdvenster"
       },
-      "source": "https://dl.flathub.org/media/org/gnome/gitlab.YaLTeR.VideoTrimmer/45d748bc1bb2fe824c27b28e05b4c01c/screenshots/image-1_orig.png"
+      "source": "https://dl.flathub.org/media/org/gnome/gitlab.YaLTeR.VideoTrimmer/45d748bc1bb2fe824c27b28e05b4c01c/screenshots/image-1_orig.png",
+      "validator": {
+        "etag": "\"6a154524-5a9f2\"",
+        "lastModified": "Tue, 26 May 2026 07:00:52 GMT"
+      }
     }
   ]
 }

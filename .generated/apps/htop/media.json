@@ -1,13 +1,19 @@
 {
   "icon": {
     "file": "6e5155e23770a0380eb42150a34518e24b96698ad81f37dc43f29d7c82fdf4ac.webp",
+    "validator": {
+      "etag": "\"9e672362f21c209e746b2e0fbbd6d2be1edbd3006e1521f889a8f706b07b3610\""
+    },
     "source": "https://raw.githubusercontent.com/htop-dev/htop/main/htop.png"
   },
   "screenshots": [
     {
       "file": "a17ab743719786c9512eba8a6baaf8e765d7af018f135aeaba93e5c9d1356064.webp",
       "caption": "Process list and system meters",
-      "source": "https://raw.githubusercontent.com/htop-dev/htop/main/docs/images/screenshot.png"
+      "source": "https://raw.githubusercontent.com/htop-dev/htop/main/docs/images/screenshot.png",
+      "validator": {
+        "etag": "\"4fe0c3746a97c22a8d0548ec23725b04808938427b6cc9da931ed785daa85a38\""
+      }
     }
   ]
 }

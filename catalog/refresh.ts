@@ -41,11 +41,12 @@ export type SuccessfulRefreshState = z.infer<typeof successfulRefreshStateSchema
 export type RefreshIncidentCategory = z.infer<typeof refreshIncidentCategorySchema>;
 
 export class RefreshError extends Error {
-  constructor(
-    readonly category: RefreshIncidentCategory,
-    message: string
-  ) {
+  readonly category: RefreshIncidentCategory;
+
+  constructor(category: RefreshIncidentCategory, message: string) {
     super(message);
+
+    this.category = category;
   }
 }
 
