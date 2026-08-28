@@ -1,6 +1,7 @@
 import { categoryName } from "#lib/categories";
 import { getLocale, localePath, translate, type Locale } from "#lib/i18n";
 import { sitePath } from "#lib/paths";
+import { buttonClasses } from "../components/ui/button";
 import {
   catalogFilterParameters,
   searchCardSelectors,
@@ -8,6 +9,8 @@ import {
   type CatalogFilters,
   type SearchIndexEntry,
 } from "#lib/search";
+
+const paginationControlClass = buttonClasses("outline", "default");
 
 function isCatalogHistoryState(value: unknown): value is { apphubCatalog: true } {
   return (
@@ -85,11 +88,21 @@ function pageLink(page: number, label: string) {
   url.searchParams.set("page", String(page));
 
   link.href = url.toString();
-  link.className =
-    "inline-flex min-h-11 items-center justify-center rounded-md border border-[var(--border)] bg-[var(--control-bg)] px-4 text-sm font-medium shadow-sm hover:bg-[var(--card-raised)]";
+  link.className = paginationControlClass;
+  link.dataset.searchPage = "";
   link.textContent = label;
 
   return link;
+}
+
+function disabledPageControl(label: string) {
+  const control = document.createElement("span");
+
+  control.className = `${paginationControlClass} opacity-50`;
+  control.setAttribute("aria-disabled", "true");
+  control.textContent = label;
+
+  return control;
 }
 
 export function initializeCatalogSearch() {
@@ -211,8 +224,6 @@ export function initializeCatalogSearch() {
     }
 
     const filters = filtersFromUrl(url);
-    const staticPagination = document.querySelector<HTMLElement>("[data-static-pagination]");
-
     index ??= (await fetch(sitePath(localePath("/search-index.json", locale))).then((response) => {
       if (!response.ok) throw new Error(t("search.failed", { status: response.status }));
 
@@ -232,14 +243,17 @@ export function initializeCatalogSearch() {
     pageStatus.className = "min-w-24 text-center text-sm text-[var(--muted)]";
     pageStatus.textContent = t("pagination.page", page);
     pagination.replaceChildren(
-      ...(page.page > 1 ? [pageLink(page.page - 1, t("pagination.previous"))] : []),
+      page.page > 1
+        ? pageLink(page.page - 1, t("pagination.previous"))
+        : disabledPageControl(t("pagination.previous")),
       pageStatus,
-      ...(page.page < page.pages ? [pageLink(page.page + 1, t("pagination.next"))] : [])
+      page.page < page.pages
+        ? pageLink(page.page + 1, t("pagination.next"))
+        : disabledPageControl(t("pagination.next"))
     );
     pagination.hidden = page.pages <= 1;
 
     empty.hidden = page.total !== 0;
-    if (staticPagination) staticPagination.hidden = true;
     status.textContent = t(page.total === 1 ? "apps.appFound" : "apps.appsFound", {
       count: page.total,
     });
@@ -266,7 +280,7 @@ export function initializeCatalogSearch() {
       return;
     }
 
-    const link = target.closest<HTMLAnchorElement>("a[href]");
+    const link = target.closest<HTMLAnchorElement>("a[data-search-page]");
     if (!link) return;
 
     event.preventDefault();

@@ -257,14 +257,9 @@ const catalogPath = sitePath(localePath(basePath, locale));
             </template>
           )
         }
-        <nav
-          class="mt-8 flex items-center justify-center gap-4"
-          aria-label={t("search.pages")}
-          hidden
-          data-search-pagination>
-        </nav>
       </div>
       <Pagination
+        dynamic
         class="mt-4 lg:col-span-2 lg:col-start-1"
         basePath={basePath}
         label={category

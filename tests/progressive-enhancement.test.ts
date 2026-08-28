@@ -53,7 +53,16 @@ test("reveals JavaScript-only controls after initialization", async () => {
 
 test("keeps enhanced catalog pagination client-side", async () => {
   const search = await readFile("src/client/catalog-search.ts", "utf8");
+  const catalog = await readFile("src/views/CatalogPage.astro", "utf8");
+  const pagination = await readFile("src/components/Pagination.astro", "utf8");
 
+  assert.match(catalog, /<Pagination\s+dynamic/);
+  assert.doesNotMatch(catalog, /<nav[^>]+data-search-pagination/s);
+  assert.match(pagination, /data-search-pagination=\{dynamic \|\| undefined\}/);
+  assert.doesNotMatch(search, /data-static-pagination/);
+  assert.match(search, /disabledPageControl/);
+  assert.match(search, /link\.dataset\.searchPage = ""/);
+  assert.match(search, /closest<HTMLAnchorElement>\("a\[data-search-page\]"\)/);
   assert.match(search, /pagination\.addEventListener\("click"/);
   assert.match(search, /event\.button !== 0/);
   assert.match(search, /event\.metaKey/);
