@@ -120,12 +120,10 @@ const t = (key: Parameters<typeof translate>[1]) => translate(locale, key);
     <script is:inline>
       try {
         const saved = localStorage.getItem("apphub-theme");
-        document.documentElement.dataset.theme =
-          saved === "light" || saved === "dark"
-            ? saved
-            : matchMedia("(prefers-color-scheme: dark)").matches
-              ? "dark"
-              : "light";
+        const savedTheme = saved === "light" || saved === "dark" ? saved : undefined;
+        const systemTheme = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+
+        document.documentElement.dataset.theme = savedTheme ?? systemTheme;
         document.documentElement.dataset.themeMode =
           saved === "light" || saved === "dark" || saved === "system" ? saved : "system";
         document

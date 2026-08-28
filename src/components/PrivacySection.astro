@@ -1,0 +1,13 @@
+---
+import Section from "@/components/ui/Section.astro";
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<Section spaced={false} class="border-t border-[var(--border)] pt-8" title={title}>
+  <p class="leading-7 text-[var(--muted)]"><slot /></p>
+</Section>

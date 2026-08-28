@@ -95,14 +95,14 @@ const t = (key: Parameters<typeof translate>[1]) => translate(locale, key);
           option.hidden = !option.dataset.categoryValue!.includes(query);
           matches += option.hidden ? 0 : 1;
         });
-        if (status) {
-          status.textContent = query
-            ? (matches === 1 ? list.dataset.categoryFound! : list.dataset.categoriesFound!).replace(
-                "{count}",
-                String(matches)
-              )
-            : "";
+
+        if (!status) {
+          return;
         }
+
+        const message = matches === 1 ? list.dataset.categoryFound! : list.dataset.categoriesFound!;
+
+        status.textContent = query ? message.replace("{count}", String(matches)) : "";
       });
     }
   }

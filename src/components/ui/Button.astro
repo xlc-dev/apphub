@@ -1,6 +1,6 @@
 ---
 import type { HTMLAttributes } from "astro/types";
-import { buttonClasses, type ButtonVariant } from "@/components/ui/buttonStyles";
+import { buttonClasses, type ButtonSize, type ButtonVariant } from "@/components/ui/buttonStyles";
 
 interface Props extends HTMLAttributes<"button"> {
   icon?: boolean;
@@ -16,17 +16,20 @@ const {
   type = "button",
   ...attributes
 } = Astro.props;
+
+const buttonVariant = variant ?? (icon ? "icon" : "outline");
+let buttonSize: ButtonSize = "default";
+
+if (icon) {
+  buttonSize = "icon";
+} else if (large) {
+  buttonSize = "large";
+}
 ---
 
 <button
   {...attributes}
   type={type}
-  class:list={[
-    buttonClasses(
-      variant ?? (icon ? "icon" : "outline"),
-      icon ? "icon" : large ? "large" : "default"
-    ),
-    className,
-  ]}>
+  class:list={[buttonClasses(buttonVariant, buttonSize), className]}>
   <slot />
 </button>

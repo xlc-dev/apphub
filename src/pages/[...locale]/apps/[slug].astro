@@ -41,18 +41,25 @@ const [repositoryStars, downloads] = await Promise.all([
 const stars = repositoryStars[app.slug];
 const latest = app.releases[0];
 const downloadsBlocked = app.status === "quarantined" || app.status === "unavailable";
-const statusMessage =
-  app.status === "quarantined"
-    ? t("app.quarantined")
-    : app.status === "unavailable"
-      ? t("app.unavailable")
-      : app.status === "stale"
-        ? t("app.stale")
-        : undefined;
+let statusMessage: string | undefined;
+
+if (app.status === "quarantined") {
+  statusMessage = t("app.quarantined");
+} else if (app.status === "unavailable") {
+  statusMessage = t("app.unavailable");
+} else if (app.status === "stale") {
+  statusMessage = t("app.stale");
+}
 const ageRating =
   app.contentRating?.minimumAge !== undefined ? `${app.contentRating.minimumAge}+` : undefined;
 const contentWarnings = app.contentRating?.warnings ?? [];
 const donation = app.links?.donation;
+const badgeClass =
+  "inline-flex items-center gap-1.5 rounded-full border border-[var(--border)] bg-[var(--control-bg)] px-2.5 py-1 text-xs font-medium text-[var(--text)]";
+const ageLabel = ageRating && t("app.ages", { age: ageRating });
+const ageLabelWithDescription = app.contentRating?.label
+  ? `${ageLabel}, ${app.contentRating.label}`
+  : ageLabel;
 ---
 
 <BaseLayout
@@ -83,16 +90,15 @@ const donation = app.links?.donation;
           {
             ageRating && (
               <span
-                class="inline-flex items-center gap-1.5 rounded-full border border-[var(--border)] bg-[var(--control-bg)] px-2.5 py-1 text-xs font-medium text-[var(--text)]"
+                class={badgeClass}
                 title={app.contentRating?.label}
-                aria-label={`${t("app.ages", { age: ageRating })}${app.contentRating?.label ? `, ${app.contentRating.label}` : ""}`}>
+                aria-label={ageLabelWithDescription}>
                 <Icon name="age-rating" class="size-3.5 text-[var(--muted)]" />
-                {t("app.ages", { age: ageRating })}
+                {ageLabel}
               </span>
             )
           }
-          <span
-            class="inline-flex items-center gap-1.5 rounded-full border border-[var(--border)] bg-[var(--control-bg)] px-2.5 py-1 text-xs font-medium text-[var(--text)]">
+          <span class={badgeClass}>
             <Icon name="license" class="size-3.5 text-[var(--muted)]" />
             {app.projectLicense}
           </span>

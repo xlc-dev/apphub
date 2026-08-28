@@ -59,7 +59,9 @@ const icons = {
   function initializeThemeMenus() {
     const menus = Array.from(document.querySelectorAll<HTMLDetailsElement>("[data-theme-menu]"));
 
-    if (!menus.length || menus.every((menu) => menu.dataset.initialized)) return;
+    if (!menus.length || menus.every((menu) => menu.dataset.initialized)) {
+      return;
+    }
 
     const options = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-theme-option]"));
     const media = matchMedia("(prefers-color-scheme: dark)");
@@ -73,19 +75,20 @@ const icons = {
         .querySelector("[data-theme-color]")
         ?.setAttribute("content", theme === "dark" ? "#1e1e1e" : "#fafafa");
 
-      menus.forEach((menu) =>
-        menu
-          .querySelectorAll<HTMLElement>("[data-theme-current]")
-          .forEach((icon) => icon.classList.toggle("hidden", icon.dataset.themeCurrent !== mode))
-      );
-      options.forEach((option) => {
+      for (const menu of menus) {
+        for (const icon of menu.querySelectorAll<HTMLElement>("[data-theme-current]")) {
+          icon.classList.toggle("hidden", icon.dataset.themeCurrent !== mode);
+        }
+      }
+
+      for (const option of options) {
         const selected = option.dataset.themeOption === mode;
 
         option.setAttribute("aria-pressed", String(selected));
         option
           .querySelector<HTMLElement>("[data-theme-check]")
           ?.classList.toggle("invisible", !selected);
-      });
+      }
 
       if (save) {
         try {
@@ -102,39 +105,43 @@ const icons = {
 
     apply(parseThemeMode(stored), false);
 
-    options.forEach((option) =>
+    for (const option of options) {
       option.addEventListener("click", () => {
         apply(parseThemeMode(option.dataset.themeOption ?? null), true);
 
         const menu = option.closest<HTMLDetailsElement>("[data-theme-menu]");
         menu?.removeAttribute("open");
         menu?.querySelector<HTMLElement>("[data-theme-summary]")?.focus();
-      })
-    );
+      });
+    }
 
-    menus.forEach((menu) =>
+    for (const menu of menus) {
       menu.addEventListener("keydown", (event) => {
         if (event.key === "Escape") {
           menu.removeAttribute("open");
           menu.querySelector<HTMLElement>("[data-theme-summary]")?.focus();
         }
-      })
-    );
+      });
+    }
 
     document.addEventListener("click", (event) => {
-      menus.forEach((menu) => {
-        if (!menu.contains(event.target as Node)) menu.removeAttribute("open");
-      });
+      for (const menu of menus) {
+        if (!menu.contains(event.target as Node)) {
+          menu.removeAttribute("open");
+        }
+      }
     });
 
     media.addEventListener("change", () => {
-      if (document.documentElement.dataset.themeMode === "system") apply("system", false);
+      if (document.documentElement.dataset.themeMode === "system") {
+        apply("system", false);
+      }
     });
 
-    menus.forEach((menu) => {
+    for (const menu of menus) {
       menu.dataset.initialized = "true";
       menu.hidden = false;
-    });
+    }
   }
 
   initializeThemeMenus();

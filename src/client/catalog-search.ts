@@ -25,7 +25,9 @@ function isCatalogHistoryState(value: unknown): value is { apphubCatalog: true }
 function appCard(app: SearchIndexEntry, template: HTMLTemplateElement, locale: Locale) {
   const article = template.content.firstElementChild?.cloneNode(true);
 
-  if (!(article instanceof HTMLElement)) throw new Error("Search card template is empty");
+  if (!(article instanceof HTMLElement)) {
+    throw new Error("Search card template is empty");
+  }
 
   const link = article.querySelector<HTMLAnchorElement>(searchCardSelectors.link);
   const icon = article.querySelector<HTMLImageElement>(searchCardSelectors.icon);
@@ -109,7 +111,9 @@ function disabledPageControl(label: string) {
 export function initializeCatalogSearch() {
   const form = document.querySelector<HTMLFormElement>("[data-catalog-search]");
 
-  if (!form || form.dataset.initialized) return;
+  if (!form || form.dataset.initialized) {
+    return;
+  }
 
   const input = form.querySelector<HTMLInputElement>("[data-catalog-search-input]");
   const status = form.querySelector<HTMLElement>("[data-search-status]");
@@ -131,7 +135,9 @@ export function initializeCatalogSearch() {
   );
   const visibleStatus = document.querySelector<HTMLElement>("[data-visible-filter-status]");
 
-  if (!input || !status || !results || !empty || !pagination || !cardTemplate) return;
+  if (!input || !status || !results || !empty || !pagination || !cardTemplate) {
+    return;
+  }
 
   const locale = getLocale(document.documentElement.lang);
   const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown>) =>
@@ -177,7 +183,9 @@ export function initializeCatalogSearch() {
       (parameter) => filterValues(url, parameter).length > 0
     );
 
-    for (const button of clearButtons) button.disabled = !hasFilters;
+    for (const button of clearButtons) {
+      button.disabled = !hasFilters;
+    }
 
     for (const menu of filterMenus) {
       const count = menu.querySelector<HTMLElement>("[data-filter-count]");
@@ -226,7 +234,9 @@ export function initializeCatalogSearch() {
 
     const filters = filtersFromUrl(url);
     index ??= (await fetch(sitePath(localePath("/search-index.json", locale))).then((response) => {
-      if (!response.ok) throw new Error(t("search.failed", { status: response.status }));
+      if (!response.ok) {
+        throw new Error(t("search.failed", { status: response.status }));
+      }
 
       return response.json();
     })) as SearchIndexEntry[];
@@ -259,7 +269,9 @@ export function initializeCatalogSearch() {
     status.textContent = t(page.total === 1 ? "apps.appFound" : "apps.appsFound", {
       count: page.total,
     });
-    if (visibleStatus) visibleStatus.textContent = status.textContent;
+    if (visibleStatus) {
+      visibleStatus.textContent = status.textContent;
+    }
   };
 
   const runFilter = () => {
@@ -283,7 +295,9 @@ export function initializeCatalogSearch() {
     }
 
     const link = target.closest<HTMLAnchorElement>("a[data-search-page]");
-    if (!link) return;
+    if (!link) {
+      return;
+    }
 
     event.preventDefault();
     history.pushState({ ...(history.state ?? {}), apphubCatalog: true }, "", link.href);
@@ -296,8 +310,11 @@ export function initializeCatalogSearch() {
     const url = new URL(location.href);
 
     url.pathname = catalogPath;
-    if (input.value.trim()) url.searchParams.set("q", input.value.trim());
-    else url.searchParams.delete("q");
+    if (input.value.trim()) {
+      url.searchParams.set("q", input.value.trim());
+    } else {
+      url.searchParams.delete("q");
+    }
     url.searchParams.delete("page");
     history.pushState({ ...(history.state ?? {}), apphubCatalog: true }, "", url);
     syncControls(url);
@@ -310,8 +327,11 @@ export function initializeCatalogSearch() {
       const selected = new Set(filterValues(url, filterInput.name));
 
       url.pathname = catalogPath;
-      if (filterInput.checked) selected.add(filterInput.value);
-      else selected.delete(filterInput.value);
+      if (filterInput.checked) {
+        selected.add(filterInput.value);
+      } else {
+        selected.delete(filterInput.value);
+      }
 
       url.searchParams.delete(filterInput.name);
       for (const input of filterInputs) {
@@ -332,7 +352,9 @@ export function initializeCatalogSearch() {
       const url = new URL(location.href);
 
       url.pathname = catalogPath;
-      for (const parameter of catalogFilterParameters) url.searchParams.delete(parameter);
+      for (const parameter of catalogFilterParameters) {
+        url.searchParams.delete(parameter);
+      }
       url.searchParams.delete("page");
       history.pushState({ ...(history.state ?? {}), apphubCatalog: true }, "", url);
       syncControls(url);
@@ -342,10 +364,14 @@ export function initializeCatalogSearch() {
 
   for (const menu of filterMenus) {
     menu.addEventListener("toggle", () => {
-      if (!menu.open) return;
+      if (!menu.open) {
+        return;
+      }
 
       for (const other of filterMenus) {
-        if (other !== menu) other.open = false;
+        if (other !== menu) {
+          other.open = false;
+        }
       }
     });
   }
@@ -354,14 +380,18 @@ export function initializeCatalogSearch() {
     const target = event.target;
 
     if (target instanceof Node && !filterMenus.some((menu) => menu.contains(target))) {
-      for (const menu of filterMenus) menu.open = false;
+      for (const menu of filterMenus) {
+        menu.open = false;
+      }
     }
   });
 
   window.addEventListener(
     "popstate",
     (event) => {
-      if (!isCatalogHistoryState(event.state) || location.pathname !== catalogPath) return;
+      if (!isCatalogHistoryState(event.state) || location.pathname !== catalogPath) {
+        return;
+      }
 
       event.stopImmediatePropagation();
       const url = new URL(location.href);

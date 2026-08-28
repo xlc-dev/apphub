@@ -146,6 +146,43 @@ const portals = countedOptions(
   [...new Set(filterCatalog.flatMap(({ sandbox }) => sandbox.portals))].sort(collator.compare),
   ({ sandbox }, value) => sandbox.portals.includes(value as (typeof sandbox.portals)[number])
 );
+const sourceGroups =
+  origins.length > 1
+    ? [
+        { name: t("filters.origin"), parameter: "origin", options: origins },
+        { name: t("filters.license"), parameter: "license", options: licenses },
+      ]
+    : [{ parameter: "license", options: licenses }];
+
+const interfaceGroups =
+  displays.length > 0
+    ? [
+        {
+          name: t("filters.interfaceType"),
+          parameter: "interface",
+          options: interfaces,
+        },
+        {
+          name: t("filters.displayBackend"),
+          parameter: "display",
+          options: displays,
+        },
+      ]
+    : [{ parameter: "interface", options: interfaces }];
+
+const systemAccessGroups = [
+  { name: t("sandbox.devices"), parameter: "device", options: devices },
+  { name: t("sandbox.portals"), parameter: "portal", options: portals },
+];
+
+if (hostAccesses.length > 1) {
+  systemAccessGroups.unshift({
+    name: t("filters.hostAccess"),
+    parameter: "host",
+    options: hostAccesses,
+  });
+}
+
 const filterMenus = [
   {
     name: t("filters.architecture"),
@@ -160,25 +197,11 @@ const filterMenus = [
   },
   {
     name: t(origins.length > 1 ? "filters.source" : "filters.license"),
-    groups: [
-      ...(origins.length > 1
-        ? [{ name: t("filters.origin"), parameter: "origin", options: origins }]
-        : []),
-      ...(origins.length > 1
-        ? [{ name: t("filters.license"), parameter: "license", options: licenses }]
-        : [{ parameter: "license", options: licenses }]),
-    ],
+    groups: sourceGroups,
   },
   {
     name: t("filters.interface"),
-    groups: [
-      ...(displays.length > 0
-        ? [{ name: t("filters.interfaceType"), parameter: "interface", options: interfaces }]
-        : [{ parameter: "interface", options: interfaces }]),
-      ...(displays.length > 0
-        ? [{ name: t("filters.displayBackend"), parameter: "display", options: displays }]
-        : []),
-    ],
+    groups: interfaceGroups,
   },
   {
     name: t("filters.permissions"),
@@ -192,13 +215,7 @@ const filterMenus = [
   },
   {
     name: t("filters.systemAccess"),
-    groups: [
-      ...(hostAccesses.length > 1
-        ? [{ name: t("filters.hostAccess"), parameter: "host", options: hostAccesses }]
-        : []),
-      { name: t("sandbox.devices"), parameter: "device", options: devices },
-      { name: t("sandbox.portals"), parameter: "portal", options: portals },
-    ],
+    groups: systemAccessGroups,
   },
 ];
 const localizedCategoryName = category

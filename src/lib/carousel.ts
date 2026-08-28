@@ -1,24 +1,32 @@
 function currentSlide(track: HTMLElement, slides: HTMLElement[]) {
-  return slides.reduce(
-    (nearest, slide, index) =>
-      Math.abs(track.scrollLeft - slide.offsetLeft) <
-      Math.abs(track.scrollLeft - slides[nearest]!.offsetLeft)
-        ? index
-        : nearest,
-    0
-  );
+  let nearest = 0;
+
+  for (const [index, slide] of slides.entries()) {
+    const distance = Math.abs(track.scrollLeft - slide.offsetLeft);
+    const nearestDistance = Math.abs(track.scrollLeft - slides[nearest]!.offsetLeft);
+
+    if (distance < nearestDistance) {
+      nearest = index;
+    }
+  }
+
+  return nearest;
 }
 
 function showSlide(slides: HTMLElement[], index: number) {
+  const behavior = matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
+
   slides[(index + slides.length) % slides.length]?.scrollIntoView({
-    behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+    behavior,
     block: "nearest",
     inline: "center",
   });
 }
 
 function markCurrentSlide(choices: HTMLInputElement[], current: number) {
-  choices.forEach((choice, index) => (choice.checked = index === current));
+  choices.forEach((choice, index) => {
+    choice.checked = index === current;
+  });
 }
 
 interface CarouselControls {
@@ -41,7 +49,9 @@ export function connectCarousel({ track, slides, choices, previous, next }: Caro
   next?.addEventListener("click", () => showSlide(slides, current + 1));
   choices.forEach((choice, index) => {
     choice.addEventListener("change", () => {
-      if (choice.checked) showSlide(slides, index);
+      if (choice.checked) {
+        showSlide(slides, index);
+      }
     });
   });
   track.addEventListener("scroll", update, { passive: true });

@@ -149,7 +149,10 @@ const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown
 
       const setBackgroundInert = (inert: boolean) => {
         if (!inert) {
-          inertElements.forEach((element) => (element.inert = false));
+          for (const element of inertElements) {
+            element.inert = false;
+          }
+
           inertElements = [];
           return;
         }

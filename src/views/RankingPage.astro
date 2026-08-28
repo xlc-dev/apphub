@@ -25,16 +25,17 @@ const localizedApps = collection.entries
   : [];
 const ranking =
   collection.entries?.map((entry, index) => ({ ...entry, app: localizedApps[index]! })) ?? null;
-const basePath =
-  period === "week"
-    ? "/trending/"
-    : period === "month"
-      ? "/trending/month/"
-      : "/trending/all-time/";
+const paths: Record<RankingPeriod, string> = {
+  week: "/trending/",
+  month: "/trending/month/",
+  "all-time": "/trending/all-time/",
+};
+const translationKey = period === "all-time" ? "allTime" : period;
+const basePath = paths[period];
 const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown>) =>
   translate(locale, key, values);
-const title = t(`ranking.${period === "all-time" ? "allTime" : period}Title`);
-const description = t(`ranking.${period === "all-time" ? "allTime" : period}Description`);
+const title = t(`ranking.${translationKey}Title`);
+const description = t(`ranking.${translationKey}Description`);
 const downloadCounts = new Map(
   ranking?.map(({ app, downloads }) => [app.slug, downloads] as const) ?? []
 );

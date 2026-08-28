@@ -1,5 +1,6 @@
 ---
 import type { DescriptionBlock } from "#catalog/schema";
+import AppDescriptionText from "@/components/AppDescriptionText.astro";
 
 interface Props {
   blocks: DescriptionBlock[];
@@ -16,15 +17,7 @@ const { blocks } = Astro.props;
       if (block.type === "paragraph") {
         return (
           <p>
-            {block.content.map((part) =>
-              part.type === "emphasis" ? (
-                <em>{part.value}</em>
-              ) : part.type === "code" ? (
-                <code>{part.value}</code>
-              ) : (
-                part.value
-              )
-            )}
+            <AppDescriptionText parts={block.content} />
           </p>
         );
       }
@@ -37,15 +30,7 @@ const { blocks } = Astro.props;
           ]}>
           {block.items.map((item) => (
             <li>
-              {item.map((part) =>
-                part.type === "emphasis" ? (
-                  <em>{part.value}</em>
-                ) : part.type === "code" ? (
-                  <code>{part.value}</code>
-                ) : (
-                  part.value
-                )
-              )}
+              <AppDescriptionText parts={item} />
             </li>
           ))}
         </List>

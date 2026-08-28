@@ -28,6 +28,8 @@ const visibleCategories = app.categories
   .map((category) => categoryName(category, locale));
 const hiddenCategoryCount = app.categories.length - visibleCategories.length;
 const categories = visibleCategories.join(", ");
+const headings = { 2: "h2", 3: "h3" } as const;
+const Heading = headings[headingLevel];
 ---
 
 <article class="min-h-32 min-w-0">
@@ -46,17 +48,7 @@ const categories = visibleCategories.join(", ");
     />
     <div class="min-w-0 grow overflow-hidden">
       <div class="flex min-w-0 items-center gap-2">
-        {
-          headingLevel === 3 ? (
-            <h3 class="truncate font-semibold" data-app-card-name>
-              {app.name}
-            </h3>
-          ) : (
-            <h2 class="truncate font-semibold" data-app-card-name>
-              {app.name}
-            </h2>
-          )
-        }
+        <Heading class="truncate font-semibold" data-app-card-name>{app.name}</Heading>
         <SourceBadge origin={app.origin} />
       </div>
       <p

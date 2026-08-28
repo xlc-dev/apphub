@@ -1,10 +1,10 @@
 ---
 import type { GetStaticPaths } from "astro";
+import PrivacySection from "@/components/PrivacySection.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import Link from "@/components/ui/Link.astro";
 import Page from "@/components/ui/Page.astro";
 import PageHeader from "@/components/ui/PageHeader.astro";
-import Section from "@/components/ui/Section.astro";
 import { getLocale, translate } from "@/lib/i18n";
 import { localePaths } from "@/lib/static-pages";
 
@@ -12,15 +12,6 @@ export const getStaticPaths = (() => localePaths()) satisfies GetStaticPaths;
 
 const locale = getLocale(Astro.currentLocale);
 const t = (key: Parameters<typeof translate>[1]) => translate(locale, key);
-const sections = [
-  { title: "privacy.collectsTitle", body: "privacy.collects" },
-  { title: "privacy.notCollectTitle", body: "privacy.notCollect" },
-  { title: "privacy.localTitle", body: "privacy.local" },
-  { title: "privacy.hostingTitle" },
-  { title: "privacy.retentionTitle", body: "privacy.retention" },
-  { title: "privacy.externalTitle", body: "privacy.external" },
-  { title: "privacy.changesTitle", body: "privacy.changes" },
-] as const;
 ---
 
 <BaseLayout title={t("privacy.title")} description={t("privacy.description")}>
@@ -32,27 +23,30 @@ const sections = [
     />
 
     <div class="space-y-10">
-      {
-        sections.map(({ title, ...section }) => (
-          <Section spaced={false} class="border-t border-[var(--border)] pt-8" title={t(title)}>
-            <p class="leading-7 text-[var(--muted)]">
-              {"body" in section ? (
-                t(section.body)
-              ) : (
-                <>
-                  {t("privacy.hostingBefore")}{" "}
-                  <Link
-                    accent
-                    href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">
-                    {t("privacy.github")}
-                  </Link>
-                  .
-                </>
-              )}
-            </p>
-          </Section>
-        ))
-      }
+      <PrivacySection title={t("privacy.collectsTitle")}>
+        {t("privacy.collects")}
+      </PrivacySection>
+      <PrivacySection title={t("privacy.notCollectTitle")}>
+        {t("privacy.notCollect")}
+      </PrivacySection>
+      <PrivacySection title={t("privacy.localTitle")}>{t("privacy.local")}</PrivacySection>
+      <PrivacySection title={t("privacy.hostingTitle")}>
+        {t("privacy.hostingBefore")}{" "}
+        <Link
+          accent
+          href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">
+          {t("privacy.github")}
+        </Link>.
+      </PrivacySection>
+      <PrivacySection title={t("privacy.retentionTitle")}>
+        {t("privacy.retention")}
+      </PrivacySection>
+      <PrivacySection title={t("privacy.externalTitle")}>
+        {t("privacy.external")}
+      </PrivacySection>
+      <PrivacySection title={t("privacy.changesTitle")}>
+        {t("privacy.changes")}
+      </PrivacySection>
     </div>
   </Page>
 </BaseLayout>
