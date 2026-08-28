@@ -6,6 +6,7 @@ import ButtonLink from "@/components/ui/ButtonLink.astro";
 import Icon from "@/components/Icon.astro";
 import { Image } from "astro:assets";
 import { getLocale, translate } from "@/lib/i18n";
+import { sitePath } from "@/lib/paths";
 
 interface Props {
   apps: CatalogAppResource[];
@@ -30,7 +31,7 @@ const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown
         data-featured-track>
         {apps.map((app, index) => (
           <article
-            class="grid min-h-80 w-full shrink-0 snap-center md:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]"
+            class="grid w-full shrink-0 snap-center md:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)]"
             id={`featured-app-${index + 1}`}
             aria-label={t("carousel.position", { index: index + 1, count: apps.length })}
             aria-roledescription={t("carousel.slide")}
@@ -56,17 +57,18 @@ const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown
             </div>
             <Link
               unstyled
-              class="relative hidden min-h-80 overflow-hidden bg-[var(--control-bg)] focus-visible:ring-[3px] focus-visible:ring-[color-mix(in_srgb,var(--primary)_20%,transparent)] focus-visible:outline-none focus-visible:ring-inset md:block"
+              class="relative hidden aspect-[16/10] overflow-hidden bg-[var(--control-bg)] focus-visible:ring-[3px] focus-visible:ring-[color-mix(in_srgb,var(--primary)_20%,transparent)] focus-visible:outline-none focus-visible:ring-inset md:block"
               href={`/apps/${app.slug}/`}
               aria-label={t("featured.view", { name: app.name })}>
-              <Image
-                class="absolute inset-0 size-full scale-x-[1.12] object-cover"
-                src={app.screenshots[0]!.url}
-                alt={app.screenshots[0]!.caption}
-                width={960}
-                height={720}
+              <img
+                class="absolute inset-0 size-full object-cover"
+                src={sitePath(`/featured/${app.slug}.webp`)}
+                alt=""
+                width="1280"
+                height="800"
                 loading={index === 0 ? "eager" : "lazy"}
                 fetchpriority={index === 0 ? "high" : "auto"}
+                decoding="async"
               />
             </Link>
           </article>
