@@ -95,7 +95,11 @@ const links = [
       aria-label={t("nav.main")}>
       {
         links.map(({ href, label, current }) => (
-          <Link class="border-0" href={href} aria-current={current ? "page" : undefined}>
+          <Link
+            unstyled
+            class="rounded-sm hover:text-[var(--primary)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)] aria-[current=page]:text-[var(--primary)]"
+            href={href}
+            aria-current={current ? "page" : undefined}>
             {label}
           </Link>
         ))
