@@ -22,7 +22,7 @@ export type { RankingPeriod } from "#lib/catalog-model";
 
 const collator = new Intl.Collator("en");
 
-export function appSummary(app: CatalogAppResource) {
+function appSummary(app: CatalogAppResource) {
   const latest = app.releases[0];
 
   return catalogAppSummarySchema.parse({

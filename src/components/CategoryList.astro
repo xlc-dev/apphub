@@ -22,17 +22,23 @@ const t = (key: Parameters<typeof translate>[1]) => translate(locale, key);
   data-category-found={t("apps.categoryFound")}
   data-categories-found={t("apps.categoriesFound")}>
   <input
-    class="my-2 min-h-11 w-full rounded-md border border-[var(--border)] bg-[var(--control-bg)] px-2 text-sm outline-none focus-visible:border-[var(--primary)]"
+    class="invisible my-2 min-h-11 w-full rounded-md border border-[var(--border)] bg-[var(--control-bg)] px-2 text-sm outline-none focus-visible:border-[var(--primary)]"
     type="search"
     placeholder={t("apps.filterCategories")}
     aria-label={t("apps.filterCategories")}
     autocomplete="off"
-    hidden
+    inert
+    aria-hidden="true"
     data-category-search
   />
   <p class="sr-only" aria-live="polite" data-category-status></p>
   <nav class="min-h-0 grow overflow-y-auto" aria-label={t("apps.categories")}>
-    <Link unstyled class={itemClass} href="/apps/" aria-current={!current ? "page" : undefined}>
+    <Link
+      unstyled
+      class={itemClass}
+      href="/apps/"
+      aria-current={!current ? "page" : undefined}
+      data-category-link>
       <span class="truncate">{t("apps.all")}</span>
     </Link>
     {
@@ -43,6 +49,7 @@ const t = (key: Parameters<typeof translate>[1]) => translate(locale, key);
           href={categoryPath(id)}
           aria-current={id === current ? "page" : undefined}
           data-category-option
+          data-category-link
           data-category-value={name.toLowerCase()}>
           <span class="truncate">{name}</span>
           <span class="text-right text-xs text-[var(--muted)] tabular-nums">{count}</span>
@@ -63,7 +70,9 @@ const t = (key: Parameters<typeof translate>[1]) => translate(locale, key);
       }
 
       input.dataset.initialized = "true";
-      input.hidden = false;
+      input.classList.remove("invisible");
+      input.inert = false;
+      input.removeAttribute("aria-hidden");
 
       const navigation = list.querySelector<HTMLElement>("nav");
       const selected = list.querySelector<HTMLElement>(

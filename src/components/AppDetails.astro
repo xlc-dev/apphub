@@ -45,7 +45,7 @@ const lastChecked = new Intl.DateTimeFormat(locale, {
 ---
 
 <aside
-  class="self-start overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--card)] shadow-sm"
+  class="min-w-0 self-start overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--card)] shadow-sm"
   aria-labelledby="details-heading">
   <div class="border-b border-[var(--border)] bg-[var(--card-raised)] px-5 py-4">
     <h2 class="m-0 text-xl font-bold" id="details-heading">{t("app.details")}</h2>
@@ -57,7 +57,7 @@ const lastChecked = new Intl.DateTimeFormat(locale, {
     </div>
     <div class="px-5 py-3.5">
       <dt class="text-sm text-[var(--muted)]">{t("app.website")}</dt>
-      <dd class="m-0 mt-1 break-words">
+      <dd class="m-0 mt-1 [overflow-wrap:anywhere]">
         <Link href={app.homepage}>{websiteLabel}</Link>
       </dd>
     </div>
@@ -65,7 +65,7 @@ const lastChecked = new Intl.DateTimeFormat(locale, {
       app.repository && (
         <div class="px-5 py-3.5">
           <dt class="text-sm text-[var(--muted)]">{t("app.repository")}</dt>
-          <dd class="m-0 mt-1 break-words">
+          <dd class="m-0 mt-1 [overflow-wrap:anywhere]">
             <Link href={app.repository}>{repositoryLabel}</Link>
             {stars !== undefined && (
               <span
@@ -114,13 +114,13 @@ const lastChecked = new Intl.DateTimeFormat(locale, {
       </div>
       <div class="px-5 py-3.5">
         <dt class="text-sm text-[var(--muted)]">{t("app.releaseSource")}</dt>
-        <dd class="m-0 mt-1 break-words">
+        <dd class="m-0 mt-1 [overflow-wrap:anywhere]">
           <Link href={app.provenance.releaseSource.sourceUrl}>{releaseSourceLabel}</Link>
         </dd>
       </div>
       <div class="px-5 py-3.5">
         <dt class="text-sm text-[var(--muted)]">{t("app.metadataSource")}</dt>
-        <dd class="m-0 mt-1 break-words">
+        <dd class="m-0 mt-1 [overflow-wrap:anywhere]">
           {
             metadataSource ? (
               <Link href={metadataSource.toString()}>{metadataSourceLabel}</Link>

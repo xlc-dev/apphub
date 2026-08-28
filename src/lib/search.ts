@@ -19,9 +19,70 @@ export interface SearchIndexEntry {
   summary: string;
   origin: "upstream" | "third-party";
   categories: string[];
+  architectures: string[];
+  compatibility: string[];
+  display: DisplayBackend[];
+  filesystemLocations: string[];
+  hostAccess: HostAccess[];
+  license: string;
+  interface: AppInterface;
+  network: string;
+  filesystem: DirectFilesystemAccess;
+  audio: string;
+  process: string;
+  devices: string[];
+  portals: string[];
+  stars?: number | undefined;
   icon: { url: string };
   value: string;
 }
+
+export interface CatalogFilters {
+  categories: string[];
+  architecture: string[];
+  compatibility: string[];
+  origin: string[];
+  license: string[];
+  interface: string[];
+  display: string[];
+  network: string[];
+  filesystem: string[];
+  location: string[];
+  audio: string[];
+  process: string[];
+  host: string[];
+  device: string[];
+  portal: string[];
+}
+
+export const catalogFilterParameters = [
+  "architecture",
+  "compatibility",
+  "origin",
+  "license",
+  "interface",
+  "display",
+  "network",
+  "filesystem",
+  "location",
+  "audio",
+  "process",
+  "host",
+  "device",
+  "portal",
+] as const;
+export const compatibilityFilterValues = ["anylinux"] as const;
+export const displayFilterValues = ["wayland", "x11"] as const;
+export const hostAccessFilterValues = ["none", "ipc", "session-bus", "system-bus"] as const;
+export const networkFilterValues = ["none", "client", "client-and-server"] as const;
+export const filesystemFilterValues = ["none", "read-only", "read-write"] as const;
+export const interfaceFilterValues = ["graphical", "terminal"] as const;
+export const audioFilterValues = ["none", "playback", "capture", "playback-and-capture"] as const;
+export const processFilterValues = ["isolated", "read", "control"] as const;
+type DirectFilesystemAccess = (typeof filesystemFilterValues)[number];
+type AppInterface = (typeof interfaceFilterValues)[number];
+type DisplayBackend = (typeof displayFilterValues)[number];
+type HostAccess = (typeof hostAccessFilterValues)[number];
 
 export const searchCardSelectors = {
   link: "[data-app-card-link]",
@@ -32,6 +93,8 @@ export const searchCardSelectors = {
   originLabel: "[data-origin-label]",
   categories: "[data-app-card-categories]",
   categoryCount: "[data-app-card-category-count]",
+  stars: "[data-app-card-stars]",
+  starCount: "[data-app-card-star-count]",
 } as const;
 
 export function catalogSearchValue(app: SearchableApp) {
@@ -59,13 +122,79 @@ export function matchesSearch(value: string, query: string) {
   return terms[0] === "" || terms.every((term) => value.includes(term));
 }
 
+export function directFilesystemAccess(
+  rules: Array<{ access: "read-only" | "read-write" }>
+): DirectFilesystemAccess {
+  if (rules.some(({ access }) => access === "read-write")) return "read-write";
+
+  return rules.length > 0 ? "read-only" : "none";
+}
+
+export function appInterface(display: string): AppInterface {
+  return display === "none" ? "terminal" : "graphical";
+}
+
+export function displayBackends(display: string): DisplayBackend[] {
+  if (display === "wayland-and-x11") return ["wayland", "x11"];
+  if (display === "wayland" || display === "x11") return [display];
+
+  return [];
+}
+
+export function hostAccess(
+  sandbox: Pick<CatalogApp["sandbox"], "ipc" | "sessionBus" | "systemBus">
+): HostAccess[] {
+  const access: HostAccess[] = [];
+
+  if (sandbox.ipc) access.push("ipc");
+  if (sandbox.sessionBus.length > 0) access.push("session-bus");
+  if (sandbox.systemBus.length > 0) access.push("system-bus");
+
+  return access.length > 0 ? access : ["none"];
+}
+
+export function isAnyLinuxArtifact(name: string) {
+  return /(?:^|[^a-z0-9])anylinux(?:[^a-z0-9]|$)/i.test(name);
+}
+
+export function hasAnyLinuxBuild(app: Pick<CatalogApp, "releases">) {
+  return app.releases[0]?.artifacts.some(({ name }) => isAnyLinuxArtifact(name)) ?? false;
+}
+
+function matchesAny(selected: string[], values: string[]) {
+  return selected.length === 0 || selected.some((value) => values.includes(value));
+}
+
+export function matchesCatalogFilters(app: SearchIndexEntry, filters: CatalogFilters) {
+  return (
+    matchesAny(filters.categories, app.categories) &&
+    matchesAny(filters.architecture, app.architectures) &&
+    matchesAny(filters.compatibility, app.compatibility) &&
+    matchesAny(filters.origin, [app.origin]) &&
+    matchesAny(filters.license, [app.license]) &&
+    matchesAny(filters.interface, [app.interface]) &&
+    matchesAny(filters.display, app.display) &&
+    matchesAny(filters.network, [app.network]) &&
+    matchesAny(filters.filesystem, [app.filesystem]) &&
+    matchesAny(filters.location, app.filesystemLocations) &&
+    matchesAny(filters.audio, [app.audio]) &&
+    matchesAny(filters.process, [app.process]) &&
+    matchesAny(filters.host, app.hostAccess) &&
+    matchesAny(filters.device, app.devices) &&
+    matchesAny(filters.portal, app.portals)
+  );
+}
+
 export function searchPage(
   index: SearchIndexEntry[],
   query: string,
+  filters: CatalogFilters,
   requestedPage: number,
   pageSize = catalogPageSize
 ) {
-  const matches = index.filter((app) => matchesSearch(app.value, query));
+  const matches = index.filter(
+    (app) => matchesSearch(app.value, query) && matchesCatalogFilters(app, filters)
+  );
   const state = paginationState(matches.length, requestedPage, pageSize);
 
   return {
@@ -76,13 +205,27 @@ export function searchPage(
   };
 }
 
-export function searchIndexEntry(app: CatalogApp): SearchIndexEntry {
+export function searchIndexEntry(app: CatalogApp, stars?: number): SearchIndexEntry {
   return {
     slug: app.slug,
     name: app.name,
     summary: app.summary,
     origin: app.origin.type,
     categories: app.categories,
+    architectures: app.releases[0]?.artifacts.map(({ architecture }) => architecture) ?? [],
+    compatibility: hasAnyLinuxBuild(app) ? ["anylinux"] : [],
+    display: displayBackends(app.sandbox.display),
+    filesystemLocations: app.sandbox.filesystem.map(({ location }) => location),
+    hostAccess: hostAccess(app.sandbox),
+    license: app.projectLicense,
+    interface: appInterface(app.sandbox.display),
+    network: app.sandbox.network,
+    filesystem: directFilesystemAccess(app.sandbox.filesystem),
+    audio: app.sandbox.audio,
+    process: app.sandbox.processes,
+    devices: app.sandbox.devices.length > 0 ? app.sandbox.devices : ["none"],
+    portals: app.sandbox.portals,
+    stars,
     icon: { url: app.icon.url },
     value: catalogSearchValue(app),
   };

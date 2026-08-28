@@ -57,11 +57,53 @@
 html {
   background: var(--page);
   color: var(--text);
+  scrollbar-gutter: stable;
 }
 
 body {
   background: var(--page);
   color: var(--text);
+}
+
+@view-transition {
+  navigation: auto;
+}
+
+[data-app-header] {
+  view-transition-name: app-header;
+}
+
+::view-transition-group(*) {
+  animation-duration: 140ms;
+  animation-timing-function: ease-out;
+}
+
+::view-transition-image-pair(app-header) {
+  isolation: auto;
+}
+
+::view-transition-old(app-header) {
+  animation: none;
+  mix-blend-mode: normal;
+  opacity: 1;
+}
+
+::view-transition-new(app-header) {
+  animation: none;
+  mix-blend-mode: normal;
+  opacity: 0;
+}
+
+@keyframes dropdown-in {
+  from {
+    opacity: 0;
+    transform: translateY(-0.25rem) scale(0.98);
+  }
+}
+
+details[open] > [data-dropdown-panel] {
+  animation: 120ms ease-out dropdown-in;
+  transform-origin: top;
 }
 
 button,
@@ -84,10 +126,21 @@ summary {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation-delay: 0ms;
+    animation-duration: 0.01ms;
+  }
+
   a,
   button,
   summary {
     transition: none;
+  }
+
+  details[open] > [data-dropdown-panel] {
+    animation: none;
   }
 }
 

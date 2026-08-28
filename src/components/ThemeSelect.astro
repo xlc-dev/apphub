@@ -3,11 +3,6 @@ import { getLocale, translate } from "@/lib/i18n";
 import Icon from "@/components/Icon.astro";
 import type { ThemeMode } from "@/lib/theme";
 
-interface Props {
-  id: string;
-}
-
-const { id } = Astro.props;
 const modes: ThemeMode[] = ["system", "light", "dark"];
 const locale = getLocale(Astro.currentLocale);
 const t = (key: Parameters<typeof translate>[1]) => translate(locale, key);
@@ -19,43 +14,44 @@ const icons = {
 } as const;
 ---
 
-<details class="relative" data-theme-menu>
-  <summary
-    class="flex size-11 cursor-pointer list-none items-center justify-center rounded-md border border-[var(--border)] bg-[var(--control-bg)] shadow-sm hover:bg-[var(--card-raised)] focus-visible:border-[var(--primary)] focus-visible:ring-[3px] focus-visible:ring-[color-mix(in_srgb,var(--primary)_20%,transparent)] focus-visible:outline-none [&::-webkit-details-marker]:hidden"
-    aria-label={t("theme.label")}
-    title={t("theme.label")}
-    data-theme-summary>
-    {
-      modes.map((mode) => (
-        <Icon
-          name={icons[mode]}
-          class:list={["size-5", mode !== "system" && "hidden"]}
-          data-theme-current={mode}
-        />
-      ))
-    }
-  </summary>
-  <div
-    class="absolute right-0 z-50 mt-2 w-40 rounded-md border border-[var(--border)] bg-[var(--card)] p-1 shadow-lg"
-    id={id}
-    role="menu"
-    aria-label={t("theme.label")}>
-    {
-      modes.map((mode) => (
-        <button
-          class="flex min-h-11 w-full cursor-pointer items-center gap-2 rounded-sm px-2 text-left text-sm hover:bg-[var(--card-raised)] focus-visible:bg-[var(--card-raised)] focus-visible:outline-none aria-[checked=true]:bg-[var(--card-raised)]"
-          type="button"
-          role="menuitemradio"
-          aria-checked="false"
-          data-theme-option={mode}>
-          <Icon name={icons[mode]} class="size-4" />
-          <span class="grow">{labels[mode]}</span>
-          <Icon name="check" class="invisible size-4" data-theme-check />
-        </button>
-      ))
-    }
-  </div>
-</details>
+<div class="size-11 shrink-0">
+  <details class="relative" hidden data-theme-menu>
+    <summary
+      class="flex size-11 cursor-pointer list-none items-center justify-center rounded-md border border-[var(--border)] bg-[var(--control-bg)] shadow-sm hover:bg-[var(--card-raised)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)] [&::-webkit-details-marker]:hidden"
+      aria-label={t("theme.label")}
+      title={t("theme.label")}
+      data-theme-summary>
+      {
+        modes.map((mode) => (
+          <Icon
+            name={icons[mode]}
+            class:list={["size-5", mode !== "system" && "hidden"]}
+            data-theme-current={mode}
+          />
+        ))
+      }
+    </summary>
+    <div
+      class="absolute right-0 z-50 mt-2 w-40 rounded-md border border-[var(--border)] bg-[var(--card)] p-1 shadow-lg"
+      role="group"
+      aria-label={t("theme.label")}
+      data-dropdown-panel>
+      {
+        modes.map((mode) => (
+          <button
+            class="flex min-h-11 w-full cursor-pointer items-center gap-2 rounded-sm px-2 text-left text-sm hover:bg-[var(--card-raised)] focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--primary)] aria-[pressed=true]:bg-[var(--card-raised)]"
+            type="button"
+            aria-pressed="false"
+            data-theme-option={mode}>
+            <Icon name={icons[mode]} class="size-4" />
+            <span class="grow">{labels[mode]}</span>
+            <Icon name="check" class="invisible size-4" data-theme-check />
+          </button>
+        ))
+      }
+    </div>
+  </details>
+</div>
 
 <script>
   import { parseThemeMode, resolveTheme, type ThemeMode } from "@/lib/theme";
@@ -85,7 +81,7 @@ const icons = {
       options.forEach((option) => {
         const selected = option.dataset.themeOption === mode;
 
-        option.setAttribute("aria-checked", String(selected));
+        option.setAttribute("aria-pressed", String(selected));
         option
           .querySelector<HTMLElement>("[data-theme-check]")
           ?.classList.toggle("invisible", !selected);
@@ -106,35 +102,24 @@ const icons = {
 
     apply(parseThemeMode(stored), false);
 
-    menus.forEach((menu) => (menu.dataset.initialized = "true"));
-
-    options.forEach((option) => {
+    options.forEach((option) =>
       option.addEventListener("click", () => {
         apply(parseThemeMode(option.dataset.themeOption ?? null), true);
-        option.closest<HTMLDetailsElement>("[data-theme-menu]")?.removeAttribute("open");
-      });
-    });
 
-    menus.forEach((menu) => {
+        const menu = option.closest<HTMLDetailsElement>("[data-theme-menu]");
+        menu?.removeAttribute("open");
+        menu?.querySelector<HTMLElement>("[data-theme-summary]")?.focus();
+      })
+    );
+
+    menus.forEach((menu) =>
       menu.addEventListener("keydown", (event) => {
-        const items = Array.from(menu.querySelectorAll<HTMLButtonElement>("[data-theme-option]"));
-        const current = items.indexOf(document.activeElement as HTMLButtonElement);
-        const next =
-          event.key === "ArrowDown"
-            ? current + 1
-            : event.key === "ArrowUp"
-              ? current - 1
-              : undefined;
-
-        if (next !== undefined) {
-          event.preventDefault();
-          items[(next + items.length) % items.length]?.focus();
-        } else if (event.key === "Escape") {
+        if (event.key === "Escape") {
           menu.removeAttribute("open");
           menu.querySelector<HTMLElement>("[data-theme-summary]")?.focus();
         }
-      });
-    });
+      })
+    );
 
     document.addEventListener("click", (event) => {
       menus.forEach((menu) => {
@@ -144,6 +129,11 @@ const icons = {
 
     media.addEventListener("change", () => {
       if (document.documentElement.dataset.themeMode === "system") apply("system", false);
+    });
+
+    menus.forEach((menu) => {
+      menu.dataset.initialized = "true";
+      menu.hidden = false;
     });
   }
 

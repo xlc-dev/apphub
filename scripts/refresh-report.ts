@@ -65,7 +65,7 @@ const networkReportSchema = z
 
 const refreshReportCheckSchema = z.object({ alerts: z.array(z.unknown()) });
 
-export type RefreshUnit = (typeof units)[number];
+type RefreshUnit = (typeof units)[number];
 export type CapturedApp = z.infer<typeof capturedAppSchema>;
 export type CapturedRefreshState = z.infer<typeof capturedRefreshStateSchema>;
 type NetworkReport = z.infer<typeof networkReportSchema>;
@@ -74,7 +74,7 @@ function emptyCounts<T extends string>(values: readonly T[]) {
   return Object.fromEntries(values.map((value) => [value, 0])) as Record<T, number>;
 }
 
-export async function captureRefreshState(now = new Date()): Promise<CapturedRefreshState> {
+async function captureRefreshState(now = new Date()): Promise<CapturedRefreshState> {
   const [manifests, history, stars, snapshot] = await Promise.all([
     readAppManifests(),
     readJson(new URL("downloads.json", generatedDirectory).pathname).then((value) =>

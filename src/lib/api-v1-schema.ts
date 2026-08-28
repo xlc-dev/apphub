@@ -8,11 +8,11 @@ import {
   catalogCategorySchema,
 } from "#lib/catalog-model";
 
-export const apiCategorySchema = catalogCategorySchema
+const apiCategorySchema = catalogCategorySchema
   .extend({ url: z.string().min(1), webUrl: z.string().min(1) })
   .strict();
 
-export const apiAppResourceSchema = catalogAppResourceSchema
+const apiAppResourceSchema = catalogAppResourceSchema
   .extend({ url: z.string().min(1), webUrl: z.string().min(1) })
   .strict();
 
@@ -20,19 +20,9 @@ export const apiAppSummarySchema = catalogAppSummarySchema
   .extend({ url: z.string().min(1), webUrl: z.string().min(1) })
   .strict();
 
-export const apiCategoryDetailsSchema = apiCategorySchema
-  .extend({ apps: z.array(apiAppSummarySchema) })
-  .strict();
+const apiArchitectureSchema = catalogArchitectureSchema.extend({ url: z.string().min(1) }).strict();
 
-export const apiArchitectureSchema = catalogArchitectureSchema
-  .extend({ url: z.string().min(1) })
-  .strict();
-
-export const apiArchitectureDetailsSchema = apiArchitectureSchema
-  .extend({ apps: z.array(apiAppSummarySchema) })
-  .strict();
-
-export const apiSnapshotSchema = z
+const apiSnapshotSchema = z
   .object({
     revision: z.string().regex(/^[a-f0-9]{64}$/),
     generatedAt: z.iso.datetime(),
@@ -154,6 +144,6 @@ export type ApiSnapshot = z.infer<typeof apiSnapshotSchema>;
 export type ApiAppResource = z.infer<typeof apiAppResourceSchema>;
 export type ApiAppSummary = z.infer<typeof apiAppSummarySchema>;
 export type ApiArchitecture = z.infer<typeof apiArchitectureSchema>;
-export type ApiArchitectureDetails = z.infer<typeof apiArchitectureDetailsSchema>;
+export type ApiArchitectureDetails = ApiArchitecture & { apps: ApiAppSummary[] };
 export type ApiCategory = z.infer<typeof apiCategorySchema>;
-export type ApiCategoryDetails = z.infer<typeof apiCategoryDetailsSchema>;
+export type ApiCategoryDetails = ApiCategory & { apps: ApiAppSummary[] };

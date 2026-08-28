@@ -118,10 +118,10 @@ const donation = app.links?.donation;
         }
         {
           (latest || donation) && (
-            <div class="mt-5 flex flex-wrap items-start gap-2">
+            <div class="mt-5 grid grid-cols-[auto_minmax(0,1fr)] items-start gap-x-2 gap-y-2">
               {latest && !downloadsBlocked && <InstallButton artifacts={latest.artifacts} />}
               {donation && (
-                <ButtonLink class="gap-2" href={donation} variant="outline">
+                <ButtonLink class="gap-2 justify-self-start" href={donation} variant="outline">
                   <Icon name="donate" class="size-4" />
                   {t("app.donate")}
                 </ButtonLink>

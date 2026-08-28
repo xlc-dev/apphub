@@ -20,7 +20,7 @@ AppImages themselves.
 
 ## Features
 
-- Browse and search AppImages by category.
+- Browse, search, and filter AppImages by category, architecture, license, interface, and access.
 - Find newly added apps, recent releases, and download trends.
 - See whether an AppImage is published by its developers or by a third party.
 - Review an app's declared permissions before installing it.

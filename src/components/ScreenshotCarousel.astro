@@ -52,7 +52,6 @@ const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown
         screenshots.map((screenshot, index) => (
           <figure
             class="m-0 flex h-full w-full shrink-0 snap-center flex-col items-center justify-center"
-            id={`${id}-${index + 1}`}
             role="group"
             aria-roledescription={t("carousel.slide")}
             aria-label={t("carousel.position", {
@@ -102,21 +101,26 @@ const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown
   {
     screenshots.length > 1 && (
       <div class="mt-2 flex min-h-11 items-center justify-center">
-        <nav class="flex" aria-label={t("screenshots.choose")}>
+        <div class="flex" role="radiogroup" aria-label={t("screenshots.choose")}>
           {screenshots.map((_, index) => (
-            <a
-              class="group flex size-11 cursor-pointer items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-[-0.25rem] focus-visible:outline-[var(--primary)]"
-              href={`#${id}-${index + 1}`}
-              aria-label={t("screenshots.show", { index: index + 1, count: screenshots.length })}
-              aria-current={index === 0 ? "true" : undefined}
+            <label
+              class="flex size-11 cursor-pointer items-center justify-center rounded-full"
               data-carousel-dot>
-              <span
-                class="size-2.5 rounded-full bg-[var(--border)] group-hover:bg-[var(--primary)] group-aria-[current=true]:bg-[var(--primary)]"
-                aria-hidden="true"
+              <input
+                class="sr-only"
+                type="radio"
+                name={`${id}-slide`}
+                checked={index === 0}
+                aria-label={t("screenshots.show", {
+                  index: index + 1,
+                  count: screenshots.length,
+                })}
+                data-carousel-choice
               />
-            </a>
+              <span class="size-2.5 rounded-full bg-[var(--border)]" aria-hidden="true" />
+            </label>
           ))}
-        </nav>
+        </div>
       </div>
     )
   }
@@ -133,7 +137,9 @@ const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown
 
       const track = carousel.querySelector<HTMLElement>("[data-carousel-track]");
       const slides = Array.from(carousel.querySelectorAll<HTMLElement>("[data-carousel-slide]"));
-      const dots = Array.from(carousel.querySelectorAll<HTMLAnchorElement>("[data-carousel-dot]"));
+      const choices = Array.from(
+        carousel.querySelectorAll<HTMLInputElement>("[data-carousel-choice]")
+      );
       const previous = carousel.querySelector<HTMLButtonElement>("[data-carousel-previous]");
       const next = carousel.querySelector<HTMLButtonElement>("[data-carousel-next]");
       const fullscreen = carousel.querySelector<HTMLButtonElement>("[data-carousel-fullscreen]");
@@ -151,7 +157,6 @@ const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown
       }
       fullscreen.hidden = false;
 
-      const events = new AbortController();
       let inertElements: HTMLElement[] = [];
 
       const setBackgroundInert = (inert: boolean) => {
@@ -176,7 +181,8 @@ const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown
       const setExpanded = (expanded: boolean) => {
         carousel.toggleAttribute("data-carousel-expanded", expanded);
         carousel.setAttribute("role", expanded ? "dialog" : "region");
-        carousel.toggleAttribute("aria-modal", expanded);
+        if (expanded) carousel.setAttribute("aria-modal", "true");
+        else carousel.removeAttribute("aria-modal");
         document.body.classList.toggle("overflow-hidden", expanded);
         setBackgroundInert(expanded);
         fullscreen.setAttribute("aria-expanded", String(expanded));
@@ -186,47 +192,43 @@ const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown
         );
       };
 
-      connectCarousel({ track, slides, dots, previous, next });
+      connectCarousel({ track, slides, choices, previous, next });
       fullscreen.addEventListener("click", () => {
         setExpanded(!carousel.hasAttribute("data-carousel-expanded"));
       });
-      document.addEventListener(
-        "keydown",
-        (event) => {
-          if (!carousel.hasAttribute("data-carousel-expanded")) {
-            return;
+      document.addEventListener("keydown", (event) => {
+        if (!carousel.hasAttribute("data-carousel-expanded")) {
+          return;
+        }
+
+        if (event.key === "Tab") {
+          const controls = Array.from(
+            carousel.querySelectorAll<HTMLElement>('button, input[type="radio"]')
+          ).filter((control) => !control.hidden);
+          const first = controls[0];
+          const last = controls.at(-1);
+
+          if (!carousel.contains(document.activeElement)) {
+            event.preventDefault();
+            (event.shiftKey ? last : first)?.focus();
+          } else if (event.shiftKey && document.activeElement === first) {
+            event.preventDefault();
+            last?.focus();
+          } else if (!event.shiftKey && document.activeElement === last) {
+            event.preventDefault();
+            first?.focus();
           }
 
-          if (event.key === "Tab") {
-            const controls = Array.from(
-              carousel.querySelectorAll<HTMLElement>("button, a[href]")
-            ).filter((control) => !control.hidden);
-            const first = controls[0];
-            const last = controls.at(-1);
+          return;
+        }
 
-            if (!carousel.contains(document.activeElement)) {
-              event.preventDefault();
-              (event.shiftKey ? last : first)?.focus();
-            } else if (event.shiftKey && document.activeElement === first) {
-              event.preventDefault();
-              last?.focus();
-            } else if (!event.shiftKey && document.activeElement === last) {
-              event.preventDefault();
-              first?.focus();
-            }
+        if (event.key !== "Escape") {
+          return;
+        }
 
-            return;
-          }
-
-          if (event.key !== "Escape") {
-            return;
-          }
-
-          setExpanded(false);
-          fullscreen.focus();
-        },
-        { signal: events.signal }
-      );
+        setExpanded(false);
+        fullscreen.focus();
+      });
     }
   }
 
@@ -242,8 +244,44 @@ const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown
     display: none;
   }
 
-  [data-carousel-dot][aria-current="true"] span {
+  [data-carousel-dot]:has([data-carousel-choice]:checked) span {
     background: currentColor;
+  }
+
+  [data-carousel-dot]:hover span {
+    background: var(--primary);
+  }
+
+  [data-carousel-dot]:has([data-carousel-choice]:focus-visible) {
+    outline: 2px solid var(--primary);
+    outline-offset: -0.25rem;
+  }
+
+  [data-carousel]:not([data-initialized]) [data-carousel-slide] {
+    display: none;
+  }
+
+  [data-carousel]:not([data-initialized]):has(
+      [data-carousel-dot]:nth-child(1) [data-carousel-choice]:checked
+    )
+    [data-carousel-slide]:nth-child(1),
+  [data-carousel]:not([data-initialized]):has(
+      [data-carousel-dot]:nth-child(2) [data-carousel-choice]:checked
+    )
+    [data-carousel-slide]:nth-child(2),
+  [data-carousel]:not([data-initialized]):has(
+      [data-carousel-dot]:nth-child(3) [data-carousel-choice]:checked
+    )
+    [data-carousel-slide]:nth-child(3),
+  [data-carousel]:not([data-initialized]):has(
+      [data-carousel-dot]:nth-child(4) [data-carousel-choice]:checked
+    )
+    [data-carousel-slide]:nth-child(4),
+  [data-carousel]:not([data-initialized]):has(
+      [data-carousel-dot]:nth-child(5) [data-carousel-choice]:checked
+    )
+    [data-carousel-slide]:nth-child(5) {
+    display: flex;
   }
 
   [data-carousel-expanded] {

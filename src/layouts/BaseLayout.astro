@@ -93,6 +93,7 @@ const t = (key: Parameters<typeof translate>[1]) => translate(locale, key);
       ))
     }
     <link rel="alternate" hreflang="x-default" href={alternateUrls[0]!.url} />
+    <link rel="expect" href="#main-content" blocking="render" />
     <link
       rel="alternate"
       type="application/json"
@@ -105,6 +106,17 @@ const t = (key: Parameters<typeof translate>[1]) => translate(locale, key);
     {description && <meta name="twitter:description" content={description} />}
   </head>
   <body class="relative m-0 flex min-h-screen flex-col font-sans">
+    <script is:inline type="speculationrules">
+      {
+        "prefetch": [
+          {
+            "source": "document",
+            "where": { "href_matches": "/*" },
+            "eagerness": "moderate"
+          }
+        ]
+      }
+    </script>
     <script is:inline>
       try {
         const saved = localStorage.getItem("apphub-theme");

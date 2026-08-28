@@ -118,7 +118,7 @@ export const catalogUpdatedAppsSchema = z
   .object({ apps: z.array(catalogAppSummarySchema) })
   .strict();
 
-export const rankingPeriodSchema = z.enum(["week", "month", "all-time"]);
+const rankingPeriodSchema = z.enum(["week", "month", "all-time"]);
 
 export function isAppIndexable(app: { status: z.infer<typeof catalogStatusSchema> }) {
   return app.status !== "quarantined";

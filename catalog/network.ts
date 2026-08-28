@@ -126,7 +126,7 @@ export function recordResponseBytes(response: Response, bytes: number) {
   if (host) hostMetrics(host).bytes += bytes;
 }
 
-export function refreshNetworkSummary() {
+function refreshNetworkSummary() {
   return {
     durationMs: Date.now() - startedAt,
     requests: [...metrics.values()].reduce((total, value) => total + value.requests, 0),

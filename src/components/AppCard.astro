@@ -31,9 +31,9 @@ const hiddenCategoryCount = app.categories.length - visibleCategories.length;
 const categories = visibleCategories.join(", ");
 ---
 
-<article class="h-32 min-w-0">
+<article class="min-h-32 min-w-0">
   <CardLink
-    class="flex h-full cursor-pointer gap-4 overflow-hidden p-4"
+    class="flex min-h-32 cursor-pointer gap-4 overflow-hidden p-4"
     data-app-card-link
     href={`/apps/${app.slug}/`}>
     <Image
@@ -73,9 +73,10 @@ const categories = visibleCategories.join(", ");
           stars !== undefined && (
             <span
               class="inline-flex shrink-0 items-center gap-1"
+              data-app-card-stars
               aria-label={t("stars.repository", { count: stars.toLocaleString(locale) })}>
               <Icon name="star" class="size-3.5" />
-              {stars.toLocaleString(locale)}
+              <span data-app-card-star-count>{stars.toLocaleString(locale)}</span>
             </span>
           )
         }

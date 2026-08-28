@@ -15,7 +15,7 @@ export const mainCategories = new Set([
   "Utility",
 ]);
 
-export const additionalCategories = new Set([
+const additionalCategories = new Set([
   "Building",
   "Debugger",
   "IDE",

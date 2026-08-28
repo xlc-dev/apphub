@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const refreshIncidentCategorySchema = z.enum([
+const refreshIncidentCategorySchema = z.enum([
   "network",
   "rate-limit",
   "not-found",
@@ -37,8 +37,8 @@ export const successfulRefreshStateSchema = refreshStateSchema
   .strict();
 
 export type RefreshState = z.infer<typeof refreshStateSchema>;
-export type SuccessfulRefreshState = z.infer<typeof successfulRefreshStateSchema>;
-export type RefreshIncidentCategory = z.infer<typeof refreshIncidentCategorySchema>;
+type SuccessfulRefreshState = z.infer<typeof successfulRefreshStateSchema>;
+type RefreshIncidentCategory = z.infer<typeof refreshIncidentCategorySchema>;
 
 export class RefreshError extends Error {
   readonly category: RefreshIncidentCategory;
@@ -51,7 +51,7 @@ export class RefreshError extends Error {
 }
 
 export const catalogStatusSchema = z.enum(["current", "stale", "unavailable", "quarantined"]);
-export type CatalogStatus = z.infer<typeof catalogStatusSchema>;
+type CatalogStatus = z.infer<typeof catalogStatusSchema>;
 
 export const staleAfterDays = {
   metadata: 30,

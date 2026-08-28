@@ -32,7 +32,6 @@ const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown
         {apps.map((app, index) => (
           <article
             class="grid w-full shrink-0 snap-center md:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)]"
-            id={`featured-app-${index + 1}`}
             aria-label={t("carousel.position", { index: index + 1, count: apps.length })}
             aria-roledescription={t("carousel.slide")}
             data-featured-slide>
@@ -57,7 +56,7 @@ const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown
             </div>
             <Link
               unstyled
-              class="relative hidden aspect-[16/10] overflow-hidden bg-[var(--control-bg)] focus-visible:ring-[3px] focus-visible:ring-[color-mix(in_srgb,var(--primary)_20%,transparent)] focus-visible:outline-none focus-visible:ring-inset md:block"
+              class="relative hidden aspect-[16/10] overflow-hidden bg-[var(--control-bg)] focus-visible:outline-2 focus-visible:outline-offset-[-4px] focus-visible:outline-[var(--primary)] md:block"
               href={`/apps/${app.slug}/`}
               aria-label={t("featured.view", { name: app.name })}>
               <img
@@ -84,22 +83,23 @@ const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown
             data-featured-previous>
             <Icon name="chevron-left" class="size-4" />
           </Button>
-          <nav class="flex" aria-label={t("featured.choose")}>
+          <div class="flex" role="radiogroup" aria-label={t("featured.choose")}>
             {apps.map((_, index) => (
-              <Link
-                unstyled
-                class="group flex size-11 cursor-pointer items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-[-0.25rem] focus-visible:outline-[var(--primary)]"
-                href={`#featured-app-${index + 1}`}
-                aria-label={t("featured.show", { index: index + 1, count: apps.length })}
-                aria-current={index === 0 ? "true" : undefined}
+              <label
+                class="flex size-11 cursor-pointer items-center justify-center rounded-full"
                 data-featured-dot>
-                <span
-                  class="size-2.5 rounded-full bg-[var(--border)] group-hover:bg-[var(--primary)]"
-                  aria-hidden="true"
+                <input
+                  class="sr-only"
+                  type="radio"
+                  name="featured-slide"
+                  checked={index === 0}
+                  aria-label={t("featured.show", { index: index + 1, count: apps.length })}
+                  data-featured-choice
                 />
-              </Link>
+                <span class="size-2.5 rounded-full bg-[var(--border)]" aria-hidden="true" />
+              </label>
             ))}
-          </nav>
+          </div>
           <Button
             icon
             hidden
@@ -125,7 +125,9 @@ const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown
 
       const track = carousel.querySelector<HTMLElement>("[data-featured-track]");
       const slides = Array.from(carousel.querySelectorAll<HTMLElement>("[data-featured-slide]"));
-      const dots = Array.from(carousel.querySelectorAll<HTMLAnchorElement>("[data-featured-dot]"));
+      const choices = Array.from(
+        carousel.querySelectorAll<HTMLInputElement>("[data-featured-choice]")
+      );
       const previous = carousel.querySelector<HTMLButtonElement>("[data-featured-previous]");
       const next = carousel.querySelector<HTMLButtonElement>("[data-featured-next]");
 
@@ -137,10 +139,9 @@ const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown
       previous.hidden = false;
       next.hidden = false;
 
-      connectCarousel({ track, slides, dots, previous, next });
+      connectCarousel({ track, slides, choices, previous, next });
 
       if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        const events = new AbortController();
         let timeout = 0;
         const schedule = () => {
           clearTimeout(timeout);
@@ -150,10 +151,10 @@ const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown
           }, 8000);
         };
 
-        carousel.addEventListener("pointerdown", schedule, { signal: events.signal });
-        carousel.addEventListener("keydown", schedule, { signal: events.signal });
-        carousel.addEventListener("wheel", schedule, { signal: events.signal });
-        carousel.addEventListener("focusin", schedule, { signal: events.signal });
+        carousel.addEventListener("pointerdown", schedule);
+        carousel.addEventListener("keydown", schedule);
+        carousel.addEventListener("wheel", schedule);
+        carousel.addEventListener("focusin", schedule);
         schedule();
       }
     }
@@ -171,7 +172,43 @@ const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown
     display: none;
   }
 
-  [data-featured-dot][aria-current="true"] span {
+  [data-featured-dot]:has([data-featured-choice]:checked) span {
     background: var(--primary);
+  }
+
+  [data-featured-dot]:hover span {
+    background: var(--primary);
+  }
+
+  [data-featured-dot]:has([data-featured-choice]:focus-visible) {
+    outline: 2px solid var(--primary);
+    outline-offset: -0.25rem;
+  }
+
+  [data-featured-carousel]:not([data-initialized]) [data-featured-slide] {
+    display: none;
+  }
+
+  [data-featured-carousel]:not([data-initialized]):has(
+      [data-featured-dot]:nth-child(1) [data-featured-choice]:checked
+    )
+    [data-featured-slide]:nth-child(1),
+  [data-featured-carousel]:not([data-initialized]):has(
+      [data-featured-dot]:nth-child(2) [data-featured-choice]:checked
+    )
+    [data-featured-slide]:nth-child(2),
+  [data-featured-carousel]:not([data-initialized]):has(
+      [data-featured-dot]:nth-child(3) [data-featured-choice]:checked
+    )
+    [data-featured-slide]:nth-child(3),
+  [data-featured-carousel]:not([data-initialized]):has(
+      [data-featured-dot]:nth-child(4) [data-featured-choice]:checked
+    )
+    [data-featured-slide]:nth-child(4),
+  [data-featured-carousel]:not([data-initialized]):has(
+      [data-featured-dot]:nth-child(5) [data-featured-choice]:checked
+    )
+    [data-featured-slide]:nth-child(5) {
+    display: grid;
   }
 </style>

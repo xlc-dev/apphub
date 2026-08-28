@@ -31,11 +31,9 @@ import {
 import { facetResourcePath, type FacetType } from "#lib/facets";
 import { sitePath } from "#lib/paths";
 
-export * from "#lib/api-v1-schema";
+const apiPageSize = 50;
 
-export const apiPageSize = 50;
-
-export function apiPagePath(basePath: string, page: number) {
+function apiPagePath(basePath: string, page: number) {
   return sitePath(page === 1 ? basePath : `${basePath.replace(/\.json$/, "")}/page/${page}.json`);
 }
 
@@ -69,7 +67,7 @@ export function apiExtraPagePaths(totalItems: number) {
   }));
 }
 
-export function getApiSnapshot(): ApiSnapshot {
+function getApiSnapshot(): ApiSnapshot {
   return getCatalogSnapshot();
 }
 
