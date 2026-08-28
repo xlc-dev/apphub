@@ -17,7 +17,7 @@ const icons = {
 <div class="size-11 shrink-0">
   <details class="relative" hidden data-theme-menu>
     <summary
-      class="flex size-11 cursor-pointer list-none items-center justify-center rounded-md border border-[var(--border)] bg-[var(--control-bg)] shadow-sm hover:bg-[var(--card-raised)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)] [&::-webkit-details-marker]:hidden"
+      class="summary-reset focus-ring control-surface flex size-11 cursor-pointer items-center justify-center rounded-md shadow-sm"
       aria-label={t("theme.label")}
       title={t("theme.label")}
       data-theme-summary>
@@ -32,14 +32,14 @@ const icons = {
       }
     </summary>
     <div
-      class="absolute right-0 z-50 mt-2 w-40 rounded-md border border-[var(--border)] bg-[var(--card)] p-1 shadow-lg"
+      class="card-surface absolute right-0 z-50 mt-2 w-40 rounded-md p-1 shadow-lg"
       role="group"
       aria-label={t("theme.label")}
       data-dropdown-panel>
       {
         modes.map((mode) => (
           <button
-            class="flex min-h-11 w-full cursor-pointer items-center gap-2 rounded-sm px-2 text-left text-sm hover:bg-[var(--card-raised)] focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--primary)] aria-[pressed=true]:bg-[var(--card-raised)]"
+            class="focus-ring-inset flex min-h-11 w-full cursor-pointer items-center gap-2 rounded-sm px-2 text-left text-sm hover:bg-[var(--card-raised)] aria-[pressed=true]:bg-[var(--card-raised)]"
             type="button"
             aria-pressed="false"
             data-theme-option={mode}>

@@ -1,0 +1,29 @@
+---
+interface Props {
+  groupLabel: string;
+  labels: string[];
+  name: string;
+}
+
+const { groupLabel, labels, name } = Astro.props;
+---
+
+<div class="flex" role="radiogroup" aria-label={groupLabel}>
+  {
+    labels.map((label, index) => (
+      <label
+        class="flex size-11 cursor-pointer items-center justify-center rounded-full"
+        data-carousel-dot>
+        <input
+          class="sr-only"
+          type="radio"
+          name={name}
+          checked={index === 0}
+          data-carousel-choice
+        />
+        <span class="sr-only">{label}</span>
+        <span class="size-2.5 rounded-full bg-[var(--border)]" aria-hidden="true" />
+      </label>
+    ))
+  }
+</div>

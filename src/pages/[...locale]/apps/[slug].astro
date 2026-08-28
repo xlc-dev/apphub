@@ -11,6 +11,7 @@ import InstallButton from "@/components/InstallButton.astro";
 import ScreenshotCarousel from "@/components/ScreenshotCarousel.astro";
 import SourceBadge from "@/components/SourceBadge.astro";
 import ButtonLink from "@/components/ui/ButtonLink.astro";
+import DisclosureSummary from "@/components/ui/DisclosureSummary.astro";
 import Page from "@/components/ui/Page.astro";
 import Section from "@/components/ui/Section.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
@@ -100,13 +101,9 @@ const donation = app.links?.donation;
         {
           contentWarnings.length > 0 && (
             <details class="group mt-3 max-w-2xl text-sm text-[var(--muted)]">
-              <summary class="flex min-h-11 cursor-pointer list-none items-center gap-2 rounded-sm font-medium text-[var(--text)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)] [&::-webkit-details-marker]:hidden">
+              <DisclosureSummary class="gap-2 rounded-sm font-medium text-[var(--text)]">
                 {t("app.contentNotes")}
-                <Icon
-                  name="chevron-down"
-                  class="size-4 transition-transform group-open:rotate-180 motion-reduce:transition-none"
-                />
-              </summary>
+              </DisclosureSummary>
               <ul class="m-0 space-y-1 pl-5">
                 {contentWarnings.map((warning) => (
                   <li>{warning}</li>

@@ -30,7 +30,7 @@ const links = [
     class="mx-auto grid w-full max-w-7xl grid-cols-[1fr_auto] items-center gap-4 px-4 py-3 md:grid-cols-[auto_minmax(12rem,32rem)_auto] md:px-6">
     <Link
       unstyled
-      class="col-start-1 row-start-1 flex items-center gap-2 justify-self-start rounded-sm text-xl font-bold transition-colors hover:text-[var(--primary)] focus-visible:text-[var(--primary)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)] motion-reduce:transition-none"
+      class="focus-ring col-start-1 row-start-1 flex items-center gap-2 justify-self-start rounded-sm text-xl font-bold transition-colors hover:text-[var(--primary)] focus-visible:text-[var(--primary)] motion-reduce:transition-none"
       aria-label={t("nav.home")}
       href="/">
       <Image src={logo} alt="" width={32} height={32} priority />
@@ -40,7 +40,7 @@ const links = [
       <ThemeSelect />
       <details class="group">
         <summary
-          class="relative flex size-11 cursor-pointer list-none items-center justify-center rounded-md border border-[var(--border)] bg-[var(--control-bg)] shadow-sm hover:bg-[var(--card-raised)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)] [&::-webkit-details-marker]:hidden"
+          class="summary-reset focus-ring control-surface relative flex size-11 cursor-pointer items-center justify-center rounded-md shadow-sm"
           aria-label={t("nav.menu")}>
           <Icon
             name="menu"
@@ -80,7 +80,7 @@ const links = [
       data-catalog-search>
       <label class="sr-only" for="catalog-search">{t("search.label")}</label>
       <input
-        class="min-h-11 w-full rounded-md border border-[var(--border)] bg-[var(--control-bg)] px-3 py-1 text-sm shadow-sm outline-none placeholder:text-[var(--muted)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)]"
+        class="focus-ring min-h-11 w-full rounded-md border border-[var(--border)] bg-[var(--control-bg)] px-3 py-1 text-sm shadow-sm outline-none placeholder:text-[var(--muted)]"
         id="catalog-search"
         type="search"
         name="q"

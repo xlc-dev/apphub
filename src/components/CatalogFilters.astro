@@ -1,6 +1,6 @@
 ---
-import Icon from "@/components/Icon.astro";
 import Button from "@/components/ui/Button.astro";
+import DisclosureSummary from "@/components/ui/DisclosureSummary.astro";
 import { getLocale, translate } from "@/lib/i18n";
 
 interface FilterOption {
@@ -40,20 +40,18 @@ const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown
     {
       menus.map(({ name, groups }) => (
         <details class="group static sm:relative" data-filter-menu>
-          <summary class="relative flex min-h-11 cursor-pointer list-none items-center gap-2 rounded-md border border-[var(--border)] bg-[var(--control-bg)] px-3 text-sm font-medium shadow-sm hover:bg-[var(--card-raised)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)] [&::-webkit-details-marker]:hidden">
+          <DisclosureSummary
+            class="control-surface relative gap-2 rounded-md px-3 text-sm font-medium shadow-sm"
+            iconClass="text-[var(--muted)]">
             {name}
             <span
               class="invisible absolute -top-1.5 -right-1.5 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-[var(--primary)] px-1 text-xs text-[var(--primary-text)]"
               data-filter-count>
               0
             </span>
-            <Icon
-              name="chevron-down"
-              class="size-4 text-[var(--muted)] transition-transform group-open:rotate-180 motion-reduce:transition-none"
-            />
-          </summary>
+          </DisclosureSummary>
           <div
-            class="absolute right-0 left-0 z-20 mt-2 max-h-[min(32rem,70vh)] overflow-y-auto rounded-lg border border-[var(--border)] bg-[var(--card)] p-2 shadow-lg sm:right-auto sm:w-72"
+            class="card-surface absolute right-0 left-0 z-20 mt-2 max-h-[min(32rem,70vh)] overflow-y-auto rounded-lg p-2 shadow-lg sm:right-auto sm:w-72"
             data-dropdown-panel>
             {groups.map(({ name: groupName, parameter, options }, index) => (
               <fieldset class:list={[index > 0 && "mt-2 border-t border-[var(--border)] pt-2"]}>

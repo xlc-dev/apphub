@@ -10,7 +10,7 @@ const { class: className, ...attributes } = Astro.props;
   {...attributes}
   unstyled
   class:list={[
-    "rounded-xl border border-[var(--border)] bg-[var(--card)] shadow-sm transition-[background-color,box-shadow] hover:bg-[var(--card-raised)] hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)] motion-reduce:transition-none",
+    "focus-ring card-surface rounded-xl shadow-sm transition-[background-color,box-shadow] hover:bg-[var(--card-raised)] hover:shadow-md motion-reduce:transition-none",
     className,
   ]}>
   <slot />

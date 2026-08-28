@@ -3,17 +3,27 @@ import { readFile } from "node:fs/promises";
 import { test } from "node:test";
 
 test("uses no-JavaScript carousel controls without fragment navigation", async () => {
+  const dots = await readFile("src/components/ui/CarouselDots.astro", "utf8");
+
+  assert.match(dots, /type="radio"/);
+  assert.match(dots, /<span class="sr-only">\{label\}<\/span>/);
+  assert.doesNotMatch(dots, /href=\{`#/);
+
   for (const path of [
     "src/components/ScreenshotCarousel.astro",
     "src/components/FeaturedCarousel.astro",
   ]) {
     const component = await readFile(path, "utf8");
 
-    assert.match(component, /type="radio"/, path);
-    assert.match(component, /:checked/, path);
-    assert.doesNotMatch(component, /href=\{`#/, path);
+    assert.match(component, /<CarouselDots/, path);
+    assert.match(component, /data-carousel-root=/, path);
     assert.doesNotMatch(component, /aria-current=\{index === 0/, path);
   }
+
+  const styles = await readFile("src/global.css", "utf8");
+
+  assert.match(styles, /\[data-carousel-choice\]:checked/);
+  assert.match(styles, /\[data-carousel-root\]:not\(\[data-initialized\]\)/);
 });
 
 test("keeps enhanced carousel state synchronized with native choices", async () => {

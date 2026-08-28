@@ -1,6 +1,7 @@
 ---
 import Section from "@/components/ui/Section.astro";
 import Button from "@/components/ui/Button.astro";
+import CarouselDots from "@/components/ui/CarouselDots.astro";
 import Icon from "@/components/Icon.astro";
 import { Image } from "astro:assets";
 import { getLocale, translate } from "@/lib/i18n";
@@ -26,6 +27,7 @@ const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown
   headingId={`${id}-heading`}
   aria-labelledby={`${id}-heading`}
   aria-roledescription={t("carousel.role")}
+  data-carousel-root="screenshots"
   data-carousel>
   <Button
     icon
@@ -100,26 +102,13 @@ const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown
   {
     screenshots.length > 1 && (
       <div class="mt-2 flex min-h-11 items-center justify-center">
-        <div class="flex" role="radiogroup" aria-label={t("screenshots.choose")}>
-          {screenshots.map((_, index) => (
-            <label
-              class="flex size-11 cursor-pointer items-center justify-center rounded-full"
-              data-carousel-dot>
-              <input
-                class="sr-only"
-                type="radio"
-                name={`${id}-slide`}
-                checked={index === 0}
-                aria-label={t("screenshots.show", {
-                  index: index + 1,
-                  count: screenshots.length,
-                })}
-                data-carousel-choice
-              />
-              <span class="size-2.5 rounded-full bg-[var(--border)]" aria-hidden="true" />
-            </label>
-          ))}
-        </div>
+        <CarouselDots
+          groupLabel={t("screenshots.choose")}
+          labels={screenshots.map((_, index) =>
+            t("screenshots.show", { index: index + 1, count: screenshots.length })
+          )}
+          name={`${id}-slide`}
+        />
       </div>
     )
   }
@@ -239,54 +228,6 @@ const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown
 </script>
 
 <style>
-  [data-carousel-track] {
-    scrollbar-width: none;
-  }
-
-  [data-carousel-track]::-webkit-scrollbar {
-    display: none;
-  }
-
-  [data-carousel-dot]:has([data-carousel-choice]:checked) span {
-    background: currentColor;
-  }
-
-  [data-carousel-dot]:hover span {
-    background: var(--primary);
-  }
-
-  [data-carousel-dot]:has([data-carousel-choice]:focus-visible) {
-    outline: 2px solid var(--primary);
-    outline-offset: -0.25rem;
-  }
-
-  [data-carousel]:not([data-initialized]) [data-carousel-slide] {
-    display: none;
-  }
-
-  [data-carousel]:not([data-initialized]):has(
-      [data-carousel-dot]:nth-child(1) [data-carousel-choice]:checked
-    )
-    [data-carousel-slide]:nth-child(1),
-  [data-carousel]:not([data-initialized]):has(
-      [data-carousel-dot]:nth-child(2) [data-carousel-choice]:checked
-    )
-    [data-carousel-slide]:nth-child(2),
-  [data-carousel]:not([data-initialized]):has(
-      [data-carousel-dot]:nth-child(3) [data-carousel-choice]:checked
-    )
-    [data-carousel-slide]:nth-child(3),
-  [data-carousel]:not([data-initialized]):has(
-      [data-carousel-dot]:nth-child(4) [data-carousel-choice]:checked
-    )
-    [data-carousel-slide]:nth-child(4),
-  [data-carousel]:not([data-initialized]):has(
-      [data-carousel-dot]:nth-child(5) [data-carousel-choice]:checked
-    )
-    [data-carousel-slide]:nth-child(5) {
-    display: flex;
-  }
-
   [data-carousel-expanded] {
     position: fixed;
     inset: 0;

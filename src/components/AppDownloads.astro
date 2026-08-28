@@ -5,7 +5,7 @@ import ButtonLink from "@/components/ui/ButtonLink.astro";
 import Button from "@/components/ui/Button.astro";
 import EmptyState from "@/components/ui/EmptyState.astro";
 import Link from "@/components/ui/Link.astro";
-import Icon from "@/components/Icon.astro";
+import DisclosureSummary from "@/components/ui/DisclosureSummary.astro";
 import { getLocale, translate } from "@/lib/i18n";
 
 interface Props {
@@ -23,9 +23,7 @@ const releaseDate = latest
   : undefined;
 ---
 
-<section
-  class="rounded-xl border border-[var(--border)] bg-[var(--card)] p-5 shadow-sm"
-  aria-labelledby="downloads-heading">
+<section class="card-surface rounded-xl p-5 shadow-sm" aria-labelledby="downloads-heading">
   <h2 class="text-xl font-bold" id="downloads-heading">{t("downloads.direct")}</h2>
   {
     latest ? (
@@ -70,15 +68,11 @@ const releaseDate = latest
                 )}
               </div>
               <details class="group mt-3 text-sm">
-                <summary
-                  class="flex min-h-11 cursor-pointer list-none items-center justify-between gap-2 rounded-sm text-[var(--muted)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)]"
+                <DisclosureSummary
+                  class="justify-between gap-2 rounded-sm text-[var(--muted)]"
                   aria-label={t("downloads.checksum", { architecture: artifact.architecture })}>
                   {t("downloads.checksum", { architecture: artifact.architecture })}
-                  <Icon
-                    name="chevron-down"
-                    class="size-4 transition-transform group-open:rotate-180 motion-reduce:transition-none"
-                  />
-                </summary>
+                </DisclosureSummary>
                 <dl class="mt-2 grid gap-3">
                   <div>
                     <dt class="text-[var(--muted)]">{t("downloads.observedChecksum")}</dt>

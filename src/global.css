@@ -7,6 +7,49 @@
   --color-accent: var(--primary);
 }
 
+@utility focus-ring {
+  &:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+  }
+}
+
+@utility focus-ring-inset {
+  &:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: -2px;
+  }
+}
+
+@utility focus-ring-deep-inset {
+  &:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: -4px;
+  }
+}
+
+@utility control-surface {
+  border: 1px solid var(--border);
+  background: var(--control-bg);
+
+  &:hover {
+    background: var(--card-raised);
+  }
+}
+
+@utility card-surface {
+  border: 1px solid var(--border);
+  background: var(--card);
+}
+
+@utility summary-reset {
+  list-style: none;
+
+  &::-webkit-details-marker {
+    display: none;
+  }
+}
+
 :root {
   color-scheme: light dark;
   --page: light-dark(#fafafa, #1e1e1e);
@@ -84,6 +127,63 @@ html {
 details[open] > [data-dropdown-panel] {
   animation: 120ms ease-out dropdown-in;
   transform-origin: top;
+}
+
+[data-carousel-track] {
+  scrollbar-width: none;
+}
+
+[data-carousel-track]::-webkit-scrollbar {
+  display: none;
+}
+
+[data-carousel-dot]:has([data-carousel-choice]:checked) span {
+  background: var(--carousel-dot-active, currentColor);
+}
+
+[data-carousel-dot]:hover span {
+  background: var(--primary);
+}
+
+[data-carousel-dot]:has([data-carousel-choice]:focus-visible) {
+  outline: 2px solid var(--primary);
+  outline-offset: -0.25rem;
+}
+
+[data-carousel-root="featured"] {
+  --carousel-dot-active: var(--primary);
+  --carousel-slide-display: grid;
+}
+
+[data-carousel-root="screenshots"] {
+  --carousel-slide-display: flex;
+}
+
+[data-carousel-root]:not([data-initialized]) [data-carousel-slide] {
+  display: none;
+}
+
+[data-carousel-root]:not([data-initialized]):has(
+    [data-carousel-dot]:nth-child(1) [data-carousel-choice]:checked
+  )
+  [data-carousel-slide]:nth-child(1),
+[data-carousel-root]:not([data-initialized]):has(
+    [data-carousel-dot]:nth-child(2) [data-carousel-choice]:checked
+  )
+  [data-carousel-slide]:nth-child(2),
+[data-carousel-root]:not([data-initialized]):has(
+    [data-carousel-dot]:nth-child(3) [data-carousel-choice]:checked
+  )
+  [data-carousel-slide]:nth-child(3),
+[data-carousel-root]:not([data-initialized]):has(
+    [data-carousel-dot]:nth-child(4) [data-carousel-choice]:checked
+  )
+  [data-carousel-slide]:nth-child(4),
+[data-carousel-root]:not([data-initialized]):has(
+    [data-carousel-dot]:nth-child(5) [data-carousel-choice]:checked
+  )
+  [data-carousel-slide]:nth-child(5) {
+  display: var(--carousel-slide-display);
 }
 
 button,

@@ -19,19 +19,22 @@ const {
   class: className,
   ...attributes
 } = Astro.props;
+
+const localizedHref = typeof href === "string" ? sitePath(localePath(href, locale)) : href;
+
+let linkClass: string | undefined;
+
+if (!unstyled) {
+  if (chip) {
+    linkClass =
+      "focus-ring rounded-full bg-[var(--control-bg)] px-2.5 py-1 text-xs font-medium text-[var(--muted)] hover:bg-[var(--card-raised)] aria-[current=page]:bg-[var(--primary)] aria-[current=page]:text-[var(--primary-text)]";
+  } else if (accent) {
+    linkClass = "focus-ring rounded-sm text-[var(--primary)] hover:underline";
+  } else {
+    linkClass =
+      "focus-ring rounded-sm hover:text-[var(--primary)] aria-[current=page]:text-[var(--primary)]";
+  }
+}
 ---
 
-<a
-  {...attributes}
-  href={typeof href === "string" ? sitePath(localePath(href, locale)) : href}
-  class:list={[
-    unstyled
-      ? undefined
-      : chip
-        ? "rounded-full bg-[var(--control-bg)] px-2.5 py-1 text-xs font-medium text-[var(--muted)] hover:bg-[var(--card-raised)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)] aria-[current=page]:bg-[var(--primary)] aria-[current=page]:text-[var(--primary-text)]"
-        : accent
-          ? "rounded-sm text-[var(--primary)] hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)]"
-          : "rounded-sm hover:text-[var(--primary)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)] aria-[current=page]:text-[var(--primary)]",
-    className,
-  ]}><slot /></a
->
+<a {...attributes} href={localizedHref} class:list={[linkClass, className]}><slot /></a>

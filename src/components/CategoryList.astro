@@ -11,7 +11,7 @@ interface Props {
 
 const { categories, current, class: className } = Astro.props;
 const itemClass =
-  "grid min-h-11 grid-cols-[minmax(0,1fr)_auto] items-center gap-2 rounded-md px-2 text-sm hover:bg-[var(--card-raised)] focus-visible:-outline-offset-2 focus-visible:outline-2 focus-visible:outline-[var(--primary)] aria-[current=page]:bg-[var(--card-raised)] aria-[current=page]:font-medium aria-[current=page]:text-[var(--primary)]";
+  "focus-ring-inset grid min-h-11 grid-cols-[minmax(0,1fr)_auto] items-center gap-2 rounded-md px-2 text-sm hover:bg-[var(--card-raised)] aria-[current=page]:bg-[var(--card-raised)] aria-[current=page]:font-medium aria-[current=page]:text-[var(--primary)]";
 const locale = getLocale(Astro.currentLocale);
 const t = (key: Parameters<typeof translate>[1]) => translate(locale, key);
 ---

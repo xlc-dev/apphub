@@ -1,6 +1,6 @@
 ---
 import CategoryList from "@/components/CategoryList.astro";
-import Icon from "@/components/Icon.astro";
+import DisclosureSummary from "@/components/ui/DisclosureSummary.astro";
 import { getLocale, translate } from "@/lib/i18n";
 
 interface Props {
@@ -14,19 +14,17 @@ const locale = getLocale(Astro.currentLocale);
 const t = (key: Parameters<typeof translate>[1]) => translate(locale, key);
 ---
 
-<details class="rounded-lg border border-[var(--border)] bg-[var(--card)] lg:hidden">
-  <summary class="flex min-h-11 cursor-pointer items-center justify-between px-3 py-2 font-medium">
-    <span>{currentName ?? t("apps.allCategories")}</span>
-    <Icon name="chevron-down" class="size-4" />
-  </summary>
+<details class="card-surface group rounded-lg lg:hidden">
+  <DisclosureSummary class="justify-between px-3 py-2 font-medium">
+    {currentName ?? t("apps.allCategories")}
+  </DisclosureSummary>
   <div class="border-t border-[var(--border)] p-2">
     <CategoryList class="max-h-72" categories={categories} current={current} />
   </div>
 </details>
 
 <aside class="hidden h-[80rem] min-h-0 lg:block xl:h-[53rem]">
-  <div
-    class="flex h-full min-h-0 flex-col overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--card)] p-2 shadow-sm">
+  <div class="card-surface flex h-full min-h-0 flex-col overflow-hidden rounded-lg p-2 shadow-sm">
     <p class="px-2 py-1 text-sm font-semibold">{t("apps.categories")}</p>
     <CategoryList class="min-h-0 grow" categories={categories} current={current} />
   </div>

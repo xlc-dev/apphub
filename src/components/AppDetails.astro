@@ -3,6 +3,7 @@ import type { CatalogApp } from "@/lib/catalog-loader";
 import Link from "@/components/ui/Link.astro";
 import Icon from "@/components/Icon.astro";
 import Definition from "@/components/ui/Definition.astro";
+import DisclosureSummary from "@/components/ui/DisclosureSummary.astro";
 import { getLocale, translate } from "@/lib/i18n";
 
 interface Props {
@@ -46,7 +47,7 @@ const lastChecked = new Intl.DateTimeFormat(locale, {
 ---
 
 <aside
-  class="min-w-0 self-start overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--card)] shadow-sm"
+  class="card-surface min-w-0 self-start overflow-hidden rounded-xl shadow-sm"
   aria-labelledby="details-heading">
   <div class="border-b border-[var(--border)] bg-[var(--card-raised)] px-5 py-4">
     <h2 class="m-0 text-xl font-bold" id="details-heading">{t("app.details")}</h2>
@@ -80,14 +81,12 @@ const lastChecked = new Intl.DateTimeFormat(locale, {
     }
   </dl>
   <details class="group border-t border-[var(--border)]">
-    <summary
-      class="flex min-h-11 cursor-pointer list-none items-center justify-between gap-3 px-5 py-3 text-sm font-medium hover:bg-[var(--card-raised)] focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--primary)] [&::-webkit-details-marker]:hidden">
+    <DisclosureSummary
+      inset
+      class="justify-between gap-3 px-5 py-3 text-sm font-medium hover:bg-[var(--card-raised)]"
+      iconClass="text-[var(--muted)]">
       {t("app.sourceInformation")}
-      <Icon
-        name="chevron-down"
-        class="size-4 text-[var(--muted)] transition-transform group-open:rotate-180 motion-reduce:transition-none"
-      />
-    </summary>
+    </DisclosureSummary>
     <dl class="m-0 divide-y divide-[var(--border)] border-t border-[var(--border)]">
       <Definition label={t("app.origin")}>
         {t(app.origin.type === "upstream" ? "origin.upstream" : "origin.thirdParty")}
@@ -120,19 +119,18 @@ const lastChecked = new Intl.DateTimeFormat(locale, {
   {
     projectLinks.length > 0 && (
       <details class="group border-t border-[var(--border)]">
-        <summary class="flex min-h-11 cursor-pointer list-none items-center justify-between gap-3 px-5 py-3 text-sm font-medium hover:bg-[var(--card-raised)] focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--primary)] [&::-webkit-details-marker]:hidden">
+        <DisclosureSummary
+          inset
+          class="justify-between gap-3 px-5 py-3 text-sm font-medium hover:bg-[var(--card-raised)]"
+          iconClass="text-[var(--muted)]">
           {t("app.resources")}
-          <Icon
-            name="chevron-down"
-            class="size-4 text-[var(--muted)] transition-transform group-open:rotate-180 motion-reduce:transition-none"
-          />
-        </summary>
+        </DisclosureSummary>
         <ul class="m-0 list-none divide-y divide-[var(--border)] border-t border-[var(--border)] p-0">
           {projectLinks.map(([type, url]) => (
             <li>
               <Link
                 unstyled
-                class="flex min-h-11 items-center justify-between gap-3 px-5 text-sm hover:bg-[var(--card-raised)] focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--primary)]"
+                class="focus-ring-inset flex min-h-11 items-center justify-between gap-3 px-5 text-sm hover:bg-[var(--card-raised)]"
                 href={url}>
                 {linkLabels[type as keyof typeof linkLabels]}
                 <Icon name="external" class="size-4 text-[var(--muted)]" />
