@@ -15,16 +15,16 @@ controls.
 
 Application manifests can cause CI to fetch AppStream metadata, release feeds, icons, screenshots,
 and provider API resources. Pull-request CI fetches data referenced by schema-valid manifests. It
-normally refreshes only changed manifests; generator or schema changes may refresh the full catalog.
+normally refreshes only changed manifests. Generator or schema changes may refresh the full catalog.
 Pull-request generation receives no GitHub API token.
 
 Every remote request must:
 
-- use HTTPS without embedded credentials or a custom port;
-- resolve exclusively to public IP addresses;
-- connect only to an address from that validated result;
-- repeat validation and address pinning after every redirect;
-- discard all caller-provided headers on a cross-origin redirect; and
+- use HTTPS without embedded credentials or a custom port.
+- resolve exclusively to public IP addresses.
+- connect only to an address from that validated result.
+- repeat validation and address pinning after every redirect.
+- discard all caller-provided headers on a cross-origin redirect.
 - remain within redirect, timeout, response, download, and parser limits.
 
 Production refreshes may authenticate to the GitHub API. Those credentials are used only by trusted

@@ -110,7 +110,7 @@ are not retained.
 
 Normalized images live under `.generated/media/`, named by their SHA-256. Identical media is
 therefore stored and deployed once, while immutable names remain safe to cache. Each app may
-reference at most 1 MiB of normalized media. The website always serves these committed local files;
+reference at most 1 MiB of normalized media. The website always serves these committed local files.
 upstream media URLs are retained only as provenance and are never used as browser image sources.
 
 Catalog content is not covered by AppHub's source-code license, including when delivered through the
@@ -212,7 +212,7 @@ are not application submission sources.
 ## Release sources
 
 Supported sources are `github`, `gitlab`, `codeberg`, and `feed`. Forge sources contain a repository
-name; feeds contain an HTTPS URL. The build uses the newest stable release.
+name. Feeds contain an HTTPS URL. The build uses the newest stable release.
 
 Automatic architecture detection uses AppImage filenames. Add `assets` only when those names are
 ambiguous:

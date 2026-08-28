@@ -54,7 +54,7 @@ download statistics, and repository-star counts. Sunday and manual refreshes als
 application's AppStream metadata and media.
 
 Download totals never decrease. The updater records at most one snapshot per UTC date and retains
-the latest 40 snapshots. Weekly and monthly rankings compare dated snapshots; all-time rankings use
+the latest 40 snapshots. Weekly and monthly rankings compare dated snapshots. All-time rankings use
 the latest totals. Refresh work uses bounded application and per-host concurrency. Saved HTTP
 validators avoid downloading unchanged resources where the source safely supports them. A failed
 request retains the previous value when available, while an exhausted provider is paused without
@@ -62,7 +62,7 @@ blocking unrelated providers.
 
 Scheduled refreshes isolate metadata and media, releases, downloads, and stars per application.
 Transient failures retain the committed last-known-good value and record a machine-readable
-incident. Due intervals prevent unchanged sources from being fetched on every scheduled run; manual
+incident. Due intervals prevent unchanged sources from being fetched on every scheduled run. Manual
 runs can force a complete refresh. New apps and source changes remain strict. See
 [Refresh failures and freshness](freshness.md) for thresholds, quarantine behavior, and retries.
 
@@ -88,9 +88,9 @@ only once. Validation rejects an app above its normalized media budget and rejec
 above 850 MiB.
 
 Production uses `/apphub` as its base path. The deployed site contains only static HTML, JSON,
-JavaScript, styles, and catalog assets; it has no runtime server or database.
+JavaScript, styles, and catalog assets. It has no runtime server or database.
 
-Canonical, hreflang, sitemap, and robots URLs derive from `SITE_URL` and `BASE_PATH`; changing to a
+Canonical, hreflang, sitemap, and robots URLs derive from `SITE_URL` and `BASE_PATH`. Changing to a
 custom domain does not require changing page code. The production sitemap contains indexable
 canonical pages directly. Later listing pages are `noindex,follow`, while quarantined applications
 remain available by direct URL without being indexed.
