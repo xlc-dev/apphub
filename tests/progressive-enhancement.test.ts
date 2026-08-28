@@ -50,3 +50,13 @@ test("reveals JavaScript-only controls after initialization", async () => {
     assert.match(initializer, /classList\.remove\("invisible"\)/, initializerPath);
   }
 });
+
+test("keeps enhanced catalog pagination client-side", async () => {
+  const search = await readFile("src/client/catalog-search.ts", "utf8");
+
+  assert.match(search, /pagination\.addEventListener\("click"/);
+  assert.match(search, /event\.button !== 0/);
+  assert.match(search, /event\.metaKey/);
+  assert.match(search, /event\.preventDefault\(\)/);
+  assert.match(search, /history\.pushState\([^;]+link\.href\)/s);
+});

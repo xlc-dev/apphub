@@ -252,6 +252,28 @@ export function initializeCatalogSearch() {
     });
   };
 
+  pagination.addEventListener("click", (event) => {
+    const target = event.target;
+
+    if (
+      !(target instanceof Element) ||
+      event.button !== 0 ||
+      event.altKey ||
+      event.ctrlKey ||
+      event.metaKey ||
+      event.shiftKey
+    ) {
+      return;
+    }
+
+    const link = target.closest<HTMLAnchorElement>("a[href]");
+    if (!link) return;
+
+    event.preventDefault();
+    history.pushState({ ...(history.state ?? {}), apphubCatalog: true }, "", link.href);
+    runFilter();
+  });
+
   form.addEventListener("submit", (event) => {
     event.preventDefault();
 
