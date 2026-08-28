@@ -39,13 +39,8 @@ const headingId = `${basePath.replace(/[^a-z0-9]+/gi, "-").replace(/^-|-$/g, "")
         {heading}
       </h2>
       <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {displayedApps.map((app, index) => (
-          <AppCard
-            app={app}
-            detail={getDetail?.(app)}
-            priority={index < 6}
-            stars={app.statistics.stars ?? undefined}
-          />
+        {displayedApps.map((app) => (
+          <AppCard app={app} detail={getDetail?.(app)} stars={app.statistics.stars ?? undefined} />
         ))}
       </div>
       <Pagination

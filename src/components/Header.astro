@@ -33,7 +33,7 @@ const links = [
       class="col-start-1 row-start-1 flex items-center gap-2 justify-self-start rounded-sm text-xl font-bold transition-colors hover:text-[var(--primary)] focus-visible:text-[var(--primary)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)] motion-reduce:transition-none"
       aria-label={t("nav.home")}
       href="/">
-      <Image src={logo} alt="" width={32} height={32} loading="eager" fetchpriority="high" />
+      <Image src={logo} alt="" width={32} height={32} priority />
       <span>AppHub</span>
     </Link>
     <div class="col-start-2 row-start-1 flex items-center gap-2 md:hidden">

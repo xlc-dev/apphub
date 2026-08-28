@@ -145,5 +145,10 @@ const t = (key: Parameters<typeof translate>[1]) => translate(locale, key);
       <slot />
     </main>
     <Footer />
+    <script>
+      import { optimizeImageLoading } from "@/client/image-loading";
+
+      requestAnimationFrame(() => optimizeImageLoading());
+    </script>
   </body>
 </html>

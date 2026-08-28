@@ -42,7 +42,7 @@ const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown
                 alt=""
                 width={56}
                 height={56}
-                loading="eager"
+                priority={index === 0}
               />
               <h2 class="mt-5 text-2xl font-bold sm:text-3xl">
                 <Link accent href={`/apps/${app.slug}/`}>
@@ -65,8 +65,8 @@ const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown
                 alt=""
                 width="1280"
                 height="800"
-                loading={index === 0 ? "eager" : "lazy"}
-                fetchpriority={index === 0 ? "high" : "auto"}
+                loading={index === 0 ? undefined : "lazy"}
+                fetchpriority={index === 0 ? "high" : undefined}
                 decoding="async"
               />
             </Link>

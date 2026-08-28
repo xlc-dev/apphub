@@ -2,6 +2,7 @@ import { categoryName } from "#lib/categories";
 import { getLocale, localePath, translate, type Locale } from "#lib/i18n";
 import { sitePath } from "#lib/paths";
 import { buttonClasses } from "../components/ui/buttonStyles";
+import { optimizeImageLoading } from "./image-loading";
 import {
   catalogFilterParameters,
   searchCardSelectors,
@@ -237,6 +238,7 @@ export function initializeCatalogSearch() {
     grid.className = "grid gap-4 md:grid-cols-2 xl:grid-cols-3";
     grid.append(...page.apps.map((app) => appCard(app, cardTemplate, locale)));
     results.replaceChildren(grid);
+    requestAnimationFrame(() => optimizeImageLoading(grid));
 
     const pageStatus = document.createElement("span");
 

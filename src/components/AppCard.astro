@@ -16,11 +16,10 @@ interface Props {
   app: CardApp;
   detail?: string | undefined;
   headingLevel?: 2 | 3;
-  priority?: boolean;
   stars?: number | undefined;
 }
 
-const { app, detail, headingLevel = 2, priority = false, stars } = Astro.props;
+const { app, detail, headingLevel = 2, stars } = Astro.props;
 const locale = getLocale(Astro.currentLocale);
 const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown>) =>
   translate(locale, key, values);
@@ -39,12 +38,11 @@ const categories = visibleCategories.join(", ");
     <Image
       class="size-14 shrink-0 rounded-xl sm:size-16"
       data-app-card-icon
+      data-optimize-loading
       src={app.icon.url}
       alt=""
       width={64}
       height={64}
-      loading={priority ? "eager" : "lazy"}
-      fetchpriority={priority ? "high" : "auto"}
     />
     <div class="min-w-0 grow overflow-hidden">
       <div class="flex min-w-0 items-center gap-2">

@@ -62,10 +62,10 @@ const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown
               class="block max-h-full min-h-0 max-w-full rounded-xl object-contain"
               src={screenshot.url}
               alt=""
+              data-optimize-loading={index === 0 || undefined}
               width={1920}
               height={1080}
-              loading={index === 0 ? "eager" : "lazy"}
-              fetchpriority={index === 0 ? "high" : "auto"}
+              loading="lazy"
             />
             <figcaption class="mt-2">{screenshot.caption}</figcaption>
           </figure>

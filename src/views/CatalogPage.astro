@@ -238,8 +238,8 @@ const catalogPath = sitePath(localePath(basePath, locale));
           {
             displayedCatalog.length > 0 ? (
               <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3" data-catalog-grid>
-                {apps.map((app, index) => (
-                  <AppCard app={app} priority={index < 6} stars={stars[app.slug]} />
+                {apps.map((app) => (
+                  <AppCard app={app} stars={stars[app.slug]} />
                 ))}
               </div>
             ) : (
