@@ -13,8 +13,8 @@ Read the documentation relevant to your change:
 - [Workflow documentation](docs/workflows.md) for validation, catalog maintenance, and deployment.
 
 An application listing consists only of `apps/<slug>.json`. Do not submit downloaded metadata,
-images, release files, or changes under `.generated/`; CI generates them from the reviewed sources
-in that manifest. Start with the [application template](docs/app.template.json); every field is
+images, release files, or changes under `.generated/`. CI generates them from the reviewed sources
+in that manifest. Start with the [application template](docs/app.template.json). Every field is
 explained in the [catalog documentation](docs/catalog.md). When your branch is ready, open an
 [application submission pull request](https://github.com/xlc-dev/apphub/compare/main...HEAD?quick_pull=1&template=app-submission.md)
 to use the application checklist.
@@ -48,8 +48,8 @@ The main directories are:
 
 - `src/pages/` contains thin website and API routes.
 - `src/views/` contains page layouts shared by locale-prefixed routes.
-- `src/components/` contains reusable Astro components; `src/client/` contains page-level browser
-  behavior.
+- `src/components/` contains reusable Astro components. Page-level browser behavior lives in
+  `src/client/`.
 - `src/lib/` contains shared, testable site logic. The catalog loader adapts stored records into the
   published model, and catalog queries derive website and API listings. UI translations live in one
   file per locale under `src/lib/translations/`.
@@ -69,7 +69,7 @@ bun run validate
 ```
 
 For focused work, use `bun test`, `bun run check`, or `bun run format:check`. Node users can run
-`npm run test:node` or `pnpm run test:node`; the other script names are unchanged.
+`npm run test:node` or `pnpm run test:node`. The other script names are unchanged.
 
 ## Pull requests
 

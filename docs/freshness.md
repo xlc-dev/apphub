@@ -40,7 +40,7 @@ and continue serving the last-known-good data.
 
 Ordinary outages and invalid responses do not remove an app. An integrity or provider-identity
 change quarantines the affected app and pauses its downloads. Three consecutive `not-found` release
-failures mark downloads unavailable. Neither state deletes the listing automatically; a source
+failures mark downloads unavailable. Neither state deletes the listing automatically. A source
 change or removal requires a reviewed pull request.
 
 Application resources expose their overall status and the underlying refresh records. API metadata

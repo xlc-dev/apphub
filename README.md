@@ -25,7 +25,8 @@ AppImages themselves.
 - See whether an AppImage is published by its developers or by a third party.
 - Review an app's declared permissions before installing it.
 - Download the right architecture directly from its release source, with its size and SHA-256 shown.
-- Install directly through [AppManager](https://github.com/kem-a/AppManager).
+- Install directly through [AppManager](https://github.com/kem-a/AppManager) using the `appimg://`
+  protocol.
 - Query the catalog through the versioned JSON API.
 
 ## Documentation

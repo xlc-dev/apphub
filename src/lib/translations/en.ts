@@ -134,6 +134,7 @@ export const en = {
   "sandbox.privateStorage": "private app storage only",
   "sandbox.services": "Named services: {count}",
   "install.label": "Install",
+  "install.clientRequired": "Make sure you have a compatible appimg:// client installed.",
   "install.unavailable": "Install unavailable",
   "install.unknownArchitecture": "Your system architecture could not be detected.",
   "install.wrongArchitecture":

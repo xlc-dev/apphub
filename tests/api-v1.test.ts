@@ -3,12 +3,19 @@ import { describe, test } from "node:test";
 import {
   apiAppDetailSchema,
   apiAppSummarySchema,
+  apiV1JsonSchema,
   apiMetadataV1Schema,
   apiPaginationSchema,
   apiSummaryPageSchema,
 } from "#lib/api-v1-schema";
 
 describe("API v1 contract", () => {
+  test("publishes the resource union as JSON Schema", () => {
+    assert.equal(apiV1JsonSchema.$schema, "https://json-schema.org/draft/2020-12/schema");
+    assert.equal(apiV1JsonSchema.title, "AppHub API v1");
+    assert.equal(apiV1JsonSchema.anyOf?.length, 8);
+  });
+
   test("defines collection and pagination envelopes", () => {
     assert.deepEqual(apiSummaryPageSchema.keyof().options.sort(), [
       "generatedAt",

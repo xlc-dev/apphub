@@ -140,6 +140,15 @@ export const apiV1ResourceSchema = z.union([
   apiArchitectureListSchema,
 ]);
 
+export const apiV1JsonSchema = {
+  ...z.toJSONSchema(apiV1ResourceSchema, {
+    target: "draft-2020-12",
+    reused: "ref",
+  }),
+  title: "AppHub API v1",
+  description: "Responses published under /api/v1, excluding this schema resource.",
+};
+
 export type ApiPagination = z.infer<typeof apiPaginationSchema>;
 export type ApiSnapshot = z.infer<typeof apiSnapshotSchema>;
 export type ApiAppResource = z.infer<typeof apiAppResourceSchema>;

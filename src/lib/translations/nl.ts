@@ -138,6 +138,7 @@ export const nl: Record<MessageKey, string> = {
   "sandbox.privateStorage": "alleen privéopslag van de app",
   "sandbox.services": "Benoemde diensten: {count}",
   "install.label": "Installeren",
+  "install.clientRequired": "Zorg dat u een compatibele appimg://-client hebt geïnstalleerd.",
   "install.unavailable": "Installatie niet beschikbaar",
   "install.unknownArchitecture": "De architectuur van uw systeem kon niet worden vastgesteld.",
   "install.wrongArchitecture":
