@@ -1,0 +1,18 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"div"> {
+  label: string;
+  valueClass?: string;
+  wrap?: boolean;
+}
+
+const { label, valueClass, wrap = false, class: className, ...attributes } = Astro.props;
+---
+
+<div {...attributes} class:list={["px-5 py-3.5", className]}>
+  <dt class="text-sm text-[var(--muted)]">{label}</dt>
+  <dd class:list={["m-0 mt-1", wrap && "[overflow-wrap:anywhere]", valueClass]}>
+    <slot />
+  </dd>
+</div>

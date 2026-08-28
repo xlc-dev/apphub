@@ -24,22 +24,23 @@ const links = [
 ---
 
 <header
+  data-app-header
   class="sticky top-0 z-50 w-full border-b border-[var(--border)] bg-[color-mix(in_srgb,var(--page)_90%,transparent)] shadow-sm backdrop-blur-md">
   <div
     class="mx-auto grid w-full max-w-7xl grid-cols-[1fr_auto] items-center gap-4 px-4 py-3 md:grid-cols-[auto_minmax(12rem,32rem)_auto] md:px-6">
     <Link
       unstyled
-      class="col-start-1 row-start-1 flex items-center gap-2 justify-self-start rounded-sm text-xl font-bold transition-colors hover:text-[var(--primary)] focus-visible:text-[var(--primary)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)] motion-reduce:transition-none"
+      class="focus-ring col-start-1 row-start-1 flex items-center gap-2 justify-self-start rounded-sm text-xl font-bold transition-colors hover:text-[var(--primary)] focus-visible:text-[var(--primary)] motion-reduce:transition-none"
       aria-label={t("nav.home")}
       href="/">
-      <Image src={logo} alt="" width={32} height={32} loading="eager" fetchpriority="high" />
+      <Image src={logo} alt="" width={32} height={32} priority />
       <span>AppHub</span>
     </Link>
     <div class="col-start-2 row-start-1 flex items-center gap-2 md:hidden">
-      <ThemeSelect id="mobile-theme" />
+      <ThemeSelect />
       <details class="group">
         <summary
-          class="relative flex size-11 cursor-pointer list-none items-center justify-center rounded-md border border-[var(--border)] bg-[var(--control-bg)] shadow-sm hover:bg-[var(--card-raised)] focus-visible:border-[var(--primary)] focus-visible:ring-[3px] focus-visible:ring-[color-mix(in_srgb,var(--primary)_20%,transparent)] focus-visible:outline-none [&::-webkit-details-marker]:hidden"
+          class="summary-reset focus-ring control-surface relative flex size-11 cursor-pointer items-center justify-center rounded-md shadow-sm"
           aria-label={t("nav.menu")}>
           <Icon
             name="menu"
@@ -52,12 +53,13 @@ const links = [
         </summary>
         <nav
           class="absolute top-full right-0 left-0 border-t border-[var(--border)] bg-[var(--page)] shadow-lg"
-          aria-label={t("nav.main")}>
+          aria-label={t("nav.main")}
+          data-dropdown-panel>
           <div class="mx-auto grid max-w-6xl gap-1 px-4 py-3">
             {
               links.map(({ href, label, current }) => (
                 <Link
-                  class="aria-[current=page]:bg-accent/10 flex min-h-11 items-center rounded-lg border-0 px-3 py-2.5 font-medium"
+                  class="aria-[current=page]:bg-accent/10 flex min-h-11 items-center rounded-lg px-3 py-2.5 font-medium"
                   href={href}
                   aria-current={current ? "page" : undefined}>
                   {label}
@@ -69,15 +71,16 @@ const links = [
       </details>
     </div>
     <form
-      class="col-span-2 col-start-1 row-start-2 w-full md:col-span-1 md:col-start-2 md:row-start-1"
+      class="invisible col-span-2 col-start-1 row-start-2 w-full md:col-span-1 md:col-start-2 md:row-start-1"
       action={sitePath(localePath("/apps/", locale))}
       method="get"
       role="search"
-      hidden
+      inert
+      aria-hidden="true"
       data-catalog-search>
       <label class="sr-only" for="catalog-search">{t("search.label")}</label>
       <input
-        class="min-h-11 w-full rounded-md border border-[var(--border)] bg-[var(--control-bg)] px-3 py-1 text-sm shadow-sm outline-none placeholder:text-[var(--muted)] focus-visible:border-[var(--primary)] focus-visible:ring-[3px] focus-visible:ring-[color-mix(in_srgb,var(--primary)_20%,transparent)]"
+        class="focus-ring min-h-11 w-full rounded-md border border-[var(--border)] bg-[var(--control-bg)] px-3 py-1 text-sm shadow-sm outline-none placeholder:text-[var(--muted)]"
         id="catalog-search"
         type="search"
         name="q"
@@ -97,7 +100,7 @@ const links = [
           </Link>
         ))
       }
-      <ThemeSelect id="desktop-theme" />
+      <ThemeSelect />
     </nav>
   </div>
 </header>
@@ -106,7 +109,9 @@ const links = [
   function showHeaderSearch() {
     const search = document.querySelector<HTMLFormElement>("[data-catalog-search]");
     if (search) {
-      search.hidden = false;
+      search.classList.remove("invisible");
+      search.inert = false;
+      search.removeAttribute("aria-hidden");
     }
   }
 

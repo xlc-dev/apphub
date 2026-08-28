@@ -1,13 +1,11 @@
 ---
-import AppCard from "@/components/AppCard.astro";
-import Pagination from "@/components/Pagination.astro";
-import EmptyState from "@/components/ui/EmptyState.astro";
+import type { CatalogAppSummary } from "@/lib/catalog-model";
+import AppCollection from "@/components/AppCollection.astro";
 import Page from "@/components/ui/Page.astro";
 import PageHeader from "@/components/ui/PageHeader.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { getUpdatedApps, localizeAppSummaries } from "@/lib/catalog-queries";
 import { formatVersion } from "@/lib/format";
-import { paginationState } from "@/lib/pagination";
 import { getLocale, translate } from "@/lib/i18n";
 
 interface Props {
@@ -17,42 +15,23 @@ interface Props {
 const { page = 1 } = Astro.props;
 const locale = getLocale(Astro.currentLocale);
 const apps = await localizeAppSummaries((await getUpdatedApps()).apps, locale);
-const state = paginationState(apps.length, page);
-const displayedApps = apps.slice(state.start, state.end);
 const t = (key: Parameters<typeof translate>[1]) => translate(locale, key);
 const releaseDate = new Intl.DateTimeFormat(locale, { dateStyle: "medium" });
+const getDetail = (app: CatalogAppSummary) =>
+  `${formatVersion(app.latestRelease!.version)}, ${releaseDate.format(new Date(app.latestRelease!.publishedAt))}`;
 ---
 
 <BaseLayout title={t("updated.title")} description={t("updated.description")} index={page === 1}>
   <Page>
     <PageHeader title={t("updated.title")} description={t("updated.description")} />
-    {
-      apps.length > 0 ? (
-        <section aria-labelledby="updated-apps-heading">
-          <h2 class="sr-only" id="updated-apps-heading">
-            {t("apps.applications")}
-          </h2>
-          <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {displayedApps.map((app, index) => (
-              <AppCard
-                app={app}
-                detail={`${formatVersion(app.latestRelease!.version)}, ${releaseDate.format(new Date(app.latestRelease!.publishedAt))}`}
-                priority={index < 6}
-                stars={app.statistics.stars ?? undefined}
-              />
-            ))}
-          </div>
-          <Pagination
-            class="mt-8"
-            basePath="/updated/"
-            label={t("updated.pages")}
-            page={state.page}
-            pages={state.pages}
-          />
-        </section>
-      ) : (
-        <EmptyState>{t("releases.none")}</EmptyState>
-      )
-    }
+    <AppCollection
+      apps={apps}
+      basePath="/updated/"
+      empty={t("releases.none")}
+      getDetail={getDetail}
+      heading={t("apps.applications")}
+      page={page}
+      paginationLabel={t("updated.pages")}
+    />
   </Page>
 </BaseLayout>

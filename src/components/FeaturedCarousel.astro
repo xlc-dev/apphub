@@ -3,6 +3,7 @@ import type { CatalogAppResource } from "@/lib/catalog-loader";
 import Link from "@/components/ui/Link.astro";
 import Button from "@/components/ui/Button.astro";
 import ButtonLink from "@/components/ui/ButtonLink.astro";
+import CarouselDots from "@/components/ui/CarouselDots.astro";
 import Icon from "@/components/Icon.astro";
 import { Image } from "astro:assets";
 import { getLocale, translate } from "@/lib/i18n";
@@ -21,21 +22,21 @@ const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown
 {
   apps.length > 0 && (
     <section
-      class="overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--card)] shadow-sm"
+      class="card-surface overflow-hidden rounded-2xl shadow-sm"
       aria-label={t("featured.label")}
       aria-roledescription={t("carousel.role")}
+      data-carousel-root="featured"
       data-featured-carousel>
       <div
         class="flex snap-x snap-mandatory overflow-x-auto overscroll-x-contain scroll-smooth motion-reduce:scroll-auto"
         aria-live="off"
-        data-featured-track>
+        data-carousel-track>
         {apps.map((app, index) => (
           <article
             class="grid w-full shrink-0 snap-center md:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)]"
-            id={`featured-app-${index + 1}`}
             aria-label={t("carousel.position", { index: index + 1, count: apps.length })}
             aria-roledescription={t("carousel.slide")}
-            data-featured-slide>
+            data-carousel-slide>
             <div class="flex min-w-0 flex-col items-center justify-center px-14 pt-8 pb-16 text-center sm:px-16 md:items-start md:py-12 md:pr-8 md:pl-14 md:text-left">
               <Image
                 class="size-14 shrink-0 rounded-xl"
@@ -43,7 +44,7 @@ const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown
                 alt=""
                 width={56}
                 height={56}
-                loading="eager"
+                priority={index === 0}
               />
               <h2 class="mt-5 text-2xl font-bold sm:text-3xl">
                 <Link accent href={`/apps/${app.slug}/`}>
@@ -57,7 +58,7 @@ const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown
             </div>
             <Link
               unstyled
-              class="relative hidden aspect-[16/10] overflow-hidden bg-[var(--control-bg)] focus-visible:ring-[3px] focus-visible:ring-[color-mix(in_srgb,var(--primary)_20%,transparent)] focus-visible:outline-none focus-visible:ring-inset md:block"
+              class="focus-ring-deep-inset relative hidden aspect-[16/10] overflow-hidden bg-[var(--control-bg)] md:block"
               href={`/apps/${app.slug}/`}
               aria-label={t("featured.view", { name: app.name })}>
               <img
@@ -66,8 +67,8 @@ const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown
                 alt=""
                 width="1280"
                 height="800"
-                loading={index === 0 ? "eager" : "lazy"}
-                fetchpriority={index === 0 ? "high" : "auto"}
+                loading={index === 0 ? undefined : "lazy"}
+                fetchpriority={index === 0 ? "high" : undefined}
                 decoding="async"
               />
             </Link>
@@ -84,22 +85,13 @@ const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown
             data-featured-previous>
             <Icon name="chevron-left" class="size-4" />
           </Button>
-          <nav class="flex" aria-label={t("featured.choose")}>
-            {apps.map((_, index) => (
-              <Link
-                unstyled
-                class="group flex size-11 cursor-pointer items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-[-0.25rem] focus-visible:outline-[var(--primary)]"
-                href={`#featured-app-${index + 1}`}
-                aria-label={t("featured.show", { index: index + 1, count: apps.length })}
-                aria-current={index === 0 ? "true" : undefined}
-                data-featured-dot>
-                <span
-                  class="size-2.5 rounded-full bg-[var(--border)] group-hover:bg-[var(--primary)]"
-                  aria-hidden="true"
-                />
-              </Link>
-            ))}
-          </nav>
+          <CarouselDots
+            groupLabel={t("featured.choose")}
+            labels={apps.map((_, index) =>
+              t("featured.show", { index: index + 1, count: apps.length })
+            )}
+            name="featured-slide"
+          />
           <Button
             icon
             hidden
@@ -123,9 +115,11 @@ const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown
         continue;
       }
 
-      const track = carousel.querySelector<HTMLElement>("[data-featured-track]");
-      const slides = Array.from(carousel.querySelectorAll<HTMLElement>("[data-featured-slide]"));
-      const dots = Array.from(carousel.querySelectorAll<HTMLAnchorElement>("[data-featured-dot]"));
+      const track = carousel.querySelector<HTMLElement>("[data-carousel-track]");
+      const slides = Array.from(carousel.querySelectorAll<HTMLElement>("[data-carousel-slide]"));
+      const choices = Array.from(
+        carousel.querySelectorAll<HTMLInputElement>("[data-carousel-choice]")
+      );
       const previous = carousel.querySelector<HTMLButtonElement>("[data-featured-previous]");
       const next = carousel.querySelector<HTMLButtonElement>("[data-featured-next]");
 
@@ -137,10 +131,9 @@ const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown
       previous.hidden = false;
       next.hidden = false;
 
-      connectCarousel({ track, slides, dots, previous, next });
+      connectCarousel({ track, slides, choices, previous, next });
 
       if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        const events = new AbortController();
         let timeout = 0;
         const schedule = () => {
           clearTimeout(timeout);
@@ -150,10 +143,10 @@ const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown
           }, 8000);
         };
 
-        carousel.addEventListener("pointerdown", schedule, { signal: events.signal });
-        carousel.addEventListener("keydown", schedule, { signal: events.signal });
-        carousel.addEventListener("wheel", schedule, { signal: events.signal });
-        carousel.addEventListener("focusin", schedule, { signal: events.signal });
+        carousel.addEventListener("pointerdown", schedule);
+        carousel.addEventListener("keydown", schedule);
+        carousel.addEventListener("wheel", schedule);
+        carousel.addEventListener("focusin", schedule);
         schedule();
       }
     }
@@ -161,17 +154,3 @@ const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown
 
   initializeFeaturedCarousels();
 </script>
-
-<style>
-  [data-featured-track] {
-    scrollbar-width: none;
-  }
-
-  [data-featured-track]::-webkit-scrollbar {
-    display: none;
-  }
-
-  [data-featured-dot][aria-current="true"] span {
-    background: var(--primary);
-  }
-</style>

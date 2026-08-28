@@ -23,3 +23,11 @@ test("routes links through base-aware components", async () => {
 
   assert.deepEqual(rawLinks, []);
 });
+
+test("uses color rather than underlines for active navigation links", async () => {
+  const link = await readFile("src/components/ui/Link.astro", "utf8");
+
+  assert.match(link, /aria-\[current=page\]:text-\[var\(--primary\)\]/);
+  assert.doesNotMatch(link, /aria-\[current=page\]:border/);
+  assert.doesNotMatch(link, /border-b/);
+});

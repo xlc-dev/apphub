@@ -14,13 +14,12 @@ type CardApp = Pick<
 
 interface Props {
   app: CardApp;
-  detail?: string;
+  detail?: string | undefined;
   headingLevel?: 2 | 3;
-  priority?: boolean;
   stars?: number | undefined;
 }
 
-const { app, detail, headingLevel = 2, priority = false, stars } = Astro.props;
+const { app, detail, headingLevel = 2, stars } = Astro.props;
 const locale = getLocale(Astro.currentLocale);
 const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown>) =>
   translate(locale, key, values);
@@ -29,36 +28,27 @@ const visibleCategories = app.categories
   .map((category) => categoryName(category, locale));
 const hiddenCategoryCount = app.categories.length - visibleCategories.length;
 const categories = visibleCategories.join(", ");
+const headings = { 2: "h2", 3: "h3" } as const;
+const Heading = headings[headingLevel];
 ---
 
-<article class="h-32 min-w-0">
+<article class="min-h-32 min-w-0">
   <CardLink
-    class="flex h-full cursor-pointer gap-4 overflow-hidden p-4"
+    class="flex min-h-32 cursor-pointer gap-4 overflow-hidden p-4"
     data-app-card-link
     href={`/apps/${app.slug}/`}>
     <Image
       class="size-14 shrink-0 rounded-xl sm:size-16"
       data-app-card-icon
+      data-optimize-loading
       src={app.icon.url}
       alt=""
       width={64}
       height={64}
-      loading={priority ? "eager" : "lazy"}
-      fetchpriority={priority ? "high" : "auto"}
     />
     <div class="min-w-0 grow overflow-hidden">
       <div class="flex min-w-0 items-center gap-2">
-        {
-          headingLevel === 3 ? (
-            <h3 class="truncate font-semibold" data-app-card-name>
-              {app.name}
-            </h3>
-          ) : (
-            <h2 class="truncate font-semibold" data-app-card-name>
-              {app.name}
-            </h2>
-          )
-        }
+        <Heading class="truncate font-semibold" data-app-card-name>{app.name}</Heading>
         <SourceBadge origin={app.origin} />
       </div>
       <p
@@ -73,9 +63,10 @@ const categories = visibleCategories.join(", ");
           stars !== undefined && (
             <span
               class="inline-flex shrink-0 items-center gap-1"
+              data-app-card-stars
               aria-label={t("stars.repository", { count: stars.toLocaleString(locale) })}>
               <Icon name="star" class="size-3.5" />
-              {stars.toLocaleString(locale)}
+              <span data-app-card-star-count>{stars.toLocaleString(locale)}</span>
             </span>
           )
         }

@@ -1,13 +1,12 @@
 ---
-import AppCard from "@/components/AppCard.astro";
+import type { CatalogAppSummary } from "@/lib/catalog-model";
+import AppCollection from "@/components/AppCollection.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import EmptyState from "@/components/ui/EmptyState.astro";
 import Link from "@/components/ui/Link.astro";
-import Pagination from "@/components/Pagination.astro";
 import Page from "@/components/ui/Page.astro";
 import PageHeader from "@/components/ui/PageHeader.astro";
 import { getRanking, localizeAppSummaries, type RankingPeriod } from "@/lib/catalog-queries";
-import { paginationState } from "@/lib/pagination";
 import { getLocale, translate } from "@/lib/i18n";
 
 interface Props {
@@ -26,18 +25,27 @@ const localizedApps = collection.entries
   : [];
 const ranking =
   collection.entries?.map((entry, index) => ({ ...entry, app: localizedApps[index]! })) ?? null;
-const state = paginationState(ranking?.length ?? 0, page);
-const entries = ranking?.slice(state.start, state.end) ?? [];
-const basePath =
-  period === "week"
-    ? "/trending/"
-    : period === "month"
-      ? "/trending/month/"
-      : "/trending/all-time/";
+const paths: Record<RankingPeriod, string> = {
+  week: "/trending/",
+  month: "/trending/month/",
+  "all-time": "/trending/all-time/",
+};
+const translationKey = period === "all-time" ? "allTime" : period;
+const basePath = paths[period];
 const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown>) =>
   translate(locale, key, values);
-const title = t(`ranking.${period === "all-time" ? "allTime" : period}Title`);
-const description = t(`ranking.${period === "all-time" ? "allTime" : period}Description`);
+const title = t(`ranking.${translationKey}Title`);
+const description = t(`ranking.${translationKey}Description`);
+const downloadCounts = new Map(
+  ranking?.map(({ app, downloads }) => [app.slug, downloads] as const) ?? []
+);
+const getDetail = (app: CatalogAppSummary) => {
+  const downloads = downloadCounts.get(app.slug);
+
+  return downloads === undefined
+    ? undefined
+    : t("downloads.count", { count: downloads.toLocaleString(locale) });
+};
 ---
 
 <BaseLayout title={title} description={description} index={page === 1}>
@@ -57,28 +65,17 @@ const description = t(`ranking.${period === "all-time" ? "allTime" : period}Desc
     {
       ranking === null ? (
         <EmptyState class="mt-8">{t("ranking.historyUnavailable")}</EmptyState>
-      ) : ranking.length === 0 ? (
-        <EmptyState class="mt-8">{t("ranking.none")}</EmptyState>
       ) : (
-        <>
-          <div class="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {entries.map(({ app, downloads }, index) => (
-              <AppCard
-                app={app}
-                detail={t("downloads.count", { count: downloads.toLocaleString(locale) })}
-                priority={index < 6}
-                stars={app.statistics.stars ?? undefined}
-              />
-            ))}
-          </div>
-          <Pagination
-            class="mt-8"
-            basePath={basePath}
-            label={t("ranking.pages")}
-            page={state.page}
-            pages={state.pages}
-          />
-        </>
+        <AppCollection
+          class="mt-8"
+          apps={ranking.map(({ app }) => app)}
+          basePath={basePath}
+          empty={t("ranking.none")}
+          getDetail={getDetail}
+          heading={t("apps.applications")}
+          page={page}
+          paginationLabel={t("ranking.pages")}
+        />
       )
     }
   </Page>

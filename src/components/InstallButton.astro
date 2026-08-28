@@ -24,16 +24,24 @@ const messages = {
 ---
 
 <div
-  class="relative inline-flex flex-col items-start gap-2"
-  hidden
+  class="invisible contents"
+  inert
+  aria-hidden="true"
   data-install
   data-artifacts={JSON.stringify(artifacts)}
   data-messages={JSON.stringify(messages)}>
-  <Button large variant="primary" data-install-button>{messages.install}</Button>
-  <p class="m-0 text-sm whitespace-nowrap text-[var(--muted)]" hidden data-install-client>
+  <Button
+    class="col-start-1 row-start-1 justify-self-start"
+    large
+    variant="primary"
+    data-install-button>
+    {messages.install}
+  </Button>
+  <p
+    class="col-span-2 col-start-1 row-start-2 m-0 min-h-10 max-w-full text-sm text-[var(--muted)] sm:whitespace-nowrap"
+    data-install-message>
     {clientRequired}
   </p>
-  <p class="m-0 max-w-sm text-sm text-[var(--muted)]" hidden data-install-message></p>
 </div>
 
 <script>
@@ -85,9 +93,8 @@ const messages = {
       install.dataset.initialized = "true";
 
       const button = install.querySelector<HTMLButtonElement>("[data-install-button]");
-      const client = install.querySelector<HTMLElement>("[data-install-client]");
       const message = install.querySelector<HTMLElement>("[data-install-message]");
-      if (!button || !client || !message) {
+      if (!button || !message) {
         continue;
       }
 
@@ -95,20 +102,14 @@ const messages = {
       const messages = JSON.parse(install.dataset.messages ?? "{}") as Record<string, string>;
       const architecture = await deviceArchitecture();
       const artifact = artifacts.find((candidate) => candidate.architecture === architecture);
-      const events = new AbortController();
 
       if (artifact) {
-        client.hidden = false;
-        button.addEventListener(
-          "click",
-          () => {
-            const url = new URL("appimg://install");
-            url.searchParams.set("url", artifact.url);
-            url.searchParams.set("sha256", artifact.sha256);
-            window.location.href = url.href;
-          },
-          { signal: events.signal }
-        );
+        button.addEventListener("click", () => {
+          const url = new URL("appimg://install");
+          url.searchParams.set("url", artifact.url);
+          url.searchParams.set("sha256", artifact.sha256);
+          window.location.href = url.href;
+        });
       } else if (!architecture) {
         message.textContent = messages.unknown!;
       } else if (artifacts.length === 1) {
@@ -123,21 +124,12 @@ const messages = {
         button.textContent = messages.unavailable!;
         button.disabled = true;
         button.dataset.unavailable = "";
-        message.hidden = false;
       }
-      install.hidden = false;
+      install.classList.remove("invisible");
+      install.inert = false;
+      install.removeAttribute("aria-hidden");
     }
   }
 
   initializeInstallButtons();
 </script>
-
-<style is:global>
-  [data-install-button][data-unavailable] {
-    border: 1px solid var(--border);
-    background: var(--control-bg);
-    color: var(--muted);
-    box-shadow: none;
-    opacity: 1;
-  }
-</style>

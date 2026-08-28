@@ -11,6 +11,7 @@ import InstallButton from "@/components/InstallButton.astro";
 import ScreenshotCarousel from "@/components/ScreenshotCarousel.astro";
 import SourceBadge from "@/components/SourceBadge.astro";
 import ButtonLink from "@/components/ui/ButtonLink.astro";
+import DisclosureSummary from "@/components/ui/DisclosureSummary.astro";
 import Page from "@/components/ui/Page.astro";
 import Section from "@/components/ui/Section.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
@@ -40,18 +41,25 @@ const [repositoryStars, downloads] = await Promise.all([
 const stars = repositoryStars[app.slug];
 const latest = app.releases[0];
 const downloadsBlocked = app.status === "quarantined" || app.status === "unavailable";
-const statusMessage =
-  app.status === "quarantined"
-    ? t("app.quarantined")
-    : app.status === "unavailable"
-      ? t("app.unavailable")
-      : app.status === "stale"
-        ? t("app.stale")
-        : undefined;
+let statusMessage: string | undefined;
+
+if (app.status === "quarantined") {
+  statusMessage = t("app.quarantined");
+} else if (app.status === "unavailable") {
+  statusMessage = t("app.unavailable");
+} else if (app.status === "stale") {
+  statusMessage = t("app.stale");
+}
 const ageRating =
   app.contentRating?.minimumAge !== undefined ? `${app.contentRating.minimumAge}+` : undefined;
 const contentWarnings = app.contentRating?.warnings ?? [];
 const donation = app.links?.donation;
+const badgeClass =
+  "inline-flex items-center gap-1.5 rounded-full border border-[var(--border)] bg-[var(--control-bg)] px-2.5 py-1 text-xs font-medium text-[var(--text)]";
+const ageLabel = ageRating && t("app.ages", { age: ageRating });
+const ageLabelWithDescription = app.contentRating?.label
+  ? `${ageLabel}, ${app.contentRating.label}`
+  : ageLabel;
 ---
 
 <BaseLayout
@@ -70,8 +78,7 @@ const donation = app.links?.donation;
         alt=""
         width={96}
         height={96}
-        loading="eager"
-        fetchpriority="high"
+        priority
       />
       <div class="min-w-0 break-words">
         <h1 class="text-3xl font-bold sm:text-4xl">{app.name}</h1>
@@ -83,16 +90,15 @@ const donation = app.links?.donation;
           {
             ageRating && (
               <span
-                class="inline-flex items-center gap-1.5 rounded-full border border-[var(--border)] bg-[var(--control-bg)] px-2.5 py-1 text-xs font-medium text-[var(--text)]"
+                class={badgeClass}
                 title={app.contentRating?.label}
-                aria-label={`${t("app.ages", { age: ageRating })}${app.contentRating?.label ? `, ${app.contentRating.label}` : ""}`}>
+                aria-label={ageLabelWithDescription}>
                 <Icon name="age-rating" class="size-3.5 text-[var(--muted)]" />
-                {t("app.ages", { age: ageRating })}
+                {ageLabel}
               </span>
             )
           }
-          <span
-            class="inline-flex items-center gap-1.5 rounded-full border border-[var(--border)] bg-[var(--control-bg)] px-2.5 py-1 text-xs font-medium text-[var(--text)]">
+          <span class={badgeClass}>
             <Icon name="license" class="size-3.5 text-[var(--muted)]" />
             {app.projectLicense}
           </span>
@@ -101,13 +107,9 @@ const donation = app.links?.donation;
         {
           contentWarnings.length > 0 && (
             <details class="group mt-3 max-w-2xl text-sm text-[var(--muted)]">
-              <summary class="flex min-h-11 cursor-pointer list-none items-center gap-2 rounded-sm font-medium text-[var(--text)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)] [&::-webkit-details-marker]:hidden">
+              <DisclosureSummary class="gap-2 rounded-sm font-medium text-[var(--text)]">
                 {t("app.contentNotes")}
-                <Icon
-                  name="chevron-down"
-                  class="size-4 transition-transform group-open:rotate-180 motion-reduce:transition-none"
-                />
-              </summary>
+              </DisclosureSummary>
               <ul class="m-0 space-y-1 pl-5">
                 {contentWarnings.map((warning) => (
                   <li>{warning}</li>
@@ -118,10 +120,10 @@ const donation = app.links?.donation;
         }
         {
           (latest || donation) && (
-            <div class="mt-5 flex flex-wrap items-start gap-2">
+            <div class="mt-5 grid grid-cols-[auto_minmax(0,1fr)] items-start gap-x-2 gap-y-2">
               {latest && !downloadsBlocked && <InstallButton artifacts={latest.artifacts} />}
               {donation && (
-                <ButtonLink class="gap-2" href={donation} variant="outline">
+                <ButtonLink class="gap-2 justify-self-start" href={donation} variant="outline">
                   <Icon name="donate" class="size-4" />
                   {t("app.donate")}
                 </ButtonLink>

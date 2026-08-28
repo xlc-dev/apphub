@@ -78,12 +78,11 @@ const releaseDate = new Intl.DateTimeFormat(locale, { dateStyle: "medium" });
       {
         recentlyUpdated.length > 0 ? (
           <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {recentlyUpdated.map((app, index) => (
+            {recentlyUpdated.map((app) => (
               <AppCard
                 app={app}
                 detail={`${formatVersion(app.latestRelease!.version)}, ${releaseDate.format(new Date(app.latestRelease!.publishedAt))}`}
                 headingLevel={3}
-                priority={index < 3}
                 stars={app.statistics.stars ?? undefined}
               />
             ))}
@@ -98,12 +97,10 @@ const releaseDate = new Intl.DateTimeFormat(locale, { dateStyle: "medium" });
       <Link slot="actions" href="/trending/" aria-label={t("home.moreTrending")}
         >{t("home.more")}</Link
       >
+      {trending === null && <EmptyState>{t("ranking.historyUnavailable")}</EmptyState>}
+      {trending?.length === 0 && <EmptyState>{t("ranking.none")}</EmptyState>}
       {
-        trending === null ? (
-          <EmptyState>{t("ranking.historyUnavailable")}</EmptyState>
-        ) : trending.length === 0 ? (
-          <EmptyState>{t("ranking.none")}</EmptyState>
-        ) : (
+        trending && trending.length > 0 && (
           <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {trending.map(({ app, downloads }) => (
               <AppCard

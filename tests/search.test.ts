@@ -3,6 +3,12 @@ import { readFile } from "node:fs/promises";
 import { describe, test } from "node:test";
 import {
   catalogSearchValue,
+  appInterface,
+  directFilesystemAccess,
+  displayBackends,
+  hostAccess,
+  isAnyLinuxArtifact,
+  matchesCatalogFilters,
   matchesSearch,
   searchCardSelectors,
   searchPage,
@@ -34,12 +40,43 @@ function entry(name: string, value: string): SearchIndexEntry {
     summary: `${name} summary`,
     origin: "third-party",
     categories: ["Utility"],
+    architectures: ["x86_64"],
+    compatibility: ["anylinux"],
+    display: ["wayland", "x11"],
+    filesystemLocations: ["home"],
+    hostAccess: ["ipc"],
+    license: "MIT",
+    interface: "graphical",
+    network: "none",
+    filesystem: "none",
+    audio: "none",
+    process: "isolated",
+    devices: ["gpu"],
+    portals: ["file-chooser"],
     icon: { url: `${name}.webp` },
     value,
   };
 }
 
 describe("catalog search", () => {
+  const filters = {
+    categories: [],
+    architecture: [],
+    compatibility: [],
+    origin: [],
+    license: [],
+    interface: [],
+    display: [],
+    network: [],
+    filesystem: [],
+    location: [],
+    audio: [],
+    process: [],
+    host: [],
+    device: [],
+    portal: [],
+  };
+
   test("includes all searchable app metadata", () => {
     assert.match(value, /example notes/);
     assert.match(value, /organize ideas locally/);
@@ -74,6 +111,72 @@ describe("catalog search", () => {
     assert.equal(matchesSearch(value, "  "), true);
   });
 
+  test("derives direct filesystem access", () => {
+    assert.equal(directFilesystemAccess([]), "none");
+    assert.equal(directFilesystemAccess([{ access: "read-only" }]), "read-only");
+    assert.equal(
+      directFilesystemAccess([{ access: "read-only" }, { access: "read-write" }]),
+      "read-write"
+    );
+  });
+
+  test("derives the application interface from display access", () => {
+    assert.equal(appInterface("none"), "terminal");
+    assert.equal(appInterface("wayland-and-x11"), "graphical");
+    assert.deepEqual(displayBackends("none"), []);
+    assert.deepEqual(displayBackends("wayland"), ["wayland"]);
+    assert.deepEqual(displayBackends("wayland-and-x11"), ["wayland", "x11"]);
+  });
+
+  test("derives aggregate host access", () => {
+    assert.deepEqual(hostAccess({ ipc: false, sessionBus: [], systemBus: [] }), ["none"]);
+    assert.deepEqual(
+      hostAccess({
+        ipc: true,
+        sessionBus: [{ name: "org.example.Session", access: "talk" }],
+        systemBus: [{ name: "org.example.System", access: "see" }],
+      }),
+      ["ipc", "session-bus", "system-bus"]
+    );
+  });
+
+  test("recognizes AnyLinux artifacts", () => {
+    assert.equal(isAnyLinuxArtifact("Example-1.0-anylinux-x86_64.AppImage"), true);
+    assert.equal(isAnyLinuxArtifact("Example-1.0-x86_64.AppImage"), false);
+    assert.equal(isAnyLinuxArtifact("Example-notanylinux-x86_64.AppImage"), false);
+  });
+
+  test("matches any value within a filter and every active filter", () => {
+    const candidate = entry("One", "editor");
+
+    assert.equal(
+      matchesCatalogFilters(candidate, {
+        ...filters,
+        architecture: ["aarch64", "x86_64"],
+        compatibility: ["anylinux"],
+        origin: ["third-party"],
+        license: ["MIT"],
+        interface: ["graphical"],
+        display: ["wayland"],
+        network: ["none"],
+        filesystem: ["none"],
+        location: ["home"],
+        audio: ["none"],
+        process: ["isolated"],
+        host: ["ipc"],
+        device: ["usb", "gpu"],
+        portal: ["file-chooser"],
+      }),
+      true
+    );
+    assert.equal(matchesCatalogFilters(candidate, { ...filters, network: ["client"] }), false);
+    assert.equal(matchesCatalogFilters(candidate, { ...filters, host: ["system-bus"] }), false);
+    assert.equal(
+      matchesCatalogFilters({ ...candidate, devices: ["none"] }, { ...filters, device: ["none"] }),
+      true
+    );
+  });
+
   test("paginates filtered results", () => {
     const index = [
       entry("One", "editor text"),
@@ -82,7 +185,7 @@ describe("catalog search", () => {
       entry("Four", "game"),
     ];
 
-    assert.deepEqual(searchPage(index, "editor", 2, 2), {
+    assert.deepEqual(searchPage(index, "editor", filters, 2, 2), {
       apps: [index[2]],
       page: 2,
       pages: 2,
@@ -93,8 +196,8 @@ describe("catalog search", () => {
   test("bounds search result pages", () => {
     const index = [entry("One", "editor")];
 
-    assert.equal(searchPage(index, "editor", 20).page, 1);
-    assert.deepEqual(searchPage(index, "missing", 1), {
+    assert.equal(searchPage(index, "editor", filters, 20).page, 1);
+    assert.deepEqual(searchPage(index, "missing", filters, 1), {
       apps: [],
       page: 1,
       pages: 1,

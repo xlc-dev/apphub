@@ -53,7 +53,7 @@ const flathubSchema = z.object({
   ),
 });
 
-export interface FlathubMedia {
+interface FlathubMedia {
   icon: string;
   screenshots: Array<{
     caption: string;

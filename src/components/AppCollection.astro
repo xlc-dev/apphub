@@ -1,0 +1,57 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import type { CatalogAppSummary } from "@/lib/catalog-model";
+import AppCard from "@/components/AppCard.astro";
+import Pagination from "@/components/Pagination.astro";
+import EmptyState from "@/components/ui/EmptyState.astro";
+import { paginationState } from "@/lib/pagination";
+
+interface Props extends HTMLAttributes<"section"> {
+  apps: CatalogAppSummary[];
+  basePath: string;
+  empty: string;
+  heading: string;
+  page?: number;
+  paginationLabel: string;
+  getDetail?: (app: CatalogAppSummary) => string | undefined;
+}
+
+const {
+  apps,
+  basePath,
+  empty,
+  heading,
+  page = 1,
+  paginationLabel,
+  getDetail,
+  class: className,
+  ...attributes
+} = Astro.props;
+const state = paginationState(apps.length, page);
+const displayedApps = apps.slice(state.start, state.end);
+const headingId = `${basePath.replace(/[^a-z0-9]+/gi, "-").replace(/^-|-$/g, "")}-apps-heading`;
+---
+
+{
+  apps.length > 0 ? (
+    <section {...attributes} class={className} aria-labelledby={headingId}>
+      <h2 class="sr-only" id={headingId}>
+        {heading}
+      </h2>
+      <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {displayedApps.map((app) => (
+          <AppCard app={app} detail={getDetail?.(app)} stars={app.statistics.stars ?? undefined} />
+        ))}
+      </div>
+      <Pagination
+        class="mt-8"
+        basePath={basePath}
+        label={paginationLabel}
+        page={state.page}
+        pages={state.pages}
+      />
+    </section>
+  ) : (
+    <EmptyState class={className}>{empty}</EmptyState>
+  )
+}

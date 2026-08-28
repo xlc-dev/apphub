@@ -2,6 +2,8 @@
 import type { CatalogApp } from "@/lib/catalog-loader";
 import Link from "@/components/ui/Link.astro";
 import Icon from "@/components/Icon.astro";
+import Definition from "@/components/ui/Definition.astro";
+import DisclosureSummary from "@/components/ui/DisclosureSummary.astro";
 import { getLocale, translate } from "@/lib/i18n";
 
 interface Props {
@@ -45,115 +47,90 @@ const lastChecked = new Intl.DateTimeFormat(locale, {
 ---
 
 <aside
-  class="self-start overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--card)] shadow-sm"
+  class="card-surface min-w-0 self-start overflow-hidden rounded-xl shadow-sm"
   aria-labelledby="details-heading">
   <div class="border-b border-[var(--border)] bg-[var(--card-raised)] px-5 py-4">
     <h2 class="m-0 text-xl font-bold" id="details-heading">{t("app.details")}</h2>
   </div>
   <dl class="m-0 divide-y divide-[var(--border)]">
-    <div class="px-5 py-3.5">
-      <dt class="text-sm text-[var(--muted)]">{t("app.developer")}</dt>
-      <dd class="m-0 mt-1">{app.developer.name}</dd>
-    </div>
-    <div class="px-5 py-3.5">
-      <dt class="text-sm text-[var(--muted)]">{t("app.website")}</dt>
-      <dd class="m-0 mt-1 break-words">
-        <Link href={app.homepage}>{websiteLabel}</Link>
-      </dd>
-    </div>
+    <Definition label={t("app.developer")}>{app.developer.name}</Definition>
+    <Definition label={t("app.website")} wrap>
+      <Link href={app.homepage}>{websiteLabel}</Link>
+    </Definition>
     {
       app.repository && (
-        <div class="px-5 py-3.5">
-          <dt class="text-sm text-[var(--muted)]">{t("app.repository")}</dt>
-          <dd class="m-0 mt-1 break-words">
-            <Link href={app.repository}>{repositoryLabel}</Link>
-            {stars !== undefined && (
-              <span
-                class="mt-2 flex items-center gap-1.5 text-sm text-[var(--muted)]"
-                aria-label={t("stars.repository", { count: stars.toLocaleString(locale) })}>
-                <Icon name="star" class="size-4" />
-                {stars.toLocaleString(locale)}
-              </span>
-            )}
-          </dd>
-        </div>
+        <Definition label={t("app.repository")} wrap>
+          <Link href={app.repository}>{repositoryLabel}</Link>
+          {stars !== undefined && (
+            <span
+              class="mt-2 flex items-center gap-1.5 text-sm text-[var(--muted)]"
+              aria-label={t("stars.repository", { count: stars.toLocaleString(locale) })}>
+              <Icon name="star" class="size-4" />
+              {stars.toLocaleString(locale)}
+            </span>
+          )}
+        </Definition>
       )
     }
     {
       downloads !== undefined && (
-        <div class="px-5 py-3.5">
-          <dt class="text-sm text-[var(--muted)]">{t("downloads.total")}</dt>
-          <dd class="m-0 mt-1 font-medium tabular-nums">{downloads.toLocaleString(locale)}</dd>
-        </div>
+        <Definition label={t("downloads.total")} valueClass="font-medium tabular-nums">
+          {downloads.toLocaleString(locale)}
+        </Definition>
       )
     }
   </dl>
   <details class="group border-t border-[var(--border)]">
-    <summary
-      class="flex min-h-11 cursor-pointer list-none items-center justify-between gap-3 px-5 py-3 text-sm font-medium hover:bg-[var(--card-raised)] focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--primary)] [&::-webkit-details-marker]:hidden">
+    <DisclosureSummary
+      inset
+      class="justify-between gap-3 px-5 py-3 text-sm font-medium hover:bg-[var(--card-raised)]"
+      iconClass="text-[var(--muted)]">
       {t("app.sourceInformation")}
-      <Icon
-        name="chevron-down"
-        class="size-4 text-[var(--muted)] transition-transform group-open:rotate-180 motion-reduce:transition-none"
-      />
-    </summary>
+    </DisclosureSummary>
     <dl class="m-0 divide-y divide-[var(--border)] border-t border-[var(--border)]">
-      <div class="px-5 py-3.5">
-        <dt class="text-sm text-[var(--muted)]">{t("app.origin")}</dt>
-        <dd class="m-0 mt-1">
-          {t(app.origin.type === "upstream" ? "origin.upstream" : "origin.thirdParty")}
-          {
-            app.origin.type === "upstream" && (
-              <>
-                {" · "}
-                <Link href={app.origin.evidence.url}>{t("app.originEvidence")}</Link>
-              </>
-            )
-          }
-        </dd>
-      </div>
-      <div class="px-5 py-3.5">
-        <dt class="text-sm text-[var(--muted)]">{t("app.releaseSource")}</dt>
-        <dd class="m-0 mt-1 break-words">
-          <Link href={app.provenance.releaseSource.sourceUrl}>{releaseSourceLabel}</Link>
-        </dd>
-      </div>
-      <div class="px-5 py-3.5">
-        <dt class="text-sm text-[var(--muted)]">{t("app.metadataSource")}</dt>
-        <dd class="m-0 mt-1 break-words">
-          {
-            metadataSource ? (
-              <Link href={metadataSource.toString()}>{metadataSourceLabel}</Link>
-            ) : (
-              metadataSourceLabel
-            )
-          }
-        </dd>
-      </div>
-      <div class="px-5 py-3.5">
-        <dt class="text-sm text-[var(--muted)]">{t("app.lastChecked")}</dt>
-        <dd class="m-0 mt-1">
-          <time datetime={app.provenance.refresh.releases.lastSuccessAt}>{lastChecked}</time>
-        </dd>
-      </div>
+      <Definition label={t("app.origin")}>
+        {t(app.origin.type === "upstream" ? "origin.upstream" : "origin.thirdParty")}
+        {
+          app.origin.type === "upstream" && (
+            <>
+              {" · "}
+              <Link href={app.origin.evidence.url}>{t("app.originEvidence")}</Link>
+            </>
+          )
+        }
+      </Definition>
+      <Definition label={t("app.releaseSource")} wrap>
+        <Link href={app.provenance.releaseSource.sourceUrl}>{releaseSourceLabel}</Link>
+      </Definition>
+      <Definition label={t("app.metadataSource")} wrap>
+        {
+          metadataSource ? (
+            <Link href={metadataSource.toString()}>{metadataSourceLabel}</Link>
+          ) : (
+            metadataSourceLabel
+          )
+        }
+      </Definition>
+      <Definition label={t("app.lastChecked")}>
+        <time datetime={app.provenance.refresh.releases.lastSuccessAt}>{lastChecked}</time>
+      </Definition>
     </dl>
   </details>
   {
     projectLinks.length > 0 && (
       <details class="group border-t border-[var(--border)]">
-        <summary class="flex min-h-11 cursor-pointer list-none items-center justify-between gap-3 px-5 py-3 text-sm font-medium hover:bg-[var(--card-raised)] focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--primary)] [&::-webkit-details-marker]:hidden">
+        <DisclosureSummary
+          inset
+          class="justify-between gap-3 px-5 py-3 text-sm font-medium hover:bg-[var(--card-raised)]"
+          iconClass="text-[var(--muted)]">
           {t("app.resources")}
-          <Icon
-            name="chevron-down"
-            class="size-4 text-[var(--muted)] transition-transform group-open:rotate-180 motion-reduce:transition-none"
-          />
-        </summary>
+        </DisclosureSummary>
         <ul class="m-0 list-none divide-y divide-[var(--border)] border-t border-[var(--border)] p-0">
           {projectLinks.map(([type, url]) => (
             <li>
               <Link
                 unstyled
-                class="flex min-h-11 items-center justify-between gap-3 px-5 text-sm hover:bg-[var(--card-raised)] focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-[var(--primary)]"
+                class="focus-ring-inset flex min-h-11 items-center justify-between gap-3 px-5 text-sm hover:bg-[var(--card-raised)]"
                 href={url}>
                 {linkLabels[type as keyof typeof linkLabels]}
                 <Icon name="external" class="size-4 text-[var(--muted)]" />

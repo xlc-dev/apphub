@@ -1,0 +1,46 @@
+import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
+import { test } from "node:test";
+
+test("uses no-JavaScript carousel controls without fragment navigation", async () => {
+  const dots = await readFile("src/components/ui/CarouselDots.astro", "utf8");
+
+  assert.match(dots, /type="radio"/);
+  assert.match(dots, /<span class="sr-only">\{label\}<\/span>/);
+  assert.doesNotMatch(dots, /href=\{`#/);
+
+  for (const path of [
+    "src/components/ScreenshotCarousel.astro",
+    "src/components/FeaturedCarousel.astro",
+  ]) {
+    const component = await readFile(path, "utf8");
+
+    assert.match(component, /<CarouselDots/, path);
+    assert.match(component, /data-carousel-root=/, path);
+    assert.doesNotMatch(component, /aria-current=\{index === 0/, path);
+  }
+
+  const styles = await readFile("src/global.css", "utf8");
+
+  assert.match(styles, /\[data-carousel-choice\]:checked/);
+  assert.match(styles, /\[data-carousel-root\]:not\(\[data-initialized\]\)/);
+});
+
+test("keeps enhanced carousel state synchronized with native choices", async () => {
+  const carousel = await readFile("src/lib/carousel.ts", "utf8");
+
+  assert.match(carousel, /choices: HTMLInputElement\[\]/);
+  assert.match(carousel, /choice\.checked = index === current/);
+  assert.match(carousel, /choice\.addEventListener\("change"/);
+});
+
+test("exposes fullscreen screenshots as a modal dialog", async () => {
+  const carousel = await readFile("src/components/ScreenshotCarousel.astro", "utf8");
+
+  assert.doesNotMatch(carousel, /role="region"/);
+  assert.match(carousel, /setAttribute\("role", "dialog"\)/);
+  assert.match(carousel, /removeAttribute\("role"\)/);
+  assert.match(carousel, /setAttribute\("aria-modal", "true"\)/);
+  assert.match(carousel, /removeAttribute\("aria-modal"\)/);
+  assert.doesNotMatch(carousel, /toggleAttribute\("aria-modal"/);
+});

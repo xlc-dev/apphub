@@ -1,0 +1,21 @@
+---
+import type { DescriptionBlock } from "#catalog/schema";
+
+type DescriptionPart = Extract<DescriptionBlock, { type: "paragraph" }>["content"][number];
+
+interface Props {
+  parts: DescriptionPart[];
+}
+
+const { parts } = Astro.props;
+---
+
+{
+  parts.map((part) => (
+    <>
+      {part.type === "text" && part.value}
+      {part.type === "emphasis" && <em>{part.value}</em>}
+      {part.type === "code" && <code>{part.value}</code>}
+    </>
+  ))
+}

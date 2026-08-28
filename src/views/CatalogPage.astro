@@ -1,16 +1,34 @@
 ---
 import AppCard from "@/components/AppCard.astro";
+import CatalogFilters from "@/components/CatalogFilters.astro";
 import CategorySidebar from "@/components/CategorySidebar.astro";
 import Pagination from "@/components/Pagination.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import EmptyState from "@/components/ui/EmptyState.astro";
 import Page from "@/components/ui/Page.astro";
 import PageHeader from "@/components/ui/PageHeader.astro";
-import { getCategories, getLocalizedAppSummaries } from "@/lib/catalog-queries";
+import { getArchitectures, getCategories, getLocalizedAppSummaries } from "@/lib/catalog-queries";
+import { getApps } from "@/lib/catalog-loader";
 import { paginationState } from "@/lib/pagination";
 import { getRepositoryStars } from "@/lib/repository-stars";
 import { localizeCategories } from "@/lib/categories";
-import { getLocale, translate } from "@/lib/i18n";
+import { getLocale, localePath, translate, translateValue } from "@/lib/i18n";
+import { sitePath } from "@/lib/paths";
+import {
+  appInterface,
+  audioFilterValues,
+  compatibilityFilterValues,
+  directFilesystemAccess,
+  displayBackends,
+  displayFilterValues,
+  filesystemFilterValues,
+  hasAnyLinuxBuild,
+  hostAccess,
+  hostAccessFilterValues,
+  interfaceFilterValues,
+  networkFilterValues,
+  processFilterValues,
+} from "@/lib/search";
 
 interface Props {
   category?: string;
@@ -20,11 +38,186 @@ interface Props {
 
 const { category, categoryName, page = 1 } = Astro.props;
 const locale = getLocale(Astro.currentLocale);
-const catalog = await getLocalizedAppSummaries(locale);
+const [catalog, filterCatalog, categoryItems, architectureItems, stars] = await Promise.all([
+  getLocalizedAppSummaries(locale),
+  getApps(),
+  getCategories(),
+  getArchitectures(),
+  getRepositoryStars(),
+]);
 const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown>) =>
   translate(locale, key, values);
-const categories = localizeCategories(await getCategories(), locale);
-const stars = await getRepositoryStars();
+const categories = localizeCategories(categoryItems, locale);
+const architectures = architectureItems.map(({ id, count }) => ({ id, label: id, count }));
+const collator = new Intl.Collator(locale);
+const optionLabel = (value: string) => {
+  const label = translateValue(locale, value);
+
+  return label.charAt(0).toLocaleUpperCase(locale) + label.slice(1);
+};
+const countedOptions = (
+  values: readonly string[],
+  matches: (app: (typeof filterCatalog)[number], value: string) => boolean,
+  label = optionLabel
+) =>
+  values.flatMap((id) => {
+    const count = filterCatalog.filter((app) => matches(app, id)).length;
+
+    return count > 0 ? [{ id, label: label(id), count }] : [];
+  });
+const licenses = countedOptions(
+  [...new Set(filterCatalog.map(({ projectLicense }) => projectLicense))].sort(collator.compare),
+  ({ projectLicense }, value) => projectLicense === value,
+  (value) => value
+);
+const origins = countedOptions(
+  ["upstream", "third-party"],
+  ({ origin }, value) => origin.type === value,
+  (value) => t(value === "upstream" ? "origin.upstream" : "origin.thirdParty")
+);
+const interfaces = countedOptions(
+  interfaceFilterValues,
+  ({ sandbox }, value) => appInterface(sandbox.display) === value,
+  (value) => t(`filters.interface.${value as (typeof interfaceFilterValues)[number]}`)
+);
+const displayModes = new Set(
+  filterCatalog.map(({ sandbox }) => sandbox.display).filter((display) => display !== "none")
+);
+const displays =
+  displayModes.size > 1
+    ? countedOptions(
+        displayFilterValues,
+        ({ sandbox }, value) =>
+          displayBackends(sandbox.display).includes(value as (typeof displayFilterValues)[number]),
+        optionLabel
+      )
+    : [];
+const compatibilities = countedOptions(
+  compatibilityFilterValues,
+  (app) => hasAnyLinuxBuild(app),
+  (value) => t(`filters.compatibility.${value as (typeof compatibilityFilterValues)[number]}`)
+);
+const networks = networkFilterValues.map((id) => ({
+  id,
+  label: t(`filters.network.${id}`),
+  count: filterCatalog.filter(({ sandbox }) => sandbox.network === id).length,
+}));
+const filesystems = filesystemFilterValues.map((id) => ({
+  id,
+  label: t(`filters.filesystem.${id}`),
+  count: filterCatalog.filter(({ sandbox }) => directFilesystemAccess(sandbox.filesystem) === id)
+    .length,
+}));
+const locations = countedOptions(
+  [
+    ...new Set(
+      filterCatalog.flatMap(({ sandbox }) => sandbox.filesystem.map(({ location }) => location))
+    ),
+  ].sort(collator.compare),
+  ({ sandbox }, value) => sandbox.filesystem.some(({ location }) => location === value)
+);
+const audios = countedOptions(
+  audioFilterValues,
+  ({ sandbox }, value) => sandbox.audio === value,
+  (value) => t(`filters.audio.${value as (typeof audioFilterValues)[number]}`)
+);
+const processes = countedOptions(
+  processFilterValues,
+  ({ sandbox }, value) => sandbox.processes === value,
+  (value) => t(`filters.process.${value as (typeof processFilterValues)[number]}`)
+);
+const hostAccesses = countedOptions(
+  hostAccessFilterValues,
+  ({ sandbox }, value) =>
+    hostAccess(sandbox).includes(value as (typeof hostAccessFilterValues)[number]),
+  (value) => t(`filters.host.${value as (typeof hostAccessFilterValues)[number]}`)
+);
+const devices = countedOptions(
+  [
+    "none",
+    ...[...new Set(filterCatalog.flatMap(({ sandbox }) => sandbox.devices))].sort(collator.compare),
+  ],
+  ({ sandbox }, value) =>
+    value === "none"
+      ? sandbox.devices.length === 0
+      : sandbox.devices.includes(value as (typeof sandbox.devices)[number])
+);
+const portals = countedOptions(
+  [...new Set(filterCatalog.flatMap(({ sandbox }) => sandbox.portals))].sort(collator.compare),
+  ({ sandbox }, value) => sandbox.portals.includes(value as (typeof sandbox.portals)[number])
+);
+const sourceGroups =
+  origins.length > 1
+    ? [
+        { name: t("filters.origin"), parameter: "origin", options: origins },
+        { name: t("filters.license"), parameter: "license", options: licenses },
+      ]
+    : [{ parameter: "license", options: licenses }];
+
+const interfaceGroups =
+  displays.length > 0
+    ? [
+        {
+          name: t("filters.interfaceType"),
+          parameter: "interface",
+          options: interfaces,
+        },
+        {
+          name: t("filters.displayBackend"),
+          parameter: "display",
+          options: displays,
+        },
+      ]
+    : [{ parameter: "interface", options: interfaces }];
+
+const systemAccessGroups = [
+  { name: t("sandbox.devices"), parameter: "device", options: devices },
+  { name: t("sandbox.portals"), parameter: "portal", options: portals },
+];
+
+if (hostAccesses.length > 1) {
+  systemAccessGroups.unshift({
+    name: t("filters.hostAccess"),
+    parameter: "host",
+    options: hostAccesses,
+  });
+}
+
+const filterMenus = [
+  {
+    name: t("filters.architecture"),
+    groups: [
+      { parameter: "architecture", options: architectures },
+      {
+        name: t("filters.compatibility"),
+        parameter: "compatibility",
+        options: compatibilities,
+      },
+    ],
+  },
+  {
+    name: t(origins.length > 1 ? "filters.source" : "filters.license"),
+    groups: sourceGroups,
+  },
+  {
+    name: t("filters.interface"),
+    groups: interfaceGroups,
+  },
+  {
+    name: t("filters.permissions"),
+    groups: [
+      { name: t("sandbox.network"), parameter: "network", options: networks },
+      { name: t("sandbox.files"), parameter: "filesystem", options: filesystems },
+      { name: t("filters.fileLocations"), parameter: "location", options: locations },
+      { name: t("sandbox.audio"), parameter: "audio", options: audios },
+      { name: t("sandbox.processes"), parameter: "process", options: processes },
+    ],
+  },
+  {
+    name: t("filters.systemAccess"),
+    groups: systemAccessGroups,
+  },
+];
 const localizedCategoryName = category
   ? (categories.find(({ id }) => id === category)?.name ?? categoryName)
   : undefined;
@@ -37,6 +230,7 @@ const displayedCatalog = category
 const state = paginationState(displayedCatalog.length, page);
 const apps = displayedCatalog.slice(state.start, state.end);
 const basePath = category ? `/categories/${Astro.params.category}/` : "/apps/";
+const catalogPath = sitePath(localePath(basePath, locale));
 ---
 
 <BaseLayout
@@ -45,19 +239,24 @@ const basePath = category ? `/categories/${Astro.params.category}/` : "/apps/";
   index={page === 1}>
   <Page>
     <PageHeader title={heading} id="catalog-heading" />
-    <div class="grid gap-8 lg:grid-cols-[13rem_minmax(0,1fr)]">
-      <CategorySidebar
-        categories={categories}
-        current={category}
-        currentName={localizedCategoryName}
-      />
-      <div class="min-w-0">
-        <div data-catalog-results>
+    <div class="grid gap-x-8 gap-y-4 lg:grid-cols-[13rem_minmax(0,1fr)]">
+      <div class="lg:row-start-2">
+        <CategorySidebar
+          categories={categories}
+          current={category}
+          currentName={localizedCategoryName}
+        />
+      </div>
+      <div class="min-w-0 lg:col-start-2 lg:row-start-1">
+        <CatalogFilters menus={filterMenus} total={displayedCatalog.length} />
+      </div>
+      <div class="min-w-0 lg:col-start-2 lg:row-start-2">
+        <div data-catalog-results data-current-category={category} data-catalog-path={catalogPath}>
           {
             displayedCatalog.length > 0 ? (
               <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3" data-catalog-grid>
-                {apps.map((app, index) => (
-                  <AppCard app={app} priority={index < 6} stars={stars[app.slug]} />
+                {apps.map((app) => (
+                  <AppCard app={app} stars={stars[app.slug]} />
                 ))}
               </div>
             ) : (
@@ -71,19 +270,14 @@ const basePath = category ? `/categories/${Astro.params.category}/` : "/apps/";
         {
           catalog[0] && (
             <template data-search-card-template>
-              <AppCard app={catalog[0]} />
+              <AppCard app={catalog[0]} stars={0} />
             </template>
           )
         }
-        <nav
-          class="mt-8 flex items-center justify-center gap-4"
-          aria-label={t("search.pages")}
-          hidden
-          data-search-pagination>
-        </nav>
       </div>
       <Pagination
-        class="lg:col-span-2 lg:col-start-1"
+        dynamic
+        class="mt-4 lg:col-span-2 lg:col-start-1"
         basePath={basePath}
         label={category
           ? t("apps.categoryPages", { category: localizedCategoryName })

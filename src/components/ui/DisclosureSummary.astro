@@ -1,0 +1,28 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import Icon from "@/components/Icon.astro";
+
+interface Props extends HTMLAttributes<"summary"> {
+  iconClass?: string;
+  inset?: boolean;
+}
+
+const { iconClass, inset = false, class: className, ...attributes } = Astro.props;
+---
+
+<summary
+  {...attributes}
+  class:list={[
+    "summary-reset flex min-h-11 cursor-pointer items-center",
+    inset ? "focus-ring-inset" : "focus-ring",
+    className,
+  ]}>
+  <slot />
+  <Icon
+    name="chevron-down"
+    class:list={[
+      "size-4 shrink-0 transition-transform group-open:rotate-180 motion-reduce:transition-none",
+      iconClass,
+    ]}
+  />
+</summary>
