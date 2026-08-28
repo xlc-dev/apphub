@@ -95,10 +95,7 @@ const links = [
       aria-label={t("nav.main")}>
       {
         links.map(({ href, label, current }) => (
-          <Link
-            class="rounded-md border-0 px-2 py-1 aria-[current=page]:bg-[var(--card-raised)]"
-            href={href}
-            aria-current={current ? "page" : undefined}>
+          <Link class="border-0" href={href} aria-current={current ? "page" : undefined}>
             {label}
           </Link>
         ))
