@@ -13,6 +13,7 @@ const artifacts = Astro.props.artifacts.map(({ architecture, sha256, url }) => (
   url,
 }));
 const locale = getLocale(Astro.currentLocale);
+const clientRequired = translate(locale, "install.clientRequired");
 const messages = {
   install: translate(locale, "install.label"),
   unavailable: translate(locale, "install.unavailable"),
@@ -29,6 +30,9 @@ const messages = {
   data-artifacts={JSON.stringify(artifacts)}
   data-messages={JSON.stringify(messages)}>
   <Button large variant="primary" data-install-button>{messages.install}</Button>
+  <p class="m-0 text-sm whitespace-nowrap text-[var(--muted)]" hidden data-install-client>
+    {clientRequired}
+  </p>
   <p class="m-0 max-w-sm text-sm text-[var(--muted)]" hidden data-install-message></p>
 </div>
 
@@ -81,8 +85,9 @@ const messages = {
       install.dataset.initialized = "true";
 
       const button = install.querySelector<HTMLButtonElement>("[data-install-button]");
+      const client = install.querySelector<HTMLElement>("[data-install-client]");
       const message = install.querySelector<HTMLElement>("[data-install-message]");
-      if (!button || !message) {
+      if (!button || !client || !message) {
         continue;
       }
 
@@ -93,10 +98,11 @@ const messages = {
       const events = new AbortController();
 
       if (artifact) {
+        client.hidden = false;
         button.addEventListener(
           "click",
           () => {
-            const url = new URL("appmgr://install");
+            const url = new URL("appimg://install");
             url.searchParams.set("url", artifact.url);
             url.searchParams.set("sha256", artifact.sha256);
             window.location.href = url.href;
