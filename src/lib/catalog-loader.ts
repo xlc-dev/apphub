@@ -14,8 +14,6 @@ import {
   type CatalogAppResource,
 } from "#lib/catalog-model";
 
-export * from "#lib/catalog-model";
-
 const downloadsUrl = pathToFileURL(`${process.cwd()}/.generated/downloads.json`);
 
 const media = import.meta.glob<string>("/.generated/media/*.webp", {

@@ -129,8 +129,9 @@ contains its description, screenshots, sandbox policy, metadata, statistics, and
 AppHub. `checksumEvidence` identifies where the same checksum was published upstream without
 duplicating its value. Signature links remain separate. The application also exposes
 machine-readable source and provider identities for its metadata, media, releases, and artifacts.
-Its provenance and statistics contain refresh attempts, successes, and current incidents. Downloads
-are paused for `quarantined` and `unavailable` apps.
+Its provenance and statistics contain refresh attempts, successes, and current incidents. Artifact
+metadata remains available for `quarantined` and `unavailable` apps, but clients must not offer
+downloads for them.
 
 The AppStream `id` identifies the application independently of its current website slug. Before
 AppHub 1.0, renamed slugs and removed applications do not leave redirects or compatibility
@@ -172,6 +173,9 @@ budgets:
 
 Contract tests pin the current envelope and field names so schema, implementation, fixtures, and
 documentation change together.
+
+The v1 response schemas are independent from the internal catalog schemas. Resource builders map
+fields explicitly so catalog changes cannot silently alter the public contract.
 
 ## Reuse
 

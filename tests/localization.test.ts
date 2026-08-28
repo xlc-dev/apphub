@@ -1,7 +1,8 @@
 import assert from "node:assert/strict";
 import { describe, test } from "node:test";
 import { localizeApp, normalizeLocale } from "#catalog/localization";
-import { localeDefinitions, localePath, locales, stripLocale, translate } from "#lib/i18n";
+import { localePath, stripLocale, translate } from "#lib/i18n";
+import { localeDefinitions, locales } from "#lib/locales";
 
 const app = {
   name: "Example",

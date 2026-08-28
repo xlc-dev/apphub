@@ -1,26 +1,426 @@
 import { z } from "zod";
-import { releaseSchema } from "#catalog/schema";
-import { facetTypes } from "#lib/facets";
-import {
-  catalogAppResourceSchema,
-  catalogAppSummarySchema,
-  catalogArchitectureSchema,
-  catalogCategorySchema,
-} from "#lib/catalog-model";
+import parseSpdxExpression from "spdx-expression-parse";
 
-const apiCategorySchema = catalogCategorySchema
-  .extend({ url: z.string().min(1), webUrl: z.string().min(1) })
+// Keep this wire contract independent from the internal catalog schemas.
+const apiPathSchema = z.string().min(1);
+const httpsUrlSchema = z.url().refine((value) => new URL(value).protocol === "https:", {
+  message: "Must use HTTPS",
+});
+const appIdSchema = z
+  .string()
+  .min(2)
+  .max(255)
+  .regex(/^[A-Za-z0-9][A-Za-z0-9._-]+$/);
+const slugSchema = z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/);
+const architectureSchema = z
+  .string()
+  .regex(/^[a-z0-9][a-z0-9_+-]*$/)
+  .describe("Linux architecture name");
+const localeSchema = z.string().regex(/^[a-z]{2,3}(?:-[A-Z][a-z]{3})?(?:-[A-Z]{2}|-[0-9]{3})?$/);
+const statusSchema = z.enum(["current", "stale", "unavailable", "quarantined"]);
+const incidentCategorySchema = z.enum([
+  "network",
+  "rate-limit",
+  "not-found",
+  "invalid-data",
+  "integrity",
+]);
+
+const uniqueBy = <T>(values: T[], key: (value: T) => string) =>
+  new Set(values.map(key)).size === values.length;
+
+function isSpdxExpression(value: string) {
+  try {
+    parseSpdxExpression(value);
+
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+const imageSchema = z
+  .object({
+    source: z.url(),
+    url: apiPathSchema,
+    type: z.enum(["image/avif", "image/jpeg", "image/png", "image/webp"]),
+  })
   .strict();
 
-const apiAppResourceSchema = catalogAppResourceSchema
-  .extend({ url: z.string().min(1), webUrl: z.string().min(1) })
+const screenshotSchema = imageSchema
+  .extend({
+    caption: z.string().min(1),
+    captionTranslations: z.record(z.string(), z.string().min(1)).optional(),
+  })
   .strict();
 
-export const apiAppSummarySchema = catalogAppSummarySchema
-  .extend({ url: z.string().min(1), webUrl: z.string().min(1) })
+const descriptionTextSchema = z.discriminatedUnion("type", [
+  z.object({ type: z.literal("text"), value: z.string().min(1).max(10_000) }).strict(),
+  z.object({ type: z.literal("emphasis"), value: z.string().min(1).max(10_000) }).strict(),
+  z.object({ type: z.literal("code"), value: z.string().min(1).max(10_000) }).strict(),
+]);
+
+const descriptionBlockSchema = z.discriminatedUnion("type", [
+  z
+    .object({
+      type: z.literal("paragraph"),
+      content: z.array(descriptionTextSchema).min(1).max(100),
+    })
+    .strict(),
+  z
+    .object({
+      type: z.enum(["ordered-list", "unordered-list"]),
+      items: z.array(z.array(descriptionTextSchema).min(1).max(100)).min(1).max(100),
+    })
+    .strict(),
+]);
+
+const contentRatingSchema = z
+  .object({
+    scheme: z.string().min(1).max(50).optional(),
+    label: z.string().min(1).max(100).optional(),
+    minimumAge: z.number().int().min(0).max(21).optional(),
+    warnings: z.array(z.string().min(1).max(500)).max(50).optional(),
+  })
+  .strict()
+  .refine((rating) => Object.values(rating).some((value) => value !== undefined), {
+    message: "Content rating must not be empty",
+  });
+
+const translationSchema = z
+  .object({
+    name: z.string().min(1).max(100).optional(),
+    summary: z.string().min(1).max(200).optional(),
+    description: z.array(descriptionBlockSchema).min(1).max(100).optional(),
+    developerName: z.string().min(1).max(100).optional(),
+    keywords: z.array(z.string().min(1).max(100)).max(50).optional(),
+    contentRating: z
+      .object({
+        label: z.string().min(1).max(100).optional(),
+        warnings: z.array(z.string().min(1).max(500)).max(50).optional(),
+      })
+      .strict()
+      .optional(),
+  })
+  .strict()
+  .refine((translation) => Object.values(translation).some((value) => value !== undefined), {
+    message: "Translation must not be empty",
+  });
+
+const originSchema = z.discriminatedUnion("type", [
+  z.object({ type: z.literal("third-party") }).strict(),
+  z
+    .object({
+      type: z.literal("upstream"),
+      evidence: z
+        .object({
+          method: z.enum(["upstream-repository", "upstream-link"]),
+          url: httpsUrlSchema,
+        })
+        .strict(),
+    })
+    .strict(),
+]);
+
+const filesystemLocationSchema = z.enum([
+  "home",
+  "desktop",
+  "documents",
+  "downloads",
+  "music",
+  "pictures",
+  "public-share",
+  "templates",
+  "videos",
+  "removable-media",
+]);
+
+const filesystemRuleSchema = z
+  .object({
+    location: filesystemLocationSchema,
+    access: z.enum(["read-only", "read-write"]),
+  })
   .strict();
 
-const apiArchitectureSchema = catalogArchitectureSchema.extend({ url: z.string().min(1) }).strict();
+const busRuleSchema = z
+  .object({
+    name: z
+      .string()
+      .min(3)
+      .max(255)
+      .regex(/^[A-Za-z_][A-Za-z0-9_-]*(?:\.[A-Za-z_][A-Za-z0-9_-]*)+$/),
+    access: z.enum(["see", "talk", "own"]),
+  })
+  .strict();
+
+const sandboxSchema = z
+  .object({
+    network: z.enum(["none", "client", "client-and-server"]),
+    display: z.enum(["none", "wayland", "x11", "wayland-and-x11"]),
+    audio: z.enum(["none", "playback", "capture", "playback-and-capture"]),
+    processes: z.enum(["isolated", "read", "control"]),
+    ipc: z.boolean(),
+    filesystem: z
+      .array(filesystemRuleSchema)
+      .max(filesystemLocationSchema.options.length)
+      .refine(
+        (rules) => uniqueBy(rules, ({ location }) => location),
+        "Filesystem locations must be unique"
+      ),
+    devices: z
+      .array(z.enum(["gpu", "input", "camera", "usb", "serial", "optical", "fuse", "kvm"]))
+      .max(8)
+      .refine((devices) => uniqueBy(devices, (device) => device), "Devices must be unique"),
+    portals: z
+      .array(
+        z.enum([
+          "background",
+          "camera",
+          "email",
+          "file-chooser",
+          "inhibit",
+          "location",
+          "notifications",
+          "open-uri",
+          "printing",
+          "screenshot",
+          "screencast",
+          "secrets",
+          "settings",
+        ])
+      )
+      .max(13)
+      .refine((portals) => uniqueBy(portals, (portal) => portal), "Portals must be unique"),
+    sessionBus: z
+      .array(busRuleSchema)
+      .max(50)
+      .refine((rules) => uniqueBy(rules, ({ name }) => name), "Session bus names must be unique"),
+    systemBus: z
+      .array(busRuleSchema)
+      .max(50)
+      .refine((rules) => uniqueBy(rules, ({ name }) => name), "System bus names must be unique"),
+  })
+  .strict()
+  .describe(
+    "Minimum host access required by the application; unspecified access is denied and private application storage is implicit"
+  );
+
+const refreshStateSchema = z
+  .object({
+    lastAttemptAt: z.iso.datetime(),
+    lastSuccessAt: z.iso.datetime().optional(),
+    incident: z
+      .object({
+        category: incidentCategorySchema,
+        consecutiveFailures: z.number().int().positive(),
+      })
+      .strict()
+      .optional(),
+  })
+  .strict();
+
+const successfulRefreshStateSchema = refreshStateSchema
+  .extend({ lastSuccessAt: z.iso.datetime() })
+  .strict();
+
+const provenanceSchema = z
+  .object({
+    metadata: z
+      .object({
+        provider: z.enum(["manifest", "flathub", "url"]),
+        sourceUrl: httpsUrlSchema.optional(),
+        providerId: z.string().min(1).max(255).optional(),
+      })
+      .strict(),
+    releaseSource: z
+      .object({
+        provider: z.enum(["github", "gitlab", "codeberg", "feed"]),
+        configuredUrl: httpsUrlSchema,
+        sourceUrl: httpsUrlSchema,
+        projectId: z.string().min(1).max(255).optional(),
+        ownerId: z.string().min(1).max(255).optional(),
+      })
+      .strict(),
+    refresh: z
+      .object({
+        metadata: successfulRefreshStateSchema,
+        releases: successfulRefreshStateSchema,
+      })
+      .strict(),
+  })
+  .strict();
+
+const downloadsSchema = z
+  .object({
+    updatedAt: z.iso.date().nullable(),
+    week: z.number().int().nonnegative().nullable(),
+    month: z.number().int().nonnegative().nullable(),
+    allTime: z.number().int().nonnegative().nullable(),
+  })
+  .strict();
+
+const statisticsSchema = z
+  .object({
+    stars: z.number().int().nonnegative().nullable(),
+    downloads: downloadsSchema,
+    refresh: z
+      .object({
+        downloads: refreshStateSchema.optional(),
+        stars: refreshStateSchema.optional(),
+      })
+      .strict(),
+  })
+  .strict();
+
+const artifactSchema = z
+  .object({
+    architecture: architectureSchema,
+    name: z.string().min(1).max(255),
+    url: httpsUrlSchema,
+    assetId: z.string().min(1).max(255).optional(),
+    size: z.number().int().positive(),
+    sha256: z.string().regex(/^[a-f0-9]{64}$/),
+    checksumEvidence: z.object({ sourceUrl: httpsUrlSchema }).strict().optional(),
+    signatures: z
+      .array(
+        z
+          .object({
+            kind: z.string().min(1).max(50),
+            url: httpsUrlSchema,
+          })
+          .strict()
+      )
+      .max(10)
+      .optional(),
+  })
+  .strict();
+
+const releaseSchema = z
+  .object({
+    version: z.string().min(1).max(200),
+    publishedAt: z.iso.datetime(),
+    page: httpsUrlSchema,
+    releaseId: z.string().min(1).max(255).optional(),
+    artifacts: z.array(artifactSchema).min(1).max(10),
+  })
+  .strict()
+  .refine(
+    (release) => uniqueBy(release.artifacts, ({ architecture }) => architecture),
+    "Release architectures must be unique"
+  );
+
+export const apiAppResourceSchema = z
+  .object({
+    id: appIdSchema,
+    slug: slugSchema,
+    name: z.string().min(1).max(100),
+    summary: z.string().min(1).max(200),
+    description: z
+      .array(descriptionBlockSchema)
+      .min(1)
+      .max(100)
+      .refine((blocks) => JSON.stringify(blocks).length <= 100_000, "Description is too large"),
+    projectLicense: z
+      .string()
+      .min(1)
+      .max(100)
+      .refine(isSpdxExpression, "Must be a valid SPDX license expression"),
+    developer: z.object({ name: z.string().min(1).max(100) }).strict(),
+    homepage: httpsUrlSchema,
+    repository: httpsUrlSchema.optional(),
+    links: z
+      .partialRecord(
+        z.enum(["bugtracker", "help", "contact", "donation", "translate", "contribute", "faq"]),
+        httpsUrlSchema
+      )
+      .optional(),
+    contentRating: contentRatingSchema.optional(),
+    keywords: z
+      .array(z.string().min(1).max(100))
+      .max(50)
+      .refine(
+        (keywords) =>
+          new Set(keywords.map((keyword) => keyword.toLowerCase())).size === keywords.length,
+        "Keywords must be unique"
+      )
+      .optional(),
+    categories: z
+      .array(z.string().min(1))
+      .min(1)
+      .max(20)
+      .refine((categories) => new Set(categories).size === categories.length, {
+        message: "Categories must be unique",
+      }),
+    mimeTypes: z
+      .array(z.string().regex(/^[a-z0-9][a-z0-9!#$&^_.+-]*\/[a-z0-9][a-z0-9!#$&^_.+-]*$/i))
+      .max(100)
+      .refine(
+        (mimeTypes) =>
+          new Set(mimeTypes.map((mimeType) => mimeType.toLowerCase())).size === mimeTypes.length,
+        "MIME types must be unique"
+      )
+      .optional(),
+    translations: z.record(localeSchema, translationSchema).optional(),
+    addedAt: z.iso.date(),
+    origin: originSchema,
+    icon: imageSchema,
+    screenshots: z.array(screenshotSchema).min(1).max(5),
+    sandbox: sandboxSchema,
+    status: statusSchema,
+    provenance: provenanceSchema,
+    statistics: statisticsSchema,
+    latestRelease: releaseSchema.nullable(),
+    url: apiPathSchema,
+    webUrl: apiPathSchema,
+  })
+  .strict();
+
+export const apiAppSummarySchema = apiAppResourceSchema
+  .pick({
+    id: true,
+    slug: true,
+    name: true,
+    summary: true,
+    projectLicense: true,
+    addedAt: true,
+    categories: true,
+    icon: true,
+    status: true,
+    url: true,
+    webUrl: true,
+  })
+  .extend({
+    origin: z.enum(["upstream", "third-party"]),
+    statistics: statisticsSchema.omit({ refresh: true }).strict(),
+    latestRelease: z
+      .object({
+        version: z.string().min(1).max(200),
+        publishedAt: z.iso.datetime(),
+        architectures: z.array(z.string().min(1)).min(1),
+      })
+      .strict()
+      .nullable(),
+  })
+  .strict();
+
+export const apiCategorySchema = z
+  .object({
+    id: z.string().min(1),
+    name: z.string().min(1),
+    slug: z.string().min(1),
+    count: z.number().int().nonnegative(),
+    url: apiPathSchema,
+    webUrl: apiPathSchema,
+  })
+  .strict();
+
+export const apiArchitectureSchema = z
+  .object({
+    id: z.string().min(1),
+    count: z.number().int().nonnegative(),
+    url: apiPathSchema,
+  })
+  .strict();
 
 const apiSnapshotSchema = z
   .object({
@@ -35,8 +435,8 @@ export const apiPaginationSchema = z
     pageSize: z.number().int().positive(),
     totalItems: z.number().int().nonnegative(),
     totalPages: z.number().int().positive(),
-    previous: z.string().min(1).nullable(),
-    next: z.string().min(1).nullable(),
+    previous: apiPathSchema.nullable(),
+    next: apiPathSchema.nullable(),
   })
   .strict();
 
@@ -44,7 +444,9 @@ export const apiSummaryPageSchema = apiSnapshotSchema
   .extend({ pagination: apiPaginationSchema, items: z.array(apiAppSummarySchema) })
   .strict();
 
-const apiFilterSchema = z.object({ type: z.enum(facetTypes), id: z.string().min(1) }).strict();
+const apiFilterSchema = z
+  .object({ type: z.enum(["category", "architecture"]), id: z.string().min(1) })
+  .strict();
 
 export const apiFilteredPageSchema = apiSummaryPageSchema
   .extend({ filter: apiFilterSchema })
@@ -66,14 +468,7 @@ export const apiRankingPageSchema = apiSnapshotSchema
   })
   .strict();
 
-export const apiAppDetailSchema = apiSnapshotSchema
-  .extend({
-    app: apiAppResourceSchema
-      .omit({ releases: true })
-      .extend({ latestRelease: releaseSchema.nullable() })
-      .strict(),
-  })
-  .strict();
+export const apiAppDetailSchema = apiSnapshotSchema.extend({ app: apiAppResourceSchema }).strict();
 
 export const apiCategoryListSchema = apiSnapshotSchema
   .extend({ items: z.array(apiCategorySchema) })

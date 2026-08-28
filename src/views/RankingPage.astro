@@ -1,12 +1,12 @@
 ---
-import type { CatalogAppSummary } from "@/lib/catalog-model";
+import type { CatalogAppSummary, RankingPeriod } from "@/lib/catalog-model";
 import AppCollection from "@/components/AppCollection.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import EmptyState from "@/components/ui/EmptyState.astro";
 import Link from "@/components/ui/Link.astro";
 import Page from "@/components/ui/Page.astro";
 import PageHeader from "@/components/ui/PageHeader.astro";
-import { getRanking, localizeAppSummaries, type RankingPeriod } from "@/lib/catalog-queries";
+import { getRanking, localizeAppSummaries } from "@/lib/catalog-queries";
 import { getLocale, translate } from "@/lib/i18n";
 
 interface Props {

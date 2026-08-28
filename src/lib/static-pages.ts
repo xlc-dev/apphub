@@ -4,8 +4,8 @@ import {
   getNewApps,
   getRanking,
   getUpdatedApps,
-  type RankingPeriod,
 } from "#lib/catalog-queries";
+import type { RankingPeriod } from "#lib/catalog-model";
 import { catalogPageSize } from "#lib/pagination";
 import { defaultLocale, locales } from "#lib/locales";
 

@@ -3,14 +3,8 @@ import "@/global.css";
 import "@fontsource-variable/inter";
 import Footer from "@/components/Footer.astro";
 import Header from "@/components/Header.astro";
-import {
-  getLocale,
-  localeDefinitions,
-  localePath,
-  locales,
-  stripLocale,
-  translate,
-} from "@/lib/i18n";
+import { getLocale, localePath, stripLocale, translate } from "@/lib/i18n";
+import { localeDefinitions, locales } from "@/lib/locales";
 import { sitePath } from "@/lib/paths";
 
 interface Props {
