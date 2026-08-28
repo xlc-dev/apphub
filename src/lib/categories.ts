@@ -1,4 +1,4 @@
-import type { Locale } from "#lib/i18n";
+import type { Locale } from "#lib/locales";
 
 const categoryNames: Record<string, string> = {
   AudioVideo: "Audio & Video",

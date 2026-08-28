@@ -7,29 +7,54 @@ import {
   getCategories,
   getCategory,
 } from "#lib/catalog-queries";
-import type { CatalogAppSummary } from "#lib/catalog-model";
+import type { CatalogAppResource, CatalogAppSummary } from "#lib/catalog-model";
 import { facetResourcePath } from "#lib/facets";
 import { sitePath } from "#lib/paths";
-import type {
-  ApiArchitecture,
-  ApiArchitectureDetails,
-  ApiAppResource,
-  ApiAppSummary,
-  ApiCategory,
-  ApiCategoryDetails,
+import {
+  apiAppResourceSchema,
+  type ApiArchitecture,
+  type ApiArchitectureDetails,
+  type ApiAppResource,
+  type ApiAppSummary,
+  type ApiCategory,
+  type ApiCategoryDetails,
 } from "#lib/api-v1-schema";
 
 let resourcesPromise: Promise<ApiAppResource[]> | undefined;
 
-async function loadApiApps(): Promise<ApiAppResource[]> {
-  return (await getCatalogApps()).map(
-    (app) =>
-      ({
-        ...app,
-        url: sitePath(`/api/v1/apps/${app.id}.json`),
-        webUrl: sitePath(`/apps/${app.slug}/`),
-      }) satisfies ApiAppResource
-  );
+function apiAppResource(app: CatalogAppResource) {
+  return apiAppResourceSchema.parse({
+    id: app.id,
+    slug: app.slug,
+    name: app.name,
+    summary: app.summary,
+    description: app.description,
+    projectLicense: app.projectLicense,
+    developer: app.developer,
+    homepage: app.homepage,
+    repository: app.repository,
+    links: app.links,
+    contentRating: app.contentRating,
+    keywords: app.keywords,
+    categories: app.categories,
+    mimeTypes: app.mimeTypes,
+    translations: app.translations,
+    addedAt: app.addedAt,
+    origin: app.origin,
+    icon: app.icon,
+    screenshots: app.screenshots,
+    sandbox: app.sandbox,
+    status: app.status,
+    provenance: app.provenance,
+    statistics: app.statistics,
+    latestRelease: app.releases[0] ?? null,
+    url: sitePath(`/api/v1/apps/${app.id}.json`),
+    webUrl: sitePath(`/apps/${app.slug}/`),
+  });
+}
+
+async function loadApiApps() {
+  return (await getCatalogApps()).map(apiAppResource);
 }
 
 export function getApiApps() {
@@ -38,7 +63,18 @@ export function getApiApps() {
 
 export function apiAppSummary(app: CatalogAppSummary) {
   return {
-    ...app,
+    id: app.id,
+    slug: app.slug,
+    name: app.name,
+    summary: app.summary,
+    projectLicense: app.projectLicense,
+    addedAt: app.addedAt,
+    categories: app.categories,
+    icon: app.icon,
+    status: app.status,
+    origin: app.origin,
+    statistics: app.statistics,
+    latestRelease: app.latestRelease,
     url: sitePath(`/api/v1/apps/${app.id}.json`),
     webUrl: sitePath(`/apps/${app.slug}/`),
   } satisfies ApiAppSummary;
@@ -48,7 +84,10 @@ export async function getApiCategories() {
   return (await getCategories()).map(
     (category) =>
       ({
-        ...category,
+        id: category.id,
+        name: category.name,
+        slug: category.slug,
+        count: category.count,
         url: sitePath(facetResourcePath("category", category.id)),
         webUrl: sitePath(`/categories/${category.slug}/`),
       }) satisfies ApiCategory
@@ -61,7 +100,10 @@ export async function getApiCategory(id: string) {
   if (!category) return undefined;
 
   return {
-    ...category,
+    id: category.id,
+    name: category.name,
+    slug: category.slug,
+    count: category.count,
     url: sitePath(facetResourcePath("category", category.id)),
     webUrl: sitePath(`/categories/${category.slug}/`),
     apps: category.apps.map(apiAppSummary),
@@ -72,7 +114,8 @@ export async function getApiArchitectures() {
   return (await getArchitectures()).map(
     (architecture) =>
       ({
-        ...architecture,
+        id: architecture.id,
+        count: architecture.count,
         url: sitePath(facetResourcePath("architecture", architecture.id)),
       }) satisfies ApiArchitecture
   );
@@ -84,7 +127,8 @@ export async function getApiArchitecture(id: string) {
   if (!architecture) return undefined;
 
   return {
-    ...architecture,
+    id: architecture.id,
+    count: architecture.count,
     url: sitePath(facetResourcePath("architecture", architecture.id)),
     apps: architecture.apps.map(apiAppSummary),
   } satisfies ApiArchitectureDetails;

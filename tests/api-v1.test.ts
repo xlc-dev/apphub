@@ -56,11 +56,55 @@ describe("API v1 contract", () => {
     ]);
   });
 
-  test("publishes only the latest release in app details", () => {
-    const keys: readonly string[] = apiAppDetailSchema.shape.app.keyof().options;
+  test("pins the application detail fields", () => {
+    const app = apiAppDetailSchema.shape.app;
+    const release = app.shape.latestRelease.unwrap();
 
-    assert.equal(keys.includes("latestRelease"), true);
-    assert.equal(keys.includes("releases"), false);
+    assert.deepEqual(app.keyof().options.sort(), [
+      "addedAt",
+      "categories",
+      "contentRating",
+      "description",
+      "developer",
+      "homepage",
+      "icon",
+      "id",
+      "keywords",
+      "latestRelease",
+      "links",
+      "mimeTypes",
+      "name",
+      "origin",
+      "projectLicense",
+      "provenance",
+      "repository",
+      "sandbox",
+      "screenshots",
+      "slug",
+      "statistics",
+      "status",
+      "summary",
+      "translations",
+      "url",
+      "webUrl",
+    ]);
+    assert.deepEqual(release.keyof().options.sort(), [
+      "artifacts",
+      "page",
+      "publishedAt",
+      "releaseId",
+      "version",
+    ]);
+    assert.deepEqual(release.shape.artifacts.element.keyof().options.sort(), [
+      "architecture",
+      "assetId",
+      "checksumEvidence",
+      "name",
+      "sha256",
+      "signatures",
+      "size",
+      "url",
+    ]);
   });
 
   test("keeps HTTP cache validators internal", () => {

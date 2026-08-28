@@ -1,5 +1,5 @@
 import type { DescriptionBlock } from "#catalog/schema";
-import type { CatalogApp } from "#lib/catalog-loader";
+import type { CatalogApp } from "#lib/catalog-model";
 import { catalogPageSize, paginationState } from "#lib/pagination";
 
 interface SearchableApp {

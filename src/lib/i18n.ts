@@ -1,6 +1,6 @@
-export { defaultLocale, localeDefinitions, locales, type Locale } from "#lib/locales";
 import { defaultLocale, isLocale, localeDefinitions, locales, type Locale } from "#lib/locales";
-import { localizedValues, messages, type MessageKey } from "#lib/translations/index";
+import type { MessageKey } from "#lib/translations/en";
+import { localizedValues, messages } from "#lib/translations/index";
 
 export function getLocale(value: string | undefined): Locale {
   return isLocale(value) ? value : defaultLocale;

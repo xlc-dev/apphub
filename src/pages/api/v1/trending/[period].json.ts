@@ -1,6 +1,6 @@
 import type { APIRoute, GetStaticPaths } from "astro";
-import type { RankingPeriod } from "@/lib/catalog-queries";
 import { getApiRankingPage } from "@/lib/api-v1";
+import type { RankingPeriod } from "@/lib/catalog-model";
 
 export const prerender = true;
 

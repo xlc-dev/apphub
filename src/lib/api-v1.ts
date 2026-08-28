@@ -7,14 +7,9 @@ import {
   getApiApps,
   getApiMetadata,
 } from "#lib/api-resources";
-import {
-  getAppSummaries,
-  getNewApps,
-  getRanking,
-  getUpdatedApps,
-  type RankingPeriod,
-} from "#lib/catalog-queries";
+import { getAppSummaries, getNewApps, getRanking, getUpdatedApps } from "#lib/catalog-queries";
 import { getCatalogSnapshot } from "#lib/catalog-loader";
+import type { RankingPeriod } from "#lib/catalog-model";
 import {
   apiAppDetailSchema,
   apiArchitectureListSchema,
@@ -86,11 +81,9 @@ export async function getApiAppDetail(id: string) {
 
   if (!resource) return undefined;
 
-  const { releases, ...app } = resource;
-
   return apiAppDetailSchema.parse({
     ...getApiSnapshot(),
-    app: { ...app, latestRelease: releases[0] ?? null },
+    app: resource,
   });
 }
 

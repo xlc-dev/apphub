@@ -1,6 +1,7 @@
 ---
 import type { HTMLAttributes } from "astro/types";
-import { getLocale, localePath, type Locale } from "@/lib/i18n";
+import { getLocale, localePath } from "@/lib/i18n";
+import type { Locale } from "@/lib/locales";
 import { sitePath } from "@/lib/paths";
 
 interface Props extends HTMLAttributes<"a"> {

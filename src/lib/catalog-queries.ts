@@ -18,8 +18,6 @@ import {
 import { facetItems, matchesFacet } from "#lib/facets";
 import { newApps, newAppWindowDays } from "#lib/new-apps";
 
-export type { RankingPeriod } from "#lib/catalog-model";
-
 const collator = new Intl.Collator("en");
 
 function appSummary(app: CatalogAppResource) {
