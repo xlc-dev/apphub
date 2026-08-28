@@ -26,7 +26,6 @@ const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown
   headingId={`${id}-heading`}
   aria-labelledby={`${id}-heading`}
   aria-roledescription={t("carousel.role")}
-  role="region"
   data-carousel>
   <Button
     icon
@@ -180,9 +179,13 @@ const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown
 
       const setExpanded = (expanded: boolean) => {
         carousel.toggleAttribute("data-carousel-expanded", expanded);
-        carousel.setAttribute("role", expanded ? "dialog" : "region");
-        if (expanded) carousel.setAttribute("aria-modal", "true");
-        else carousel.removeAttribute("aria-modal");
+        if (expanded) {
+          carousel.setAttribute("role", "dialog");
+          carousel.setAttribute("aria-modal", "true");
+        } else {
+          carousel.removeAttribute("role");
+          carousel.removeAttribute("aria-modal");
+        }
         document.body.classList.toggle("overflow-hidden", expanded);
         setBackgroundInert(expanded);
         fullscreen.setAttribute("aria-expanded", String(expanded));

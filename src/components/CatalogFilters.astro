@@ -40,10 +40,10 @@ const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown
     {
       menus.map(({ name, groups }) => (
         <details class="group static sm:relative" data-filter-menu>
-          <summary class="flex min-h-11 cursor-pointer list-none items-center gap-2 rounded-md border border-[var(--border)] bg-[var(--control-bg)] px-3 text-sm font-medium shadow-sm hover:bg-[var(--card-raised)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)] [&::-webkit-details-marker]:hidden">
+          <summary class="relative flex min-h-11 cursor-pointer list-none items-center gap-2 rounded-md border border-[var(--border)] bg-[var(--control-bg)] px-3 text-sm font-medium shadow-sm hover:bg-[var(--card-raised)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)] [&::-webkit-details-marker]:hidden">
             {name}
             <span
-              class="invisible inline-flex h-5 w-6 items-center justify-center rounded-full bg-[var(--primary)] text-xs text-[var(--primary-text)]"
+              class="invisible absolute -top-1.5 -right-1.5 inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-[var(--primary)] px-1 text-xs text-[var(--primary-text)]"
               data-filter-count>
               0
             </span>

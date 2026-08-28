@@ -27,6 +27,9 @@ test("keeps enhanced carousel state synchronized with native choices", async () 
 test("exposes fullscreen screenshots as a modal dialog", async () => {
   const carousel = await readFile("src/components/ScreenshotCarousel.astro", "utf8");
 
+  assert.doesNotMatch(carousel, /role="region"/);
+  assert.match(carousel, /setAttribute\("role", "dialog"\)/);
+  assert.match(carousel, /removeAttribute\("role"\)/);
   assert.match(carousel, /setAttribute\("aria-modal", "true"\)/);
   assert.match(carousel, /removeAttribute\("aria-modal"\)/);
   assert.doesNotMatch(carousel, /toggleAttribute\("aria-modal"/);

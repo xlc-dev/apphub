@@ -19,3 +19,9 @@ test("animates menu dropdowns without affecting disclosure content", async () =>
   assert.match(styles, /details\[open\] > \[data-dropdown-panel\]/);
   assert.match(styles, /details\[open\] > \[data-dropdown-panel\]\s*{\s*animation: none;/);
 });
+
+test("keeps filter count badges out of the button layout", async () => {
+  const filters = await readFile("src/components/CatalogFilters.astro", "utf8");
+
+  assert.match(filters, /class="invisible absolute [^"]+"\s+data-filter-count/);
+});
