@@ -14,7 +14,7 @@ type CardApp = Pick<
 
 interface Props {
   app: CardApp;
-  detail?: string;
+  detail?: string | undefined;
   headingLevel?: 2 | 3;
   priority?: boolean;
   stars?: number | undefined;

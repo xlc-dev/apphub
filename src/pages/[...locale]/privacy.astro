@@ -12,6 +12,15 @@ export const getStaticPaths = (() => localePaths()) satisfies GetStaticPaths;
 
 const locale = getLocale(Astro.currentLocale);
 const t = (key: Parameters<typeof translate>[1]) => translate(locale, key);
+const sections = [
+  { title: "privacy.collectsTitle", body: "privacy.collects" },
+  { title: "privacy.notCollectTitle", body: "privacy.notCollect" },
+  { title: "privacy.localTitle", body: "privacy.local" },
+  { title: "privacy.hostingTitle" },
+  { title: "privacy.retentionTitle", body: "privacy.retention" },
+  { title: "privacy.externalTitle", body: "privacy.external" },
+  { title: "privacy.changesTitle", body: "privacy.changes" },
+] as const;
 ---
 
 <BaseLayout title={t("privacy.title")} description={t("privacy.description")}>
@@ -23,74 +32,27 @@ const t = (key: Parameters<typeof translate>[1]) => translate(locale, key);
     />
 
     <div class="space-y-10">
-      <Section
-        spaced={false}
-        class="border-t border-[var(--border)] pt-8"
-        title={t("privacy.collectsTitle")}>
-        <p class="leading-7 text-[var(--muted)]">
-          {t("privacy.collects")}
-        </p>
-      </Section>
-
-      <Section
-        spaced={false}
-        class="border-t border-[var(--border)] pt-8"
-        title={t("privacy.notCollectTitle")}>
-        <p class="leading-7 text-[var(--muted)]">
-          {t("privacy.notCollect")}
-        </p>
-      </Section>
-
-      <Section
-        spaced={false}
-        class="border-t border-[var(--border)] pt-8"
-        title={t("privacy.localTitle")}>
-        <p class="leading-7 text-[var(--muted)]">
-          {t("privacy.local")}
-        </p>
-      </Section>
-
-      <Section
-        spaced={false}
-        class="border-t border-[var(--border)] pt-8"
-        title={t("privacy.hostingTitle")}>
-        <p class="leading-7 text-[var(--muted)]">
-          {t("privacy.hostingBefore")}
-          {" "}
-          <Link
-            accent
-            href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement"
-            >{t("privacy.github")}</Link
-          >.
-        </p>
-      </Section>
-
-      <Section
-        spaced={false}
-        class="border-t border-[var(--border)] pt-8"
-        title={t("privacy.retentionTitle")}>
-        <p class="leading-7 text-[var(--muted)]">
-          {t("privacy.retention")}
-        </p>
-      </Section>
-
-      <Section
-        spaced={false}
-        class="border-t border-[var(--border)] pt-8"
-        title={t("privacy.externalTitle")}>
-        <p class="leading-7 text-[var(--muted)]">
-          {t("privacy.external")}
-        </p>
-      </Section>
-
-      <Section
-        spaced={false}
-        class="border-t border-[var(--border)] pt-8"
-        title={t("privacy.changesTitle")}>
-        <p class="leading-7 text-[var(--muted)]">
-          {t("privacy.changes")}
-        </p>
-      </Section>
+      {
+        sections.map(({ title, ...section }) => (
+          <Section spaced={false} class="border-t border-[var(--border)] pt-8" title={t(title)}>
+            <p class="leading-7 text-[var(--muted)]">
+              {"body" in section ? (
+                t(section.body)
+              ) : (
+                <>
+                  {t("privacy.hostingBefore")}{" "}
+                  <Link
+                    accent
+                    href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">
+                    {t("privacy.github")}
+                  </Link>
+                  .
+                </>
+              )}
+            </p>
+          </Section>
+        ))
+      }
     </div>
   </Page>
 </BaseLayout>

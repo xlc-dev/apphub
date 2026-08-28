@@ -4,65 +4,45 @@
   --font-sans:
     "Inter Variable", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
     "Segoe UI Symbol", "Noto Color Emoji";
-  --color-canvas: #1e1e1e;
-  --color-surface: #242424;
-  --color-foreground: #ffffff;
-  --color-accent: #3584e4;
+  --color-accent: var(--primary);
 }
 
 :root {
+  color-scheme: light dark;
+  --page: light-dark(#fafafa, #1e1e1e);
+  --card: light-dark(#ffffff, #242424);
+  --card-raised: light-dark(#f0f0f0, #303030);
+  --control-bg: light-dark(#ffffff, #303030);
+  --border: light-dark(#deddda, #3d3d3d);
+  --text: light-dark(#2e3436, #f6f5f4);
+  --muted: light-dark(#5e5c64, #c0bfbc);
+  --primary: light-dark(#1c71d8, #62a0ea);
+  --primary-hover: light-dark(#1a5fb4, #99c1f1);
+  --primary-text: light-dark(#ffffff, #1e1e1e);
+}
+
+:root[data-theme="light"] {
   color-scheme: light;
-  --page: #fafafa;
-  --card: #ffffff;
-  --card-raised: #f0f0f0;
-  --control-bg: #ffffff;
-  --border: #deddda;
-  --text: #2e3436;
-  --muted: #5e5c64;
-  --primary: #1c71d8;
-  --primary-hover: #1a5fb4;
-  --primary-text: #ffffff;
 }
 
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --page: #1e1e1e;
-  --card: #242424;
-  --card-raised: #303030;
-  --control-bg: #303030;
-  --border: #3d3d3d;
-  --text: #f6f5f4;
-  --muted: #c0bfbc;
-  --primary: #62a0ea;
-  --primary-hover: #99c1f1;
-  --primary-text: #1e1e1e;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
     color-scheme: dark;
-    --page: #1e1e1e;
-    --card: #242424;
-    --card-raised: #303030;
-    --control-bg: #303030;
-    --border: #3d3d3d;
-    --text: #f6f5f4;
-    --muted: #c0bfbc;
-    --primary: #62a0ea;
-    --primary-hover: #99c1f1;
-    --primary-text: #1e1e1e;
   }
 }
 
-html {
-  background: var(--page);
-  color: var(--text);
-  scrollbar-gutter: stable;
-}
-
+html,
 body {
   background: var(--page);
   color: var(--text);
+}
+
+html {
+  scrollbar-gutter: stable;
 }
 
 @view-transition {
@@ -110,6 +90,14 @@ button,
 input,
 select {
   font: inherit;
+}
+
+button[data-unavailable] {
+  border-color: var(--border);
+  background: var(--control-bg);
+  color: var(--muted);
+  box-shadow: none;
+  opacity: 1;
 }
 
 button,

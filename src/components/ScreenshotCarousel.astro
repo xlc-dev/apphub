@@ -295,19 +295,12 @@ const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown
     display: flex;
     flex-direction: column;
     padding: 1rem;
-    background: var(--color-foreground);
-    color: var(--color-surface);
+    background: var(--page);
+    color: var(--text);
   }
 
   :global(body:has([data-carousel-expanded]) main) {
     z-index: 60;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    [data-carousel-expanded] {
-      background: var(--color-canvas);
-      color: var(--color-foreground);
-    }
   }
 
   [data-carousel-expanded] [data-carousel-frame] {
