@@ -1,12 +1,19 @@
+import assert from "node:assert/strict";
 import { readFile, readdir, stat } from "node:fs/promises";
 import { readCatalogSnapshot } from "#catalog/snapshot";
-import { apiMetadataV1Schema, apiSummaryPageSchema, apiV1ResourceSchema } from "#lib/api-v1-schema";
+import {
+  apiMetadataV1Schema,
+  apiSummaryPageSchema,
+  apiV1JsonSchema,
+  apiV1ResourceSchema,
+} from "#lib/api-v1-schema";
 import { localeDefinitions, locales } from "#lib/locales";
 
 const limits = {
   collection: 128 * 1024,
   app: 128 * 1024,
   metadata: 16 * 1024,
+  schema: 512 * 1024,
   searchIndex: 512 * 1024,
 };
 
@@ -18,10 +25,15 @@ async function checkSize(path: string, limit: number) {
   }
 }
 
+const schemaPath = "dist/api/v1/schema.json";
 const paths = (await readdir("dist/api/v1", { recursive: true }))
   .filter((path) => path.endsWith(".json"))
-  .map((path) => `dist/api/v1/${path}`);
+  .map((path) => `dist/api/v1/${path}`)
+  .filter((path) => path !== schemaPath);
 const snapshot = await readCatalogSnapshot();
+
+await checkSize(schemaPath, limits.schema);
+assert.deepEqual(JSON.parse(await readFile(schemaPath, "utf8")), apiV1JsonSchema);
 
 for (const path of paths) {
   const isApp = /^dist\/api\/v1\/apps\/[^/]+\.json$/.test(path);
@@ -59,4 +71,4 @@ await Promise.all(
     .map((path) => checkSize(path, limits.searchIndex))
 );
 
-console.log(`Validated ${paths.length} API resources and their size budgets.`);
+console.log(`Validated the API schema and ${paths.length} data resources.`);

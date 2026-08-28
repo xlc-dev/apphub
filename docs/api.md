@@ -1,13 +1,15 @@
 # API
 
-AppHub exposes a read-only static JSON API under `/api/v1`. It has no authentication, mutation API,
-runtime database, or server-side queries. The API is pre-release despite the current path; its
-schema may change until AppHub 1.0.
+AppHub exposes a stable, read-only static JSON API under `/api/v1`. It has no authentication,
+mutation API, runtime database, or server-side queries. Existing v1 endpoints and fields will not be
+removed, renamed, or given incompatible meanings. Breaking changes require a new API version. New
+endpoints and optional fields may be added to v1.
 
 ## Endpoints
 
 | Endpoint                                                | Response                              |
 | ------------------------------------------------------- | ------------------------------------- |
+| `/api/v1/schema.json`                                   | JSON Schema for API v1 responses      |
 | `/api/v1/meta.json`                                     | Snapshot, freshness, and counts       |
 | `/api/v1/apps.json`                                     | First application-summary page        |
 | `/api/v1/apps/page/{page}.json`                         | Additional application-summary page   |
@@ -26,8 +28,28 @@ schema may change until AppHub 1.0.
 | `/api/v1/trending/{period}/page/{page}.json`            | Additional download-ranking page      |
 
 Application endpoints use stable AppStream IDs. Ranking periods are `week`, `month`, and `all-time`.
-All paths are static. The endpoint table omits the deployment base; the current GitHub Pages build
+All paths are static. The endpoint table omits the deployment base. The current GitHub Pages build
 prefixes these paths with `/apphub`. URLs returned by the API include the active deployment base.
+
+## Static clients
+
+AppHub's GitHub Pages deployment serves API and media resources with
+`Access-Control-Allow-Origin: *`, so another website can fetch them directly from a browser. A
+self-hosted deployment must provide equivalent cross-origin access if it serves third-party browser
+clients.
+
+The API performs no runtime search because GitHub Pages has no application server. Clients can fetch
+the paginated application summaries and search them locally. AppHub's website uses the same approach
+with a generated locale-specific `/search-index.json` resource.
+
+API and hosted-media URLs are root-relative paths that include the active deployment base, such as
+`/apphub/api/v1/apps/org.example.App.json`. Resolve them against the origin of the response.
+Upstream source and artifact URLs are absolute. `webUrl` points to the corresponding human-readable
+AppHub page. Independent storefronts may ignore it and build their own routes from `id` or `slug`.
+
+The published `/api/v1/schema.json` is JSON Schema Draft 2020-12 generated from the same strict Zod
+schemas used to validate the build. It describes every v1 response except the schema resource
+itself.
 
 ## Snapshots and freshness
 
@@ -97,7 +119,7 @@ artifacts. Summary fields include:
 - Latest release version, publication date, and normalized architectures
 
 `latestRelease` is `null` when no release is recorded. Its architecture list is intended for
-filtering; installable artifacts remain in the application detail resource.
+filtering. Installable artifacts remain in the application detail resource.
 
 ## Application details
 
@@ -115,16 +137,17 @@ AppHub 1.0, renamed slugs and removed applications do not leave redirects or com
 resources.
 
 Historical releases are not part of API v1. AppHub retains only the information needed to discover
-and install the latest supported release through this API.
+and install the latest supported release through this API. This latest-release-only scope is
+intentional. Clients should not infer or construct historical release resources.
 
 The application contains one default metadata copy plus an optional `translations` object keyed by
-locale. Only translated text is repeated; releases, artifacts, checksums, sandbox rules, and other
+locale. Only translated text is repeated. Releases, artifacts, checksums, sandbox rules, and other
 locale-independent data remain shared. Website clients use exact locale, then language, then the
-default AppStream value as their fallback chain. Collection summaries remain in the default locale;
+default AppStream value as their fallback chain. Collection summaries remain in the default locale.
 locale-specific website search indexes provide localized discovery without duplicating the API.
 
 Optional fields are omitted when absent. Statistics values are `null` when AppHub has no applicable
-measurement; this does not mean zero. See [Catalog](catalog.md) for catalog-field and sandbox
+measurement. This does not mean zero. See [Catalog](catalog.md) for catalog-field and sandbox
 semantics.
 
 ## Categories and architectures
@@ -144,7 +167,14 @@ budgets:
 - Collection page: 128 KiB
 - Application detail: 128 KiB
 - Metadata: 16 KiB
+- JSON Schema: 512 KiB
 - Search index: 512 KiB
 
 Contract tests pin the current envelope and field names so schema, implementation, fixtures, and
 documentation change together.
+
+## Reuse
+
+The API implementation and schema are part of AppHub's AGPL-licensed source code. API responses also
+contain metadata and media from upstream sources. Publishing them through AppHub does not replace
+their original rights or licenses. See [Catalog](catalog.md) for the full content boundary.
