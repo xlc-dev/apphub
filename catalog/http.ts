@@ -49,9 +49,14 @@ export function responseValidator(response: Response): HttpValidator | undefined
   const etag = response.headers.get("etag") ?? undefined;
   const lastModified = response.headers.get("last-modified") ?? undefined;
 
-  return etag || lastModified
-    ? { ...(etag ? { etag } : {}), ...(lastModified ? { lastModified } : {}) }
-    : undefined;
+  if (!etag && !lastModified) return undefined;
+
+  const validator: HttpValidator = {};
+
+  if (etag) validator.etag = etag;
+  if (lastModified) validator.lastModified = lastModified;
+
+  return validator;
 }
 
 function isPrivateAddress(address: string) {
@@ -189,8 +194,11 @@ export async function safeFetch(
 ) {
   let url = new URL(input);
   let headers = new Headers(init.headers);
-  const urlResolver =
-    resolver ?? (fetcher === fetch ? resolve : () => Promise.resolve([{ address: "1.1.1.1" }]));
+  const pinConnections = fetcher === fetch;
+  const fallbackResolver = pinConnections
+    ? resolve
+    : () => Promise.resolve([{ address: "1.1.1.1" }]);
+  const urlResolver = resolver ?? fallbackResolver;
 
   for (let redirects = 0; ; redirects++) {
     const addresses = await assertPublicUrl(url, urlResolver);
@@ -198,10 +206,10 @@ export async function safeFetch(
     const response = await scheduleRequest(
       url,
       () =>
-        fetcher === fetch
+        pinConnections
           ? pinnedFetch(url, { ...init, headers, redirect: "manual" }, addresses)
           : fetcher(url.toString(), { ...init, headers, redirect: "manual" }),
-      fetcher === fetch
+      pinConnections
     );
 
     if (![301, 302, 303, 307, 308].includes(response.status)) {

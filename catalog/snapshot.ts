@@ -13,7 +13,10 @@ export const catalogSnapshotSchema = z
   .strict();
 
 function compareText(left: string, right: string) {
-  return left < right ? -1 : left > right ? 1 : 0;
+  if (left < right) return -1;
+  if (left > right) return 1;
+
+  return 0;
 }
 
 function stableJson(value: unknown): unknown {
@@ -37,10 +40,13 @@ async function addFile(hash: ReturnType<typeof createHash>, path: string, url: U
 
   if (!path.endsWith(".webp")) {
     const data = await readFile(url);
+    let content: string | Buffer = data;
 
-    hash.update(
-      path.endsWith(".json") ? JSON.stringify(stableJson(JSON.parse(data.toString("utf8")))) : data
-    );
+    if (path.endsWith(".json")) {
+      content = JSON.stringify(stableJson(JSON.parse(data.toString("utf8"))));
+    }
+
+    hash.update(content);
   }
 
   hash.update("\0");

@@ -38,8 +38,15 @@ assert.deepEqual(JSON.parse(await readFile(schemaPath, "utf8")), apiV1JsonSchema
 for (const path of paths) {
   const isApp = /^dist\/api\/v1\/apps\/[^/]+\.json$/.test(path);
   const isMetadata = path.endsWith("/meta.json");
+  let sizeLimit = limits.collection;
 
-  await checkSize(path, isApp ? limits.app : isMetadata ? limits.metadata : limits.collection);
+  if (isApp) {
+    sizeLimit = limits.app;
+  } else if (isMetadata) {
+    sizeLimit = limits.metadata;
+  }
+
+  await checkSize(path, sizeLimit);
   const resource = apiV1ResourceSchema.parse(JSON.parse(await readFile(path, "utf8")));
 
   if (resource.revision !== snapshot.revision || resource.generatedAt !== snapshot.generatedAt) {

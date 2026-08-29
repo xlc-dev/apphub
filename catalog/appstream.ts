@@ -52,9 +52,11 @@ function isMetadataLicense(expression: SpdxExpression): boolean {
     return !expression.exception && metadataLicenses.has(expression.license);
   }
 
-  return expression.conjunction === "and"
-    ? isMetadataLicense(expression.left) && isMetadataLicense(expression.right)
-    : isMetadataLicense(expression.left) || isMetadataLicense(expression.right);
+  if (expression.conjunction === "and") {
+    return isMetadataLicense(expression.left) && isMetadataLicense(expression.right);
+  }
+
+  return isMetadataLicense(expression.left) || isMetadataLicense(expression.right);
 }
 
 function validateMetadataLicense(value: unknown) {
@@ -62,15 +64,19 @@ function validateMetadataLicense(value: unknown) {
     throw new Error("AppStream metadata license is missing");
   }
 
+  const unsuitable = new Error(
+    `AppStream metadata license ${value} is not suitable for redistribution`
+  );
+
   try {
     if (isMetadataLicense(parseSpdxExpression(value) as SpdxExpression)) {
       return;
     }
   } catch {
-    // Report malformed and unsuitable licenses consistently.
+    throw unsuitable;
   }
 
-  throw new Error(`AppStream metadata license ${value} is not suitable for redistribution`);
+  throw unsuitable;
 }
 
 function rejectDeclarations(value: string, source: string) {
@@ -308,23 +314,97 @@ export function projectLinks(urls: Record<string, unknown>) {
     "contribute",
     "faq",
   ] as const;
-  const links = Object.fromEntries(
-    types.flatMap((type) =>
-      typeof urls[type] === "string" && urls[type] ? [[type, urls[type]]] : []
-    )
-  );
+  const links: Record<string, string> = {};
+
+  for (const type of types) {
+    const url = urls[type];
+
+    if (typeof url === "string" && url) links[type] = url;
+  }
 
   return Object.keys(links).length ? links : undefined;
 }
 
-export function readAppstreamXml(xml: string, expectedId: string) {
+function readWarnings(value: unknown) {
+  const warnings: string[] = [];
+  const translations: Record<string, string[]> = {};
+
+  for (const attribute of optionalObjects(value)) {
+    if (typeof attribute.id !== "string") continue;
+
+    const values = localizedText(attribute);
+    const label = attribute.id
+      .replaceAll("-", " ")
+      .replace(/^./, (character) => character.toUpperCase());
+
+    if (values.default && values.default !== "none") {
+      warnings.push(`${label}: ${values.default}`);
+    }
+
+    for (const [locale, translated] of Object.entries(values.translations)) {
+      if (translated !== "none") {
+        (translations[locale] ??= []).push(`${label}: ${translated}`);
+      }
+    }
+  }
+
+  return { warnings, translations };
+}
+
+interface RemoteScreenshot {
+  caption: string;
+  captionTranslations?: Record<string, string>;
+  source: string;
+}
+
+function readRemoteScreenshots(value: unknown, appName: string) {
+  const screenshots: RemoteScreenshot[] = [];
+
+  for (const screenshot of optionalObjects(value)) {
+    const image = optionalObjects(screenshot.image).find(
+      (item) => item.type === "source" && isHttpsUrl(item["#text"])
+    );
+    const source = image?.["#text"];
+
+    if (!isHttpsUrl(source)) continue;
+
+    const captions = localizedText(screenshot.caption);
+    const result: RemoteScreenshot = {
+      caption: captions.default ?? `${appName} screenshot`,
+      source,
+    };
+
+    if (Object.keys(captions.translations).length) {
+      result.captionTranslations = captions.translations;
+    }
+
+    screenshots.push(result);
+
+    if (screenshots.length === 10) break;
+  }
+
+  return screenshots;
+}
+
+function readUrlValues(urls: Array<Record<string, unknown>>) {
+  const values: Record<string, string> = {};
+
+  for (const item of urls) {
+    if (typeof item.type === "string" && typeof item["#text"] === "string") {
+      values[item.type] = item["#text"];
+    }
+  }
+
+  return values;
+}
+
+function readComponent(xml: string, expectedId: string) {
   rejectDeclarations(xml, "AppStream XML");
   validateXml(xml, "AppStream XML");
 
   const parsed = metadataParser.parse(xml) as Record<string, unknown>;
-  const components = parsed.components as Record<string, unknown> | undefined;
 
-  if (components) {
+  if (parsed.components) {
     throw new Error("AppStream collection documents are not supported; provide one MetaInfo file");
   }
 
@@ -355,6 +435,12 @@ export function readAppstreamXml(xml: string, expectedId: string) {
   if (id !== expectedId) {
     throw new Error(`AppStream component has id ${id ?? "unknown"}, expected ${expectedId}`);
   }
+
+  return { component, id };
+}
+
+export function readAppstreamXml(xml: string, expectedId: string) {
+  const { component, id } = readComponent(xml, expectedId);
 
   const descriptions = [...xml.matchAll(/<description([^>]*)>([\s\S]*?)<\/description>/g)];
   const description = descriptions.find(
@@ -388,58 +474,15 @@ export function readAppstreamXml(xml: string, expectedId: string) {
     return localized.default ? [localized.default] : [];
   });
   const mimeTypes = optionalArray(provides?.mediatype);
-  const contentAttributes = (
-    Array.isArray(contentRating?.content_attribute) ? contentRating.content_attribute : []
-  ) as Array<Record<string, unknown>>;
-  const warningGroups: Record<string, string[]> = {};
-  const warnings = contentAttributes.flatMap((attribute) => {
-    if (typeof attribute.id !== "string") return [];
-
-    const values = localizedText(attribute);
-    const label = attribute.id
-      .replaceAll("-", " ")
-      .replace(/^./, (character) => character.toUpperCase());
-
-    for (const [locale, value] of Object.entries(values.translations)) {
-      if (value !== "none") (warningGroups[locale] ??= []).push(`${label}: ${value}`);
-    }
-
-    return values.default && values.default !== "none" ? [`${label}: ${values.default}`] : [];
-  });
-  const links = projectLinks(
-    Object.fromEntries(
-      urls.flatMap((item) =>
-        typeof item.type === "string" && typeof item["#text"] === "string"
-          ? [[item.type, item["#text"]]]
-          : []
-      )
-    )
+  const { warnings, translations: warningTranslations } = readWarnings(
+    contentRating?.content_attribute
   );
+  const links = projectLinks(readUrlValues(urls));
 
   const remoteIcon = optionalObjects(component.icon).find(
     (icon) => icon.type === "remote" && isHttpsUrl(icon["#text"])
   )?.["#text"] as string | undefined;
-  const remoteScreenshots = optionalObjects(screenshots?.screenshot)
-    .flatMap((screenshot) => {
-      const source = optionalObjects(screenshot.image).find(
-        (image) => image.type === "source" && isHttpsUrl(image["#text"])
-      )?.["#text"] as string | undefined;
-
-      const captions = localizedText(screenshot.caption);
-
-      return source
-        ? [
-            {
-              caption: captions.default ?? `${names.default} screenshot`,
-              ...(Object.keys(captions.translations).length
-                ? { captionTranslations: captions.translations }
-                : {}),
-              source,
-            },
-          ]
-        : [];
-    })
-    .slice(0, 10);
+  const remoteScreenshots = readRemoteScreenshots(screenshots?.screenshot, names.default ?? id);
 
   const translations: Record<string, Record<string, unknown>> = {};
 
@@ -466,7 +509,7 @@ export function readAppstreamXml(xml: string, expectedId: string) {
   }
   addTranslations(translations, "keywords", translatedKeywords);
 
-  for (const [locale, translatedWarnings] of Object.entries(warningGroups)) {
+  for (const [locale, translatedWarnings] of Object.entries(warningTranslations)) {
     (translations[locale] ??= {}).contentRating = { warnings: translatedWarnings };
   }
 

@@ -19,6 +19,11 @@ import { facetItems, matchesFacet } from "#lib/facets";
 import { newApps, newAppWindowDays } from "#lib/new-apps";
 
 const collator = new Intl.Collator("en");
+const rankingDays: Record<RankingPeriod, number | undefined> = {
+  week: 7,
+  month: 30,
+  "all-time": undefined,
+};
 
 function appSummary(app: CatalogAppResource) {
   const latest = app.releases[0];
@@ -115,23 +120,25 @@ export async function getUpdatedApps() {
 }
 
 export async function getRanking(period: RankingPeriod) {
-  const days = period === "week" ? 7 : period === "month" ? 30 : undefined;
-  const counts = downloadCounts(await getDownloadHistory(), days);
-  const apps = await getCatalogApps();
-  const entries = counts
-    ? apps
-        .flatMap((app) => {
-          const downloads = counts[app.id];
+  const counts = downloadCounts(await getDownloadHistory(), rankingDays[period]);
 
-          return downloads === undefined ? [] : [{ app: appSummary(app), downloads }];
-        })
-        .sort(
-          (left, right) =>
-            right.downloads - left.downloads ||
-            collator.compare(left.app.name, right.app.name) ||
-            collator.compare(left.app.slug, right.app.slug)
-        )
-    : null;
+  if (!counts) return catalogRankingSchema.parse({ period, entries: null });
+
+  const apps = await getCatalogApps();
+  const entries: Array<{ app: CatalogAppSummary; downloads: number }> = [];
+
+  for (const app of apps) {
+    const downloads = counts[app.id];
+
+    if (downloads !== undefined) entries.push({ app: appSummary(app), downloads });
+  }
+
+  entries.sort(
+    (left, right) =>
+      right.downloads - left.downloads ||
+      collator.compare(left.app.name, right.app.name) ||
+      collator.compare(left.app.slug, right.app.slug)
+  );
 
   return catalogRankingSchema.parse({ period, entries });
 }

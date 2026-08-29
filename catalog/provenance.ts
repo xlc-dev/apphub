@@ -52,15 +52,17 @@ export function mergeReleaseSource(
 }
 
 function preserveEvidence(recorded: Artifact, observed: Artifact) {
-  return {
-    ...observed,
-    ...(observed.checksumEvidence
-      ? {}
-      : recorded.checksumEvidence
-        ? { checksumEvidence: recorded.checksumEvidence }
-        : {}),
-    ...(observed.signatures ? {} : recorded.signatures ? { signatures: recorded.signatures } : {}),
-  };
+  const artifact = { ...observed };
+
+  if (!artifact.checksumEvidence && recorded.checksumEvidence) {
+    artifact.checksumEvidence = recorded.checksumEvidence;
+  }
+
+  if (!artifact.signatures && recorded.signatures) {
+    artifact.signatures = recorded.signatures;
+  }
+
+  return artifact;
 }
 
 function verifyRelease(recorded: Release, observed: Release) {

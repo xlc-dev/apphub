@@ -11,7 +11,7 @@ import {
 } from "#catalog/refresh";
 import { printRefreshNetworkSummary } from "#catalog/network";
 import { forEachConcurrent } from "#scripts/concurrency";
-import { writeJsonAtomic } from "#scripts/files";
+import { sortRecord, writeJsonAtomic } from "#scripts/files";
 import { fetchDownloadTotal } from "#scripts/releases/index";
 import { writeCatalogSnapshot } from "#scripts/write-snapshot";
 
@@ -57,9 +57,6 @@ await forEachConcurrent(await readApps(), 4, async ({ app }) => {
     console.warn(`${app.id}: download refresh failed; using previous data: ${String(error)}`);
   }
 });
-
-const sortRecord = <T>(record: Record<string, T>) =>
-  Object.fromEntries(Object.entries(record).sort(([left], [right]) => left.localeCompare(right)));
 
 history.refresh = sortRecord(refresh);
 
