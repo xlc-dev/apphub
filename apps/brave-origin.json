@@ -48,9 +48,9 @@
     "repository": "pkgforge-dev/Brave-Origin-AppImage"
   },
   "sandbox": {
-    "network": "client-and-server",
-    "display": "wayland-and-x11",
-    "audio": "playback-and-capture",
+    "network": "full",
+    "display": "wayland-or-x11",
+    "audio": "full",
     "processes": "isolated",
     "ipc": false,
     "filesystem": [
@@ -60,19 +60,13 @@
       }
     ],
     "devices": ["gpu", "usb"],
-    "portals": [
-      "camera",
-      "file-chooser",
-      "inhibit",
-      "location",
-      "notifications",
-      "open-uri",
-      "printing",
-      "screencast",
-      "secrets",
-      "settings"
-    ],
-    "sessionBus": [],
-    "systemBus": []
+    "sessionBus": {
+      "access": "none",
+      "rules": []
+    },
+    "systemBus": {
+      "access": "none",
+      "rules": []
+    }
   }
 }

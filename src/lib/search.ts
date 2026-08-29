@@ -31,7 +31,6 @@ export interface SearchIndexEntry {
   audio: string;
   process: string;
   devices: string[];
-  portals: string[];
   stars?: number | undefined;
   icon: { url: string };
   value: string;
@@ -52,7 +51,6 @@ export interface CatalogFilters {
   process: string[];
   host: string[];
   device: string[];
-  portal: string[];
 }
 
 export const catalogFilterParameters = [
@@ -69,16 +67,15 @@ export const catalogFilterParameters = [
   "process",
   "host",
   "device",
-  "portal",
 ] as const;
 export const compatibilityFilterValues = ["anylinux"] as const;
 export const displayFilterValues = ["wayland", "x11"] as const;
 export const hostAccessFilterValues = ["none", "ipc", "session-bus", "system-bus"] as const;
-export const networkFilterValues = ["none", "client", "client-and-server"] as const;
+export const networkFilterValues = ["none", "full"] as const;
 export const filesystemFilterValues = ["none", "read-only", "read-write"] as const;
 export const interfaceFilterValues = ["graphical", "terminal"] as const;
-export const audioFilterValues = ["none", "playback", "capture", "playback-and-capture"] as const;
-export const processFilterValues = ["isolated", "read", "control"] as const;
+export const audioFilterValues = ["none", "full"] as const;
+export const processFilterValues = ["isolated", "full"] as const;
 type DirectFilesystemAccess = (typeof filesystemFilterValues)[number];
 type AppInterface = (typeof interfaceFilterValues)[number];
 type DisplayBackend = (typeof displayFilterValues)[number];
@@ -135,7 +132,7 @@ export function appInterface(display: string): AppInterface {
 }
 
 export function displayBackends(display: string): DisplayBackend[] {
-  if (display === "wayland-and-x11") return ["wayland", "x11"];
+  if (display === "wayland-or-x11") return ["wayland", "x11"];
   if (display === "wayland" || display === "x11") return [display];
 
   return [];
@@ -147,8 +144,8 @@ export function hostAccess(
   const access: HostAccess[] = [];
 
   if (sandbox.ipc) access.push("ipc");
-  if (sandbox.sessionBus.length > 0) access.push("session-bus");
-  if (sandbox.systemBus.length > 0) access.push("system-bus");
+  if (sandbox.sessionBus.access !== "none") access.push("session-bus");
+  if (sandbox.systemBus.access !== "none") access.push("system-bus");
 
   return access.length > 0 ? access : ["none"];
 }
@@ -180,8 +177,7 @@ export function matchesCatalogFilters(app: SearchIndexEntry, filters: CatalogFil
     matchesAny(filters.audio, [app.audio]) &&
     matchesAny(filters.process, [app.process]) &&
     matchesAny(filters.host, app.hostAccess) &&
-    matchesAny(filters.device, app.devices) &&
-    matchesAny(filters.portal, app.portals)
+    matchesAny(filters.device, app.devices)
   );
 }
 
@@ -224,7 +220,6 @@ export function searchIndexEntry(app: CatalogApp, stars?: number): SearchIndexEn
     audio: app.sandbox.audio,
     process: app.sandbox.processes,
     devices: app.sandbox.devices.length > 0 ? app.sandbox.devices : ["none"],
-    portals: app.sandbox.portals,
     stars,
     icon: { url: app.icon.url },
     value: catalogSearchValue(app),

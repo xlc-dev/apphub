@@ -12,10 +12,10 @@
     "repository": "pkgforge-dev/Gear-Lever-AppImage"
   },
   "sandbox": {
-    "network": "client",
-    "display": "wayland-and-x11",
+    "network": "full",
+    "display": "wayland-or-x11",
     "audio": "none",
-    "processes": "control",
+    "processes": "full",
     "ipc": false,
     "filesystem": [
       {
@@ -24,8 +24,13 @@
       }
     ],
     "devices": ["gpu", "fuse"],
-    "portals": ["file-chooser", "notifications", "open-uri", "settings"],
-    "sessionBus": [],
-    "systemBus": []
+    "sessionBus": {
+      "access": "none",
+      "rules": []
+    },
+    "systemBus": {
+      "access": "none",
+      "rules": []
+    }
   }
 }

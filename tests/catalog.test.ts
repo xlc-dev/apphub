@@ -81,9 +81,8 @@ const app: App = {
     ipc: false,
     filesystem: [],
     devices: [],
-    portals: ["file-chooser"],
-    sessionBus: [],
-    systemBus: [],
+    sessionBus: { access: "none", rules: [] },
+    systemBus: { access: "none", rules: [] },
   },
 };
 
@@ -316,7 +315,34 @@ describe("catalog schema", () => {
         ...app,
         sandbox: {
           ...app.sandbox,
-          sessionBus: [{ name: "org.example.*", access: "talk" }],
+          sessionBus: {
+            access: "filtered",
+            rules: [{ name: "org.example.*", access: "talk" }],
+          },
+        },
+      })
+    );
+  });
+
+  test("requires rules only for filtered D-Bus access", () => {
+    assert.throws(() =>
+      appSchema.parse({
+        ...app,
+        sandbox: {
+          ...app.sandbox,
+          sessionBus: { access: "filtered", rules: [] },
+        },
+      })
+    );
+    assert.throws(() =>
+      appSchema.parse({
+        ...app,
+        sandbox: {
+          ...app.sandbox,
+          sessionBus: {
+            access: "full",
+            rules: [{ name: "org.example.Service", access: "talk" }],
+          },
         },
       })
     );

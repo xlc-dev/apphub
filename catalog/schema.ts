@@ -2,6 +2,7 @@ import { z } from "zod";
 import parseSpdxExpression from "spdx-expression-parse";
 import { mainCategories, registeredCategories } from "#catalog/category-registry";
 import { httpValidatorSchema, successfulRefreshStateSchema } from "#catalog/refresh";
+import { sandboxV1Schema } from "#catalog/sandbox-v1";
 
 export const httpsUrlSchema = z.url().refine((value) => new URL(value).protocol === "https:", {
   message: "Must use HTTPS",
@@ -94,94 +95,6 @@ export const catalogProvenanceSchema = z
       .strict(),
   })
   .strict();
-
-const filesystemLocationSchema = z.enum([
-  "home",
-  "desktop",
-  "documents",
-  "downloads",
-  "music",
-  "pictures",
-  "public-share",
-  "templates",
-  "videos",
-  "removable-media",
-]);
-
-const filesystemRuleSchema = z
-  .object({
-    location: filesystemLocationSchema,
-    access: z.enum(["read-only", "read-write"]),
-  })
-  .strict();
-
-const busNameSchema = z
-  .string()
-  .min(3)
-  .max(255)
-  .regex(/^[A-Za-z_][A-Za-z0-9_-]*(?:\.[A-Za-z_][A-Za-z0-9_-]*)+$/);
-
-const busRuleSchema = z
-  .object({
-    name: busNameSchema,
-    access: z.enum(["see", "talk", "own"]),
-  })
-  .strict();
-
-const uniqueBy = <T>(values: T[], key: (value: T) => string) =>
-  new Set(values.map(key)).size === values.length;
-
-const sandboxSchema = z
-  .object({
-    network: z.enum(["none", "client", "client-and-server"]),
-    display: z.enum(["none", "wayland", "x11", "wayland-and-x11"]),
-    audio: z.enum(["none", "playback", "capture", "playback-and-capture"]),
-    processes: z.enum(["isolated", "read", "control"]),
-    ipc: z.boolean(),
-    filesystem: z
-      .array(filesystemRuleSchema)
-      .max(filesystemLocationSchema.options.length)
-      .refine(
-        (rules) => uniqueBy(rules, ({ location }) => location),
-        "Filesystem locations must be unique"
-      ),
-    devices: z
-      .array(z.enum(["gpu", "input", "camera", "usb", "serial", "optical", "fuse", "kvm"]))
-      .max(8)
-      .refine((devices) => uniqueBy(devices, (device) => device), "Devices must be unique"),
-    portals: z
-      .array(
-        z.enum([
-          "background",
-          "camera",
-          "email",
-          "file-chooser",
-          "inhibit",
-          "location",
-          "notifications",
-          "open-uri",
-          "printing",
-          "screenshot",
-          "screencast",
-          "secrets",
-          "settings",
-        ])
-      )
-      .max(13)
-      .refine((portals) => uniqueBy(portals, (portal) => portal), "Portals must be unique"),
-    sessionBus: z
-      .array(busRuleSchema)
-      .max(50)
-      .refine((rules) => uniqueBy(rules, ({ name }) => name), "Session bus names must be unique"),
-    systemBus: z
-      .array(busRuleSchema)
-      .max(50)
-      .refine((rules) => uniqueBy(rules, ({ name }) => name), "System bus names must be unique"),
-  })
-  .strict()
-  .describe(
-    "Minimum host access required by the application; unspecified access is denied and private application storage is implicit"
-  );
 
 const categorySchema = z
   .string()
@@ -423,7 +336,7 @@ export const appManifestSchema = z
     addedAt: z.iso.date(),
     origin: originSchema,
     releaseSource: releaseSourceSchema,
-    sandbox: sandboxSchema,
+    sandbox: sandboxV1Schema,
     assets: z
       .record(architectureSchema, assetPattern)
       .refine((assets) => Object.keys(assets).length > 0, "At least one asset is required")
@@ -448,7 +361,7 @@ export const appSchema = z
         (screenshots) => new Set(screenshots.map(({ file }) => file)).size === screenshots.length,
         "Screenshot files must be unique"
       ),
-    sandbox: sandboxSchema,
+    sandbox: sandboxV1Schema,
     assets: z
       .record(architectureSchema, assetPattern)
       .refine((assets) => Object.keys(assets).length > 0, "At least one asset is required")

@@ -1,7 +1,7 @@
 ---
 import type { App } from "#catalog/schema";
 import Section from "@/components/ui/Section.astro";
-import { getLocale, translate, translateValue } from "@/lib/i18n";
+import { getLocale, translate, translatedLabel, translateValue } from "@/lib/i18n";
 
 interface Props {
   sandbox: App["sandbox"];
@@ -11,49 +11,105 @@ const { sandbox } = Astro.props;
 const locale = getLocale(Astro.currentLocale);
 const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown>) =>
   translate(locale, key, values);
+
 const labels = (values: string[]) =>
-  values.map((value) => translateValue(locale, value)).join(", ");
+  values.map((value) => translatedLabel(locale, value)).join(", ");
+
 const filesystem = sandbox.filesystem.length
   ? sandbox.filesystem
       .map(
         ({ location, access }) =>
-          `${translateValue(locale, location)} (${translateValue(locale, access)})`
+          `${translatedLabel(locale, location)} (${translateValue(locale, access)})`
       )
       .join(", ")
   : t("sandbox.privateStorage");
+
 const devices = sandbox.devices.length ? labels(sandbox.devices) : t("sandbox.none");
-const portals = sandbox.portals.length ? labels(sandbox.portals) : t("sandbox.none");
-const sessionBus = sandbox.sessionBus.length
-  ? t("sandbox.services", { count: sandbox.sessionBus.length })
-  : t("sandbox.none");
-const systemBus = sandbox.systemBus.length
-  ? t("sandbox.services", { count: sandbox.systemBus.length })
-  : t("sandbox.none");
+
+const busAccess = (bus: App["sandbox"]["sessionBus"]) => {
+  if (bus.access === "none") return t("sandbox.none");
+  if (bus.access === "full") return t("sandbox.fullAccess");
+
+  return bus.rules
+    .map(({ name, access }) => `${name} (${translateValue(locale, access)})`)
+    .join(", ");
+};
+
 const capabilities = [
-  [t("sandbox.network"), translateValue(locale, sandbox.network)],
-  [t("sandbox.display"), translateValue(locale, sandbox.display)],
-  [t("sandbox.audio"), translateValue(locale, sandbox.audio)],
-  [t("sandbox.processes"), translateValue(locale, sandbox.processes)],
-  [t("sandbox.ipc"), sandbox.ipc ? t("sandbox.allowed") : t("sandbox.denied")],
-  [t("sandbox.files"), filesystem],
-  [t("sandbox.devices"), devices],
-  [t("sandbox.portals"), portals],
-  [t("sandbox.sessionBus"), sessionBus],
-  [t("sandbox.systemBus"), systemBus],
-] as const;
+  {
+    name: t("sandbox.network"),
+    value: t(`filters.network.${sandbox.network}`),
+    granted: sandbox.network !== "none",
+  },
+  {
+    name: t("sandbox.display"),
+    value: t(`filters.display.${sandbox.display}`),
+    granted: sandbox.display !== "none",
+  },
+  {
+    name: t("sandbox.audio"),
+    value: t(`filters.audio.${sandbox.audio}`),
+    granted: sandbox.audio !== "none",
+  },
+  {
+    name: t("sandbox.files"),
+    value: filesystem,
+    granted: sandbox.filesystem.length > 0,
+  },
+  {
+    name: t("sandbox.devices"),
+    value: devices,
+    granted: sandbox.devices.length > 0,
+  },
+  {
+    name: t("sandbox.processes"),
+    value: t(`filters.process.${sandbox.processes}`),
+    granted: sandbox.processes !== "isolated",
+  },
+  {
+    name: t("sandbox.ipc"),
+    value: sandbox.ipc ? t("sandbox.allowed") : t("sandbox.denied"),
+    granted: sandbox.ipc,
+  },
+  {
+    name: t("sandbox.sessionBus"),
+    value: busAccess(sandbox.sessionBus),
+    granted: sandbox.sessionBus.access !== "none",
+  },
+  {
+    name: t("sandbox.systemBus"),
+    value: busAccess(sandbox.systemBus),
+    granted: sandbox.systemBus.access !== "none",
+  },
+];
 ---
 
 <Section
   spaced={false}
   title={t("sandbox.title")}
+  description={t("sandbox.description")}
   headingId="capabilities-heading"
   aria-labelledby="capabilities-heading">
-  <dl class="grid grid-cols-2 gap-3">
+  <dl
+    class="grid grid-cols-1 gap-px overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--border)] shadow-sm sm:grid-cols-3">
     {
-      capabilities.map(([name, value]) => (
-        <div class="card-surface min-w-0 rounded-xl p-3 sm:p-4">
+      capabilities.map(({ name, value, granted }) => (
+        <div class="min-w-0 bg-[var(--card)] p-4">
           <dt class="font-semibold">{name}</dt>
-          <dd class="m-0 mt-1 text-sm text-[var(--muted)] capitalize">{value}</dd>
+          <dd
+            class:list={[
+              "m-0 mt-2 flex min-w-0 items-center gap-2 text-sm break-words",
+              granted ? "text-[var(--text)]" : "text-[var(--muted)]",
+            ]}>
+            <span
+              class:list={[
+                "size-1.5 shrink-0 rounded-full",
+                granted ? "bg-[var(--primary)]" : "bg-[var(--muted)]",
+              ]}
+              aria-hidden="true"
+            />
+            {value}
+          </dd>
         </div>
       ))
     }

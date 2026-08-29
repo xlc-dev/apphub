@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { describe, test } from "node:test";
 import { localizeApp, normalizeLocale } from "#catalog/localization";
-import { localePath, stripLocale, translate } from "#lib/i18n";
+import { localePath, stripLocale, translate, translatedLabel } from "#lib/i18n";
 import { localeDefinitions, locales } from "#lib/locales";
 
 const app = {
@@ -68,5 +68,11 @@ describe("localization", () => {
   test("provides Dutch UI messages", () => {
     assert.equal(translate("nl", "pagination.next"), "Volgende");
     assert.equal(translate("nl", "pagination.page", { page: 2, pages: 4 }), "Pagina 2 van 4");
+  });
+
+  test("formats translated labels and technical acronyms", () => {
+    assert.equal(translatedLabel("en", "removable-media"), "Removable media");
+    assert.equal(translatedLabel("en", "gpu"), "GPU");
+    assert.equal(translatedLabel("nl", "downloads"), "Downloads");
   });
 });

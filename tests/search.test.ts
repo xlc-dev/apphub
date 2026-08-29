@@ -52,7 +52,6 @@ function entry(name: string, value: string): SearchIndexEntry {
     audio: "none",
     process: "isolated",
     devices: ["gpu"],
-    portals: ["file-chooser"],
     icon: { url: `${name}.webp` },
     value,
   };
@@ -74,7 +73,6 @@ describe("catalog search", () => {
     process: [],
     host: [],
     device: [],
-    portal: [],
   };
 
   test("includes all searchable app metadata", () => {
@@ -122,19 +120,29 @@ describe("catalog search", () => {
 
   test("derives the application interface from display access", () => {
     assert.equal(appInterface("none"), "terminal");
-    assert.equal(appInterface("wayland-and-x11"), "graphical");
+    assert.equal(appInterface("wayland-or-x11"), "graphical");
     assert.deepEqual(displayBackends("none"), []);
     assert.deepEqual(displayBackends("wayland"), ["wayland"]);
-    assert.deepEqual(displayBackends("wayland-and-x11"), ["wayland", "x11"]);
+    assert.deepEqual(displayBackends("wayland-or-x11"), ["wayland", "x11"]);
   });
 
   test("derives aggregate host access", () => {
-    assert.deepEqual(hostAccess({ ipc: false, sessionBus: [], systemBus: [] }), ["none"]);
+    assert.deepEqual(
+      hostAccess({
+        ipc: false,
+        sessionBus: { access: "none", rules: [] },
+        systemBus: { access: "none", rules: [] },
+      }),
+      ["none"]
+    );
     assert.deepEqual(
       hostAccess({
         ipc: true,
-        sessionBus: [{ name: "org.example.Session", access: "talk" }],
-        systemBus: [{ name: "org.example.System", access: "see" }],
+        sessionBus: {
+          access: "filtered",
+          rules: [{ name: "org.example.Session", access: "talk" }],
+        },
+        systemBus: { access: "full", rules: [] },
       }),
       ["ipc", "session-bus", "system-bus"]
     );
@@ -165,11 +173,10 @@ describe("catalog search", () => {
         process: ["isolated"],
         host: ["ipc"],
         device: ["usb", "gpu"],
-        portal: ["file-chooser"],
       }),
       true
     );
-    assert.equal(matchesCatalogFilters(candidate, { ...filters, network: ["client"] }), false);
+    assert.equal(matchesCatalogFilters(candidate, { ...filters, network: ["full"] }), false);
     assert.equal(matchesCatalogFilters(candidate, { ...filters, host: ["system-bus"] }), false);
     assert.equal(
       matchesCatalogFilters({ ...candidate, devices: ["none"] }, { ...filters, device: ["none"] }),

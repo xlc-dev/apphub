@@ -46,9 +46,8 @@ const app = {
     ipc: false,
     filesystem: [],
     devices: [],
-    portals: ["file-chooser"],
-    sessionBus: [],
-    systemBus: [],
+    sessionBus: { access: "none", rules: [] },
+    systemBus: { access: "none", rules: [] },
   },
 };
 
