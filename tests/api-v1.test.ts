@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { describe, test } from "node:test";
+import { sandboxV1Schema } from "#catalog/sandbox-v1";
 import {
   apiAppDetailSchema,
   apiAppSummarySchema,
@@ -59,6 +60,7 @@ describe("API v1 contract", () => {
   test("pins the application detail fields", () => {
     const app = apiAppDetailSchema.shape.app;
     const release = app.shape.latestRelease.unwrap();
+    const sandbox = app.shape.sandbox;
 
     assert.deepEqual(app.keyof().options.sort(), [
       "addedAt",
@@ -104,6 +106,61 @@ describe("API v1 contract", () => {
       "signatures",
       "size",
       "url",
+    ]);
+    assert.deepEqual(sandbox.keyof().options.sort(), [
+      "audio",
+      "devices",
+      "display",
+      "filesystem",
+      "ipc",
+      "network",
+      "processes",
+      "sessionBus",
+      "systemBus",
+    ]);
+    assert.deepEqual(sandbox.shape.network.options, ["none", "full"]);
+    assert.deepEqual(sandbox.shape.audio.options, ["none", "full"]);
+    assert.deepEqual(sandbox.shape.processes.options, ["isolated", "full"]);
+  });
+
+  test("pins the complete sandbox v1 contract", () => {
+    const sandbox = sandboxV1Schema.shape;
+    const filesystem = sandbox.filesystem.element.shape;
+    const busOptions = sandbox.sessionBus.options;
+
+    assert.equal(apiAppDetailSchema.shape.app.shape.sandbox, sandboxV1Schema);
+    assert.deepEqual(sandbox.display.options, ["none", "wayland", "x11", "wayland-or-x11"]);
+    assert.deepEqual(filesystem.location.options, [
+      "home",
+      "desktop",
+      "documents",
+      "downloads",
+      "music",
+      "pictures",
+      "public-share",
+      "templates",
+      "videos",
+      "removable-media",
+    ]);
+    assert.deepEqual(filesystem.access.options, ["read-only", "read-write"]);
+    assert.deepEqual(sandbox.devices.element.options, [
+      "gpu",
+      "input",
+      "camera",
+      "usb",
+      "serial",
+      "optical",
+      "fuse",
+      "kvm",
+    ]);
+    assert.deepEqual(
+      busOptions.map((option) => option.shape.access.value),
+      ["none", "filtered", "full"]
+    );
+    assert.deepEqual(busOptions[1].shape.rules.element.shape.access.options, [
+      "see",
+      "talk",
+      "own",
     ]);
   });
 

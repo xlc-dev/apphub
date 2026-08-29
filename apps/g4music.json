@@ -12,9 +12,9 @@
     "repository": "pkgforge-dev/Gapless-AppImage"
   },
   "sandbox": {
-    "network": "client",
-    "display": "wayland-and-x11",
-    "audio": "playback",
+    "network": "full",
+    "display": "wayland-or-x11",
+    "audio": "full",
     "processes": "isolated",
     "ipc": false,
     "filesystem": [
@@ -24,8 +24,13 @@
       }
     ],
     "devices": ["gpu"],
-    "portals": ["file-chooser", "inhibit", "notifications", "settings"],
-    "sessionBus": [],
-    "systemBus": []
+    "sessionBus": {
+      "access": "none",
+      "rules": []
+    },
+    "systemBus": {
+      "access": "none",
+      "rules": []
+    }
   }
 }

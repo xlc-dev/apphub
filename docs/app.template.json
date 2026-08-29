@@ -19,8 +19,13 @@
     "ipc": false,
     "filesystem": [],
     "devices": [],
-    "portals": [],
-    "sessionBus": [],
-    "systemBus": []
+    "sessionBus": {
+      "access": "none",
+      "rules": []
+    },
+    "systemBus": {
+      "access": "none",
+      "rules": []
+    }
   }
 }

@@ -12,7 +12,7 @@ import { getApps } from "@/lib/catalog-loader";
 import { paginationState } from "@/lib/pagination";
 import { getRepositoryStars } from "@/lib/repository-stars";
 import { localizeCategories } from "@/lib/categories";
-import { getLocale, localePath, translate, translateValue } from "@/lib/i18n";
+import { getLocale, localePath, translate, translatedLabel } from "@/lib/i18n";
 import { sitePath } from "@/lib/paths";
 import {
   appInterface,
@@ -50,21 +50,20 @@ const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown
 const categories = localizeCategories(categoryItems, locale);
 const architectures = architectureItems.map(({ id, count }) => ({ id, label: id, count }));
 const collator = new Intl.Collator(locale);
-const optionLabel = (value: string) => {
-  const label = translateValue(locale, value);
+const optionLabel = (value: string) => translatedLabel(locale, value);
 
-  return label.charAt(0).toLocaleUpperCase(locale) + label.slice(1);
-};
-const countedOptions = (
-  values: readonly string[],
-  matches: (app: (typeof filterCatalog)[number], value: string) => boolean,
-  label = optionLabel
-) =>
-  values.flatMap((id) => {
+function countedOptions<Value extends string>(
+  values: readonly Value[],
+  matches: (app: (typeof filterCatalog)[number], value: Value) => boolean,
+  label: (value: Value) => string = optionLabel
+): Array<{ id: string; label: string; count: number }> {
+  return values.flatMap((id) => {
     const count = filterCatalog.filter((app) => matches(app, id)).length;
 
     return count > 0 ? [{ id, label: label(id), count }] : [];
   });
+}
+
 const licenses = countedOptions(
   [...new Set(filterCatalog.map(({ projectLicense }) => projectLicense))].sort(collator.compare),
   ({ projectLicense }, value) => projectLicense === value,
@@ -78,7 +77,7 @@ const origins = countedOptions(
 const interfaces = countedOptions(
   interfaceFilterValues,
   ({ sandbox }, value) => appInterface(sandbox.display) === value,
-  (value) => t(`filters.interface.${value as (typeof interfaceFilterValues)[number]}`)
+  (value) => t(`filters.interface.${value}`)
 );
 const displayModes = new Set(
   filterCatalog.map(({ sandbox }) => sandbox.display).filter((display) => display !== "none")
@@ -87,15 +86,14 @@ const displays =
   displayModes.size > 1
     ? countedOptions(
         displayFilterValues,
-        ({ sandbox }, value) =>
-          displayBackends(sandbox.display).includes(value as (typeof displayFilterValues)[number]),
-        optionLabel
+        ({ sandbox }, value) => displayBackends(sandbox.display).includes(value),
+        (value) => t(`filters.display.${value}`)
       )
     : [];
 const compatibilities = countedOptions(
   compatibilityFilterValues,
   (app) => hasAnyLinuxBuild(app),
-  (value) => t(`filters.compatibility.${value as (typeof compatibilityFilterValues)[number]}`)
+  (value) => t(`filters.compatibility.${value}`)
 );
 const networks = networkFilterValues.map((id) => ({
   id,
@@ -119,18 +117,17 @@ const locations = countedOptions(
 const audios = countedOptions(
   audioFilterValues,
   ({ sandbox }, value) => sandbox.audio === value,
-  (value) => t(`filters.audio.${value as (typeof audioFilterValues)[number]}`)
+  (value) => t(`filters.audio.${value}`)
 );
 const processes = countedOptions(
   processFilterValues,
   ({ sandbox }, value) => sandbox.processes === value,
-  (value) => t(`filters.process.${value as (typeof processFilterValues)[number]}`)
+  (value) => t(`filters.process.${value}`)
 );
 const hostAccesses = countedOptions(
   hostAccessFilterValues,
-  ({ sandbox }, value) =>
-    hostAccess(sandbox).includes(value as (typeof hostAccessFilterValues)[number]),
-  (value) => t(`filters.host.${value as (typeof hostAccessFilterValues)[number]}`)
+  ({ sandbox }, value) => hostAccess(sandbox).includes(value),
+  (value) => t(`filters.host.${value}`)
 );
 const devices = countedOptions(
   [
@@ -141,10 +138,6 @@ const devices = countedOptions(
     value === "none"
       ? sandbox.devices.length === 0
       : sandbox.devices.includes(value as (typeof sandbox.devices)[number])
-);
-const portals = countedOptions(
-  [...new Set(filterCatalog.flatMap(({ sandbox }) => sandbox.portals))].sort(collator.compare),
-  ({ sandbox }, value) => sandbox.portals.includes(value as (typeof sandbox.portals)[number])
 );
 const sourceGroups =
   origins.length > 1
@@ -170,10 +163,7 @@ const interfaceGroups =
       ]
     : [{ parameter: "interface", options: interfaces }];
 
-const systemAccessGroups = [
-  { name: t("sandbox.devices"), parameter: "device", options: devices },
-  { name: t("sandbox.portals"), parameter: "portal", options: portals },
-];
+const systemAccessGroups = [{ name: t("sandbox.devices"), parameter: "device", options: devices }];
 
 if (hostAccesses.length > 1) {
   systemAccessGroups.unshift({

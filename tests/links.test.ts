@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { readFile, readdir } from "node:fs/promises";
 import { test } from "node:test";
+import { buttonClasses } from "../src/components/ui/buttonStyles";
 
 test("routes links through base-aware components", async () => {
   const allowed = new Set([
@@ -30,4 +31,13 @@ test("uses color rather than underlines for active navigation links", async () =
   assert.match(link, /aria-\[current=page\]:text-\[var\(--primary\)\]/);
   assert.doesNotMatch(link, /aria-\[current=page\]:border/);
   assert.doesNotMatch(link, /border-b/);
+});
+
+test("applies button hover styles to links", () => {
+  for (const variant of ["icon", "outline", "primary"] as const) {
+    const classes = buttonClasses(variant, "default");
+
+    assert.match(classes, /hover:/);
+    assert.doesNotMatch(classes, /enabled:hover:/);
+  }
 });

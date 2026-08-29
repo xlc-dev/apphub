@@ -15,7 +15,7 @@ import {
   repositoryStarsSchema,
   repositoryStarRequest,
 } from "#lib/repository-stars";
-import { writeJsonAtomic } from "#scripts/files";
+import { sortRecord, writeJsonAtomic } from "#scripts/files";
 import { forEachConcurrent } from "#scripts/concurrency";
 import { writeCatalogSnapshot } from "#scripts/write-snapshot";
 
@@ -88,9 +88,6 @@ await forEachConcurrent(entries, 4, async ({ slug, app }) => {
     }
   }
 });
-
-const sortRecord = <T>(record: Record<string, T>) =>
-  Object.fromEntries(Object.entries(record).sort(([left], [right]) => left.localeCompare(right)));
 
 await writeJsonAtomic(starsUrl, {
   values: sortRecord(stars),

@@ -2,6 +2,8 @@ import { defaultLocale, isLocale, localeDefinitions, locales, type Locale } from
 import type { MessageKey } from "#lib/translations/en";
 import { localizedValues, messages } from "#lib/translations/index";
 
+const technicalAcronyms = new Set(["fuse", "gpu", "kvm", "usb"]);
+
 export function getLocale(value: string | undefined): Locale {
   return isLocale(value) ? value : defaultLocale;
 }
@@ -31,4 +33,12 @@ export function translate(locale: Locale, key: MessageKey, values: Record<string
 
 export function translateValue(locale: Locale, value: string) {
   return localizedValues[locale]?.[value] ?? value.replaceAll("-", " ");
+}
+
+export function translatedLabel(locale: Locale, value: string) {
+  if (technicalAcronyms.has(value)) return value.toLocaleUpperCase(locale);
+
+  const translated = translateValue(locale, value);
+
+  return translated.charAt(0).toLocaleUpperCase(locale) + translated.slice(1);
 }

@@ -74,9 +74,13 @@ export function downloadCounts(history: DownloadHistory, days?: number) {
     return null;
   }
 
-  return Object.fromEntries(
-    Object.entries(latest.apps).flatMap(([id, count]) =>
-      baseline.apps[id] === undefined ? [] : [[id, Math.max(0, count - baseline.apps[id])]]
-    )
-  );
+  const counts: Record<string, number> = {};
+
+  for (const [id, count] of Object.entries(latest.apps)) {
+    const previous = baseline.apps[id];
+
+    if (previous !== undefined) counts[id] = Math.max(0, count - previous);
+  }
+
+  return counts;
 }

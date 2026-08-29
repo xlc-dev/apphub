@@ -6,127 +6,83 @@ Each application has one reviewed manifest:
 apps/example-app.json
 ```
 
-Copy the [application template](app.template.json) to `apps/<slug>.json`, using a lowercase,
-hyphen-separated slug. A contributor pull request must add only that file. The `apps/` directory may
-contain only manifests named this way.
+Copy the [application template](app.template.json) to `apps/<slug>.json`. Use a lowercase slug with
+words separated by hyphens. An app submission should change only this file.
 
 ## Fill in the template
 
-The template contains the common Flathub and GitHub setup. Change these required fields:
+The template uses Flathub and GitHub by default. Change these fields:
 
 1. Set `appstream.id` to the application's AppStream ID from Flathub. If the application is not on
    Flathub, use one of the alternative AppStream sources described below.
 2. Set `addedAt` to the date the listing is added to AppHub, formatted as `YYYY-MM-DD`.
-3. Set `origin.type` to `third-party` unless the upstream project publishes or explicitly endorses
-   the exact AppImage source. Upstream entries also require reviewed evidence, as described below.
+3. Set `origin.type` to `third-party` unless the upstream project publishes or endorses the exact
+   AppImage source. Upstream entries need an evidence URL.
 4. Set `releaseSource.repository` to the repository that publishes the AppImage, formatted as
    `owner/repository`. Change the release source when it uses GitLab, Codeberg, or a release feed.
 5. Describe the minimum host access the application needs under `sandbox`.
 
-The template sandbox denies network, display, audio, IPC, filesystem, device, portal, and D-Bus
-access. It also isolates the application's processes. Keep those values and empty arrays unless the
-application needs additional access. Grant only the specific access it requires, using the sandbox
-reference below.
+The template denies all host access and isolates the app's processes. Grant only what the app needs.
 
 Do not add optional fields unless they apply:
 
 - `assets` overrides automatic AppImage architecture detection when filenames are ambiguous.
 
-The generator obtains names, descriptions, categories, links, icons, screenshots, releases,
-checksums, and other derived data automatically. It also records where each generated part was
-observed. Do not add those fields or generated files to the pull request.
+The generator gets names, descriptions, links, media, releases, and checksums from the configured
+sources. Do not add generated data to the pull request.
 
-CI reads the manifest, fetches upstream data, and writes per-app records under `.generated/apps/`
-and shared images under `.generated/media/`. The generated catalog is committed by the production
-workflow so ordinary builds are fast, deterministic, and do not need network access. Contributor
-pull requests must not change it.
+CI writes generated app data and media under `.generated/`. Production commits this data so builds
+do not need application sources. Contributor pull requests must not change it.
 
-## Stored state and recovery
+## Stored data
 
-AppHub keeps four kinds of state:
+- `apps/*.json` contains reviewed source settings.
+- `.generated/` contains the committed last-known-good catalog, media, history, and statistics.
+- `dist/`, `.astro/`, and installed dependencies are disposable.
 
-- `apps/*.json` is the reviewed source configuration.
-- `.generated/` is the committed last-known-good catalog record. Application metadata, provenance,
-  release observations, normalized media, download history, and statistics are durable because an
-  upstream source may later change or disappear.
-- HTTP validators such as `.generated/star-etags.json` and `validator` fields are refresh hints.
-  They are committed so scheduled jobs can avoid unnecessary requests, but deleting them loses no
-  catalog information.
-- `dist/`, `.astro/`, and installed dependencies are disposable build output and caches.
-
-`.generated/snapshot.json` identifies the complete catalog record. Its revision is derived from the
-normalized manifests and durable generated data, excluding HTTP validators and deployment paths. Its
-generation time changes only when that revision changes. Building the same snapshot therefore does
-not rewrite API resources merely because the build ran later or used a different base path.
-
-To recover a deployment, check out the required Git revision and run:
-
-bun install --frozen-lockfile
-
-bun run validate:catalog
-
-BASE_PATH=/apphub bun run build
-
-The validation and build steps do not contact application sources. `bun install` may contact the
-package registry when dependencies are not cached. If `.generated/` is lost locally, restore it from
-Git rather than regenerating it: current upstream data cannot recreate disappeared artifacts or
-historical observations exactly. Clean-checkout CI performs this validation and builds the
-production deployment.
+`.generated/snapshot.json` identifies the complete catalog snapshot. Its revision changes only when
+catalog data changes. If `.generated/` is lost, restore it from Git. Regenerating from current
+sources cannot recreate data that has disappeared upstream.
 
 ## Manifest
 
-Each application manifest contains only source pointers and information AppHub cannot determine
-safely:
+Each manifest contains source pointers and information AppHub cannot determine safely:
 
 - The AppStream and AppImage release sources.
 - The catalog addition date and reviewed AppImage origin.
 - The required sandbox access.
 - Optional AppImage filename overrides.
 
-Unknown fields are rejected. URLs must use HTTPS and project licenses must be SPDX expressions.
+Unknown fields are rejected and URLs must use HTTPS.
 
 ## Generated information
 
-For a Flathub source, the generator obtains the following from its AppStream record:
+The generator gets the following from AppStream:
 
 - ID, name, summary, description, project license, developer, and project links.
 - Categories, keywords, and MIME types.
 - Content rating and warnings when the source provides them.
 - Icon and screenshot sources and captions.
 
-English is the default metadata locale. The generator also requests every supported non-default
-locale from Flathub and stores only fields that differ from English. Direct MetaInfo sources retain
-localized names, summaries, descriptions, developer names, keywords, content-rating text, and
-screenshot captions from `xml:lang` attributes. A localized field falls back from the exact locale
-to its language and then to the default AppStream value.
+English is the default locale. Other locales store only text that differs from English. Localized
+text falls back from the exact locale to its language and then to the default AppStream value.
 
 Descriptions preserve AppStream paragraphs, ordered and unordered lists, emphasis, and code as
 structured data. Unsupported description markup fails the build.
 
-The generator downloads and validates all images rather than trusting their extensions. Icons are
-stored as lossless WebP at no more than 256 by 256 pixels. Screenshots are stored as WebP fitted
-within 1280 by 800 pixels, and AppHub keeps at most the first five screenshots. Upstream originals
-are not retained.
-
-Normalized images live under `.generated/media/`, named by their SHA-256. Identical media is
-therefore stored and deployed once, while immutable names remain safe to cache. Each app may
-reference at most 1 MiB of normalized media. The website always serves these committed local files.
-upstream media URLs are retained only as provenance and are never used as browser image sources.
+Images are downloaded, checked, converted to WebP, and stored under `.generated/media/` by their
+SHA-256. The website serves these local files instead of loading images from upstream. AppHub keeps
+icons at no more than 256 by 256 pixels and up to five screenshots fitted within 1280 by 800 pixels.
 
 Catalog content is not covered by AppHub's source-code license, including when delivered through the
 API. Individual materials remain subject to the rights and licenses of their respective sources.
 Mirroring media for an application listing does not grant any additional rights to that media.
 
-To request correction or removal of mirrored media, open a repository issue identifying the
-application and affected image, the reason for the request, and an authoritative replacement when
-one exists. AppHub will stop publishing confirmed infringing or withdrawn media and determine
-whether repository history also needs removal. Removing an image does not remove the application
-unless the listing can no longer meet the catalog requirements.
+To request a correction or removal, open an issue naming the app, the image, the reason, and an
+authoritative replacement when one exists.
 
-The generator also fetches the latest release, selects its AppImage artifacts, and records their
-sizes and an independently observed SHA-256 for each downloaded file. The AppImage itself remains
-hosted by its configured release source. CI commits the normalized catalog and media after merge, so
-a clean checkout can build without contacting upstream services.
+The generator also finds the latest release and records the size and SHA-256 of each AppImage. The
+files remain hosted by their release source.
 
 Run the same generation step without building the site with:
 
@@ -169,8 +125,7 @@ Add explicit media only for package-local icons or missing screenshots:
 }
 ```
 
-`manual` is the last resort when upstream publishes no AppStream metadata. Its `metadata` and
-`media` objects live inside the manifest, keeping the application review surface to one file:
+Use `manual` only when upstream publishes no AppStream metadata:
 
 ```json
 {
@@ -202,7 +157,7 @@ Add explicit media only for package-local icons or missing screenshots:
 }
 ```
 
-Optional metadata fields are `repository`, `links`, `contentRating`, `keywords`, `mimeTypes`, and
+Optional fields are `repository`, `links`, `contentRating`, `keywords`, `mimeTypes`, and
 `translations`.
 
 Direct MetaInfo sources must describe one `desktop-application`, match the configured application
@@ -211,8 +166,8 @@ are not application submission sources.
 
 ## Release sources
 
-Supported sources are `github`, `gitlab`, `codeberg`, and `feed`. Forge sources contain a repository
-name. Feeds contain an HTTPS URL. The build uses the newest stable release.
+Supported sources are `github`, `gitlab`, `codeberg`, and `feed`. The build uses the newest stable
+release.
 
 Automatic architecture detection uses AppImage filenames. Add `assets` only when those names are
 ambiguous:
@@ -256,32 +211,14 @@ A release feed exposes a `releases` array:
 calculates its own SHA-256 when it first observes an artifact, and a published SHA-256 must match.
 Signatures are retained as upstream evidence but are not verified by AppHub.
 
-Remote sources must use HTTPS, resolve exclusively to public addresses, and stay within response and
-timeout limits. Redirect destinations are checked as new requests. AppStream XML document
-declarations and custom entities are rejected. A release can contain at most ten artifacts. Each
-downloaded artifact is limited to 2 GiB and their combined release size is limited to 4 GiB.
+Remote sources must use HTTPS and public addresses. Redirects and downloads are checked and limited.
+A release can have at most ten files. Each file is limited to 2 GiB and a release to 4 GiB.
 
 ## Sandbox policy
 
-The sandbox policy is a declarative allowlist for installers and runtimes that implement it. AppHub
-records and publishes the policy but does not enforce isolation itself. Within that contract,
-private application storage is implicit and unspecified host access is denied. Every field is
-required so omission cannot accidentally broaden access.
-
-- `network`: `none`, `client`, or `client-and-server`.
-- `display`: `none`, `wayland`, `x11`, or `wayland-and-x11`.
-- `audio`: `none`, `playback`, `capture`, or `playback-and-capture`.
-- `processes`: `isolated`, `read`, or `control`.
-- `ipc`: access to the host IPC namespace.
-- `filesystem`: `home`, `desktop`, `documents`, `downloads`, `music`, `pictures`, `public-share`,
-  `templates`, `videos`, or `removable-media`, with `read-only` or `read-write` access.
-- `devices`: direct access to `gpu`, `input`, `camera`, `usb`, `serial`, `optical`, `fuse`, or
-  `kvm`.
-- `portals`: `background`, `camera`, `email`, `file-chooser`, `inhibit`, `location`,
-  `notifications`, `open-uri`, `printing`, `screenshot`, `screencast`, `secrets`, or `settings`.
-- `sessionBus` and `systemBus`: exact D-Bus names with `see`, `talk`, or `own` access.
-
-Prefer portals and specific filesystem locations over broad host access.
+The sandbox policy lists the host access an app needs. AppHub publishes it, while installers and
+runtimes enforce it. Start with the denied defaults in the template and grant only required access.
+See [Sandbox v1](sandbox.md) for every field and the runtime rules.
 
 ## Origin and listing state
 
@@ -291,21 +228,8 @@ Prefer portals and specific filesystem locations over broad host access.
   or links to it from a project-controlled page. The manifest records the reviewed evidence URL.
 - `third-party` means someone else builds or publishes the AppImage.
 
-The pull request and Git history identify who submitted the catalog entry. That is deliberately
-separate from the application developer, the AppImage publisher, and the providers supplying
-metadata or media.
+The AppStream ID identifies the app. The manifest filename is its current website slug. Before
+AppHub 1.0, renamed or removed slugs do not leave redirects.
 
-Generated provenance records provider project, owner, release, and asset IDs where available,
-alongside the current source URLs and refresh state. Repository renames are accepted when durable
-IDs and ownership remain stable. Transfers, identity changes, feed URL changes, and changed release
-assets quarantine scheduled updates and require a reviewed manifest change. Ordinary
-scheduled-refresh failures retain the affected resource without blocking unrelated apps.
-
-The AppStream `id` identifies the application, and the manifest filename supplies its current
-website slug. Before AppHub 1.0, rename or remove entries directly and regenerate the catalog.
-Historical slugs, redirects, discontinued listings, and compatibility records are not retained.
-
-Temporary upstream failures, a repeatedly missing upstream, and quarantined changes remain
-operational status rather than new application identities. See
-[Origin and provenance](provenance.md) for the exact guarantees and limits, and
+See [Origin and provenance](provenance.md) for what AppHub records and
 [Refresh failures and freshness](freshness.md) for failure behavior.

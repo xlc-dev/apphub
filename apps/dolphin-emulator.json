@@ -12,9 +12,9 @@
     "repository": "pkgforge-dev/Dolphin-emu-AppImage"
   },
   "sandbox": {
-    "network": "client-and-server",
-    "display": "wayland-and-x11",
-    "audio": "playback",
+    "network": "full",
+    "display": "wayland-or-x11",
+    "audio": "full",
     "processes": "isolated",
     "ipc": false,
     "filesystem": [
@@ -24,8 +24,13 @@
       }
     ],
     "devices": ["gpu", "input", "usb"],
-    "portals": ["file-chooser", "inhibit", "notifications", "open-uri"],
-    "sessionBus": [],
-    "systemBus": []
+    "sessionBus": {
+      "access": "none",
+      "rules": []
+    },
+    "systemBus": {
+      "access": "none",
+      "rules": []
+    }
   }
 }

@@ -172,7 +172,6 @@ export function initializeCatalogSearch() {
     process: filterValues(url, "process"),
     host: filterValues(url, "host"),
     device: filterValues(url, "device"),
-    portal: filterValues(url, "portal"),
   });
 
   const syncControls = (url: URL) => {

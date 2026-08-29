@@ -47,12 +47,17 @@
     "network": "none",
     "display": "none",
     "audio": "none",
-    "processes": "control",
+    "processes": "full",
     "ipc": false,
     "filesystem": [],
     "devices": [],
-    "portals": [],
-    "sessionBus": [],
-    "systemBus": []
+    "sessionBus": {
+      "access": "none",
+      "rules": []
+    },
+    "systemBus": {
+      "access": "none",
+      "rules": []
+    }
   }
 }

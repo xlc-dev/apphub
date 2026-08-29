@@ -13,14 +13,19 @@
   },
   "sandbox": {
     "network": "none",
-    "display": "wayland-and-x11",
+    "display": "wayland-or-x11",
     "audio": "none",
     "processes": "isolated",
     "ipc": false,
     "filesystem": [],
     "devices": ["gpu"],
-    "portals": ["file-chooser", "open-uri", "printing", "settings"],
-    "sessionBus": [],
-    "systemBus": []
+    "sessionBus": {
+      "access": "none",
+      "rules": []
+    },
+    "systemBus": {
+      "access": "none",
+      "rules": []
+    }
   }
 }

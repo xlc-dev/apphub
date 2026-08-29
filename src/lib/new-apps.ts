@@ -10,12 +10,17 @@ export function newApps<T extends { addedAt: string; id?: string; name: string }
   windowStart.setUTCDate(windowStart.getUTCDate() - newAppWindowDays);
   windowStart.setUTCHours(0, 0, 0, 0);
 
-  return apps
-    .flatMap((app) => {
-      const addedAt = Date.parse(`${app.addedAt}T00:00:00Z`);
+  const matches: Array<{ app: T; addedAt: number }> = [];
 
-      return addedAt >= windowStart.getTime() && addedAt <= now.getTime() ? [{ app, addedAt }] : [];
-    })
+  for (const app of apps) {
+    const addedAt = Date.parse(`${app.addedAt}T00:00:00Z`);
+
+    if (addedAt >= windowStart.getTime() && addedAt <= now.getTime()) {
+      matches.push({ app, addedAt });
+    }
+  }
+
+  return matches
     .sort(
       (left, right) =>
         right.addedAt - left.addedAt ||

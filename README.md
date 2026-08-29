@@ -14,26 +14,25 @@
 
 ---
 
-AppHub is a static catalog and storefront for AppImages. It brings app details, releases,
-screenshots, download trends, permissions, and source information together without hosting the
-AppImages themselves.
+AppHub is a static storefront for AppImages. It brings releases, permissions, source details, and
+download information together without rehosting the apps.
 
 ## Features
 
-- Browse, search, and filter AppImages by category, architecture, license, interface, and access.
-- Find newly added apps, recent releases, and download trends.
-- See whether an AppImage is published by its developers or by a third party.
-- Review an app's declared permissions before installing it.
-- Download the right architecture directly from its release source, with its size and SHA-256 shown.
+- Browse and filter AppImages by category, architecture, license, interface, and host access.
+- Discover new apps, recent releases, and download trends.
+- Check the publisher, required permissions, file size, and SHA-256 before installing.
+- Download the right architecture directly from its release source.
 - Install directly through [AppManager](https://github.com/kem-a/AppManager) using the `appimg://`
   protocol.
-- Query the catalog through the versioned JSON API.
+- Build another installer or storefront with the versioned JSON API.
 
 ## Documentation
 
 - [Contributing](CONTRIBUTING.md)
 - [Catalog](docs/catalog.md)
 - [API](docs/api.md)
+- [Sandbox v1](docs/sandbox.md)
 - [Origin and provenance](docs/provenance.md)
 - [Refresh failures and freshness](docs/freshness.md)
 - [Security](docs/security.md)

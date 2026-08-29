@@ -1,7 +1,7 @@
 import { z } from "zod";
 import parseSpdxExpression from "spdx-expression-parse";
+import { sandboxV1Schema } from "#catalog/sandbox-v1";
 
-// Keep this wire contract independent from the internal catalog schemas.
 const apiPathSchema = z.string().min(1);
 const httpsUrlSchema = z.url().refine((value) => new URL(value).protocol === "https:", {
   message: "Must use HTTPS",
@@ -121,89 +121,6 @@ const originSchema = z.discriminatedUnion("type", [
     })
     .strict(),
 ]);
-
-const filesystemLocationSchema = z.enum([
-  "home",
-  "desktop",
-  "documents",
-  "downloads",
-  "music",
-  "pictures",
-  "public-share",
-  "templates",
-  "videos",
-  "removable-media",
-]);
-
-const filesystemRuleSchema = z
-  .object({
-    location: filesystemLocationSchema,
-    access: z.enum(["read-only", "read-write"]),
-  })
-  .strict();
-
-const busRuleSchema = z
-  .object({
-    name: z
-      .string()
-      .min(3)
-      .max(255)
-      .regex(/^[A-Za-z_][A-Za-z0-9_-]*(?:\.[A-Za-z_][A-Za-z0-9_-]*)+$/),
-    access: z.enum(["see", "talk", "own"]),
-  })
-  .strict();
-
-const sandboxSchema = z
-  .object({
-    network: z.enum(["none", "client", "client-and-server"]),
-    display: z.enum(["none", "wayland", "x11", "wayland-and-x11"]),
-    audio: z.enum(["none", "playback", "capture", "playback-and-capture"]),
-    processes: z.enum(["isolated", "read", "control"]),
-    ipc: z.boolean(),
-    filesystem: z
-      .array(filesystemRuleSchema)
-      .max(filesystemLocationSchema.options.length)
-      .refine(
-        (rules) => uniqueBy(rules, ({ location }) => location),
-        "Filesystem locations must be unique"
-      ),
-    devices: z
-      .array(z.enum(["gpu", "input", "camera", "usb", "serial", "optical", "fuse", "kvm"]))
-      .max(8)
-      .refine((devices) => uniqueBy(devices, (device) => device), "Devices must be unique"),
-    portals: z
-      .array(
-        z.enum([
-          "background",
-          "camera",
-          "email",
-          "file-chooser",
-          "inhibit",
-          "location",
-          "notifications",
-          "open-uri",
-          "printing",
-          "screenshot",
-          "screencast",
-          "secrets",
-          "settings",
-        ])
-      )
-      .max(13)
-      .refine((portals) => uniqueBy(portals, (portal) => portal), "Portals must be unique"),
-    sessionBus: z
-      .array(busRuleSchema)
-      .max(50)
-      .refine((rules) => uniqueBy(rules, ({ name }) => name), "Session bus names must be unique"),
-    systemBus: z
-      .array(busRuleSchema)
-      .max(50)
-      .refine((rules) => uniqueBy(rules, ({ name }) => name), "System bus names must be unique"),
-  })
-  .strict()
-  .describe(
-    "Minimum host access required by the application; unspecified access is denied and private application storage is implicit"
-  );
 
 const refreshStateSchema = z
   .object({
@@ -365,7 +282,7 @@ export const apiAppResourceSchema = z
     origin: originSchema,
     icon: imageSchema,
     screenshots: z.array(screenshotSchema).min(1).max(5),
-    sandbox: sandboxSchema,
+    sandbox: sandboxV1Schema,
     status: statusSchema,
     provenance: provenanceSchema,
     statistics: statisticsSchema,

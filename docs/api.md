@@ -1,9 +1,11 @@
 # API
 
-AppHub exposes a stable, read-only static JSON API under `/api/v1`. It has no authentication,
-mutation API, runtime database, or server-side queries. Existing v1 endpoints and fields will not be
-removed, renamed, or given incompatible meanings. Breaking changes require a new API version. New
-endpoints and optional fields may be added to v1.
+AppHub provides a read-only JSON API under `/api/v1`. It is made of static files and needs no
+authentication.
+
+API v1 is frozen. Existing fields, types, values, and meanings will not change. Changes to an
+existing response need a new API version. New endpoints may be added when they do not change an
+existing response.
 
 ## Endpoints
 
@@ -27,61 +29,43 @@ endpoints and optional fields may be added to v1.
 | `/api/v1/trending/{period}.json`                        | First download-ranking page           |
 | `/api/v1/trending/{period}/page/{page}.json`            | Additional download-ranking page      |
 
-Application endpoints use stable AppStream IDs. Ranking periods are `week`, `month`, and `all-time`.
-All paths are static. The endpoint table omits the deployment base. The current GitHub Pages build
-prefixes these paths with `/apphub`. URLs returned by the API include the active deployment base.
+Application endpoints use AppStream IDs. Ranking periods are `week`, `month`, and `all-time`.
 
-## Static clients
+The paths above do not include the deployment base. GitHub Pages currently adds `/apphub`. URLs in
+API responses already include the active base path.
 
-AppHub's GitHub Pages deployment serves API and media resources with
-`Access-Control-Allow-Origin: *`, so another website can fetch them directly from a browser. A
-self-hosted deployment must provide equivalent cross-origin access if it serves third-party browser
-clients.
+## Using the API
 
-The API performs no runtime search because GitHub Pages has no application server. Clients can fetch
-the paginated application summaries and search them locally. AppHub's website uses the same approach
-with a generated locale-specific `/search-index.json` resource.
+The GitHub Pages deployment allows browser requests from any origin. A self-hosted deployment must
+do the same if third-party websites need to use its API.
 
-API and hosted-media URLs are root-relative paths that include the active deployment base, such as
-`/apphub/api/v1/apps/org.example.App.json`. Resolve them against the origin of the response.
-Upstream source and artifact URLs are absolute. `webUrl` points to the corresponding human-readable
-AppHub page. Independent storefronts may ignore it and build their own routes from `id` or `slug`.
+There is no server-side search. Clients can download the paginated app summaries and search them
+locally. AppHub's website uses a generated `/search-index.json` file for each locale.
 
-The published `/api/v1/schema.json` is JSON Schema Draft 2020-12 generated from the same strict Zod
-schemas used to validate the build. It describes every v1 response except the schema resource
-itself.
+API and hosted-media URLs are paths on the AppHub origin. Resolve them against the origin of the
+response. Upstream source and download URLs are absolute. `webUrl` points to the AppHub page, but a
+client can build its own routes from `id` or `slug`.
+
+`/api/v1/schema.json` uses JSON Schema Draft 2020-12. It describes every API v1 response except the
+schema file itself.
 
 ## Snapshots and freshness
 
-Every generated data resource contains the same `revision` and `generatedAt` values:
-
-```json
-{
-  "version": "v1",
-  "revision": "d7b8...",
-  "generatedAt": "2026-08-26T15:00:00.000Z",
-  "freshness": {
-    "downloadsUpdatedAt": "2026-08-26",
-    "staleResources": 2,
-    "statuses": { "current": 118, "stale": 1, "unavailable": 1, "quarantined": 0 },
-    "incidents": { "network": 1, "rateLimit": 0, "notFound": 1, "invalidData": 0, "integrity": 0 }
-  },
-  "counts": { "apps": 120, "categories": 28, "architectures": 2 }
-}
-```
-
-`revision` is a deterministic SHA-256 digest of the catalog snapshot, independent of its deployment
-base path. Consumers fetching multiple pages can compare it to detect responses from different
-snapshots. `generatedAt` records when that catalog revision was created and remains unchanged when
-the same snapshot is rebuilt. `downloadsUpdatedAt` is the statistics snapshot date and is `null`
-until one exists. A release's `publishedAt` is publication metadata, not an upstream-check
-timestamp. `staleResources` counts metadata, releases, download totals, and star counts whose last
-successful refresh exceeds their configured threshold. Status and incident counts summarize the same
+Every data response includes the same `revision` and `generatedAt` values. `revision` is a SHA-256
+digest of the catalog snapshot. Compare it across requests to make sure pages came from the same
 snapshot.
+
+`generatedAt` is the time that revision was created. It does not change when the same snapshot is
+built again. `downloadsUpdatedAt` is the date of the statistics snapshot, or `null` when none
+exists.
+
+`staleResources` counts data that has not refreshed within its configured time limit. Status and
+incident counts summarize the same snapshot. A release's `publishedAt` is its publication date, not
+the time AppHub checked it.
 
 ## Pagination
 
-Every unbounded collection uses pages of 50 items:
+Collections use pages of 50 items:
 
 ```json
 {
@@ -99,71 +83,39 @@ Every unbounded collection uses pages of 50 items:
 }
 ```
 
-Filtered collections additionally contain `filter`, and the new-app collection contains
-`windowDays`. Rankings contain `period`. A ranking has `pagination: null` and `items: null` when
-there is not enough download history to calculate it.
+Filtered collections also contain `filter`. New-app collections contain `windowDays`, and rankings
+contain `period`. A ranking has `pagination: null` and `items: null` when there is not enough
+history to calculate it.
 
-The updated collection contains every listed app with a release, ordered by that release's
-publication time. It is not limited to a moving recent-date window.
+The updated collection contains every app with a release, ordered by the release publication date.
 
-## Application summaries
+## Applications
 
-Collections contain compact summaries rather than descriptions, screenshots, sandbox rules, or
-artifacts. Summary fields include:
+Collection pages contain summaries with identity, origin, categories, statistics, status, and the
+latest release. They do not include descriptions, screenshots, sandbox rules, or downloads.
+`latestRelease` is `null` when no release is known.
 
-- AppStream `id`, current website `slug`, `name`, and `summary`
-- Reviewed `origin`, `projectLicense`, and `categories`
-- Hosted `icon`, API `url`, and website `webUrl`
-- Statistics
-- Data status: `current`, `stale`, `unavailable`, or `quarantined`
-- Latest release version, publication date, and normalized architectures
+`/api/v1/apps/{id}.json` contains the full app record. This includes descriptions, translations,
+screenshots, sandbox permissions, provenance, statistics, and the latest release. Downloads include
+their size and the SHA-256 calculated by AppHub. Downloads remain visible for unavailable and
+quarantined apps, but clients must not offer them for installation.
 
-`latestRelease` is `null` when no release is recorded. Its architecture list is intended for
-filtering. Installable artifacts remain in the application detail resource.
+API v1 contains only the latest release. It does not provide release history. The AppStream ID is
+the app's stable identity. The website slug may change before AppHub 1.0 without a redirect.
 
-## Application details
-
-`/api/v1/apps/{id}.json` wraps the application in `app` alongside its snapshot fields. The app
-contains its description, screenshots, sandbox policy, metadata, statistics, and `latestRelease`.
-`latestRelease` contains the current artifacts, their sizes, and SHA-256 hashes calculated by
-AppHub. `checksumEvidence` identifies where the same checksum was published upstream without
-duplicating its value. Signature links remain separate. The application also exposes
-machine-readable source and provider identities for its metadata, media, releases, and artifacts.
-Its provenance and statistics contain refresh attempts, successes, and current incidents. Artifact
-metadata remains available for `quarantined` and `unavailable` apps, but clients must not offer
-downloads for them.
-
-The AppStream `id` identifies the application independently of its current website slug. Before
-AppHub 1.0, renamed slugs and removed applications do not leave redirects or compatibility
-resources.
-
-Historical releases are not part of API v1. AppHub retains only the information needed to discover
-and install the latest supported release through this API. This latest-release-only scope is
-intentional. Clients should not infer or construct historical release resources.
-
-The application contains one default metadata copy plus an optional `translations` object keyed by
-locale. Only translated text is repeated. Releases, artifacts, checksums, sandbox rules, and other
-locale-independent data remain shared. Website clients use exact locale, then language, then the
-default AppStream value as their fallback chain. Collection summaries remain in the default locale.
-locale-specific website search indexes provide localized discovery without duplicating the API.
-
-Optional fields are omitted when absent. Statistics values are `null` when AppHub has no applicable
-measurement. This does not mean zero. See [Catalog](catalog.md) for catalog-field and sandbox
-semantics.
+Optional fields are left out when absent. A `null` statistic means AppHub has no measurement, not
+that the value is zero. See [Catalog](catalog.md) for catalog fields and [Sandbox v1](sandbox.md)
+for sandbox permissions.
 
 ## Categories and architectures
 
-The category and architecture indexes contain their IDs, app counts, and canonical resource URLs.
-Category entries also contain their display name, website slug, and website URL. These small
-taxonomy indexes are bounded by build-time resource-size limits.
-
-Their detail endpoints are paginated summary collections. Architecture membership means the latest
-release has an artifact for that architecture.
+The category and architecture indexes contain IDs, app counts, and resource URLs. Their detail
+endpoints are paginated app summaries. An app belongs to an architecture when its latest release has
+a download for that architecture.
 
 ## Validation and limits
 
-Builds validate every generated resource against the API schemas and enforce serialized-size
-budgets:
+Every generated response is checked against the API schema. Size limits are:
 
 - Collection page: 128 KiB
 - Application detail: 128 KiB
@@ -171,14 +123,11 @@ budgets:
 - JSON Schema: 512 KiB
 - Search index: 512 KiB
 
-Contract tests pin the current envelope and field names so schema, implementation, fixtures, and
-documentation change together.
-
-The v1 response schemas are independent from the internal catalog schemas. Resource builders map
-fields explicitly so catalog changes cannot silently alter the public contract.
+The public API schema is separate from the internal catalog schema. Catalog changes cannot change
+API v1 by accident. Sandbox v1 is also shared and frozen. A different sandbox contract needs a new
+sandbox schema and API version.
 
 ## Reuse
 
-The API implementation and schema are part of AppHub's AGPL-licensed source code. API responses also
-contain metadata and media from upstream sources. Publishing them through AppHub does not replace
-their original rights or licenses. See [Catalog](catalog.md) for the full content boundary.
+The API code and schema use AppHub's AGPL license. Responses contain metadata and media that keep
+their original rights and licenses. See [Catalog](catalog.md) for details.

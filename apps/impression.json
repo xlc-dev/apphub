@@ -12,8 +12,8 @@
     "repository": "pkgforge-dev/Impression-AppImage"
   },
   "sandbox": {
-    "network": "client",
-    "display": "wayland-and-x11",
+    "network": "full",
+    "display": "wayland-or-x11",
     "audio": "none",
     "processes": "isolated",
     "ipc": false,
@@ -28,13 +28,18 @@
       }
     ],
     "devices": ["gpu", "usb"],
-    "portals": ["file-chooser", "notifications", "settings"],
-    "sessionBus": [],
-    "systemBus": [
-      {
-        "name": "org.freedesktop.UDisks2",
-        "access": "talk"
-      }
-    ]
+    "sessionBus": {
+      "access": "none",
+      "rules": []
+    },
+    "systemBus": {
+      "access": "filtered",
+      "rules": [
+        {
+          "name": "org.freedesktop.UDisks2",
+          "access": "talk"
+        }
+      ]
+    }
   }
 }
