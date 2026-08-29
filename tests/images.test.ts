@@ -16,9 +16,11 @@ test("uses native image loading priorities without redundant eager hints", async
   }
 
   const card = await readFile("src/components/AppCard.astro", "utf8");
+  const footer = await readFile("src/components/Footer.astro", "utf8");
   const layout = await readFile("src/layouts/BaseLayout.astro", "utf8");
 
   assert.match(card, /data-optimize-loading/);
+  assert.match(footer, /loading="lazy"/);
   assert.match(layout, /optimizeImageLoading/);
 });
 
