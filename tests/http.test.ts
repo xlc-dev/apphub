@@ -47,6 +47,21 @@ test("rejects private remote addresses", async () => {
     assertPublicUrl(new URL("https://[::ffff:7f00:1]/data")),
     /public addresses/
   );
+  await assert.rejects(
+    assertPublicUrl(new URL("https://example.org/data"), async () => [
+      { address: "64:ff9b::7f00:1" },
+    ]),
+    /public addresses/
+  );
+});
+
+test("accepts public IPv4 addresses behind NAT64", async () => {
+  assert.deepEqual(
+    await assertPublicUrl(new URL("https://example.org/data"), async () => [
+      { address: "64:ff9b::808:808" },
+    ]),
+    [{ address: "64:ff9b::808:808", family: 6 }]
+  );
 });
 
 test("pins connections to the validated DNS result", async () => {
