@@ -1,10 +1,10 @@
 {
   "icon": {
     "file": "df8fd414aaa34a241758ef8f479cd58530b27b968fa0e86d0c3994b6bb6a4a2c.webp",
+    "source": "https://raw.githubusercontent.com/brave/brave-core/refs/heads/master/app/theme/brave_origin/linux/product_logo_128.png",
     "validator": {
       "etag": "\"29d2b0c499138f2205ad2a2b858f905baffc4446ce245f8554049a445bf619b6\""
-    },
-    "source": "https://raw.githubusercontent.com/brave/brave-core/refs/heads/master/app/theme/brave_origin/linux/product_logo_128.png"
+    }
   },
   "screenshots": [
     {

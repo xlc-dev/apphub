@@ -1,11 +1,11 @@
 {
   "icon": {
     "file": "8e9e99f439fee26f83907eb6dc2abc058d866292ca3496f8be145bb2a356d74d.webp",
+    "source": "https://dl.flathub.org/media/com/belmoussaoui/Authenticator/cbb66aa59a1a410b7b890236a347dcf2/icons/128x128/com.belmoussaoui.Authenticator.png",
     "validator": {
       "etag": "\"69be7d68-269c\"",
       "lastModified": "Sat, 21 Mar 2026 11:13:44 GMT"
-    },
-    "source": "https://dl.flathub.org/media/com/belmoussaoui/Authenticator/cbb66aa59a1a410b7b890236a347dcf2/icons/128x128/com.belmoussaoui.Authenticator.png"
+    }
   },
   "screenshots": [
     {

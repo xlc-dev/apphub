@@ -1,11 +1,11 @@
 {
   "icon": {
     "file": "25052ccf8dcfcba79ae9cd779c4c971a51375d1822a188f71775b8dd7a318e56.webp",
+    "source": "https://dl.flathub.org/media/io/github/seadve.Mousai/e1e69a271c7db203e5c68d5e802a68e1/icons/128x128/io.github.seadve.Mousai.png",
     "validator": {
       "etag": "\"69e4b5f0-33e4\"",
       "lastModified": "Sun, 19 Apr 2026 11:01:04 GMT"
-    },
-    "source": "https://dl.flathub.org/media/io/github/seadve.Mousai/e1e69a271c7db203e5c68d5e802a68e1/icons/128x128/io.github.seadve.Mousai.png"
+    }
   },
   "screenshots": [
     {
