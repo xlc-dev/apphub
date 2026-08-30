@@ -168,8 +168,9 @@ export const en = {
   "sandbox.fullAccess": "Full access",
   "sandbox.privateStorage": "Private app storage only",
   "install.label": "Install",
-  "install.clientRequired": "Make sure you have a compatible appimg:// client installed.",
+  "install.clientRequired": "Make sure you have a compatible appimg:// client installed, such as",
   "install.unavailable": "Install unavailable",
+  "install.mobileUnsupported": "AppImage installation is not available on mobile devices.",
   "install.unknownArchitecture": "Your system architecture could not be detected.",
   "install.wrongArchitecture":
     "This AppImage is built for {available}, but your system reports {detected}.",

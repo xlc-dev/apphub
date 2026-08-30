@@ -172,8 +172,9 @@ export const nl: Record<MessageKey, string> = {
   "sandbox.fullAccess": "Volledige toegang",
   "sandbox.privateStorage": "Alleen privéopslag van de app",
   "install.label": "Installeren",
-  "install.clientRequired": "Zorg dat u een compatibele appimg://-client hebt geïnstalleerd.",
+  "install.clientRequired": "Zorg dat u een compatibele appimg://-client hebt geïnstalleerd, zoals",
   "install.unavailable": "Installatie niet beschikbaar",
+  "install.mobileUnsupported": "AppImage-installatie is niet beschikbaar op mobiele apparaten.",
   "install.unknownArchitecture": "De architectuur van uw systeem kon niet worden vastgesteld.",
   "install.wrongArchitecture":
     "Deze AppImage is gebouwd voor {available}, maar uw systeem meldt {detected}.",
