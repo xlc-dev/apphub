@@ -1,11 +1,11 @@
 {
   "icon": {
     "file": "3814e599d5ecc5e3ae9d5e087cf8b555abc19b90abc1508dd6e94fcac8712e37.webp",
+    "source": "https://dl.flathub.org/media/com/github/finefindus.eyedropper/57454c390f2673554cafcf7f346528da/icons/128x128/com.github.finefindus.eyedropper.png",
     "validator": {
       "etag": "\"69c92269-1afe\"",
       "lastModified": "Sun, 29 Mar 2026 13:00:25 GMT"
-    },
-    "source": "https://dl.flathub.org/media/com/github/finefindus.eyedropper/57454c390f2673554cafcf7f346528da/icons/128x128/com.github.finefindus.eyedropper.png"
+    }
   },
   "screenshots": [
     {
