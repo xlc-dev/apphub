@@ -23,3 +23,7 @@ export function normalizeArchitecture(value: string, bitness = "") {
 
   return undefined;
 }
+
+export function isMobileDevice(userAgent: string, clientHint = false) {
+  return clientHint || /Android|iPhone|iPad|iPod|Mobile/i.test(userAgent);
+}
