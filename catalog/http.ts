@@ -14,6 +14,10 @@ const blockedAddresses = {
   ipv4: new BlockList(),
   ipv6: new BlockList(),
 };
+const nat64Addresses = new BlockList();
+const blockedNat64Addresses = new BlockList();
+
+nat64Addresses.addSubnet("64:ff9b::", 96, "ipv6");
 
 for (const [address, prefix, family] of [
   ["0.0.0.0", 8, "ipv4"],
@@ -36,6 +40,14 @@ for (const [address, prefix, family] of [
   ["2002::", 16, "ipv6"],
 ] as const) {
   blockedAddresses[family].addSubnet(address, prefix, family);
+
+  if (family === "ipv4") {
+    const octets = address.split(".").map(Number);
+    const high = ((octets[0]! << 8) | octets[1]!).toString(16);
+    const low = ((octets[2]! << 8) | octets[3]!).toString(16);
+
+    blockedNat64Addresses.addSubnet(`64:ff9b::${high}:${low}`, 96 + prefix, "ipv6");
+  }
 }
 
 export function conditionalHeaders(validator?: HttpValidator) {
@@ -66,6 +78,10 @@ function isPrivateAddress(address: string) {
   if (version === 0) return true;
 
   const family = version === 4 ? "ipv4" : "ipv6";
+
+  if (family === "ipv6" && nat64Addresses.check(normalized, "ipv6")) {
+    return blockedNat64Addresses.check(normalized, "ipv6");
+  }
 
   return blockedAddresses[family].check(normalized, family);
 }
