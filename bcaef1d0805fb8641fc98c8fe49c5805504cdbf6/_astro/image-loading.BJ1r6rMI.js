@@ -1,1 +1,0 @@
-function e(e=document,t=innerHeight){for(let n of e.querySelectorAll(`img[data-optimize-loading][loading="lazy"]`)){let e=n.getBoundingClientRect();e.top<t&&e.bottom>0&&(n.loading=`eager`)}}export{e as t};
