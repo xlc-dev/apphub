@@ -1,0 +1,28 @@
+User-agent: *
+Disallow: /apphub/c1257159bae683798ad94492e64b1d9609b4c678/
+
+User-agent: Googlebot
+Allow: /apphub/c1257159bae683798ad94492e64b1d9609b4c678/
+Disallow: /apphub/c1257159bae683798ad94492e64b1d9609b4c678/api/
+
+User-agent: bingbot
+Allow: /apphub/c1257159bae683798ad94492e64b1d9609b4c678/
+Disallow: /apphub/c1257159bae683798ad94492e64b1d9609b4c678/api/
+
+User-agent: DuckDuckBot
+Allow: /apphub/c1257159bae683798ad94492e64b1d9609b4c678/
+Disallow: /apphub/c1257159bae683798ad94492e64b1d9609b4c678/api/
+
+User-agent: YandexBot
+Allow: /apphub/c1257159bae683798ad94492e64b1d9609b4c678/
+Disallow: /apphub/c1257159bae683798ad94492e64b1d9609b4c678/api/
+
+User-agent: Baiduspider
+Allow: /apphub/c1257159bae683798ad94492e64b1d9609b4c678/
+Disallow: /apphub/c1257159bae683798ad94492e64b1d9609b4c678/api/
+
+User-agent: MojeekBot
+Allow: /apphub/c1257159bae683798ad94492e64b1d9609b4c678/
+Disallow: /apphub/c1257159bae683798ad94492e64b1d9609b4c678/api/
+
+Sitemap: https://xlc-dev.github.io/apphub/c1257159bae683798ad94492e64b1d9609b4c678/sitemap.xml
