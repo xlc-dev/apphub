@@ -2,31 +2,31 @@
   "appId": "org.DolphinEmu.dolphin-emu",
   "releases": [
     {
-      "version": "2606a@2026-08-29_1788042911",
-      "publishedAt": "2026-08-29T22:35:13Z",
-      "page": "https://github.com/pkgforge-dev/Dolphin-emu-AppImage/releases/tag/2606a%402026-08-29_1788042911",
-      "releaseId": "379119659",
+      "version": "2606a@2026-09-01_1788278367",
+      "publishedAt": "2026-09-01T15:59:30Z",
+      "page": "https://github.com/pkgforge-dev/Dolphin-emu-AppImage/releases/tag/2606a%402026-09-01_1788278367",
+      "releaseId": "380643220",
       "artifacts": [
         {
           "architecture": "x86_64",
           "name": "Dolphin_Emulator-2606a-anylinux-x86_64.AppImage",
-          "url": "https://github.com/pkgforge-dev/Dolphin-emu-AppImage/releases/download/2606a%402026-08-29_1788042911/Dolphin_Emulator-2606a-anylinux-x86_64.AppImage",
-          "assetId": "535821736",
-          "size": 66750075,
-          "sha256": "78f1fc57a6a542b5dd9d16f969190c7fec158d1d1d217117d162f4927cdb4ec9",
+          "url": "https://github.com/pkgforge-dev/Dolphin-emu-AppImage/releases/download/2606a%402026-09-01_1788278367/Dolphin_Emulator-2606a-anylinux-x86_64.AppImage",
+          "assetId": "539788693",
+          "size": 66749544,
+          "sha256": "8ac2cdfaa16807576a95e1d849086a6a98076d1851b58369e956bfbc51b6b022",
           "checksumEvidence": {
-            "sourceUrl": "https://github.com/pkgforge-dev/Dolphin-emu-AppImage/releases/tag/2606a%402026-08-29_1788042911"
+            "sourceUrl": "https://github.com/pkgforge-dev/Dolphin-emu-AppImage/releases/tag/2606a%402026-09-01_1788278367"
           }
         },
         {
           "architecture": "aarch64",
           "name": "Dolphin_Emulator-2606a-anylinux-aarch64.AppImage",
-          "url": "https://github.com/pkgforge-dev/Dolphin-emu-AppImage/releases/download/2606a%402026-08-29_1788042911/Dolphin_Emulator-2606a-anylinux-aarch64.AppImage",
-          "assetId": "535821734",
-          "size": 64898416,
-          "sha256": "8b926dc527df0a9eeafa128d640a52192c5c100a093f5a3bdc07d59b1505eeab",
+          "url": "https://github.com/pkgforge-dev/Dolphin-emu-AppImage/releases/download/2606a%402026-09-01_1788278367/Dolphin_Emulator-2606a-anylinux-aarch64.AppImage",
+          "assetId": "539788694",
+          "size": 64898135,
+          "sha256": "f14654fd1764479f4b226ffbd1ca141ba3ec84232f76b94dd6296c7487288453",
           "checksumEvidence": {
-            "sourceUrl": "https://github.com/pkgforge-dev/Dolphin-emu-AppImage/releases/tag/2606a%402026-08-29_1788042911"
+            "sourceUrl": "https://github.com/pkgforge-dev/Dolphin-emu-AppImage/releases/tag/2606a%402026-09-01_1788278367"
           }
         }
       ]

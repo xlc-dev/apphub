@@ -2,31 +2,31 @@
   "appId": "org.gnome.TextEditor",
   "releases": [
     {
-      "version": "50.1-1@2026-08-22_1787394565",
-      "publishedAt": "2026-08-22T10:29:27Z",
-      "page": "https://github.com/pkgforge-dev/Gnome-Text-Editor-AppImage/releases/tag/50.1-1%402026-08-22_1787394565",
-      "releaseId": "374899429",
+      "version": "50.1-1@2026-09-01_1788277896",
+      "publishedAt": "2026-09-01T15:51:38Z",
+      "page": "https://github.com/pkgforge-dev/Gnome-Text-Editor-AppImage/releases/tag/50.1-1%402026-09-01_1788277896",
+      "releaseId": "380638035",
       "artifacts": [
         {
           "architecture": "x86_64",
           "name": "Text_Editor-50.1-1-anylinux-x86_64.AppImage",
-          "url": "https://github.com/pkgforge-dev/Gnome-Text-Editor-AppImage/releases/download/50.1-1%402026-08-22_1787394565/Text_Editor-50.1-1-anylinux-x86_64.AppImage",
-          "assetId": "524927769",
-          "size": 36152747,
-          "sha256": "dfdf74ebc6015d8f583db163bbf5468bf19ff841bdf437c672252d7666a56985",
+          "url": "https://github.com/pkgforge-dev/Gnome-Text-Editor-AppImage/releases/download/50.1-1%402026-09-01_1788277896/Text_Editor-50.1-1-anylinux-x86_64.AppImage",
+          "assetId": "539777627",
+          "size": 36369030,
+          "sha256": "8b2394f78f63a7368b68f1e7b52e52e08355a1f89022462032e7333a598dbf32",
           "checksumEvidence": {
-            "sourceUrl": "https://github.com/pkgforge-dev/Gnome-Text-Editor-AppImage/releases/tag/50.1-1%402026-08-22_1787394565"
+            "sourceUrl": "https://github.com/pkgforge-dev/Gnome-Text-Editor-AppImage/releases/tag/50.1-1%402026-09-01_1788277896"
           }
         },
         {
           "architecture": "aarch64",
           "name": "Text_Editor-50.1-1-anylinux-aarch64.AppImage",
-          "url": "https://github.com/pkgforge-dev/Gnome-Text-Editor-AppImage/releases/download/50.1-1%402026-08-22_1787394565/Text_Editor-50.1-1-anylinux-aarch64.AppImage",
-          "assetId": "524927765",
-          "size": 36753126,
-          "sha256": "ce431522e502d4d122218071d8623b8697f7c3a944f008dbec0428f143b3f220",
+          "url": "https://github.com/pkgforge-dev/Gnome-Text-Editor-AppImage/releases/download/50.1-1%402026-09-01_1788277896/Text_Editor-50.1-1-anylinux-aarch64.AppImage",
+          "assetId": "539777630",
+          "size": 36957404,
+          "sha256": "8514b5626c0ab3bbec9036d858b017b7a0f6d0237db9dc0710578cf603b78550",
           "checksumEvidence": {
-            "sourceUrl": "https://github.com/pkgforge-dev/Gnome-Text-Editor-AppImage/releases/tag/50.1-1%402026-08-22_1787394565"
+            "sourceUrl": "https://github.com/pkgforge-dev/Gnome-Text-Editor-AppImage/releases/tag/50.1-1%402026-09-01_1788277896"
           }
         }
       ]
