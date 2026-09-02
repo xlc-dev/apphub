@@ -41,7 +41,7 @@
     "sharp": "^0.35.4",
     "spdx-expression-parse": "^5.0.0",
     "tailwindcss": "^4.3.3",
-    "zod": "^4.4.3"
+    "zod": "^4.5.4"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
