@@ -2,20 +2,20 @@
   "appId": "com.github.PintaProject.Pinta",
   "releases": [
     {
-      "version": "3.1.2@2026-08-04_1785829451",
-      "publishedAt": "2026-08-04T07:44:12Z",
-      "page": "https://github.com/pkgforge-dev/Pinta-AppImage/releases/tag/3.1.2%402026-08-04_1785829451",
-      "releaseId": "364691102",
+      "version": "3.1.2@2026-09-02_1788350795",
+      "publishedAt": "2026-09-02T12:06:36Z",
+      "page": "https://github.com/pkgforge-dev/Pinta-AppImage/releases/tag/3.1.2%402026-09-02_1788350795",
+      "releaseId": "381222644",
       "artifacts": [
         {
           "architecture": "x86_64",
           "name": "Pinta-3.1.2-anylinux-x86_64.AppImage",
-          "url": "https://github.com/pkgforge-dev/Pinta-AppImage/releases/download/3.1.2%402026-08-04_1785829451/Pinta-3.1.2-anylinux-x86_64.AppImage",
-          "assetId": "501051437",
-          "size": 46938216,
-          "sha256": "68ce30cd0463f1907ffffc7bdb22a0fb590d02c4588931f8ed6b24b49a969e9c",
+          "url": "https://github.com/pkgforge-dev/Pinta-AppImage/releases/download/3.1.2%402026-09-02_1788350795/Pinta-3.1.2-anylinux-x86_64.AppImage",
+          "assetId": "541121332",
+          "size": 45216895,
+          "sha256": "1b20f9a6022ed4a6cda7ec8df147cd2e21b8a0ab1524a1a7bc931d3257143195",
           "checksumEvidence": {
-            "sourceUrl": "https://github.com/pkgforge-dev/Pinta-AppImage/releases/tag/3.1.2%402026-08-04_1785829451"
+            "sourceUrl": "https://github.com/pkgforge-dev/Pinta-AppImage/releases/tag/3.1.2%402026-09-02_1788350795"
           }
         }
       ]
