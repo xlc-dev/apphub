@@ -1,11 +1,11 @@
 {
   "icon": {
     "file": "050ed2b3b0d87a3188ac32eded00df50eac68e36cab23f4437427148d393d465.webp",
+    "source": "https://dl.flathub.org/media/org/localsend/localsend_app/e1bb6e9a29b498c0a48de1a5683c652a/icons/128x128/org.localsend.localsend_app.png",
     "validator": {
       "etag": "\"6a88f4ae-a33\"",
       "lastModified": "Sat, 22 Aug 2026 01:00:30 GMT"
-    },
-    "source": "https://dl.flathub.org/media/org/localsend/localsend_app/e1bb6e9a29b498c0a48de1a5683c652a/icons/128x128/org.localsend.localsend_app.png"
+    }
   },
   "screenshots": [
     {

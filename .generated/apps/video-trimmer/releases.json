@@ -2,31 +2,31 @@
   "appId": "org.gnome.gitlab.YaLTeR.VideoTrimmer",
   "releases": [
     {
-      "version": "26.03.1-1@2026-08-24_1787565539",
-      "publishedAt": "2026-08-24T09:59:01Z",
-      "page": "https://github.com/pkgforge-dev/Video-Trimmer-AppImage/releases/tag/26.03.1-1%402026-08-24_1787565539",
-      "releaseId": "375598217",
+      "version": "26.03.1-1@2026-09-01_1788278253",
+      "publishedAt": "2026-09-01T15:57:34Z",
+      "page": "https://github.com/pkgforge-dev/Video-Trimmer-AppImage/releases/tag/26.03.1-1%402026-09-01_1788278253",
+      "releaseId": "380641915",
       "artifacts": [
         {
           "architecture": "x86_64",
           "name": "Video_Trimmer-26.03.1-1-anylinux-x86_64.AppImage",
-          "url": "https://github.com/pkgforge-dev/Video-Trimmer-AppImage/releases/download/26.03.1-1%402026-08-24_1787565539/Video_Trimmer-26.03.1-1-anylinux-x86_64.AppImage",
-          "assetId": "527416869",
-          "size": 106427184,
-          "sha256": "025fb9e0d7e67770e5dd595112ba883061eb189187a2c42ce97a6f683b86566f",
+          "url": "https://github.com/pkgforge-dev/Video-Trimmer-AppImage/releases/download/26.03.1-1%402026-09-01_1788278253/Video_Trimmer-26.03.1-1-anylinux-x86_64.AppImage",
+          "assetId": "539785693",
+          "size": 107043397,
+          "sha256": "09ad99adba33bdd16632d819968994fc968804df098f331c42ed09d0297a1d48",
           "checksumEvidence": {
-            "sourceUrl": "https://github.com/pkgforge-dev/Video-Trimmer-AppImage/releases/tag/26.03.1-1%402026-08-24_1787565539"
+            "sourceUrl": "https://github.com/pkgforge-dev/Video-Trimmer-AppImage/releases/tag/26.03.1-1%402026-09-01_1788278253"
           }
         },
         {
           "architecture": "aarch64",
           "name": "Video_Trimmer-26.03.1-1-anylinux-aarch64.AppImage",
-          "url": "https://github.com/pkgforge-dev/Video-Trimmer-AppImage/releases/download/26.03.1-1%402026-08-24_1787565539/Video_Trimmer-26.03.1-1-anylinux-aarch64.AppImage",
-          "assetId": "527416868",
-          "size": 98044264,
-          "sha256": "a63ad66727ce57a691aca46810812aee7843599bd75f13e30aadb54327567aaa",
+          "url": "https://github.com/pkgforge-dev/Video-Trimmer-AppImage/releases/download/26.03.1-1%402026-09-01_1788278253/Video_Trimmer-26.03.1-1-anylinux-aarch64.AppImage",
+          "assetId": "539785694",
+          "size": 98542151,
+          "sha256": "67432a6a60ef30c6d3a97271f2018de3c5112f45a310da8f7eb515c283ba1b18",
           "checksumEvidence": {
-            "sourceUrl": "https://github.com/pkgforge-dev/Video-Trimmer-AppImage/releases/tag/26.03.1-1%402026-08-24_1787565539"
+            "sourceUrl": "https://github.com/pkgforge-dev/Video-Trimmer-AppImage/releases/tag/26.03.1-1%402026-09-01_1788278253"
           }
         }
       ]

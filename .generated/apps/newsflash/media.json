@@ -1,11 +1,11 @@
 {
   "icon": {
     "file": "5a743b033b54ae92765cd3f015bae58b81d0987abea536ed7ba7e9e98db5047d.webp",
+    "source": "https://dl.flathub.org/media/io/gitlab/news_flash.NewsFlash/018362c334e8d0fe55477e1e8a876dd8/icons/128x128/io.gitlab.news_flash.NewsFlash.png",
     "validator": {
       "etag": "\"6a6e96e6-e23\"",
       "lastModified": "Sun, 02 Aug 2026 01:01:26 GMT"
-    },
-    "source": "https://dl.flathub.org/media/io/gitlab/news_flash.NewsFlash/018362c334e8d0fe55477e1e8a876dd8/icons/128x128/io.gitlab.news_flash.NewsFlash.png"
+    }
   },
   "screenshots": [
     {
