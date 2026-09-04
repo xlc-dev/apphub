@@ -1,0 +1,28 @@
+User-agent: *
+Disallow: /apphub/98b8363452adeb8bbbbd66e80fc6900c4b4c22be/
+
+User-agent: Googlebot
+Allow: /apphub/98b8363452adeb8bbbbd66e80fc6900c4b4c22be/
+Disallow: /apphub/98b8363452adeb8bbbbd66e80fc6900c4b4c22be/api/
+
+User-agent: bingbot
+Allow: /apphub/98b8363452adeb8bbbbd66e80fc6900c4b4c22be/
+Disallow: /apphub/98b8363452adeb8bbbbd66e80fc6900c4b4c22be/api/
+
+User-agent: DuckDuckBot
+Allow: /apphub/98b8363452adeb8bbbbd66e80fc6900c4b4c22be/
+Disallow: /apphub/98b8363452adeb8bbbbd66e80fc6900c4b4c22be/api/
+
+User-agent: YandexBot
+Allow: /apphub/98b8363452adeb8bbbbd66e80fc6900c4b4c22be/
+Disallow: /apphub/98b8363452adeb8bbbbd66e80fc6900c4b4c22be/api/
+
+User-agent: Baiduspider
+Allow: /apphub/98b8363452adeb8bbbbd66e80fc6900c4b4c22be/
+Disallow: /apphub/98b8363452adeb8bbbbd66e80fc6900c4b4c22be/api/
+
+User-agent: MojeekBot
+Allow: /apphub/98b8363452adeb8bbbbd66e80fc6900c4b4c22be/
+Disallow: /apphub/98b8363452adeb8bbbbd66e80fc6900c4b4c22be/api/
+
+Sitemap: https://xlc-dev.github.io/apphub/98b8363452adeb8bbbbd66e80fc6900c4b4c22be/sitemap.xml
