@@ -15,87 +15,87 @@
   },
   "refresh": {
     "brave-origin": {
-      "lastAttemptAt": "2026-09-04T08:47:00.458Z",
+      "lastAttemptAt": "2026-09-05T08:17:21.402Z",
       "lastSuccessAt": "2026-08-27T18:27:25.460Z",
       "incident": {
         "category": "invalid-data",
-        "consecutiveFailures": 9
+        "consecutiveFailures": 10
       }
     },
     "collision": {
-      "lastAttemptAt": "2026-09-04T08:47:01.268Z",
-      "lastSuccessAt": "2026-09-04T08:47:01.268Z"
+      "lastAttemptAt": "2026-09-05T08:17:21.825Z",
+      "lastSuccessAt": "2026-09-05T08:17:21.825Z"
     },
     "dolphin-emulator": {
-      "lastAttemptAt": "2026-09-04T08:47:00.457Z",
+      "lastAttemptAt": "2026-09-05T08:17:21.403Z",
       "lastSuccessAt": "2026-08-27T18:15:13.179Z",
       "incident": {
         "category": "invalid-data",
-        "consecutiveFailures": 9
+        "consecutiveFailures": 10
       }
     },
     "eyedropper": {
-      "lastAttemptAt": "2026-09-04T08:47:00.475Z",
+      "lastAttemptAt": "2026-09-05T08:17:21.556Z",
       "lastSuccessAt": "2026-08-27T18:15:12.954Z",
       "incident": {
         "category": "invalid-data",
-        "consecutiveFailures": 9
+        "consecutiveFailures": 10
       }
     },
     "gear-lever": {
-      "lastAttemptAt": "2026-09-04T08:47:00.478Z",
+      "lastAttemptAt": "2026-09-05T08:17:21.561Z",
       "lastSuccessAt": "2026-08-27T18:15:13.144Z",
       "incident": {
         "category": "invalid-data",
-        "consecutiveFailures": 9
+        "consecutiveFailures": 10
       }
     },
     "htop": {
-      "lastAttemptAt": "2026-09-04T08:47:00.493Z",
+      "lastAttemptAt": "2026-09-05T08:17:21.708Z",
       "lastSuccessAt": "2026-08-27T18:15:13.506Z",
       "incident": {
         "category": "invalid-data",
-        "consecutiveFailures": 9
+        "consecutiveFailures": 10
       }
     },
     "impression": {
-      "lastAttemptAt": "2026-09-04T08:47:00.743Z",
-      "lastSuccessAt": "2026-09-04T08:47:00.743Z"
+      "lastAttemptAt": "2026-09-05T08:17:21.775Z",
+      "lastSuccessAt": "2026-09-05T08:17:21.775Z"
     },
     "librecad": {
-      "lastAttemptAt": "2026-09-04T08:47:00.507Z",
+      "lastAttemptAt": "2026-09-05T08:17:21.717Z",
       "lastSuccessAt": "2026-08-27T18:15:13.508Z",
       "incident": {
         "category": "invalid-data",
-        "consecutiveFailures": 9
+        "consecutiveFailures": 10
       }
     },
     "localsend": {
-      "lastAttemptAt": "2026-09-04T08:47:00.515Z",
+      "lastAttemptAt": "2026-09-05T08:17:21.865Z",
       "lastSuccessAt": "2026-08-27T18:15:13.728Z",
       "incident": {
         "category": "invalid-data",
-        "consecutiveFailures": 9
+        "consecutiveFailures": 10
       }
     },
     "mousai": {
-      "lastAttemptAt": "2026-09-04T08:47:00.531Z",
+      "lastAttemptAt": "2026-09-05T08:17:21.872Z",
       "lastSuccessAt": "2026-08-27T18:15:13.740Z",
       "incident": {
         "category": "invalid-data",
-        "consecutiveFailures": 9
+        "consecutiveFailures": 10
       }
     },
     "newsflash": {
-      "lastAttemptAt": "2026-09-04T08:47:00.752Z",
-      "lastSuccessAt": "2026-09-04T08:47:00.752Z"
+      "lastAttemptAt": "2026-09-05T08:17:21.981Z",
+      "lastSuccessAt": "2026-09-05T08:17:21.981Z"
     },
     "rnote": {
-      "lastAttemptAt": "2026-09-04T08:47:00.552Z",
+      "lastAttemptAt": "2026-09-05T08:17:22.016Z",
       "lastSuccessAt": "2026-08-27T18:15:13.963Z",
       "incident": {
         "category": "invalid-data",
-        "consecutiveFailures": 9
+        "consecutiveFailures": 10
       }
     }
   }
