@@ -1,5 +1,6 @@
 ---
 import type { CatalogApp } from "@/lib/catalog-model";
+import CategoryLinks from "@/components/CategoryLinks.astro";
 import Link from "@/components/ui/Link.astro";
 import Icon from "@/components/Icon.astro";
 import Definition from "@/components/ui/Definition.astro";
@@ -44,6 +45,40 @@ const lastChecked = new Intl.DateTimeFormat(locale, {
   dateStyle: "medium",
   timeZone: "UTC",
 }).format(new Date(app.provenance.refresh.releases.lastSuccessAt));
+const appImages = app.releases[0]?.artifacts ?? [];
+const architectures = appImages.map(({ architecture }) => architecture);
+
+function supportedBy(label: string, supported: string[]) {
+  if (supported.length === 0) return undefined;
+  if (supported.length === architectures.length) return label;
+
+  return `${label} — ${supported.join(", ")}`;
+}
+
+const formats = [1, 2].flatMap((type) => {
+  const supported = appImages
+    .filter(({ capabilities }) => capabilities?.runtimeType === type)
+    .map(({ architecture }) => architecture);
+  const label = t("app.appImageType", { type });
+
+  return supported.length > 0 ? [supportedBy(label, supported)!] : [];
+});
+const fuse = supportedBy(
+  "FUSE",
+  appImages.filter(({ capabilities }) => capabilities?.fuse).map(({ architecture }) => architecture)
+);
+const zsync = supportedBy(
+  "zsync",
+  appImages
+    .filter(({ capabilities }) => capabilities?.zsync)
+    .map(({ architecture }) => architecture)
+);
+const anylinux = supportedBy(
+  "AnyLinux",
+  appImages
+    .filter(({ capabilities }) => capabilities?.anylinux)
+    .map(({ architecture }) => architecture)
+);
 ---
 
 <aside
@@ -53,9 +88,12 @@ const lastChecked = new Intl.DateTimeFormat(locale, {
     <h2 class="m-0 text-xl font-bold" id="details-heading">{t("app.details")}</h2>
   </div>
   <dl class="m-0 divide-y divide-[var(--border)]">
-    <Definition label={t("app.developer")}>{app.developer.name}</Definition>
     <Definition label={t("app.website")} wrap>
       <Link href={app.homepage}>{websiteLabel}</Link>
+    </Definition>
+    <Definition label={t("app.license")}>{app.projectLicense}</Definition>
+    <Definition label={t("app.categories")}>
+      <CategoryLinks categories={app.categories} />
     </Definition>
     {
       app.repository && (
@@ -80,6 +118,20 @@ const lastChecked = new Intl.DateTimeFormat(locale, {
       )
     }
   </dl>
+  <details class="group border-t border-[var(--border)]">
+    <DisclosureSummary
+      inset
+      class="justify-between gap-3 px-5 py-3 text-sm font-medium hover:bg-[var(--card-raised)]"
+      iconClass="text-[var(--muted)]">
+      {t("app.appImage")}
+    </DisclosureSummary>
+    <dl class="m-0 divide-y divide-[var(--border)] border-t border-[var(--border)]">
+      {formats.length > 0 && <Definition label={t("app.format")}>{formats.join("; ")}</Definition>}
+      {fuse && <Definition label={t("app.runtime")}>{fuse}</Definition>}
+      {zsync && <Definition label={t("app.updates")}>{zsync}</Definition>}
+      {anylinux && <Definition label={t("app.compatibility")}>{anylinux}</Definition>}
+    </dl>
+  </details>
   <details class="group border-t border-[var(--border)]">
     <DisclosureSummary
       inset

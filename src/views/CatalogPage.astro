@@ -16,6 +16,8 @@ import { getLocale, localePath, translate, translatedLabel } from "@/lib/i18n";
 import { sitePath } from "@/lib/paths";
 import {
   appInterface,
+  appImageCapabilities,
+  appImageFilterValues,
   audioFilterValues,
   compatibilityFilterValues,
   directFilesystemAccess,
@@ -95,6 +97,11 @@ const compatibilities = countedOptions(
   (app) => hasAnyLinuxBuild(app),
   (value) => t(`filters.compatibility.${value}`)
 );
+const appImageOptions = countedOptions(
+  appImageFilterValues,
+  (app, value) => appImageCapabilities(app).includes(value),
+  (value) => t(`filters.appimage.${value}`)
+);
 const networks = networkFilterValues.map((id) => ({
   id,
   label: t(`filters.network.${id}`),
@@ -139,14 +146,6 @@ const devices = countedOptions(
       ? sandbox.devices.length === 0
       : sandbox.devices.includes(value as (typeof sandbox.devices)[number])
 );
-const sourceGroups =
-  origins.length > 1
-    ? [
-        { name: t("filters.origin"), parameter: "origin", options: origins },
-        { name: t("filters.license"), parameter: "license", options: licenses },
-      ]
-    : [{ parameter: "license", options: licenses }];
-
 const interfaceGroups =
   displays.length > 0
     ? [
@@ -175,23 +174,24 @@ if (hostAccesses.length > 1) {
 
 const filterMenus = [
   {
-    name: t("filters.architecture"),
+    name: t("filters.compatibility"),
     groups: [
-      { parameter: "architecture", options: architectures },
+      { name: t("filters.architecture"), parameter: "architecture", options: architectures },
       {
-        name: t("filters.compatibility"),
+        name: t("filters.platformCompatibility"),
         parameter: "compatibility",
         options: compatibilities,
       },
+      { name: t("filters.appimage"), parameter: "appimage", options: appImageOptions },
+      ...(origins.length > 1
+        ? [{ name: t("filters.origin"), parameter: "origin", options: origins }]
+        : []),
+      ...interfaceGroups,
     ],
   },
   {
-    name: t(origins.length > 1 ? "filters.source" : "filters.license"),
-    groups: sourceGroups,
-  },
-  {
-    name: t("filters.interface"),
-    groups: interfaceGroups,
+    name: t("filters.license"),
+    groups: [{ parameter: "license", options: licenses }],
   },
   {
     name: t("filters.permissions"),
@@ -201,11 +201,8 @@ const filterMenus = [
       { name: t("filters.fileLocations"), parameter: "location", options: locations },
       { name: t("sandbox.audio"), parameter: "audio", options: audios },
       { name: t("sandbox.processes"), parameter: "process", options: processes },
+      ...systemAccessGroups,
     ],
-  },
-  {
-    name: t("filters.systemAccess"),
-    groups: systemAccessGroups,
   },
 ];
 const localizedCategoryName = category

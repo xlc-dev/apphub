@@ -18,7 +18,8 @@
       ],
       "projectLicense": "GPL-2.0-or-later",
       "developer": {
-        "name": "htop developers"
+        "name": "htop developers",
+        "url": "https://github.com/htop-dev"
       },
       "homepage": "https://htop.dev/",
       "repository": "https://github.com/htop-dev/htop",

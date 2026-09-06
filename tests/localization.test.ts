@@ -10,7 +10,7 @@ const app = {
   description: [
     { type: "paragraph" as const, content: [{ type: "text" as const, value: "Default" }] },
   ],
-  developer: { name: "Default developer" },
+  developer: { name: "Default developer", url: "https://example.org/developers" },
   keywords: ["default"],
   screenshots: [
     {

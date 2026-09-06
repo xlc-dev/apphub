@@ -10,6 +10,7 @@ import {
   writeFile,
 } from "node:fs/promises";
 import { createHash } from "node:crypto";
+import { developerUrl } from "#catalog/developer";
 import { pathToFileURL } from "node:url";
 import type { z } from "zod";
 import { readAppManifests } from "#catalog/storage";
@@ -47,6 +48,7 @@ interface CachedImage {
 
 type CachedMedia = z.infer<typeof generatedMediaSchema>;
 type CachedProvenance = z.infer<typeof catalogProvenanceSchema>;
+type CachedMetadata = z.infer<typeof appstreamMetadataSchema>;
 
 async function downloadImage(
   url: string,
@@ -118,10 +120,12 @@ function validateMediaSize(slug: string, files: Map<string, number>) {
 async function stageCachedApp(
   slug: string,
   path: string,
+  metadata: CachedMetadata,
   media: CachedMedia,
   outputDirectory: string
 ) {
   await cp(`.generated/apps/${slug}`, path, { recursive: true });
+  await writeFile(`${path}/appstream.json`, `${JSON.stringify(metadata, null, 2)}\n`);
 
   const icon = await stageCachedImage(media.icon, outputDirectory);
   const screenshots = [];
@@ -211,9 +215,17 @@ async function readCachedApp(slug: string, manifest: AppManifest) {
   }
 
   const [metadata, media, provenance] = await Promise.all([
-    readFile(`${directory}/appstream.json`, "utf8").then((value) =>
-      appstreamMetadataSchema.parse(JSON.parse(value))
-    ),
+    readFile(`${directory}/appstream.json`, "utf8").then((value) => {
+      const cached = JSON.parse(value) as {
+        developer: { name: string; url?: string };
+        repository?: string;
+        homepage: string;
+      };
+
+      cached.developer.url ??= developerUrl(cached.repository, cached.homepage);
+
+      return appstreamMetadataSchema.parse(cached);
+    }),
     readFile(`${directory}/media.json`, "utf8").then((value) =>
       generatedMediaSchema.parse(JSON.parse(value))
     ),
@@ -342,7 +354,7 @@ export async function generateCatalog({
         sourceConfigurationMatches(manifest, cachedProvenance) &&
         !isRefreshDue(cachedProvenance?.refresh.metadata, refreshEveryHours.metadata, refreshTime)
       ) {
-        await stageCachedApp(slug, path, cachedApp.media, generatedMediaPath);
+        await stageCachedApp(slug, path, cachedApp.metadata, cachedApp.media, generatedMediaPath);
 
         return;
       }
@@ -456,7 +468,7 @@ export async function generateCatalog({
         }
 
         await rm(path, { recursive: true, force: true });
-        await stageCachedApp(slug, path, cachedApp.media, generatedMediaPath);
+        await stageCachedApp(slug, path, cachedApp.metadata, cachedApp.media, generatedMediaPath);
 
         const provenance = catalogProvenanceSchema.parse(
           JSON.parse(await readFile(`${path}/provenance.json`, "utf8"))

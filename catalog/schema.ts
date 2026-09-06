@@ -162,7 +162,9 @@ const descriptionBlockSchema = z.discriminatedUnion("type", [
     .strict(),
 ]);
 
-const developerSchema = z.object({ name: z.string().min(1).max(100) }).strict();
+const developerSchema = z
+  .object({ name: z.string().min(1).max(100), url: httpsUrlSchema.optional() })
+  .strict();
 
 const projectLinkTypeSchema = z.enum([
   "bugtracker",
@@ -389,6 +391,15 @@ const artifactSchema = z
     sha256: z.string().regex(/^[a-f0-9]{64}$/),
     checksumEvidence: checksumEvidenceSchema.optional(),
     signatures: z.array(signatureEvidenceSchema).max(10).optional(),
+    capabilities: z
+      .object({
+        runtimeType: z.union([z.literal(1), z.literal(2)]).optional(),
+        fuse: z.boolean(),
+        zsync: z.boolean(),
+        anylinux: z.boolean(),
+      })
+      .strict()
+      .optional(),
   })
   .strict();
 

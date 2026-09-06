@@ -16,6 +16,7 @@ import {
 } from "#catalog/media";
 import { appSchema, generatedMediaSchema, releaseLockSchema, type App } from "#catalog/schema";
 import { isAppIndexable } from "#lib/catalog-model";
+import { canReuseObservation } from "#scripts/update-releases";
 import sharp from "sharp";
 
 const origin = {
@@ -58,7 +59,7 @@ const app: App = {
     },
   ],
   projectLicense: "MIT",
-  developer: { name: "Example Developers" },
+  developer: { name: "Example Developers", url: "https://example.org/developers" },
   homepage: "https://example.org/",
   addedAt: "2026-08-20",
   categories: ["Utility"],
@@ -368,6 +369,7 @@ describe("release lock schema", () => {
         url: "https://example.org/Example-x86_64.AppImage",
         size: 1,
         sha256: "0".repeat(64),
+        capabilities: { fuse: false, zsync: false, anylinux: false },
       },
     ],
   };
@@ -461,6 +463,7 @@ describe("download hashing", () => {
     assert.deepEqual(await hashDownload({ name: "fixture", url, size: 6 }, { fetcher }), {
       size: 6,
       sha256: sha256(Buffer.from("apphub")),
+      capabilities: { fuse: false, zsync: false, anylinux: false },
     });
   });
 
@@ -468,7 +471,25 @@ describe("download hashing", () => {
     assert.deepEqual(await hashDownload({ name: "fixture", url }, { fetcher }), {
       size: 6,
       sha256: sha256(Buffer.from("apphub")),
+      capabilities: { fuse: false, zsync: false, anylinux: false },
     });
+  });
+
+  test("inspects AppImage capabilities across stream chunks", async () => {
+    const bytes = Buffer.concat([
+      Buffer.from([0x7f, 0x45, 0x4c, 0x46, 0, 0, 0, 0, 0x41, 0x49, 2]),
+      Buffer.from("libfuse.so.2 zsync|https://example.org/update.zsync"),
+    ]);
+
+    assert.deepEqual(
+      (
+        await hashDownload(
+          { name: "Example-anylinux-x86_64.AppImage", url },
+          { fetcher: () => Promise.resolve(new Response(bytes)) }
+        )
+      ).capabilities,
+      { runtimeType: 2, fuse: true, zsync: true, anylinux: true }
+    );
   });
 
   test("rejects downloads with a different published size", async () => {
@@ -482,6 +503,36 @@ describe("download hashing", () => {
     assert.match(
       await errorMessage(hashDownload({ name: "fixture", url, size: 5 }, { fetcher })),
       /exceeds published size/
+    );
+  });
+});
+
+describe("release observations", () => {
+  const recorded = {
+    architecture: "x86_64" as const,
+    name: "Example-x86_64.AppImage",
+    url: "https://example.org/Example-x86_64.AppImage",
+    assetId: "123",
+    size: 100,
+    sha256: "a".repeat(64),
+    capabilities: { runtimeType: 2 as const, fuse: true, zsync: false, anylinux: false },
+  };
+
+  test("reuses an unchanged provider asset without downloading it again", () => {
+    assert.equal(canReuseObservation(recorded, { ...recorded, size: 100 }), true);
+    assert.equal(canReuseObservation(recorded, { ...recorded, assetId: "456", size: 100 }), false);
+    assert.equal(canReuseObservation(recorded, { ...recorded, size: 101 }), false);
+  });
+
+  test("reuses an artifact identified by its published checksum", () => {
+    const { assetId: _assetId, sha256, capabilities: _capabilities, ...artifact } = recorded;
+
+    assert.equal(
+      canReuseObservation(recorded, {
+        ...artifact,
+        publishedSha256: { value: sha256, sourceUrl: "https://example.org/releases" },
+      }),
+      true
     );
   });
 });

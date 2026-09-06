@@ -5,13 +5,13 @@ import AppDescription from "@/components/AppDescription.astro";
 import AppDetails from "@/components/AppDetails.astro";
 import AppDownloads from "@/components/AppDownloads.astro";
 import Capabilities from "@/components/Capabilities.astro";
-import CategoryLinks from "@/components/CategoryLinks.astro";
 import Icon from "@/components/Icon.astro";
 import InstallButton from "@/components/InstallButton.astro";
 import ScreenshotCarousel from "@/components/ScreenshotCarousel.astro";
 import SourceBadge from "@/components/SourceBadge.astro";
 import ButtonLink from "@/components/ui/ButtonLink.astro";
 import DisclosureSummary from "@/components/ui/DisclosureSummary.astro";
+import Link from "@/components/ui/Link.astro";
 import Page from "@/components/ui/Page.astro";
 import Section from "@/components/ui/Section.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
@@ -19,7 +19,9 @@ import { getAppDownloads, getApps } from "@/lib/catalog-loader";
 import { isAppIndexable } from "@/lib/catalog-model";
 import { getLocale, translate } from "@/lib/i18n";
 import { getRepositoryStars } from "@/lib/repository-stars";
+import { formatVersion } from "@/lib/format";
 import { localePaths } from "@/lib/static-pages";
+import { developerUrl } from "#catalog/developer";
 import { localizeApp } from "#catalog/localization";
 
 export const getStaticPaths = (async () =>
@@ -60,6 +62,7 @@ const ageLabel = ageRating && t("app.ages", { age: ageRating });
 const ageLabelWithDescription = app.contentRating?.label
   ? `${ageLabel}, ${app.contentRating.label}`
   : ageLabel;
+const developerHref = app.developer.url ?? developerUrl(app.repository, app.homepage);
 ---
 
 <BaseLayout
@@ -85,6 +88,10 @@ const ageLabelWithDescription = app.contentRating?.label
         <p class="mt-1 max-w-2xl leading-6 text-[var(--muted)]">
           {app.summary}
         </p>
+        <p class="mt-2 text-sm text-[var(--muted)]">
+          {t("app.by")}{" "}
+          <Link accent href={developerHref}>{app.developer.name}</Link>
+        </p>
         <div class="mt-3 flex flex-wrap items-center gap-2">
           <SourceBadge origin={app.origin.type} />
           {
@@ -98,11 +105,6 @@ const ageLabelWithDescription = app.contentRating?.label
               </span>
             )
           }
-          <span class={badgeClass}>
-            <Icon name="license" class="size-3.5 text-[var(--muted)]" />
-            {app.projectLicense}
-          </span>
-          <CategoryLinks inline prominent categories={app.categories} />
         </div>
         {
           contentWarnings.length > 0 && (
@@ -118,19 +120,36 @@ const ageLabelWithDescription = app.contentRating?.label
             </details>
           )
         }
-        {
-          (latest || donation) && (
-            <div class="mt-5 grid grid-cols-[auto_minmax(0,1fr)] items-start gap-x-2 gap-y-2">
-              {latest && !downloadsBlocked && <InstallButton artifacts={latest.artifacts} />}
-              {donation && (
-                <ButtonLink class="gap-2 justify-self-start" href={donation} variant="outline">
+        <div class="mt-5">
+          <div class="grid grid-cols-[auto_minmax(0,1fr)] items-start gap-x-2 gap-y-2">
+            <InstallButton
+              artifacts={latest?.artifacts ?? []}
+              blocked={downloadsBlocked || !latest}
+            />
+            {
+              donation && (
+                <ButtonLink
+                  class="col-start-2 row-start-1 gap-2 justify-self-start"
+                  href={donation}
+                  variant="outline">
                   <Icon name="donate" class="size-4" />
                   {t("app.donate")}
                 </ButtonLink>
-              )}
-            </div>
-          )
-        }
+              )
+            }
+            <p class="col-span-2 col-start-1 row-start-2 m-0 text-sm text-[var(--muted)]">
+              {
+                latest && (
+                  <>
+                    {t("downloads.version", { version: formatVersion(latest.version) })}
+                    {" · "}
+                  </>
+                )
+              }
+              <Link accent href="#downloads">{t("downloads.manual")}</Link>
+            </p>
+          </div>
+        </div>
       </div>
     </div>
     {

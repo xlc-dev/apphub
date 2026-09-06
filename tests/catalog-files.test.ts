@@ -21,7 +21,7 @@ const metadata = {
     },
   ],
   projectLicense: "MIT",
-  developer: { name: "Example Developers" },
+  developer: { name: "Example Developers", url: "https://example.org/developers" },
   homepage: "https://example.org/",
   categories: ["Utility"],
 };

@@ -6,7 +6,7 @@ interface SearchableApp {
   name: string;
   summary: string;
   description: DescriptionBlock[];
-  developer: { name: string };
+  developer: { name: string; url?: string | undefined };
   keywords?: string[] | undefined;
   categories: string[];
   mimeTypes?: string[] | undefined;
@@ -21,6 +21,7 @@ export interface SearchIndexEntry {
   categories: string[];
   architectures: string[];
   compatibility: string[];
+  appImage: string[];
   display: DisplayBackend[];
   filesystemLocations: string[];
   hostAccess: HostAccess[];
@@ -40,6 +41,7 @@ export interface CatalogFilters {
   categories: string[];
   architecture: string[];
   compatibility: string[];
+  appimage: string[];
   origin: string[];
   license: string[];
   interface: string[];
@@ -56,6 +58,7 @@ export interface CatalogFilters {
 export const catalogFilterParameters = [
   "architecture",
   "compatibility",
+  "appimage",
   "origin",
   "license",
   "interface",
@@ -69,6 +72,7 @@ export const catalogFilterParameters = [
   "device",
 ] as const;
 export const compatibilityFilterValues = ["anylinux"] as const;
+export const appImageFilterValues = ["type-1", "type-2", "fuse", "zsync"] as const;
 export const displayFilterValues = ["wayland", "x11"] as const;
 export const hostAccessFilterValues = ["none", "ipc", "session-bus", "system-bus"] as const;
 export const networkFilterValues = ["none", "full"] as const;
@@ -155,7 +159,19 @@ export function isAnyLinuxArtifact(name: string) {
 }
 
 export function hasAnyLinuxBuild(app: Pick<CatalogApp, "releases">) {
-  return app.releases[0]?.artifacts.some(({ name }) => isAnyLinuxArtifact(name)) ?? false;
+  return app.releases[0]?.artifacts.some(({ capabilities }) => capabilities?.anylinux) ?? false;
+}
+
+export function appImageCapabilities(app: Pick<CatalogApp, "releases">) {
+  const values = new Set<string>();
+
+  for (const { capabilities } of app.releases[0]?.artifacts ?? []) {
+    if (capabilities?.runtimeType) values.add(`type-${capabilities.runtimeType}`);
+    if (capabilities?.fuse) values.add("fuse");
+    if (capabilities?.zsync) values.add("zsync");
+  }
+
+  return [...values];
 }
 
 function matchesAny(selected: string[], values: string[]) {
@@ -167,6 +183,7 @@ export function matchesCatalogFilters(app: SearchIndexEntry, filters: CatalogFil
     matchesAny(filters.categories, app.categories) &&
     matchesAny(filters.architecture, app.architectures) &&
     matchesAny(filters.compatibility, app.compatibility) &&
+    matchesAny(filters.appimage, app.appImage) &&
     matchesAny(filters.origin, [app.origin]) &&
     matchesAny(filters.license, [app.license]) &&
     matchesAny(filters.interface, [app.interface]) &&
@@ -202,6 +219,8 @@ export function searchPage(
 }
 
 export function searchIndexEntry(app: CatalogApp, stars?: number): SearchIndexEntry {
+  const appImage = appImageCapabilities(app);
+
   return {
     slug: app.slug,
     name: app.name,
@@ -210,6 +229,7 @@ export function searchIndexEntry(app: CatalogApp, stars?: number): SearchIndexEn
     categories: app.categories,
     architectures: app.releases[0]?.artifacts.map(({ architecture }) => architecture) ?? [],
     compatibility: hasAnyLinuxBuild(app) ? ["anylinux"] : [],
+    appImage,
     display: displayBackends(app.sandbox.display),
     filesystemLocations: app.sandbox.filesystem.map(({ location }) => location),
     hostAccess: hostAccess(app.sandbox),
@@ -222,6 +242,6 @@ export function searchIndexEntry(app: CatalogApp, stars?: number): SearchIndexEn
     devices: app.sandbox.devices.length > 0 ? app.sandbox.devices : ["none"],
     stars,
     icon: { url: app.icon.url },
-    value: catalogSearchValue(app),
+    value: `${catalogSearchValue(app)} ${appImage.join(" ")}`,
   };
 }

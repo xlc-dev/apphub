@@ -100,6 +100,7 @@ describe("API v1 contract", () => {
     assert.deepEqual(release.shape.artifacts.element.keyof().options.sort(), [
       "architecture",
       "assetId",
+      "capabilities",
       "checksumEvidence",
       "name",
       "sha256",

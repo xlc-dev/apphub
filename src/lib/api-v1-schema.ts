@@ -209,6 +209,14 @@ const artifactSchema = z
       )
       .max(10)
       .optional(),
+    capabilities: z
+      .object({
+        runtimeType: z.union([z.literal(1), z.literal(2)]).optional(),
+        fuse: z.boolean(),
+        zsync: z.boolean(),
+        anylinux: z.boolean(),
+      })
+      .strict(),
   })
   .strict();
 
@@ -242,7 +250,7 @@ export const apiAppResourceSchema = z
       .min(1)
       .max(100)
       .refine(isSpdxExpression, "Must be a valid SPDX license expression"),
-    developer: z.object({ name: z.string().min(1).max(100) }).strict(),
+    developer: z.object({ name: z.string().min(1).max(100), url: httpsUrlSchema }).strict(),
     homepage: httpsUrlSchema,
     repository: httpsUrlSchema.optional(),
     links: z

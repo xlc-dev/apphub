@@ -3,6 +3,7 @@ import { parseDescription, projectLinks } from "#catalog/appstream";
 import { readResponse, safeFetch } from "#catalog/http";
 import { normalizeLocale } from "#catalog/localization";
 import { appstreamMetadataSchema } from "#catalog/schema";
+import { developerUrl } from "#catalog/developer";
 
 const flathubSchema = z.object({
   id: z.string(),
@@ -98,7 +99,10 @@ export function readFlathubAppstream(value: unknown) {
     summary: app.summary,
     description: parseDescription(app.description),
     projectLicense: app.project_license,
-    developer: { name: app.developer_name },
+    developer: {
+      name: app.developer_name,
+      url: developerUrl(app.urls.vcs_browser ?? undefined, app.urls.homepage),
+    },
     homepage: app.urls.homepage,
     ...(app.urls.vcs_browser ? { repository: app.urls.vcs_browser } : {}),
     ...(links ? { links } : {}),

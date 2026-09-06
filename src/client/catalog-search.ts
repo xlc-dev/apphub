@@ -161,6 +161,7 @@ export function initializeCatalogSearch() {
     categories: currentCategory ? [currentCategory] : [],
     architecture: filterValues(url, "architecture"),
     compatibility: filterValues(url, "compatibility"),
+    appimage: filterValues(url, "appimage"),
     origin: filterValues(url, "origin"),
     license: filterValues(url, "license"),
     interface: filterValues(url, "interface"),
