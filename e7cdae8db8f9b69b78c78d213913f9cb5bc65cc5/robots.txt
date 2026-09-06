@@ -1,0 +1,28 @@
+User-agent: *
+Disallow: /apphub/e7cdae8db8f9b69b78c78d213913f9cb5bc65cc5/
+
+User-agent: Googlebot
+Allow: /apphub/e7cdae8db8f9b69b78c78d213913f9cb5bc65cc5/
+Disallow: /apphub/e7cdae8db8f9b69b78c78d213913f9cb5bc65cc5/api/
+
+User-agent: bingbot
+Allow: /apphub/e7cdae8db8f9b69b78c78d213913f9cb5bc65cc5/
+Disallow: /apphub/e7cdae8db8f9b69b78c78d213913f9cb5bc65cc5/api/
+
+User-agent: DuckDuckBot
+Allow: /apphub/e7cdae8db8f9b69b78c78d213913f9cb5bc65cc5/
+Disallow: /apphub/e7cdae8db8f9b69b78c78d213913f9cb5bc65cc5/api/
+
+User-agent: YandexBot
+Allow: /apphub/e7cdae8db8f9b69b78c78d213913f9cb5bc65cc5/
+Disallow: /apphub/e7cdae8db8f9b69b78c78d213913f9cb5bc65cc5/api/
+
+User-agent: Baiduspider
+Allow: /apphub/e7cdae8db8f9b69b78c78d213913f9cb5bc65cc5/
+Disallow: /apphub/e7cdae8db8f9b69b78c78d213913f9cb5bc65cc5/api/
+
+User-agent: MojeekBot
+Allow: /apphub/e7cdae8db8f9b69b78c78d213913f9cb5bc65cc5/
+Disallow: /apphub/e7cdae8db8f9b69b78c78d213913f9cb5bc65cc5/api/
+
+Sitemap: https://xlc-dev.github.io/apphub/e7cdae8db8f9b69b78c78d213913f9cb5bc65cc5/sitemap.xml
