@@ -15,7 +15,8 @@
   ],
   "projectLicense": "GPL-2.0+",
   "developer": {
-    "name": "Dolphin Emulator Project"
+    "name": "Dolphin Emulator Project",
+    "url": "https://github.com/dolphin-emu"
   },
   "homepage": "https://dolphin-emu.org",
   "repository": "https://github.com/dolphin-emu/dolphin",

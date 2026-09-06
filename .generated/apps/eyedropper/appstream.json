@@ -53,7 +53,8 @@
   ],
   "projectLicense": "GPL-3.0",
   "developer": {
-    "name": "FineFindus"
+    "name": "FineFindus",
+    "url": "https://github.com/FineFindus"
   },
   "homepage": "https://apps.gnome.org/Eyedropper",
   "repository": "https://github.com/FineFindus/eyedropper",

@@ -14,6 +14,12 @@
           "assetId": "539786470",
           "size": 48540616,
           "sha256": "a871ce09faf56b5da946355a6fc0e9fa41bcf1ed7ba570a7ce737f8da9403528",
+          "capabilities": {
+            "runtimeType": 2,
+            "fuse": false,
+            "zsync": true,
+            "anylinux": true
+          },
           "checksumEvidence": {
             "sourceUrl": "https://github.com/pkgforge-dev/Rnote-AppImage/releases/tag/0.14.2-2%402026-09-01_1788278289"
           }
@@ -25,6 +31,12 @@
           "assetId": "539786469",
           "size": 47935288,
           "sha256": "4587f5566f11e19b2bb5c01c7c5ff9fd0870605bdf288230712fa8da95194b62",
+          "capabilities": {
+            "runtimeType": 2,
+            "fuse": false,
+            "zsync": true,
+            "anylinux": true
+          },
           "checksumEvidence": {
             "sourceUrl": "https://github.com/pkgforge-dev/Rnote-AppImage/releases/tag/0.14.2-2%402026-09-01_1788278289"
           }

@@ -14,6 +14,12 @@
           "assetId": "539531061",
           "size": 31428374,
           "sha256": "fbb65169d63a9a2ff214d144c5cb7c51c1e60dd84dbcc3387bcdb08d48e08980",
+          "capabilities": {
+            "runtimeType": 2,
+            "fuse": false,
+            "zsync": true,
+            "anylinux": true
+          },
           "checksumEvidence": {
             "sourceUrl": "https://github.com/pkgforge-dev/Gnome-Calculator-AppImage/releases/tag/50.0-1%402026-09-01_1788266311"
           }
@@ -25,6 +31,12 @@
           "assetId": "539531059",
           "size": 32394536,
           "sha256": "ace4f030d1b07411286b0df7b9928eaa326b41a93ae23bdfe03dcaa275c2fb1e",
+          "capabilities": {
+            "runtimeType": 2,
+            "fuse": false,
+            "zsync": true,
+            "anylinux": true
+          },
           "checksumEvidence": {
             "sourceUrl": "https://github.com/pkgforge-dev/Gnome-Calculator-AppImage/releases/tag/50.0-1%402026-09-01_1788266311"
           }

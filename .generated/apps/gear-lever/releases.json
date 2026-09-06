@@ -14,6 +14,12 @@
           "assetId": "539787419",
           "size": 66894366,
           "sha256": "80802ec9e4bf1d77ed062ae1a66fc687232c2b4ea1289065afdf1d672599e183",
+          "capabilities": {
+            "runtimeType": 2,
+            "fuse": false,
+            "zsync": true,
+            "anylinux": true
+          },
           "checksumEvidence": {
             "sourceUrl": "https://github.com/pkgforge-dev/Gear-Lever-AppImage/releases/tag/4.6.2-1%402026-09-01_1788278327"
           }
@@ -25,6 +31,12 @@
           "assetId": "539787416",
           "size": 66604984,
           "sha256": "dfde634306ce9203e1c5517826a2362142e14d8877f25a6f2b6541ad2bcbe142",
+          "capabilities": {
+            "runtimeType": 2,
+            "fuse": false,
+            "zsync": true,
+            "anylinux": true
+          },
           "checksumEvidence": {
             "sourceUrl": "https://github.com/pkgforge-dev/Gear-Lever-AppImage/releases/tag/4.6.2-1%402026-09-01_1788278327"
           }

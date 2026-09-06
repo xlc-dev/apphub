@@ -14,6 +14,12 @@
           "assetId": "541121332",
           "size": 45216895,
           "sha256": "1b20f9a6022ed4a6cda7ec8df147cd2e21b8a0ab1524a1a7bc931d3257143195",
+          "capabilities": {
+            "runtimeType": 2,
+            "fuse": false,
+            "zsync": true,
+            "anylinux": true
+          },
           "checksumEvidence": {
             "sourceUrl": "https://github.com/pkgforge-dev/Pinta-AppImage/releases/tag/3.1.2%402026-09-02_1788350795"
           }

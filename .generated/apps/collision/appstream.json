@@ -24,7 +24,8 @@
   ],
   "projectLicense": "BSD-2-Clause",
   "developer": {
-    "name": "Evangelos \"GeopJr\" Paterakis"
+    "name": "Evangelos \"GeopJr\" Paterakis",
+    "url": "https://codeberg.org/GeopJr"
   },
   "homepage": "https://collision.geopjr.dev/",
   "repository": "https://codeberg.org/GeopJr/Collision/",

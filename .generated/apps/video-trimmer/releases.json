@@ -14,6 +14,12 @@
           "assetId": "539785693",
           "size": 107043397,
           "sha256": "09ad99adba33bdd16632d819968994fc968804df098f331c42ed09d0297a1d48",
+          "capabilities": {
+            "runtimeType": 2,
+            "fuse": false,
+            "zsync": true,
+            "anylinux": true
+          },
           "checksumEvidence": {
             "sourceUrl": "https://github.com/pkgforge-dev/Video-Trimmer-AppImage/releases/tag/26.03.1-1%402026-09-01_1788278253"
           }
@@ -25,6 +31,12 @@
           "assetId": "539785694",
           "size": 98542151,
           "sha256": "67432a6a60ef30c6d3a97271f2018de3c5112f45a310da8f7eb515c283ba1b18",
+          "capabilities": {
+            "runtimeType": 2,
+            "fuse": false,
+            "zsync": true,
+            "anylinux": true
+          },
           "checksumEvidence": {
             "sourceUrl": "https://github.com/pkgforge-dev/Video-Trimmer-AppImage/releases/tag/26.03.1-1%402026-09-01_1788278253"
           }

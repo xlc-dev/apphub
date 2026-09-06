@@ -71,7 +71,8 @@
   ],
   "projectLicense": "GPL-3.0-or-later",
   "developer": {
-    "name": "Bilal Elmoussaoui"
+    "name": "Bilal Elmoussaoui",
+    "url": "https://gitlab.gnome.org/World"
   },
   "homepage": "https://gitlab.gnome.org/World/Authenticator",
   "repository": "https://gitlab.gnome.org/World/Authenticator",

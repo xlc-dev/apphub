@@ -74,7 +74,8 @@
   ],
   "projectLicense": "GPL-3.0-only",
   "developer": {
-    "name": "Fina Wilke"
+    "name": "Fina Wilke",
+    "url": "https://gitlab.gnome.org/World"
   },
   "homepage": "https://apps.gnome.org/Warp/",
   "repository": "https://gitlab.gnome.org/World/warp/",

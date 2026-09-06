@@ -14,6 +14,12 @@
           "assetId": "539786582",
           "size": 52781851,
           "sha256": "aef9cf90f7e75f36b07684425319d22915207f7a7592f4617b6c6dd200d3af70",
+          "capabilities": {
+            "runtimeType": 2,
+            "fuse": false,
+            "zsync": true,
+            "anylinux": true
+          },
           "checksumEvidence": {
             "sourceUrl": "https://github.com/pkgforge-dev/LibreCAD-AppImage/releases/tag/2.2.1.5-3%402026-09-01_1788278294"
           }
@@ -25,6 +31,12 @@
           "assetId": "539786581",
           "size": 53362864,
           "sha256": "49e6258e6e9553154c2b96efe366bb24f5466a248d10a7e2333dad1af88c546b",
+          "capabilities": {
+            "runtimeType": 2,
+            "fuse": false,
+            "zsync": true,
+            "anylinux": true
+          },
           "checksumEvidence": {
             "sourceUrl": "https://github.com/pkgforge-dev/LibreCAD-AppImage/releases/tag/2.2.1.5-3%402026-09-01_1788278294"
           }

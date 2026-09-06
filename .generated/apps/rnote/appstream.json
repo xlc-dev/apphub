@@ -24,7 +24,8 @@
   ],
   "projectLicense": "GPL-3.0-or-later",
   "developer": {
-    "name": "Felix Zwettler"
+    "name": "Felix Zwettler",
+    "url": "https://github.com/flxzt"
   },
   "homepage": "https://rnote.flxzt.net",
   "repository": "https://github.com/flxzt/rnote",

@@ -14,6 +14,12 @@
           "assetId": "539783970",
           "size": 95337963,
           "sha256": "9d103d8e6104725656000b163c451009fcdccd09e97117d220fdb09bc1d60121",
+          "capabilities": {
+            "runtimeType": 2,
+            "fuse": false,
+            "zsync": true,
+            "anylinux": true
+          },
           "checksumEvidence": {
             "sourceUrl": "https://github.com/pkgforge-dev/Identity-AppImage/releases/tag/26.03-2%402026-09-01_1788278176"
           }
@@ -25,6 +31,12 @@
           "assetId": "539783973",
           "size": 89317450,
           "sha256": "06c3d6ac9f131d8986a7ccf760499b9dafbe2bd233da57391d89868f61403f14",
+          "capabilities": {
+            "runtimeType": 2,
+            "fuse": false,
+            "zsync": true,
+            "anylinux": true
+          },
           "checksumEvidence": {
             "sourceUrl": "https://github.com/pkgforge-dev/Identity-AppImage/releases/tag/26.03-2%402026-09-01_1788278176"
           }

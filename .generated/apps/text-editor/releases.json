@@ -14,6 +14,12 @@
           "assetId": "539777627",
           "size": 36369030,
           "sha256": "8b2394f78f63a7368b68f1e7b52e52e08355a1f89022462032e7333a598dbf32",
+          "capabilities": {
+            "runtimeType": 2,
+            "fuse": false,
+            "zsync": true,
+            "anylinux": true
+          },
           "checksumEvidence": {
             "sourceUrl": "https://github.com/pkgforge-dev/Gnome-Text-Editor-AppImage/releases/tag/50.1-1%402026-09-01_1788277896"
           }
@@ -25,6 +31,12 @@
           "assetId": "539777630",
           "size": 36957404,
           "sha256": "8514b5626c0ab3bbec9036d858b017b7a0f6d0237db9dc0710578cf603b78550",
+          "capabilities": {
+            "runtimeType": 2,
+            "fuse": false,
+            "zsync": true,
+            "anylinux": true
+          },
           "checksumEvidence": {
             "sourceUrl": "https://github.com/pkgforge-dev/Gnome-Text-Editor-AppImage/releases/tag/50.1-1%402026-09-01_1788277896"
           }

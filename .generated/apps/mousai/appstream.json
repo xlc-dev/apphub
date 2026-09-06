@@ -83,7 +83,8 @@
   ],
   "projectLicense": "GPL-3.0-or-later",
   "developer": {
-    "name": "Dave Patrick Caberto"
+    "name": "Dave Patrick Caberto",
+    "url": "https://github.com/SeaDve"
   },
   "homepage": "https://github.com/SeaDve/Mousai",
   "repository": "https://github.com/SeaDve/Mousai",

@@ -15,7 +15,8 @@
   ],
   "projectLicense": "MIT",
   "developer": {
-    "name": "Jonathan Pobst"
+    "name": "Jonathan Pobst",
+    "url": "https://www.pinta-project.com"
   },
   "homepage": "https://www.pinta-project.com",
   "links": {

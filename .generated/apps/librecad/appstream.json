@@ -15,7 +15,8 @@
   ],
   "projectLicense": "GPL-2.0",
   "developer": {
-    "name": "LibreCAD Developers"
+    "name": "LibreCAD Developers",
+    "url": "https://github.com/LibreCAD"
   },
   "homepage": "https://librecad.org/",
   "repository": "https://github.com/LibreCAD/LibreCAD",

@@ -51,7 +51,8 @@
   ],
   "projectLicense": "GPL-3.0-or-later",
   "developer": {
-    "name": "The GNOME Project"
+    "name": "The GNOME Project",
+    "url": "https://gitlab.gnome.org/GNOME"
   },
   "homepage": "https://apps.gnome.org/Calculator",
   "repository": "https://gitlab.gnome.org/GNOME/gnome-calculator",

@@ -107,7 +107,8 @@
   ],
   "projectLicense": "GPL-3.0-or-later",
   "developer": {
-    "name": "Nanling"
+    "name": "Nanling",
+    "url": "https://gitlab.gnome.org/neithern/g4music"
   },
   "homepage": "https://gitlab.gnome.org/neithern/g4music",
   "links": {

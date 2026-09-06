@@ -14,6 +14,12 @@
           "assetId": "539781810",
           "size": 198184132,
           "sha256": "397c594521fac6b125a0091eeed21cfeaf626b274a97a6e39295742de83f0d4a",
+          "capabilities": {
+            "runtimeType": 2,
+            "fuse": false,
+            "zsync": true,
+            "anylinux": true
+          },
           "checksumEvidence": {
             "sourceUrl": "https://github.com/pkgforge-dev/Brave-Origin-AppImage/releases/tag/1.94.117-1%402026-09-01_1788278088"
           }
@@ -25,6 +31,12 @@
           "assetId": "539781809",
           "size": 194556124,
           "sha256": "757fa1485be65281fbe80396eb32ef8a1903de4dfb62eeb0007e733ed800b656",
+          "capabilities": {
+            "runtimeType": 2,
+            "fuse": false,
+            "zsync": true,
+            "anylinux": true
+          },
           "checksumEvidence": {
             "sourceUrl": "https://github.com/pkgforge-dev/Brave-Origin-AppImage/releases/tag/1.94.117-1%402026-09-01_1788278088"
           }

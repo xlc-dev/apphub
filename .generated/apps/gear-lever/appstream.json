@@ -15,7 +15,8 @@
   ],
   "projectLicense": "GPL-3.0-or-later",
   "developer": {
-    "name": "Lorenzo Paderi"
+    "name": "Lorenzo Paderi",
+    "url": "https://github.com/mijorus"
   },
   "homepage": "https://gearlever.mijorus.it",
   "repository": "https://github.com/mijorus/gearlever",

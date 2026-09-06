@@ -24,7 +24,8 @@
   ],
   "projectLicense": "GPL-3.0+",
   "developer": {
-    "name": "Jan Lukas Gernert"
+    "name": "Jan Lukas Gernert",
+    "url": "https://gitlab.com/news-flash"
   },
   "homepage": "https://gitlab.com/news-flash/news_flash_gtk",
   "repository": "https://gitlab.com/news-flash/news_flash_gtk",

@@ -15,7 +15,8 @@
   ],
   "projectLicense": "GPL-3.0",
   "developer": {
-    "name": "Khaleel Al-Adhami"
+    "name": "Khaleel Al-Adhami",
+    "url": "https://gitlab.com/adhami3310"
   },
   "homepage": "https://apps.gnome.org/Impression/",
   "repository": "https://gitlab.com/adhami3310/Impression",

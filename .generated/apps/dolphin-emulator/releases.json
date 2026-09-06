@@ -14,6 +14,12 @@
           "assetId": "539788693",
           "size": 66749544,
           "sha256": "8ac2cdfaa16807576a95e1d849086a6a98076d1851b58369e956bfbc51b6b022",
+          "capabilities": {
+            "runtimeType": 2,
+            "fuse": false,
+            "zsync": true,
+            "anylinux": true
+          },
           "checksumEvidence": {
             "sourceUrl": "https://github.com/pkgforge-dev/Dolphin-emu-AppImage/releases/tag/2606a%402026-09-01_1788278367"
           }
@@ -25,6 +31,12 @@
           "assetId": "539788694",
           "size": 64898135,
           "sha256": "f14654fd1764479f4b226ffbd1ca141ba3ec84232f76b94dd6296c7487288453",
+          "capabilities": {
+            "runtimeType": 2,
+            "fuse": false,
+            "zsync": true,
+            "anylinux": true
+          },
           "checksumEvidence": {
             "sourceUrl": "https://github.com/pkgforge-dev/Dolphin-emu-AppImage/releases/tag/2606a%402026-09-01_1788278367"
           }

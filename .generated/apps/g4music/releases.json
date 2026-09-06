@@ -14,6 +14,12 @@
           "assetId": "539779868",
           "size": 63244740,
           "sha256": "a0c5cb185bc8eefa0c8765c5a6c99ccd89df0cc8d3acb325ba773f9608a9f94d",
+          "capabilities": {
+            "runtimeType": 2,
+            "fuse": false,
+            "zsync": true,
+            "anylinux": true
+          },
           "checksumEvidence": {
             "sourceUrl": "https://github.com/pkgforge-dev/Gapless-AppImage/releases/tag/4.6.2-1%402026-09-01_1788277998"
           }
@@ -25,6 +31,12 @@
           "assetId": "539779869",
           "size": 60193914,
           "sha256": "cb4e5400785fe0167dd32f036714e32f61abd247ce222f40b8645e94fc7b598e",
+          "capabilities": {
+            "runtimeType": 2,
+            "fuse": false,
+            "zsync": true,
+            "anylinux": true
+          },
           "checksumEvidence": {
             "sourceUrl": "https://github.com/pkgforge-dev/Gapless-AppImage/releases/tag/4.6.2-1%402026-09-01_1788277998"
           }

@@ -14,6 +14,12 @@
           "assetId": "539774205",
           "size": 35854554,
           "sha256": "7e4ddac215b81854d2c0eef6909640babfdf1eb70eb27f0a24d0d3cb5241a487",
+          "capabilities": {
+            "runtimeType": 2,
+            "fuse": false,
+            "zsync": true,
+            "anylinux": true
+          },
           "checksumEvidence": {
             "sourceUrl": "https://github.com/pkgforge-dev/Impression-AppImage/releases/tag/3.8.0-1%402026-09-01_1788277761"
           }
@@ -25,6 +31,12 @@
           "assetId": "539774207",
           "size": 36789605,
           "sha256": "533741759515a08512c5ba3d46f6a7137b53e85c47d6b7525d8fb7ae66268d26",
+          "capabilities": {
+            "runtimeType": 2,
+            "fuse": false,
+            "zsync": true,
+            "anylinux": true
+          },
           "checksumEvidence": {
             "sourceUrl": "https://github.com/pkgforge-dev/Impression-AppImage/releases/tag/3.8.0-1%402026-09-01_1788277761"
           }

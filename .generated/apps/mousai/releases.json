@@ -14,6 +14,12 @@
           "assetId": "539790153",
           "size": 53879097,
           "sha256": "dbf4846bfbd66f0bea3b0e834f5ffe58dca80eb37ccfd82006cca240d11bf264",
+          "capabilities": {
+            "runtimeType": 2,
+            "fuse": false,
+            "zsync": true,
+            "anylinux": true
+          },
           "checksumEvidence": {
             "sourceUrl": "https://github.com/pkgforge-dev/Mousai-AppImage/releases/tag/0.7.10-1%402026-09-01_1788278425"
           }
@@ -25,6 +31,12 @@
           "assetId": "539790156",
           "size": 53980155,
           "sha256": "b270bb04996130885822ab0b0963dbfe386b19d485f1c4b06673e5a3717a1fd2",
+          "capabilities": {
+            "runtimeType": 2,
+            "fuse": false,
+            "zsync": true,
+            "anylinux": true
+          },
           "checksumEvidence": {
             "sourceUrl": "https://github.com/pkgforge-dev/Mousai-AppImage/releases/tag/0.7.10-1%402026-09-01_1788278425"
           }

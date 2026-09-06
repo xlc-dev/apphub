@@ -15,7 +15,8 @@
   ],
   "projectLicense": "GPL-3.0-or-later",
   "developer": {
-    "name": "Ivan Molodetskikh"
+    "name": "Ivan Molodetskikh",
+    "url": "https://gitlab.gnome.org/YaLTeR"
   },
   "homepage": "https://gitlab.gnome.org/YaLTeR/identity",
   "repository": "https://gitlab.gnome.org/YaLTeR/identity",

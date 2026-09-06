@@ -14,6 +14,12 @@
           "assetId": "539778901",
           "size": 34745041,
           "sha256": "ad3a1cfdcc286d0d4abf4a307119614ddbbf9158ffef5283f5dc0b49ccb7ac08",
+          "capabilities": {
+            "runtimeType": 2,
+            "fuse": false,
+            "zsync": true,
+            "anylinux": true
+          },
           "checksumEvidence": {
             "sourceUrl": "https://github.com/pkgforge-dev/Eyedropper-AppImage/releases/tag/2.2.1-1%402026-09-01_1788277955"
           }
@@ -25,6 +31,12 @@
           "assetId": "539778898",
           "size": 35275586,
           "sha256": "be6a4c58bc49b85d6385e6a90ef864092e23230502e8e53157d5380eab7d5eaf",
+          "capabilities": {
+            "runtimeType": 2,
+            "fuse": false,
+            "zsync": true,
+            "anylinux": true
+          },
           "checksumEvidence": {
             "sourceUrl": "https://github.com/pkgforge-dev/Eyedropper-AppImage/releases/tag/2.2.1-1%402026-09-01_1788277955"
           }

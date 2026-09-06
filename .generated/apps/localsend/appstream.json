@@ -24,7 +24,8 @@
   ],
   "projectLicense": "Apache-2.0",
   "developer": {
-    "name": "Tien Do Nam"
+    "name": "Tien Do Nam",
+    "url": "https://github.com/localsend"
   },
   "homepage": "https://localsend.org/",
   "repository": "https://github.com/localsend/localsend",

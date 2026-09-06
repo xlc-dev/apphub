@@ -14,6 +14,12 @@
           "assetId": "546867028",
           "size": 36588668,
           "sha256": "c3d64c27fc985091b1f56660e807d62fb10cf4b651a453e952a772633c89f1d1",
+          "capabilities": {
+            "runtimeType": 2,
+            "fuse": false,
+            "zsync": true,
+            "anylinux": true
+          },
           "checksumEvidence": {
             "sourceUrl": "https://github.com/pkgforge-dev/LocalSend-AppImage/releases/tag/v1.18.2%402026-09-06_1788678857"
           }
@@ -25,6 +31,12 @@
           "assetId": "546867030",
           "size": 36045154,
           "sha256": "c2676479444337df9e9a6c9f669a8a09e60a5291b84e2211afc54c62c3e66eee",
+          "capabilities": {
+            "runtimeType": 2,
+            "fuse": false,
+            "zsync": true,
+            "anylinux": true
+          },
           "checksumEvidence": {
             "sourceUrl": "https://github.com/pkgforge-dev/LocalSend-AppImage/releases/tag/v1.18.2%402026-09-06_1788678857"
           }
