@@ -6,22 +6,24 @@ import { getLocale, translate } from "@/lib/i18n";
 
 interface Props {
   artifacts: CatalogApp["releases"][number]["artifacts"];
+  blocked?: boolean;
 }
 
+const { blocked = false } = Astro.props;
 const artifacts = Astro.props.artifacts.map(({ architecture, sha256, url }) => ({
   architecture,
   sha256,
   url,
 }));
 const locale = getLocale(Astro.currentLocale);
-const clientRequired = translate(locale, "install.clientRequired");
 const messages = {
   install: translate(locale, "install.label"),
-  unavailable: translate(locale, "install.unavailable"),
   unknown: translate(locale, "install.unknownArchitecture"),
   mobile: translate(locale, "install.mobileUnsupported"),
   wrong: translate(locale, "install.wrongArchitecture"),
   missing: translate(locale, "install.noArchitecture"),
+  blocked: translate(locale, "install.downloadsBlocked"),
+  download: translate(locale, "download.label"),
 };
 ---
 
@@ -30,6 +32,7 @@ const messages = {
   inert
   aria-hidden="true"
   data-install
+  data-blocked={blocked || undefined}
   data-artifacts={JSON.stringify(artifacts)}
   data-messages={JSON.stringify(messages)}>
   <Button
@@ -37,13 +40,29 @@ const messages = {
     large
     variant="primary"
     data-install-button>
-    {messages.install}
+    {blocked ? messages.download : messages.install}
   </Button>
   <p
-    class="col-span-2 col-start-1 row-start-2 m-0 min-h-10 max-w-full text-sm text-[var(--muted)] sm:whitespace-nowrap"
+    class="col-span-2 col-start-1 row-start-3 m-0 max-w-full text-sm text-[var(--muted)] sm:whitespace-nowrap"
+    hidden={!blocked}
     data-install-message>
-    {clientRequired}{" "}
-    <Link accent href="https://github.com/kem-a/AppManager">AppManager</Link>.
+    {
+      blocked ? (
+        messages.blocked
+      ) : (
+        <>
+          {translate(locale, "install.nothingHappened")}{" "}
+          {translate(locale, "install.compatibleClient")}{" "}
+          <Link accent href="https://github.com/kem-a/AppManager">
+            AppManager
+          </Link>
+          , {translate(locale, "install.or")}{" "}
+          <Link accent href="#downloads">
+            {translate(locale, "install.downloadManually")}
+          </Link>
+        </>
+      )
+    }
   </p>
 </div>
 
@@ -109,13 +128,18 @@ const messages = {
       const mobile = isMobileDevice(navigator.userAgent, userAgentData?.mobile);
       const architecture = mobile ? undefined : await deviceArchitecture();
       const artifact = artifacts.find((candidate) => candidate.architecture === architecture);
+      const blocked = install.dataset.blocked !== undefined;
+      const viewDownloads = () => document.querySelector("#downloads")?.scrollIntoView();
 
-      if (artifact) {
+      if (blocked) {
+        message.textContent = messages.blocked!;
+      } else if (artifact) {
         button.addEventListener("click", () => {
           const url = new URL("appimg://install");
           url.searchParams.set("url", artifact.url);
           url.searchParams.set("sha256", artifact.sha256);
           window.location.href = url.href;
+          message.hidden = false;
         });
       } else if (mobile) {
         message.textContent = messages.mobile!;
@@ -129,10 +153,10 @@ const messages = {
         message.textContent = messages.missing!.replace("{architecture}", architecture);
       }
 
-      if (!artifact) {
-        button.textContent = messages.unavailable!;
-        button.disabled = true;
-        button.dataset.unavailable = "";
+      if (blocked || !artifact) {
+        button.textContent = messages.download!;
+        button.addEventListener("click", viewDownloads);
+        message.hidden = false;
       }
       install.classList.remove("invisible");
       install.inert = false;

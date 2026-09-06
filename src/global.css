@@ -42,6 +42,10 @@
   background: var(--card);
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 @utility summary-reset {
   list-style: none;
 
@@ -214,6 +218,10 @@ summary {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
   ::view-transition-group(*),
   ::view-transition-old(*),
   ::view-transition-new(*) {

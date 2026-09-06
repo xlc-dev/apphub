@@ -109,7 +109,14 @@ export async function hashDownload(
   const hash = createHash("sha256");
   const reader = response.body.getReader();
   let size = 0;
+  let prefix = new Uint8Array();
+  let tail = Buffer.alloc(0);
+  let fuse = false;
+  let zsync = false;
   const sizeLimit = file.size ?? maximumSize;
+  const fusePattern = Buffer.from("libfuse.so.2");
+  const zsyncPattern = Buffer.from("zsync|");
+  const overlap = Math.max(fusePattern.length, zsyncPattern.length) - 1;
 
   for (;;) {
     const { done, value } = await reader.read();
@@ -128,6 +135,18 @@ export async function hashDownload(
     }
 
     hash.update(value);
+
+    if (prefix.length < 11) {
+      prefix = new Uint8Array([...prefix, ...value.slice(0, 11 - prefix.length)]);
+    }
+
+    if (!fuse || !zsync) {
+      const chunk = Buffer.from(value.buffer, value.byteOffset, value.byteLength);
+      const searchable = tail.length ? Buffer.concat([tail, chunk]) : chunk;
+      fuse ||= searchable.includes(fusePattern);
+      zsync ||= searchable.includes(zsyncPattern);
+      tail = Buffer.from(searchable.subarray(-overlap));
+    }
   }
 
   if (file.size !== undefined && size !== file.size) {
@@ -136,5 +155,19 @@ export async function hashDownload(
 
   recordResponseBytes(response, size);
 
-  return { size, sha256: hash.digest("hex") };
+  const runtimeType =
+    prefix[8] === 0x41 && prefix[9] === 0x49 && [1, 2].includes(prefix[10]!)
+      ? (prefix[10] as 1 | 2)
+      : undefined;
+
+  return {
+    size,
+    sha256: hash.digest("hex"),
+    capabilities: {
+      ...(runtimeType ? { runtimeType } : {}),
+      fuse,
+      zsync,
+      anylinux: /(?:^|[^a-z0-9])anylinux(?:[^a-z0-9]|$)/i.test(file.name),
+    },
+  };
 }

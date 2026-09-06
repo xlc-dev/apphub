@@ -1,4 +1,5 @@
 import { latestDownloadDate } from "#catalog/downloads";
+import { developerUrl } from "#catalog/developer";
 import { isStale, staleAfterDays, type RefreshState } from "#catalog/refresh";
 import { getCatalogApps, getCatalogSnapshotTime, getDownloadHistory } from "#lib/catalog-loader";
 import {
@@ -30,7 +31,10 @@ function apiAppResource(app: CatalogAppResource) {
     summary: app.summary,
     description: app.description,
     projectLicense: app.projectLicense,
-    developer: app.developer,
+    developer: {
+      name: app.developer.name,
+      url: app.developer.url ?? developerUrl(app.repository, app.homepage),
+    },
     homepage: app.homepage,
     repository: app.repository,
     links: app.links,
@@ -47,7 +51,19 @@ function apiAppResource(app: CatalogAppResource) {
     status: app.status,
     provenance: app.provenance,
     statistics: app.statistics,
-    latestRelease: app.releases[0] ?? null,
+    latestRelease: app.releases[0]
+      ? {
+          ...app.releases[0],
+          artifacts: app.releases[0].artifacts.map((artifact) => ({
+            ...artifact,
+            capabilities: artifact.capabilities ?? {
+              fuse: false,
+              zsync: false,
+              anylinux: false,
+            },
+          })),
+        }
+      : null,
     url: sitePath(`/api/v1/apps/${app.id}.json`),
     webUrl: sitePath(`/apps/${app.slug}/`),
   });

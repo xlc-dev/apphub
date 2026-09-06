@@ -23,6 +23,7 @@ const release: ReleaseLock["releases"][number] = {
       url: "https://github.com/example/app/releases/download/1.0/App-x86_64.AppImage",
       size: 100,
       sha256: "a".repeat(64),
+      capabilities: { runtimeType: 2, fuse: true, zsync: false, anylinux: false },
       checksumEvidence: {
         sourceUrl: "https://github.com/example/app/releases/tag/1.0",
       },

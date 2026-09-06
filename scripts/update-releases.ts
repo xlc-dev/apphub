@@ -21,15 +21,20 @@ import { writeCatalogSnapshot } from "#scripts/write-snapshot";
 const maximumArtifactSize = 2 * 1024 * 1024 * 1024;
 const maximumReleaseSize = 4 * 1024 * 1024 * 1024;
 
-function canReuseObservation(
+export function canReuseObservation(
   recorded: Artifact | undefined,
   observed: SourceRelease["artifacts"][number]
-): recorded is Artifact {
+): recorded is Artifact & { capabilities: NonNullable<Artifact["capabilities"]> } {
+  const sameAsset =
+    recorded?.assetId !== undefined &&
+    observed.assetId !== undefined &&
+    recorded.assetId === observed.assetId;
+  const sameChecksum = observed.publishedSha256?.value === recorded?.sha256;
+
   return Boolean(
-    recorded?.assetId &&
-    recorded.assetId === observed.assetId &&
+    recorded?.capabilities &&
     (observed.size === undefined || recorded.size === observed.size) &&
-    observed.publishedSha256?.value === recorded.sha256
+    (sameAsset || sameChecksum)
   );
 }
 
@@ -52,7 +57,7 @@ async function recordRelease(
     }
 
     const observed = canReuseObservation(existing, artifact)
-      ? { size: existing.size, sha256: existing.sha256 }
+      ? { size: existing.size, sha256: existing.sha256, capabilities: existing.capabilities }
       : await hashDownload(artifact, { maximumSize: limit });
 
     if (artifact.publishedSha256 && artifact.publishedSha256.value !== observed.sha256) {
@@ -68,6 +73,7 @@ async function recordRelease(
       ...recordedArtifact,
       size: observed.size,
       sha256: observed.sha256,
+      capabilities: observed.capabilities,
       ...(publishedSha256 ? { checksumEvidence: { sourceUrl: publishedSha256.sourceUrl } } : {}),
     });
     releaseSize += observed.size;

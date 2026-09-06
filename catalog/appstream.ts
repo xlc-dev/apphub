@@ -2,6 +2,7 @@ import { XMLParser } from "fast-xml-parser";
 import parseSpdxExpression from "spdx-expression-parse";
 import { appstreamMetadataSchema, type DescriptionBlock } from "#catalog/schema";
 import { normalizeLocale } from "#catalog/localization";
+import { developerUrl } from "#catalog/developer";
 
 type XmlNode = Record<string, XmlNode[] | string>;
 
@@ -519,7 +520,13 @@ export function readAppstreamXml(xml: string, expectedId: string) {
     summary: summaries.default,
     description: parseDescription(description),
     projectLicense: defaultText(component.project_license),
-    developer: { name: developerNames.default },
+    developer: {
+      name: developerNames.default,
+      url: developerUrl(
+        typeof repository === "string" ? repository : undefined,
+        typeof homepage === "string" ? homepage : ""
+      ),
+    },
     homepage,
     ...(repository ? { repository } : {}),
     ...(links ? { links } : {}),

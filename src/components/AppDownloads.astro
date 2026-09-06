@@ -23,7 +23,10 @@ const releaseDate = latest
   : undefined;
 ---
 
-<section class="card-surface rounded-xl p-5 shadow-sm" aria-labelledby="downloads-heading">
+<section
+  class="card-surface scroll-mt-6 rounded-xl p-5 shadow-sm"
+  id="downloads"
+  aria-labelledby="downloads-heading">
   <h2 class="text-xl font-bold" id="downloads-heading">{t("downloads.direct")}</h2>
   {
     latest ? (
