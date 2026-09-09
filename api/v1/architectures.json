@@ -1,1 +1,1 @@
-{"revision":"58a4eea696481b807de2dbbbfaf1924e791568469c88a5c7b5a98e6f3092af3a","generatedAt":"2026-09-08T08:48:30.638Z","items":[{"id":"aarch64","count":19,"url":"/apphub/api/v1/architectures/aarch64.json"},{"id":"x86_64","count":20,"url":"/apphub/api/v1/architectures/x86_64.json"}]}
+{"revision":"a67bd0e5ea5aff5ce44cf568874caadb6c701edf3975cabf608a8b018c37ce12","generatedAt":"2026-09-09T08:54:58.812Z","items":[{"id":"aarch64","count":19,"url":"/apphub/api/v1/architectures/aarch64.json"},{"id":"x86_64","count":20,"url":"/apphub/api/v1/architectures/x86_64.json"}]}
