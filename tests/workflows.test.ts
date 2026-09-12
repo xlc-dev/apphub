@@ -32,5 +32,9 @@ test("automation commits generated state but never application manifests", async
 test("refresh batch artifacts extract into the directory expected by the finalizer", async () => {
   const workflow = await readFile(".github/workflows/catalog-refresh.yml", "utf8");
 
-  assert.match(workflow, /path: \/tmp\/\$\{\{ matrix\.id \}\}\/\*/);
+  assert.match(workflow, /path: \/tmp\/\$\{\{ matrix\.id \}\}\n/);
+  assert.match(
+    workflow,
+    /pattern: batch-\*\n\s+path: \/tmp\/refresh-results\n\s+merge-multiple: true/
+  );
 });
