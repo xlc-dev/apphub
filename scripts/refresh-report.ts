@@ -63,8 +63,6 @@ const networkReportSchema = z
   })
   .strict();
 
-const refreshReportCheckSchema = z.object({ alerts: z.array(z.unknown()) });
-
 type RefreshUnit = (typeof units)[number];
 export type CapturedApp = z.infer<typeof capturedAppSchema>;
 export type CapturedRefreshState = z.infer<typeof capturedRefreshStateSchema>;
@@ -227,6 +225,21 @@ export function createRefreshReport(
     incidents,
     staleResources,
     persistentFailures,
+    maintenance: [
+      ...Object.entries(after.apps).flatMap(([appId, app]) =>
+        app.status === "quarantined" || app.status === "unavailable"
+          ? [{ appId, slug: app.slug, kind: app.status }]
+          : []
+      ),
+      ...persistentFailures.map(({ appId, slug, unit, category, consecutiveFailures }) => ({
+        appId,
+        slug,
+        kind: "persistent-failure" as const,
+        unit,
+        category,
+        consecutiveFailures,
+      })),
+    ],
     rateLimitedProviders: Object.entries(network.hosts).flatMap(([host, value]) =>
       value.blockedUntil ? [{ host, blockedUntil: value.blockedUntil }] : []
     ),
@@ -330,17 +343,7 @@ async function main() {
     return;
   }
 
-  if (command === "check") {
-    const report = refreshReportCheckSchema.parse(await readJson(reportPath));
-
-    if (report.alerts.length) {
-      throw new Error(`${report.alerts.length} catalog maintenance alert(s) require review`);
-    }
-
-    return;
-  }
-
-  throw new Error("Usage: refresh-report.ts capture|report|check");
+  throw new Error("Usage: refresh-report.ts capture|report");
 }
 
 if (import.meta.main) await main();

@@ -53,10 +53,12 @@ source changes must still succeed before they are accepted. See
 [Refresh failures and freshness](freshness.md) for thresholds, quarantine behavior, and retries.
 
 Each refresh writes a summary and a JSON report. The report is kept as a workflow artifact for 30
-days and is not committed.
+days and is not committed. The workflow also maintains one catalog maintenance issue. It opens or
+updates the issue while apps are quarantined, unavailable, or repeatedly failing, and closes it
+after all actionable conditions recover.
 
-New quarantines, unavailable apps, and repeated failures make the workflow fail after deployment.
-Existing incidents remain visible without sending the same alert every day.
+Catalog incidents do not fail an otherwise safe deployment. Failure to refresh, validate, deploy, or
+update the maintenance issue does fail the workflow.
 
 The workflow creates at most one `.generated/` commit and does nothing when data is unchanged. It
 then builds and validates the website, updates production on `gh-pages` without removing previews,

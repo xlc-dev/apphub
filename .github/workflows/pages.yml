@@ -25,6 +25,7 @@ jobs:
   deploy:
     permissions:
       contents: read
+      issues: write
       pages: write
       id-token: write
     environment:
@@ -173,6 +174,8 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128 # v5
 
-      - name: Check maintenance alerts
-        if: always() && github.event_name != 'push'
-        run: bun scripts/refresh-report.ts check
+      - name: Maintain catalog issue
+        if: github.event_name != 'push'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bun scripts/refresh-issue.ts
