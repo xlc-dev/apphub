@@ -4,6 +4,7 @@ import {
   globRegex,
   hashDownload,
   matchesArchitecture,
+  needsArtifactInspection,
   selectAssets,
   sha256,
 } from "#catalog/artifacts";
@@ -548,6 +549,30 @@ describe("release observations", () => {
       },
     },
   };
+
+  test("requires backfilling artifacts without inspection evidence", () => {
+    const inspected = {
+      appId: "org.example.App",
+      releases: [
+        {
+          version: "1",
+          publishedAt: "2026-01-01T00:00:00Z",
+          page: recorded.url,
+          artifacts: [recorded],
+        },
+      ],
+    };
+    const { inspection: _inspection, ...uninspected } = recorded;
+
+    assert.equal(needsArtifactInspection(inspected), false);
+    assert.equal(
+      needsArtifactInspection({
+        ...inspected,
+        releases: [{ ...inspected.releases[0]!, artifacts: [uninspected] }],
+      }),
+      true
+    );
+  });
 
   test("reuses an unchanged provider asset without downloading it again", () => {
     assert.equal(canReuseObservation(recorded, { ...recorded, size: 100 }), true);

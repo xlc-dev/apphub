@@ -1,4 +1,5 @@
 import type { App, ReleaseLock } from "#catalog/schema";
+import { needsArtifactInspection } from "#catalog/artifacts";
 import { fetchFeedReleases } from "#scripts/releases/feed";
 import { fetchForgeDownloadTotal, fetchForgeReleases } from "#scripts/releases/forge";
 import { fetchGitLabReleases } from "#scripts/releases/gitlab";
@@ -11,7 +12,11 @@ export function fetchSourceReleases(app: App, lock: ReleaseLock) {
     case "gitlab":
       return fetchGitLabReleases(app, lock);
     case "feed":
-      return fetchFeedReleases(app, lock, app.provenance.releaseSource.validator);
+      return fetchFeedReleases(
+        app,
+        lock,
+        needsArtifactInspection(lock) ? undefined : app.provenance.releaseSource.validator
+      );
   }
 }
 
