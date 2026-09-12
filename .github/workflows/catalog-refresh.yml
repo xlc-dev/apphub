@@ -150,15 +150,6 @@ jobs:
           APPHUB_REFRESH_RESULTS: /tmp/refresh-results
         run: bun run finalize-refresh-batches
 
-      - name: Refresh statistics
-        run: bun run update-downloads && bun run update-stars
-
-      - name: Write final snapshot
-        run: bun scripts/write-snapshot.ts
-
-      - name: Validate complete catalog
-        run: bun run validate:catalog
-
       - name: Create App token
         id: app-token
         uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
@@ -167,6 +158,17 @@ jobs:
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
           permission-administration: read
           permission-contents: write
+
+      - name: Refresh statistics
+        env:
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: bun run update-downloads && bun run update-stars
+
+      - name: Write final snapshot
+        run: bun scripts/write-snapshot.ts
+
+      - name: Validate complete catalog
+        run: bun run validate:catalog
 
       - name: Plan GitHub publication
         env:

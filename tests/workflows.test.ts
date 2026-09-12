@@ -38,3 +38,15 @@ test("refresh batch artifacts extract into the directory expected by the finaliz
     /pattern: batch-\*\n\s+path: \/tmp\/refresh-results\n\s+merge-multiple: true/
   );
 });
+
+test("repository statistics use the App token", async () => {
+  const workflow = await readFile(".github/workflows/catalog-refresh.yml", "utf8");
+  const token = workflow.indexOf("id: app-token");
+  const statistics = workflow.indexOf("- name: Refresh statistics");
+
+  assert.ok(token !== -1 && token < statistics);
+  assert.match(
+    workflow.slice(statistics),
+    /GITHUB_TOKEN: \$\{\{ steps\.app-token\.outputs\.token \}\}\n\s+run: bun run update-downloads/
+  );
+});
