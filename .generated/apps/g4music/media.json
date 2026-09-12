@@ -1,11 +1,11 @@
 {
   "icon": {
     "file": "010c32326559462db602c40e26e4b3f7ba06bcd85f78549c68f6947b0b30ae30.webp",
+    "source": "https://dl.flathub.org/media/com/github/neithern.g4music/d93db3223240a62a7226f3c899dd5a48/icons/128x128/com.github.neithern.g4music.png",
     "validator": {
       "etag": "\"6a3f5905-4a63\"",
       "lastModified": "Sat, 27 Jun 2026 05:00:53 GMT"
-    },
-    "source": "https://dl.flathub.org/media/com/github/neithern.g4music/d93db3223240a62a7226f3c899dd5a48/icons/128x128/com.github.neithern.g4music.png"
+    }
   },
   "screenshots": [
     {

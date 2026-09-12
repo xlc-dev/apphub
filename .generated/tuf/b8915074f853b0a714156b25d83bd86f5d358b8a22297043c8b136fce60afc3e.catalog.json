@@ -1,12 +1,12 @@
 {
   "version": 1,
-  "revision": "0ce56c3cdce5c2f1f2910e76021655fbc3ade27e8c4bf34f450a1334f0097396",
-  "generatedAt": "2026-09-12T17:55:08.669Z",
+  "revision": "2e5764c7b0237a2f79a8e3b1e591b877b9875cf0dbbacaa6a542d15a56e86fcc",
+  "generatedAt": "2026-09-12T19:35:27.028Z",
   "apps": [
     {
       "id": "com.belmoussaoui.Authenticator",
       "slug": "authenticator",
-      "status": "current",
+      "status": "quarantined",
       "publisher": {
         "identity": "{\"provider\":\"github\",\"ownerId\":\"189202376\",\"projectId\":\"1093822952\",\"configuredUrl\":\"https://github.com/pkgforge-dev/Authenticator-AppImage\"}",
         "evidence": "https://github.com/pkgforge-dev/Authenticator-AppImage"
@@ -59,7 +59,7 @@
     {
       "id": "com.brave.Browser.Origin",
       "slug": "brave-origin",
-      "status": "current",
+      "status": "quarantined",
       "publisher": {
         "identity": "{\"provider\":\"github\",\"ownerId\":\"189202376\",\"projectId\":\"1267489258\",\"configuredUrl\":\"https://github.com/pkgforge-dev/Brave-Origin-AppImage\"}",
         "evidence": "https://github.com/pkgforge-dev/Brave-Origin-AppImage"
@@ -118,7 +118,7 @@
     {
       "id": "org.gnome.Calculator",
       "slug": "calculator",
-      "status": "current",
+      "status": "quarantined",
       "publisher": {
         "identity": "{\"provider\":\"github\",\"ownerId\":\"189202376\",\"projectId\":\"1035371025\",\"configuredUrl\":\"https://github.com/pkgforge-dev/Gnome-Calculator-AppImage\"}",
         "evidence": "https://github.com/pkgforge-dev/Gnome-Calculator-AppImage"
@@ -171,7 +171,7 @@
     {
       "id": "dev.geopjr.Collision",
       "slug": "collision",
-      "status": "current",
+      "status": "quarantined",
       "publisher": {
         "identity": "{\"provider\":\"github\",\"ownerId\":\"189202376\",\"projectId\":\"1094972250\",\"configuredUrl\":\"https://github.com/pkgforge-dev/Collision-AppImage\"}",
         "evidence": "https://github.com/pkgforge-dev/Collision-AppImage"
@@ -224,7 +224,7 @@
     {
       "id": "org.DolphinEmu.dolphin-emu",
       "slug": "dolphin-emulator",
-      "status": "current",
+      "status": "quarantined",
       "publisher": {
         "identity": "{\"provider\":\"github\",\"ownerId\":\"189202376\",\"projectId\":\"707886912\",\"configuredUrl\":\"https://github.com/pkgforge-dev/Dolphin-emu-AppImage\"}",
         "evidence": "https://github.com/pkgforge-dev/Dolphin-emu-AppImage"
@@ -284,7 +284,7 @@
     {
       "id": "com.github.finefindus.eyedropper",
       "slug": "eyedropper",
-      "status": "current",
+      "status": "quarantined",
       "publisher": {
         "identity": "{\"provider\":\"github\",\"ownerId\":\"189202376\",\"projectId\":\"1095661487\",\"configuredUrl\":\"https://github.com/pkgforge-dev/Eyedropper-AppImage\"}",
         "evidence": "https://github.com/pkgforge-dev/Eyedropper-AppImage"
@@ -337,7 +337,7 @@
     {
       "id": "com.github.neithern.g4music",
       "slug": "g4music",
-      "status": "current",
+      "status": "quarantined",
       "publisher": {
         "identity": "{\"provider\":\"github\",\"ownerId\":\"189202376\",\"projectId\":\"1093311110\",\"configuredUrl\":\"https://github.com/pkgforge-dev/Gapless-AppImage\"}",
         "evidence": "https://github.com/pkgforge-dev/Gapless-AppImage"
@@ -395,7 +395,7 @@
     {
       "id": "it.mijorus.gearlever",
       "slug": "gear-lever",
-      "status": "current",
+      "status": "quarantined",
       "publisher": {
         "identity": "{\"provider\":\"github\",\"ownerId\":\"189202376\",\"projectId\":\"1100351342\",\"configuredUrl\":\"https://github.com/pkgforge-dev/Gear-Lever-AppImage\"}",
         "evidence": "https://github.com/pkgforge-dev/Gear-Lever-AppImage"
@@ -454,7 +454,7 @@
     {
       "id": "io.github.htop_dev.htop",
       "slug": "htop",
-      "status": "current",
+      "status": "quarantined",
       "publisher": {
         "identity": "{\"provider\":\"github\",\"ownerId\":\"189202376\",\"projectId\":\"789213175\",\"configuredUrl\":\"https://github.com/pkgforge-dev/htop-AppImage\"}",
         "evidence": "https://github.com/pkgforge-dev/htop-AppImage"
@@ -505,7 +505,7 @@
     {
       "id": "org.gnome.gitlab.YaLTeR.Identity",
       "slug": "identity",
-      "status": "current",
+      "status": "quarantined",
       "publisher": {
         "identity": "{\"provider\":\"github\",\"ownerId\":\"189202376\",\"projectId\":\"1095006621\",\"configuredUrl\":\"https://github.com/pkgforge-dev/Identity-AppImage\"}",
         "evidence": "https://github.com/pkgforge-dev/Identity-AppImage"
@@ -558,7 +558,7 @@
     {
       "id": "io.gitlab.adhami3310.Impression",
       "slug": "impression",
-      "status": "current",
+      "status": "quarantined",
       "publisher": {
         "identity": "{\"provider\":\"github\",\"ownerId\":\"189202376\",\"projectId\":\"1093114533\",\"configuredUrl\":\"https://github.com/pkgforge-dev/Impression-AppImage\"}",
         "evidence": "https://github.com/pkgforge-dev/Impression-AppImage"
@@ -626,7 +626,7 @@
     {
       "id": "org.librecad.librecad",
       "slug": "librecad",
-      "status": "current",
+      "status": "quarantined",
       "publisher": {
         "identity": "{\"provider\":\"github\",\"ownerId\":\"189202376\",\"projectId\":\"1120281476\",\"configuredUrl\":\"https://github.com/pkgforge-dev/LibreCAD-AppImage\"}",
         "evidence": "https://github.com/pkgforge-dev/LibreCAD-AppImage"
@@ -679,7 +679,7 @@
     {
       "id": "org.localsend.localsend_app",
       "slug": "localsend",
-      "status": "current",
+      "status": "quarantined",
       "publisher": {
         "identity": "{\"provider\":\"github\",\"ownerId\":\"189202376\",\"projectId\":\"1120032149\",\"configuredUrl\":\"https://github.com/pkgforge-dev/LocalSend-AppImage\"}",
         "evidence": "https://github.com/pkgforge-dev/LocalSend-AppImage"
@@ -732,7 +732,7 @@
     {
       "id": "io.github.seadve.Mousai",
       "slug": "mousai",
-      "status": "current",
+      "status": "quarantined",
       "publisher": {
         "identity": "{\"provider\":\"github\",\"ownerId\":\"189202376\",\"projectId\":\"1094834947\",\"configuredUrl\":\"https://github.com/pkgforge-dev/Mousai-AppImage\"}",
         "evidence": "https://github.com/pkgforge-dev/Mousai-AppImage"
@@ -785,7 +785,7 @@
     {
       "id": "io.gitlab.news_flash.NewsFlash",
       "slug": "newsflash",
-      "status": "current",
+      "status": "quarantined",
       "publisher": {
         "identity": "{\"provider\":\"github\",\"ownerId\":\"189202376\",\"projectId\":\"1092768912\",\"configuredUrl\":\"https://github.com/pkgforge-dev/NewsFlash-AppImage\"}",
         "evidence": "https://github.com/pkgforge-dev/NewsFlash-AppImage"
@@ -838,7 +838,7 @@
     {
       "id": "com.github.PintaProject.Pinta",
       "slug": "pinta",
-      "status": "current",
+      "status": "quarantined",
       "publisher": {
         "identity": "{\"provider\":\"github\",\"ownerId\":\"189202376\",\"projectId\":\"1091654192\",\"configuredUrl\":\"https://github.com/pkgforge-dev/Pinta-AppImage\"}",
         "evidence": "https://github.com/pkgforge-dev/Pinta-AppImage"
@@ -883,7 +883,7 @@
     {
       "id": "com.github.flxzt.rnote",
       "slug": "rnote",
-      "status": "current",
+      "status": "quarantined",
       "publisher": {
         "identity": "{\"provider\":\"github\",\"ownerId\":\"189202376\",\"projectId\":\"1039614022\",\"configuredUrl\":\"https://github.com/pkgforge-dev/Rnote-AppImage\"}",
         "evidence": "https://github.com/pkgforge-dev/Rnote-AppImage"
@@ -937,7 +937,7 @@
     {
       "id": "org.gnome.TextEditor",
       "slug": "text-editor",
-      "status": "current",
+      "status": "quarantined",
       "publisher": {
         "identity": "{\"provider\":\"github\",\"ownerId\":\"189202376\",\"projectId\":\"1056494744\",\"configuredUrl\":\"https://github.com/pkgforge-dev/Gnome-Text-Editor-AppImage\"}",
         "evidence": "https://github.com/pkgforge-dev/Gnome-Text-Editor-AppImage"
@@ -990,7 +990,7 @@
     {
       "id": "org.gnome.gitlab.YaLTeR.VideoTrimmer",
       "slug": "video-trimmer",
-      "status": "current",
+      "status": "quarantined",
       "publisher": {
         "identity": "{\"provider\":\"github\",\"ownerId\":\"189202376\",\"projectId\":\"1098446813\",\"configuredUrl\":\"https://github.com/pkgforge-dev/Video-Trimmer-AppImage\"}",
         "evidence": "https://github.com/pkgforge-dev/Video-Trimmer-AppImage"
@@ -1043,7 +1043,7 @@
     {
       "id": "app.drey.Warp",
       "slug": "warp",
-      "status": "current",
+      "status": "quarantined",
       "publisher": {
         "identity": "{\"provider\":\"github\",\"ownerId\":\"189202376\",\"projectId\":\"1093509763\",\"configuredUrl\":\"https://github.com/pkgforge-dev/Warp-AppImage\"}",
         "evidence": "https://github.com/pkgforge-dev/Warp-AppImage"

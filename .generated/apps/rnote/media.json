@@ -1,11 +1,11 @@
 {
   "icon": {
     "file": "f05f73ffc3de4b864a8033a7975a0db4f99be1b39691af3d47675fd5af6b5a44.webp",
+    "source": "https://dl.flathub.org/media/com/github/flxzt.rnote/93b04722947997f1b9c5cc51f10e3ced/icons/128x128/com.github.flxzt.rnote.png",
     "validator": {
       "etag": "\"69f4ab86-17ea\"",
       "lastModified": "Fri, 01 May 2026 13:32:54 GMT"
-    },
-    "source": "https://dl.flathub.org/media/com/github/flxzt.rnote/93b04722947997f1b9c5cc51f10e3ced/icons/128x128/com.github.flxzt.rnote.png"
+    }
   },
   "screenshots": [
     {

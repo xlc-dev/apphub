@@ -1,11 +1,11 @@
 {
   "icon": {
     "file": "0122131eaa46630ff9655d108801513e058370be5e566eebc7cd1f9ad6d24fca.webp",
+    "source": "https://dl.flathub.org/media/io/gitlab/adhami3310.Impression/05aa7f73a71b0cec60d9ba432376066d/icons/128x128/io.gitlab.adhami3310.Impression.png",
     "validator": {
       "etag": "\"6a5e5448-185b\"",
       "lastModified": "Mon, 20 Jul 2026 17:00:56 GMT"
-    },
-    "source": "https://dl.flathub.org/media/io/gitlab/adhami3310.Impression/05aa7f73a71b0cec60d9ba432376066d/icons/128x128/io.gitlab.adhami3310.Impression.png"
+    }
   },
   "screenshots": [
     {

@@ -1,11 +1,11 @@
 {
   "icon": {
     "file": "2cec6d4a517070001f2191de26fa8c15c252a03bda3c6f3f805b7b31c2187df7.webp",
+    "source": "https://dl.flathub.org/media/org/gnome/gitlab.YaLTeR.Identity/4ba862e25a993efcf2ef39d5498b0251/icons/128x128/org.gnome.gitlab.YaLTeR.Identity.png",
     "validator": {
       "etag": "\"69d7952f-900\"",
       "lastModified": "Thu, 09 Apr 2026 12:01:51 GMT"
-    },
-    "source": "https://dl.flathub.org/media/org/gnome/gitlab.YaLTeR.Identity/4ba862e25a993efcf2ef39d5498b0251/icons/128x128/org.gnome.gitlab.YaLTeR.Identity.png"
+    }
   },
   "screenshots": [
     {

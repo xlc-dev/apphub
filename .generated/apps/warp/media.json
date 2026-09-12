@@ -1,11 +1,11 @@
 {
   "icon": {
     "file": "b87ea4af986668cd892c152034dfc10e6255a1974f5c8740e3f0a2e4230e1d96.webp",
+    "source": "https://dl.flathub.org/media/app/drey/Warp/66b2b74abeecd4bc7aa79644c759a203/icons/128x128/app.drey.Warp.png",
     "validator": {
       "etag": "\"69c6c0c1-291b\"",
       "lastModified": "Fri, 27 Mar 2026 17:39:13 GMT"
-    },
-    "source": "https://dl.flathub.org/media/app/drey/Warp/66b2b74abeecd4bc7aa79644c759a203/icons/128x128/app.drey.Warp.png"
+    }
   },
   "screenshots": [
     {
