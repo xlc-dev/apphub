@@ -21,6 +21,21 @@ Every remote request must:
 - Remove caller-provided headers after a cross-origin redirect.
 - Stay within request, download, and parser limits.
 
+New AppImages are hashed while streaming and are never executed. The refresh worker validates the
+ELF class and machine against the catalog architecture, requires the AppImage runtime marker, and
+performs bounded structural validation of the embedded ISO9660 or SquashFS archive. Invalid archive
+bounds, excessive inode counts, malformed headers, unexpected architectures, and oversized files
+fail the release refresh. An artifact without recorded inspection evidence cannot become
+installable.
+
+This inspection is defense in depth. It does not prove that the files inside an AppImage are benign,
+and it never substitutes for reviewing the application manifest and authenticating its configured
+release source.
+
+Refresh workers never mount or extract an AppImage, so archive paths and links are not followed by
+AppHub. Any client that inspects an archive must do so in a disposable sandbox and must reject paths
+or links that escape its extraction root. Installing an AppImage does not require extracting it.
+
 Production may authenticate to GitHub after code reaches `main`. Pull-request catalog generation
 cannot use those credentials.
 

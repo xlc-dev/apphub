@@ -121,22 +121,36 @@ export async function readAppManifests(directory = appsDirectory) {
 export async function readApps(
   directory = appsDirectory,
   generatedDirectory = generatedAppsDirectory,
-  selectedSlugs?: ReadonlySet<string>
+  selectedSlugs?: ReadonlySet<string>,
+  options: { requireMediaFiles?: boolean } = {}
 ) {
+  const requireMediaFiles = options.requireMediaFiles ?? false;
   const manifests = await readAppManifests(directory);
   const slugs = [...manifests.keys()].filter((slug) => !selectedSlugs || selectedSlugs.has(slug));
   const entries: AppEntry[] = [];
   const generatedMediaDirectory = new URL("../media/", generatedDirectory);
-  const mediaNames = new Set(await readdir(generatedMediaDirectory));
+  let mediaEntries: string[];
+  try {
+    mediaEntries = await readdir(generatedMediaDirectory);
+  } catch (error) {
+    if (requireMediaFiles || (error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
+    mediaEntries = [];
+  }
+  const mediaNames = new Set(mediaEntries);
   const referencedMedia = new Set<string>();
   const mediaContents = new Map<string, Buffer>();
+  const validatedIcons = new Set<string>();
+  const validatedScreenshots = new Set<string>();
 
   for (const name of mediaNames) {
     if (!mediaFile.test(name)) throw new Error(`Unexpected generated media file: ${name}`);
   }
 
   async function readMedia(name: string) {
-    if (!mediaNames.has(name)) throw new Error(`Missing generated media file: ${name}`);
+    if (!mediaNames.has(name)) {
+      if (!requireMediaFiles) return;
+      throw new Error(`Missing generated media file: ${name}`);
+    }
 
     referencedMedia.add(name);
 
@@ -198,16 +212,24 @@ export async function readApps(
     const appMedia = new Set([appIconFile, ...app.screenshots.map(({ file }) => file)]);
     let appMediaBytes = 0;
 
-    for (const file of appMedia) appMediaBytes += (await readMedia(file)).length;
+    for (const file of appMedia) appMediaBytes += (await readMedia(file))?.length ?? 0;
 
     if (appMediaBytes > maximumAppMediaBytes) {
       throw new Error(`${slug}: published media exceeds 1 MiB`);
     }
 
-    await validateImage(await readMedia(appIconFile), appIconFile, app.id, { icon: true });
+    if (!validatedIcons.has(appIconFile)) {
+      const data = await readMedia(appIconFile);
+      if (data) await validateImage(data, appIconFile, app.id, { icon: true });
+      validatedIcons.add(appIconFile);
+    }
 
     for (const screenshot of app.screenshots) {
-      await validateImage(await readMedia(screenshot.file), screenshot.file, app.id);
+      if (!validatedScreenshots.has(screenshot.file)) {
+        const data = await readMedia(screenshot.file);
+        if (data) await validateImage(data, screenshot.file, app.id);
+        validatedScreenshots.add(screenshot.file);
+      }
     }
 
     const { lock, exists } = await readOptionalLock(

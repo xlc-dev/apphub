@@ -4,7 +4,7 @@ import {
   createRefreshReport,
   type CapturedApp,
   type CapturedRefreshState,
-} from "#scripts/refresh-report";
+} from "#scripts/refresh/report";
 
 const start = "2026-08-26T10:00:00.000Z";
 const attempt = "2026-08-26T10:01:00.000Z";

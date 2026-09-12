@@ -63,6 +63,11 @@ function appCard(app: SearchIndexEntry, template: HTMLTemplateElement, locale: L
   name.textContent = app.name;
   summary.textContent = app.summary;
   origin.dataset.originBadge = app.origin;
+  if (app.origin === "upstream") {
+    origin.title = translate(locale, "origin.upstreamMeaning");
+  } else {
+    origin.removeAttribute("title");
+  }
   originLabel.textContent = translate(
     locale,
     app.origin === "upstream" ? "origin.upstream" : "origin.thirdParty"
@@ -234,7 +239,10 @@ export function initializeCatalogSearch() {
     }
 
     const filters = filtersFromUrl(url);
-    index ??= (await fetch(sitePath(localePath("/search-index.json", locale))).then((response) => {
+    const indexPath = currentCategory
+      ? `/search-index/${encodeURIComponent(currentCategory)}.json`
+      : "/search-index.json";
+    index ??= (await fetch(sitePath(localePath(indexPath, locale))).then((response) => {
       if (!response.ok) {
         throw new Error(t("search.failed", { status: response.status }));
       }

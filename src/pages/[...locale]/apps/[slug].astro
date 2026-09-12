@@ -42,7 +42,11 @@ const [repositoryStars, downloads] = await Promise.all([
 ]);
 const stars = repositoryStars[app.slug];
 const latest = app.releases[0];
-const downloadsBlocked = app.status === "quarantined" || app.status === "unavailable";
+const downloadsBlocked =
+  app.status === "quarantined" ||
+  app.status === "unavailable" ||
+  app.status === "revoked" ||
+  !latest?.artifacts.some(({ installable }) => installable);
 let statusMessage: string | undefined;
 
 if (app.status === "quarantined") {
@@ -51,6 +55,8 @@ if (app.status === "quarantined") {
   statusMessage = t("app.unavailable");
 } else if (app.status === "stale") {
   statusMessage = t("app.stale");
+} else if (app.status === "revoked") {
+  statusMessage = t("app.revoked");
 }
 const ageRating =
   app.contentRating?.minimumAge !== undefined ? `${app.contentRating.minimumAge}+` : undefined;
@@ -107,6 +113,11 @@ const developerHref = app.developer.url ?? developerUrl(app.repository, app.home
           }
         </div>
         {
+          app.origin.type === "upstream" && (
+            <p class="mt-2 max-w-2xl text-xs text-[var(--muted)]">{t("origin.officialNotice")}</p>
+          )
+        }
+        {
           contentWarnings.length > 0 && (
             <details class="group mt-3 max-w-2xl text-sm text-[var(--muted)]">
               <DisclosureSummary class="gap-2 rounded-sm font-medium text-[var(--text)]">
@@ -146,7 +157,13 @@ const developerHref = app.developer.url ?? developerUrl(app.repository, app.home
                   </>
                 )
               }
-              <Link accent href="#downloads">{t("downloads.manual")}</Link>
+              {
+                !downloadsBlocked && (
+                  <Link accent href="#downloads">
+                    {t("downloads.manual")}
+                  </Link>
+                )
+              }
             </p>
           </div>
         </div>

@@ -54,7 +54,7 @@ const releaseDate = latest
                   <p class="m-0 font-semibold">{artifact.architecture}</p>
                   <p class="m-0 mt-1 text-sm text-[var(--muted)]">{formatBytes(artifact.size)}</p>
                 </div>
-                {blocked ? (
+                {blocked || !artifact.installable ? (
                   <Button class="text-center" large disabled data-unavailable>
                     {t("downloads.unavailable")}
                   </Button>

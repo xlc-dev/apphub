@@ -24,24 +24,32 @@ GitHub API token.
 
 ## Pull request previews
 
-Pull requests originating from this repository receive a static preview. The preview workflow:
+Pull requests originating from this repository receive a static preview artifact. The preview
+workflow:
 
-1. Generates changed apps and builds the pull request with a commit-specific base path.
-2. Builds the target production revision.
-3. Publishes the preview under its commit SHA on the `gh-pages` branch.
-4. Preserves other active previews while updating production content when necessary.
-5. Removes the preview when the pull request closes.
+1. Generates changed apps and builds the pull request at the production base path.
+2. Validates the complete static output.
+3. Uploads it as a seven-day workflow artifact named with the commit SHA.
 
-Forked pull requests do not receive previews because deployment needs write access. Only one preview
-or production job can update `gh-pages` at a time.
+Forked pull requests do not receive previews because their remote inputs are untrusted. Preview
+artifacts are not deployed or combined with production, so they cannot consume the production Pages
+size budget. Production HTML and generated media are never committed to `gh-pages`.
 
 ## Catalog refresh and production deployment
 
-The `Deploy GitHub Pages` workflow runs after pushes to `main`, once a day, and when started
-manually.
+The `Refresh catalog` workflow runs daily and can be started manually. It deterministically plans
+batches of at most 50 applications and runs at most 12 unprivileged workers concurrently. A
+credentialed finalizer requires every planned result, validates the complete merged state, retains
+last-known-good data for isolated source failures, and publishes only a complete snapshot.
 
-After a push, it refreshes changed apps. Shared generator changes refresh the full catalog. Daily
-jobs update releases and statistics. Weekly and manual jobs also update all metadata and media.
+The `Deploy GitHub Pages` workflow runs after source pushes. A catalog refresh builds and uploads
+the changed site from its validated finalizer workspace, then deploys it in a dependent job. A
+refresh does not finish successfully unless its changed catalog is built, validated, uploaded, and
+deployed successfully.
+
+After a source push, Pages refreshes changed apps before deployment; shared generator changes
+refresh the full catalog. Daily refresh jobs update every due resource and statistics. Manual
+refreshes force all application resources through the batch pipeline.
 
 Download totals never decrease. AppHub keeps the latest 40 daily snapshots for rankings. AppHub
 limits simultaneous requests and reuses unchanged responses when possible. A failed source keeps its
@@ -53,9 +61,12 @@ source changes must still succeed before they are accepted. See
 [Refresh failures and freshness](freshness.md) for thresholds, quarantine behavior, and retries.
 
 Each refresh writes a summary and a JSON report. The report is kept as a workflow artifact for 30
-days and is not committed. The workflow also maintains one catalog maintenance issue. It opens or
-updates the issue while apps are quarantined, unavailable, or repeatedly failing, and closes it
-after all actionable conditions recover.
+days and is not committed. The workflow locates its catalog maintenance issue by a fixed marker and
+the `catalog-maintenance` label, so an unrelated issue with the same title is never modified. Daily
+runs update the issue body without commenting. A stable fingerprint creates a comment only when the
+actionable set or its severity changes, including new, recovered, escalated, quarantined,
+unavailable, and revoked items. After 100 change comments, automation closes the issue and links it
+to a new successor. It closes the active issue after all actionable conditions recover.
 
 Catalog incidents do not fail an otherwise safe deployment. Failure to refresh, validate, deploy, or
 update the maintenance issue does fail the workflow.
@@ -64,15 +75,42 @@ The workflow assigns every active maintenance issue to `xlc-dev` so GitHub sends
 keeps the incident in that account's assigned-issues queue. The `MAINTENANCE_ASSIGNEE` repository
 Actions variable can select a different maintainer without changing the workflow.
 
-The workflow creates at most one `.generated/` commit and does nothing when data is unchanged. It
-then builds and validates the website, updates production on `gh-pages` without removing previews,
-and deploys GitHub Pages.
+The refresh workflow creates at most one generated-state commit. Generated media is ignored and is
+never added to that commit. Pages uploads production directly as a GitHub Pages artifact and never
+reads or writes the `gh-pages` branch.
 
-Generated media is served from the deployed repository. Identical files are stored once, and size
-limits apply to each app and the complete site.
+Generated media is published as immutable GitHub Release assets. New media is placed into
+content-addressed batches of at most 900 assets. Each release remains a draft until every planned
+asset is present with GitHub's matching SHA-256 digest; publishing then lets GitHub lock the
+release. The committed `media-map.json` records the immutable tag for each content hash. The
+publisher rechecks local bytes, rejects mapping collisions and unexpected assets, and never replaces
+a published asset. Release immutability must remain enabled; publication fails when GitHub does not
+confirm that setting.
+
+Actions artifacts remain temporary worker inputs and audit reports; they are not durable catalog
+storage. Production publishes media before building. Every site build, including a local build,
+resolves media from the committed map and immutable Release URLs.
+
+The publication GitHub App needs repository `Contents: write` and `Administration: read` access. The
+latter is used only to fail closed unless GitHub confirms that immutable releases are enabled.
 
 Production uses `/apphub` as its base path. The deployed site contains only static HTML, JSON,
 JavaScript, styles, and catalog assets. It has no runtime server or database.
+
+## Signed catalog and emergency revocation
+
+Every production publication signs a catalog target with separate online targets, snapshot, and
+timestamp keys. The signed target binds each artifact hash and architecture to its publisher
+identity, exact sandbox policy, lifecycle state, and installation decision. Root trust is generated
+offline with `create-tuf-root`; private keys must never be stored in the repository. There is no
+production switch for unsigned metadata: missing keys or failed validation stop publication.
+
+The `Revoke AppImage` workflow can only append a hash and public reason to the revocation list. It
+uses the restricted `catalog-revocation` environment and publishes the signed document directly in
+`trust/revocations.json`. Clients can fetch that file through the raw GitHub content URL without
+waiting for a Pages deployment. It also requires the updated website to deploy successfully so
+AppHub removes its own download controls for the revoked release. A monthly run renews the
+document's expiry.
 
 Canonical, language, sitemap, and robots URLs use `SITE_URL` and `BASE_PATH`. Later listing pages
 and quarantined apps are not indexed.

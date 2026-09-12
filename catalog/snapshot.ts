@@ -75,12 +75,24 @@ async function addDirectory(
   }
 }
 
+async function addOptionalFile(hash: ReturnType<typeof createHash>, path: string, url: URL) {
+  try {
+    await addFile(hash, path, url);
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
+  }
+}
+
 export async function calculateCatalogRevision(directory = projectDirectory) {
   const hash = createHash("sha256");
 
   await addDirectory(hash, "apps", new URL("apps/", directory));
   await addDirectory(hash, ".generated/apps", new URL(".generated/apps/", directory));
-  await addDirectory(hash, ".generated/media", new URL(".generated/media/", directory));
+  await addOptionalFile(
+    hash,
+    ".generated/media-map.json",
+    new URL(".generated/media-map.json", directory)
+  );
   await addFile(hash, ".generated/downloads.json", new URL(".generated/downloads.json", directory));
   await addFile(hash, ".generated/stars.json", new URL(".generated/stars.json", directory));
 

@@ -1,6 +1,6 @@
 import { readdir, stat } from "node:fs/promises";
 
-const maximumSize = 850 * 1024 * 1024;
+const maximumSize = 500 * 1024 * 1024;
 
 async function directorySize(path: string): Promise<number> {
   let size = 0;
@@ -23,7 +23,7 @@ async function directorySize(path: string): Promise<number> {
 const size = await directorySize("dist");
 
 if (size > maximumSize) {
-  throw new Error(`Published site is ${(size / 1024 / 1024).toFixed(1)} MiB; limit is 850 MiB`);
+  throw new Error(`Published site is ${(size / 1024 / 1024).toFixed(1)} MiB; limit is 500 MiB`);
 }
 
 console.log(`Validated ${(size / 1024 / 1024).toFixed(1)} MiB published-site size.`);

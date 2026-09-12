@@ -1,4 +1,4 @@
-export const catalogPageSize = 18;
+export const catalogPageSize = 30;
 
 export function paginationState(total: number, requestedPage: number, pageSize = catalogPageSize) {
   const pages = Math.max(1, Math.ceil(total / pageSize));

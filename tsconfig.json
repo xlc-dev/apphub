@@ -9,6 +9,7 @@
     "paths": {
       "#catalog/*": ["./catalog/*"],
       "#lib/*": ["./src/lib/*"],
+      "#media-loader": ["./src/lib/media-loader.ts"],
       "#scripts/*": ["./scripts/*"],
       "@/*": ["./src/*"]
     },

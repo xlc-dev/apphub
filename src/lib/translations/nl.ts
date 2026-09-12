@@ -67,6 +67,10 @@ export const nl: Record<MessageKey, string> = {
   "origin.thirdParty": "Community-AppImage",
   "origin.official": "Officieel",
   "origin.community": "Community",
+  "origin.upstreamMeaning":
+    "Officieel betekent gepubliceerd door de oorspronkelijke ontwikkelaar. Het betekent niet gecontroleerd of veilig.",
+  "origin.officialNotice":
+    "Officieel identificeert de uitgever. Het betekent niet dat deze AppImage veilig of gecontroleerd is.",
   "pagination.previous": "Vorige",
   "pagination.next": "Volgende",
   "pagination.page": "Pagina {page} van {pages}",
@@ -192,6 +196,7 @@ export const nl: Record<MessageKey, string> = {
   "install.downloadManually": "download handmatig",
   "install.downloadsBlocked":
     "Downloads zijn momenteel niet beschikbaar. Bekijk de downloaddetails hieronder.",
+  "app.revoked": "Deze uitgave is ingetrokken en kan niet via AppHub worden geïnstalleerd.",
   "install.mobileUnsupported": "AppImage-installatie is niet beschikbaar op mobiele apparaten.",
   "install.unknownArchitecture": "De architectuur van uw systeem kon niet worden vastgesteld.",
   "install.wrongArchitecture":

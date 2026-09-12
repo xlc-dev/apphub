@@ -10,11 +10,9 @@ interface Props {
 }
 
 const { blocked = false } = Astro.props;
-const artifacts = Astro.props.artifacts.map(({ architecture, sha256, url }) => ({
-  architecture,
-  sha256,
-  url,
-}));
+const artifacts = Astro.props.artifacts
+  .filter(({ installable }) => installable)
+  .map(({ architecture, sha256, url }) => ({ architecture, sha256, url }));
 const locale = getLocale(Astro.currentLocale);
 const messages = {
   install: translate(locale, "install.label"),

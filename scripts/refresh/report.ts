@@ -2,6 +2,7 @@ import { appendFile, readFile, writeFile } from "node:fs/promises";
 import { z } from "zod";
 import { readAppManifests } from "#catalog/storage";
 import { downloadHistorySchema } from "#catalog/downloads";
+import { readRevokedHashes } from "#catalog/tuf/revocations";
 import {
   catalogStatus,
   catalogStatusSchema,
@@ -10,14 +11,14 @@ import {
   staleAfterDays,
   type RefreshState,
 } from "#catalog/refresh";
-import { catalogProvenanceSchema } from "#catalog/schema";
+import { catalogProvenanceSchema, releaseLockSchema } from "#catalog/schema";
 import { catalogSnapshotSchema, readCatalogSnapshot } from "#catalog/snapshot";
 import { repositoryStarsSchema } from "#lib/repository-stars";
 
 const statePath = process.env.APPHUB_REFRESH_STATE ?? "/tmp/apphub-refresh-state.json";
 const reportPath = process.env.APPHUB_REFRESH_REPORT ?? "/tmp/apphub-refresh-report.json";
 const networkPath = process.env.APPHUB_REFRESH_NETWORK_REPORT ?? "/tmp/apphub-refresh-network.json";
-const generatedDirectory = new URL("../.generated/", import.meta.url);
+const generatedDirectory = new URL("../../.generated/", import.meta.url);
 const units = ["metadata", "releases", "downloads", "stars"] as const;
 const refreshUnitSchema = z.enum(units);
 
@@ -73,8 +74,9 @@ function emptyCounts<T extends string>(values: readonly T[]) {
 }
 
 async function captureRefreshState(now = new Date()): Promise<CapturedRefreshState> {
-  const [manifests, history, stars, snapshot] = await Promise.all([
+  const [manifests, revoked, history, stars, snapshot] = await Promise.all([
     readAppManifests(),
+    readRevokedHashes(),
     readJson(new URL("downloads.json", generatedDirectory).pathname).then((value) =>
       downloadHistorySchema.parse(value)
     ),
@@ -91,6 +93,10 @@ async function captureRefreshState(now = new Date()): Promise<CapturedRefreshSta
     );
     const appId =
       manifest.appstream.type === "manual" ? manifest.appstream.metadata.id : manifest.appstream.id;
+    const lock = await readOptionalReleaseLock(
+      new URL(`apps/${slug}/releases.json`, generatedDirectory).pathname,
+      appId
+    );
     const unitStates: Partial<Record<RefreshUnit, RefreshState>> = {
       metadata: provenance.refresh.metadata,
       releases: provenance.refresh.releases,
@@ -112,9 +118,18 @@ async function captureRefreshState(now = new Date()): Promise<CapturedRefreshSta
       return isStale(state, days, now);
     });
 
+    const refreshStatus = catalogStatus(
+      provenance.refresh.metadata,
+      provenance.refresh.releases,
+      now
+    );
+    const isRevoked = lock.releases.some((release) =>
+      release.artifacts.some(({ sha256 }) => revoked.has(sha256))
+    );
+
     apps[appId] = {
       slug,
-      status: catalogStatus(provenance.refresh.metadata, provenance.refresh.releases, now),
+      status: isRevoked ? "revoked" : refreshStatus,
       staleUnits,
       units: unitStates,
     };
@@ -132,7 +147,13 @@ export function createRefreshReport(
   after: CapturedRefreshState,
   network: NetworkReport
 ) {
-  const status = emptyCounts(["current", "stale", "unavailable", "quarantined"] as const);
+  const status = emptyCounts([
+    "current",
+    "stale",
+    "unavailable",
+    "quarantined",
+    "revoked",
+  ] as const);
   const incidents = emptyCounts([
     "network",
     "rate-limit",
@@ -153,7 +174,7 @@ export function createRefreshReport(
   const alerts: Array<{
     appId: string;
     slug: string;
-    kind: "quarantined" | "unavailable" | "persistent-failure";
+    kind: "quarantined" | "unavailable" | "revoked" | "persistent-failure";
   }> = [];
   const startedAt = Date.parse(before.startedAt);
 
@@ -188,13 +209,15 @@ export function createRefreshReport(
 
     const previous = before.apps[appId];
 
-    if (app.status === "quarantined" && previous?.status !== "quarantined") {
-      alerts.push({ appId, slug: app.slug, kind: "quarantined" });
-      continue;
-    }
-
-    if (app.status === "unavailable" && previous?.status !== "unavailable") {
-      alerts.push({ appId, slug: app.slug, kind: "unavailable" });
+    if (
+      ["quarantined", "unavailable", "revoked"].includes(app.status) &&
+      previous?.status !== app.status
+    ) {
+      alerts.push({
+        appId,
+        slug: app.slug,
+        kind: app.status as "quarantined" | "unavailable" | "revoked",
+      });
       continue;
     }
 
@@ -227,7 +250,7 @@ export function createRefreshReport(
     persistentFailures,
     maintenance: [
       ...Object.entries(after.apps).flatMap(([appId, app]) =>
-        app.status === "quarantined" || app.status === "unavailable"
+        ["quarantined", "unavailable", "revoked"].includes(app.status)
           ? [{ appId, slug: app.slug, kind: app.status }]
           : []
       ),
@@ -250,6 +273,15 @@ export function createRefreshReport(
 
 async function readJson(path: string) {
   return JSON.parse(await readFile(path, "utf8")) as unknown;
+}
+
+async function readOptionalReleaseLock(path: string, appId: string) {
+  try {
+    return releaseLockSchema.parse(await readJson(path));
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === "ENOENT") return { appId, releases: [] };
+    throw error;
+  }
 }
 
 function addSummaryList(lines: string[], title: string, items: string[]) {
@@ -277,6 +309,7 @@ function summary(report: ReturnType<typeof createRefreshReport>) {
     `| Stale | ${report.apps.stale} |`,
     `| Unavailable | ${report.apps.unavailable} |`,
     `| Quarantined | ${report.apps.quarantined} |`,
+    `| Revoked | ${report.apps.revoked} |`,
     "",
     `Network: ${report.network.requests} requests, ${(report.network.bytes / 1024 / 1024).toFixed(1)} MiB, ${(report.network.durationMs / 1000).toFixed(1)} seconds.`,
   ];

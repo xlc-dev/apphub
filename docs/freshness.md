@@ -1,7 +1,7 @@
 # Refresh failures and freshness
 
-AppHub keeps serving the last generated data that passed validation. The committed `.generated/`
-directory is that last-known-good copy.
+AppHub keeps serving the last generated data that passed validation. Committed generated JSON is the
+last-known-good catalog state; its media hashes resolve to immutable GitHub Release assets.
 
 ## Refresh units
 

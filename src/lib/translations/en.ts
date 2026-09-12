@@ -65,6 +65,10 @@ export const en = {
   "origin.thirdParty": "Community AppImage",
   "origin.official": "Official",
   "origin.community": "Community",
+  "origin.upstreamMeaning":
+    "Official means published by the upstream developer. It does not mean audited or safe.",
+  "origin.officialNotice":
+    "Official identifies the publisher. It does not mean this AppImage is safe or audited.",
   "pagination.previous": "Previous",
   "pagination.next": "Next",
   "pagination.page": "Page {page} of {pages}",
@@ -188,6 +192,7 @@ export const en = {
   "install.downloadManually": "download manually",
   "install.downloadsBlocked":
     "Downloads are currently unavailable. See the download details below.",
+  "app.revoked": "This release has been revoked and cannot be installed through AppHub.",
   "install.mobileUnsupported": "AppImage installation is not available on mobile devices.",
   "install.unknownArchitecture": "Your system architecture could not be detected.",
   "install.wrongArchitecture":

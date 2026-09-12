@@ -15,6 +15,12 @@ import {
   type SearchIndexEntry,
 } from "#lib/search";
 
+test("category search loads its category shard", async () => {
+  const source = await readFile("src/client/catalog-search.ts", "utf8");
+
+  assert.match(source, /search-index\/.*currentCategory/);
+});
+
 const app = {
   name: "Example Notes",
   summary: "Organize ideas locally",

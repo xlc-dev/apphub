@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { readFile, readdir, stat } from "node:fs/promises";
 import { readCatalogSnapshot } from "#catalog/snapshot";
 import {
+  apiAppDetailSchema,
   apiMetadataV1Schema,
   apiSummaryPageSchema,
   apiV1JsonSchema,
@@ -48,6 +49,24 @@ for (const path of paths) {
 
   await checkSize(path, sizeLimit);
   const resource = apiV1ResourceSchema.parse(JSON.parse(await readFile(path, "utf8")));
+
+  if (isApp) {
+    const { app } = apiAppDetailSchema.parse(resource);
+    const html = await readFile(`dist/apps/${app.slug}/index.html`, "utf8");
+    const artifacts = app.latestRelease?.artifacts ?? [];
+
+    if (
+      !["current", "stale"].includes(app.status) &&
+      artifacts.some(({ installable }) => installable)
+    ) {
+      throw new Error(`${path}: ${app.status} app exposes an installable artifact`);
+    }
+    for (const artifact of artifacts) {
+      if (!artifact.installable && html.includes(artifact.url)) {
+        throw new Error(`${path}: app page links an artifact that is not installable`);
+      }
+    }
+  }
 
   if (resource.revision !== snapshot.revision || resource.generatedAt !== snapshot.generatedAt) {
     throw new Error(`${path}: API resource does not match the generated catalog snapshot`);

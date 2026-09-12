@@ -28,11 +28,17 @@ existing response.
 | `/api/v1/updated/page/{page}.json`                      | Additional latest-release page        |
 | `/api/v1/trending/{period}.json`                        | First download-ranking page           |
 | `/api/v1/trending/{period}/page/{page}.json`            | Additional download-ranking page      |
+| `/api/v1/tuf/root.json`                                 | TUF trust root                        |
+| `/api/v1/tuf/timestamp.json`                            | TUF timestamp metadata                |
+| `/api/v1/tuf/snapshot.json`                             | TUF snapshot metadata                 |
+| `/api/v1/tuf/targets.json`                              | Signed install targets                |
+| `/api/v1/tuf/catalog.json`                              | Trusted catalog target                |
+| `/api/v1/tuf/revocations.json`                          | Independently signed revocations      |
 
 Application endpoints use AppStream IDs. Ranking periods are `week`, `month`, and `all-time`.
 
-The paths above do not include the deployment base. GitHub Pages currently adds `/apphub`. URLs in
-API responses already include the active base path.
+The paths above do not include the deployment base. The production GitHub Pages site uses `/apphub`.
+URLs in API responses already include the active base path.
 
 ## Using the API
 
@@ -97,11 +103,13 @@ latest release. They do not include descriptions, screenshots, sandbox rules, or
 
 `/api/v1/apps/{id}.json` contains the full app record. This includes descriptions, translations,
 screenshots, sandbox permissions, provenance, statistics, and the latest release. Downloads include
-their size and the SHA-256 calculated by AppHub. Downloads remain visible for unavailable and
-quarantined apps, but clients must not offer them for installation.
+their size, the SHA-256 calculated by AppHub, inspection evidence, and an `installable` decision.
+Artifact URLs can remain in the machine-readable record for review and auditing. A client must never
+use API v1 alone to authorize an installation: it must verify the signed TUF catalog and require an
+installable `current` or `stale` target that exactly matches the artifact and sandbox policy.
 
 API v1 contains only the latest release. It does not provide release history. The AppStream ID is
-the app's stable identity. The website slug may change before AppHub 1.0 without a redirect.
+the app's stable identity. A website slug can change without a redirect.
 
 Optional fields are left out when absent. A `null` statistic means AppHub has no measurement, not
 that the value is zero. See [Catalog](catalog.md) for catalog fields and [Sandbox v1](sandbox.md)

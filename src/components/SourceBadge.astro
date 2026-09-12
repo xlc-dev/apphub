@@ -25,6 +25,7 @@ const label = translate(
 
 <span
   data-origin-badge={origin}
+  title={upstream ? translate(locale, "origin.upstreamMeaning") : undefined}
   class="inline-flex shrink-0 items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs">
   <Icon name="official" class="size-3.5" data-origin-icon="upstream" />
   <Icon name="community" class="size-3.5" data-origin-icon="third-party" />

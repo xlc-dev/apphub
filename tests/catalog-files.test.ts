@@ -122,13 +122,19 @@ async function writeApp(root: string, slug = "example-app", manifest = app) {
   return { source, generated, mediaDirectory, mediaFile };
 }
 
-async function expectReadError(root: string, message: string) {
+async function expectReadError(
+  root: string,
+  message: string,
+  options: { requireMediaFiles?: boolean } = {}
+) {
   let error: unknown;
 
   try {
     await readApps(
       pathToFileURL(`${join(root, "apps")}/`),
-      pathToFileURL(`${join(root, "generated")}/`)
+      pathToFileURL(`${join(root, "generated")}/`),
+      undefined,
+      options
     );
   } catch (caught) {
     error = caught;
@@ -221,8 +227,25 @@ describe("catalog files", () => {
     await rm(join(missingDirectory, mediaFile));
     await writeFile(join(unreferencedDirectory, unreferenced), "not inspected");
 
-    await expectReadError(missingRoot, `Missing generated media file: ${mediaFile}`);
-    await expectReadError(unreferencedRoot, `Unreferenced generated media file: ${unreferenced}`);
+    await expectReadError(missingRoot, `Missing generated media file: ${mediaFile}`, {
+      requireMediaFiles: true,
+    });
+    await expectReadError(unreferencedRoot, `Unreferenced generated media file: ${unreferenced}`, {
+      requireMediaFiles: true,
+    });
+  });
+
+  test("allows catalog state to reference immutable external media", async () => {
+    const root = await temporaryDirectory();
+    const { mediaDirectory } = await writeApp(root);
+    await rm(mediaDirectory, { recursive: true });
+
+    const entries = await readApps(
+      pathToFileURL(`${join(root, "apps")}/`),
+      pathToFileURL(`${join(root, "generated")}/`)
+    );
+
+    assert.equal(entries[0]?.iconFile.length, 69);
   });
 
   test("rejects mismatched release locks", async () => {

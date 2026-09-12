@@ -23,15 +23,18 @@ download information together without rehosting the apps.
 - Discover new apps, recent releases, and download trends.
 - Check the publisher, required permissions, file size, and SHA-256 before installing.
 - Download the right architecture directly from its release source.
-- Install directly through [AppManager](https://github.com/kem-a/AppManager) using the `appimg://`
-  protocol.
+- Install through any `appimg://` compatible client.
 - Build another installer or storefront with the versioned JSON API.
+
+Installing clients must follow the [signed client contract](docs/clients.md). The website and
+unsigned API remain available to any read-only catalog consumer.
 
 ## Documentation
 
 - [Contributing](CONTRIBUTING.md)
 - [Catalog](docs/catalog.md)
 - [API](docs/api.md)
+- [Client integration](docs/clients.md)
 - [Sandbox v1](docs/sandbox.md)
 - [Origin and provenance](docs/provenance.md)
 - [Refresh failures and freshness](docs/freshness.md)

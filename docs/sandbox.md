@@ -1,8 +1,8 @@
 # Sandbox v1
 
 AppHub publishes the host access an application needs. It does not launch applications or enforce
-the policy. Installers and runtimes read the policy from an API v1 application resource and apply it
-before starting the AppImage.
+the policy. Read-only tools can inspect the policy through API v1. Installers and runtimes must read
+the authenticated policy from the signed catalog and apply it before starting the AppImage.
 
 The contract is backend-neutral. A Linux implementation can use
 [Bubblewrap](https://github.com/containers/bubblewrap) for namespaces and mounts and
