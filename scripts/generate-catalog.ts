@@ -148,7 +148,15 @@ async function stageCachedApp(
 }
 
 async function stageCachedImage(image: CachedImage, outputDirectory: string) {
-  const content = await readFile(`.generated/media/${image.file}`);
+  let content: Buffer;
+  try {
+    content = await readFile(`.generated/media/${image.file}`);
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === "ENOENT") {
+      return { ...image, size: 0 };
+    }
+    throw error;
+  }
   const file = `${createHash("sha256").update(content).digest("hex")}.webp`;
 
   await createFileIfMissing(`${outputDirectory}/${file}`, content);
