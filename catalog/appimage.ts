@@ -1,6 +1,7 @@
 import type { Architecture } from "#catalog/schema";
 
 const squashfsMagic = Buffer.from("hsqs");
+const dwarfsMagic = Buffer.from("DWARFS");
 const maximumInodes = 1_000_000;
 const maximumRuntimeBytes = 64 * 1024 * 1024;
 const machineByArchitecture: Partial<Record<Architecture, number>> = {
@@ -28,7 +29,7 @@ export interface AppImageInspection {
   elfClass: 32 | 64;
   elfMachine: number;
   archive: {
-    format: "iso9660" | "squashfs";
+    format: "iso9660" | "squashfs" | "dwarfs";
     offset: number;
     bytesUsed: number;
     inodes?: number;
@@ -82,6 +83,7 @@ function integer(buffer: Buffer, offset: number, size: 2 | 4 | 8, littleEndian: 
 export function inspectAppImage(
   prefix: Buffer,
   squashfsSuperblocks: Array<{ offset: number; data: Buffer }>,
+  dwarfsSectionHeaders: Array<{ offset: number; data: Buffer }>,
   size: number,
   architecture: Architecture
 ): AppImageInspection {
@@ -165,7 +167,43 @@ export function inspectAppImage(
     }
   }
 
-  throw new Error("malformed or unbounded type 2 AppImage SquashFS archive");
+  const dwarfsHeaders = new Map(dwarfsSectionHeaders.map(({ offset, data }) => [offset, data]));
+  let dwarfsOffset = archiveOffset;
+  let sectionNumber = 0;
+  let dwarfsVersion: string | undefined;
+
+  while (dwarfsOffset < size) {
+    const data = dwarfsHeaders.get(dwarfsOffset);
+    if (!data || data.length < 64 || !data.subarray(0, 6).equals(dwarfsMagic)) break;
+
+    const version = data.subarray(6, 8).toString("hex");
+    const length = integer(data, 56, 8, true);
+    if (
+      data[6] !== 2 ||
+      (dwarfsVersion !== undefined && version !== dwarfsVersion) ||
+      data.readUInt32LE(48) !== sectionNumber ||
+      length === 0 ||
+      dwarfsOffset + 64 + length > size
+    ) {
+      break;
+    }
+
+    dwarfsVersion = version;
+    dwarfsOffset += 64 + length;
+    sectionNumber++;
+  }
+
+  if (sectionNumber > 0 && dwarfsOffset === size) {
+    return {
+      format: "appimage",
+      runtimeType,
+      elfClass,
+      elfMachine,
+      archive: { format: "dwarfs", offset: archiveOffset, bytesUsed: size - archiveOffset },
+    };
+  }
+
+  throw new Error("malformed or unbounded type 2 AppImage archive");
 }
 
 export function findSquashfsSuperblocks(data: Buffer, baseOffset: number) {
@@ -183,4 +221,19 @@ export function findSquashfsSuperblocks(data: Buffer, baseOffset: number) {
     }
   }
   return blocks;
+}
+
+export function findDwarfsSectionHeaders(data: Buffer, baseOffset: number) {
+  const headers: Array<{ offset: number; data: Buffer }> = [];
+  for (
+    let position = data.indexOf(dwarfsMagic);
+    position >= 0;
+    position = data.indexOf(dwarfsMagic, position + 1)
+  ) {
+    if (position + 64 <= data.length) {
+      headers.push({ offset: baseOffset + position, data: data.subarray(position, position + 64) });
+    }
+  }
+
+  return headers;
 }

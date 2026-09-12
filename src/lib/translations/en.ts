@@ -163,7 +163,7 @@ export const en = {
   "app.stale": "Some app data could not be refreshed. The last known data is shown.",
   "app.unavailable":
     "Downloads are unavailable because the release source could not be found repeatedly.",
-  "app.quarantined": "Downloads are paused because the release source changed unexpectedly.",
+  "app.quarantined": "Downloads are paused because the release failed integrity checks.",
   "app.ages": "Ages {age}",
   "app.donate": "Donate",
   "app.view": "View app",

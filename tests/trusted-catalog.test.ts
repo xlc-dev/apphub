@@ -23,6 +23,9 @@ const entries = readApps();
 async function fixture() {
   const source = (await entries).find(({ slug }) => slug === "warp")!;
   const entry = JSON.parse(JSON.stringify(source)) as typeof source;
+  entry.app.provenance.refresh.metadata = state();
+  entry.app.provenance.refresh.releases = state();
+
   for (const artifact of entry.lock.releases[0]!.artifacts) {
     artifact.inspection = {
       ...inspection,

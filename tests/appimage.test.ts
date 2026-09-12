@@ -1,6 +1,10 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { findSquashfsSuperblocks, inspectAppImage } from "#catalog/appimage";
+import {
+  findDwarfsSectionHeaders,
+  findSquashfsSuperblocks,
+  inspectAppImage,
+} from "#catalog/appimage";
 
 function appImage() {
   const data = Buffer.alloc(512);
@@ -22,27 +26,30 @@ function appImage() {
 
 test("inspects a bounded type 2 AppImage without executing it", () => {
   const data = appImage();
-  assert.deepEqual(inspectAppImage(data, findSquashfsSuperblocks(data, 0), data.length, "x86_64"), {
-    format: "appimage",
-    runtimeType: 2,
-    elfClass: 64,
-    elfMachine: 62,
-    archive: { format: "squashfs", offset: 128, bytesUsed: 96, inodes: 1, blockSize: 4096 },
-  });
+  assert.deepEqual(
+    inspectAppImage(data, findSquashfsSuperblocks(data, 0), [], data.length, "x86_64"),
+    {
+      format: "appimage",
+      runtimeType: 2,
+      elfClass: 64,
+      elfMachine: 62,
+      archive: { format: "squashfs", offset: 128, bytesUsed: 96, inodes: 1, blockSize: 4096 },
+    }
+  );
 });
 
 test("rejects malformed, wrong-architecture, and unbounded AppImages", () => {
   const valid = appImage();
-  assert.throws(() => inspectAppImage(Buffer.alloc(64), [], 64, "x86_64"), /ELF header/);
+  assert.throws(() => inspectAppImage(Buffer.alloc(64), [], [], 64, "x86_64"), /ELF header/);
   assert.throws(
-    () => inspectAppImage(valid, findSquashfsSuperblocks(valid, 0), valid.length, "aarch64"),
+    () => inspectAppImage(valid, findSquashfsSuperblocks(valid, 0), [], valid.length, "aarch64"),
     /does not match/
   );
 
   const bomb = appImage();
   bomb.writeUInt32LE(1_000_001, 132);
   assert.throws(
-    () => inspectAppImage(bomb, findSquashfsSuperblocks(bomb, 0), bomb.length, "x86_64"),
+    () => inspectAppImage(bomb, findSquashfsSuperblocks(bomb, 0), [], bomb.length, "x86_64"),
     /unbounded/
   );
 
@@ -53,9 +60,37 @@ test("rejects malformed, wrong-architecture, and unbounded AppImages", () => {
       inspectAppImage(
         falseMarker,
         findSquashfsSuperblocks(falseMarker, 0),
+        [],
         falseMarker.length,
         "x86_64"
       ),
+    /unbounded/
+  );
+});
+
+test("inspects every bounded DwarFS section", () => {
+  const data = appImage();
+  data.fill(0, 128);
+  data.write("DWARFS", 128, "ascii");
+  data.set([2, 5], 134);
+  data.writeUInt32LE(0, 176);
+  data.writeBigUInt64LE(64n, 184);
+  data.write("DWARFS", 256, "ascii");
+  data.set([2, 5], 262);
+  data.writeUInt32LE(1, 304);
+  data.writeBigUInt64LE(192n, 312);
+
+  assert.deepEqual(inspectAppImage(data, [], findDwarfsSectionHeaders(data, 0), 512, "x86_64"), {
+    format: "appimage",
+    runtimeType: 2,
+    elfClass: 64,
+    elfMachine: 62,
+    archive: { format: "dwarfs", offset: 128, bytesUsed: 384 },
+  });
+
+  data.writeUInt32LE(3, 304);
+  assert.throws(
+    () => inspectAppImage(data, [], findDwarfsSectionHeaders(data, 0), 512, "x86_64"),
     /unbounded/
   );
 });
