@@ -42,6 +42,7 @@ test("builds requests for supported repository hosts", () => {
     headers: {
       Accept: "application/vnd.github+json",
       Authorization: "Bearer token",
+      "User-Agent": "AppHub catalog updater",
       "X-GitHub-Api-Version": "2022-11-28",
     },
   });
@@ -76,6 +77,7 @@ test("reuses repository stars after a conditional response", async () => {
       accept: "application/vnd.github+json",
       authorization: "Bearer token",
       "if-none-match": '"stars"',
+      "user-agent": "AppHub catalog updater",
       "x-github-api-version": "2022-11-28",
     });
 
