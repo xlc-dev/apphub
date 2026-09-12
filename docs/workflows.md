@@ -60,6 +60,10 @@ after all actionable conditions recover.
 Catalog incidents do not fail an otherwise safe deployment. Failure to refresh, validate, deploy, or
 update the maintenance issue does fail the workflow.
 
+The workflow assigns every active maintenance issue to `xlc-dev` so GitHub sends a notification and
+keeps the incident in that account's assigned-issues queue. The `MAINTENANCE_ASSIGNEE` repository
+Actions variable can select a different maintainer without changing the workflow.
+
 The workflow creates at most one `.generated/` commit and does nothing when data is unchanged. It
 then builds and validates the website, updates production on `gh-pages` without removing previews,
 and deploys GitHub Pages.

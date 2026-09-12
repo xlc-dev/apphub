@@ -104,6 +104,7 @@ async function main() {
   const apiUrl = requiredEnvironment("GITHUB_API_URL");
   const server = requiredEnvironment("GITHUB_SERVER_URL");
   const runId = requiredEnvironment("GITHUB_RUN_ID");
+  const assignee = requiredEnvironment("APPHUB_MAINTENANCE_ASSIGNEE");
   const report = reportSchema.parse(JSON.parse(await readFile(reportPath, "utf8")));
   const runUrl = `${server}/${repository}/actions/runs/${runId}`;
   const query = encodeURIComponent(`repo:${repository} is:issue in:title "${issueTitle}"`);
@@ -147,12 +148,12 @@ async function main() {
   if (issue) {
     await github(apiUrl, `/repos/${repository}/issues/${issue.number}`, token, {
       method: "PATCH",
-      body: JSON.stringify({ body, state: "open" }),
+      body: JSON.stringify({ assignees: [assignee], body, state: "open" }),
     });
   } else {
     await github(apiUrl, `/repos/${repository}/issues`, token, {
       method: "POST",
-      body: JSON.stringify({ title: issueTitle, body }),
+      body: JSON.stringify({ assignees: [assignee], title: issueTitle, body }),
     });
   }
 }

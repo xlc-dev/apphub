@@ -177,5 +177,6 @@ jobs:
       - name: Maintain catalog issue
         if: github.event_name != 'push'
         env:
+          APPHUB_MAINTENANCE_ASSIGNEE: ${{ vars.MAINTENANCE_ASSIGNEE || 'xlc-dev' }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: bun scripts/refresh-issue.ts
