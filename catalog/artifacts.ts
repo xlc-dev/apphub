@@ -7,7 +7,7 @@ import {
 import { recordResponseBytes } from "#catalog/network";
 import { safeFetch } from "#catalog/http";
 import { RefreshError } from "#catalog/refresh";
-import type { App, Architecture } from "#catalog/schema";
+import type { App, Architecture, ReleaseLock } from "#catalog/schema";
 
 interface SelectableAsset {
   name: string;
@@ -33,6 +33,12 @@ const architectureMatchers: Array<[Architecture, RegExp]> = [
   ["ppc64le", /(?:^|[^a-z0-9])ppc64le(?:[^a-z0-9]|$)/i],
   ["s390x", /(?:^|[^a-z0-9])s390x(?:[^a-z0-9]|$)/i],
 ];
+
+export function needsArtifactInspection(lock: ReleaseLock) {
+  return lock.releases.some((release) =>
+    release.artifacts.some((artifact) => !artifact.inspection)
+  );
+}
 
 export function globRegex(pattern: string) {
   const escaped = pattern.replace(/[.+^${}()|[\]\\]/g, "\\$&");

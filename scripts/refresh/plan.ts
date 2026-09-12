@@ -1,6 +1,6 @@
-import { appendFile, readFile, writeFile } from "node:fs/promises";
-import { readAppManifests } from "#catalog/storage";
-import { catalogProvenanceSchema } from "#catalog/schema";
+import { appendFile, writeFile } from "node:fs/promises";
+import { readApps } from "#catalog/storage";
+import { needsArtifactInspection } from "#catalog/artifacts";
 import { createRefreshPlan } from "#catalog/refresh-plan";
 import { isRefreshDue, refreshEveryHours } from "#catalog/refresh";
 
@@ -8,15 +8,12 @@ const force = process.env.FORCE_REFRESH === "1";
 const now = new Date();
 const due = [];
 
-for (const [slug] of await readAppManifests()) {
-  const provenance = catalogProvenanceSchema.parse(
-    JSON.parse(await readFile(`.generated/apps/${slug}/provenance.json`, "utf8"))
-  );
-
+for (const { slug, app, lock } of await readApps()) {
   if (
     force ||
-    isRefreshDue(provenance.refresh.metadata, refreshEveryHours.metadata, now) ||
-    isRefreshDue(provenance.refresh.releases, refreshEveryHours.releases, now)
+    needsArtifactInspection(lock) ||
+    isRefreshDue(app.provenance.refresh.metadata, refreshEveryHours.metadata, now) ||
+    isRefreshDue(app.provenance.refresh.releases, refreshEveryHours.releases, now)
   ) {
     due.push(slug);
   }

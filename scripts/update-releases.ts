@@ -1,4 +1,4 @@
-import { hashDownload } from "#catalog/artifacts";
+import { hashDownload, needsArtifactInspection } from "#catalog/artifacts";
 import { readApps } from "#catalog/storage";
 import { mergeReleaseSource, reconcileRelease } from "#catalog/provenance";
 import {
@@ -167,6 +167,7 @@ export async function generateReleases(
     if (
       failSoft &&
       !forceRefresh &&
+      !needsArtifactInspection(entry.lock) &&
       !isRefreshDue(entry.app.provenance.refresh.releases, refreshEveryHours.releases, refreshTime)
     ) {
       return;
