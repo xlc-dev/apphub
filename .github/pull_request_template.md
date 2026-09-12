@@ -12,13 +12,7 @@ List the checks you ran and any behavior that still needs manual verification.
 - [ ] I updated tests or documentation when behavior changed.
 - [ ] I carefully reviewed any publisher, sandbox, trust-root, or workflow changes.
 
-## Application submissions
-
-Complete this section only when adding an application.
-
-Application name:
-
-Upstream website or repository:
+## Application checklist
 
 - [ ] This pull request adds only `apps/<slug>.json`.
 - [ ] I used the application template and verified every source and identifier.
