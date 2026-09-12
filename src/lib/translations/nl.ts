@@ -167,7 +167,7 @@ export const nl: Record<MessageKey, string> = {
     "Sommige appgegevens konden niet worden bijgewerkt. De laatst bekende gegevens worden getoond.",
   "app.unavailable":
     "Downloads zijn niet beschikbaar omdat de releasebron herhaaldelijk niet kon worden gevonden.",
-  "app.quarantined": "Downloads zijn gepauzeerd omdat de releasebron onverwacht is gewijzigd.",
+  "app.quarantined": "Downloads zijn gepauzeerd omdat de integriteitscontrole is mislukt.",
   "app.ages": "Vanaf {age} jaar",
   "app.donate": "Doneren",
   "app.view": "App bekijken",

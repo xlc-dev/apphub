@@ -1,5 +1,6 @@
 import { createHash } from "node:crypto";
 import {
+  findDwarfsSectionHeaders,
   findSquashfsSuperblocks,
   inspectAppImage,
   type AppImageInspection,
@@ -124,6 +125,7 @@ export async function hashDownload(
   let tail = Buffer.alloc(0);
   let archiveTail = Buffer.alloc(0);
   const squashfsSuperblocks: Array<{ offset: number; data: Buffer }> = [];
+  const dwarfsSectionHeaders: Array<{ offset: number; data: Buffer }> = [];
   let fuse = false;
   let zsync = false;
   const sizeLimit = file.size ?? maximumSize;
@@ -190,8 +192,11 @@ export async function hashDownload(
       squashfsSuperblocks.push(
         ...findSquashfsSuperblocks(archiveSearch, chunkOffset - archiveTail.length)
       );
-      if (squashfsSuperblocks.length > 256)
-        throw new Error("too many SquashFS markers in AppImage");
+      dwarfsSectionHeaders.push(
+        ...findDwarfsSectionHeaders(archiveSearch, chunkOffset - archiveTail.length)
+      );
+      if (squashfsSuperblocks.length + dwarfsSectionHeaders.length > 256)
+        throw new Error("too many archive markers in AppImage");
       archiveTail = Buffer.from(archiveSearch.subarray(-95));
     }
   }
@@ -209,7 +214,7 @@ export async function hashDownload(
   let inspection: AppImageInspection | undefined;
   try {
     inspection = architecture
-      ? inspectAppImage(prefix, squashfsSuperblocks, size, architecture)
+      ? inspectAppImage(prefix, squashfsSuperblocks, dwarfsSectionHeaders, size, architecture)
       : undefined;
   } catch (error) {
     throw new RefreshError(
