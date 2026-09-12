@@ -15,7 +15,8 @@ const links = [
   {
     href: "/apps/",
     label: t("nav.apps"),
-    current: path.startsWith("/apps/") || path.startsWith("/categories/"),
+    current:
+      path === "/apps/" || /^\/apps\/page\/\d+\/$/.test(path) || path.startsWith("/categories/"),
   },
   { href: "/new/", label: t("nav.new"), current: path.startsWith("/new/") },
   { href: "/updated/", label: t("nav.updated"), current: path.startsWith("/updated/") },
