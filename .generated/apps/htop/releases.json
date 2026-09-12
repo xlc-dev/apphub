@@ -20,6 +20,17 @@
             "zsync": true,
             "anylinux": true
           },
+          "inspection": {
+            "format": "appimage",
+            "runtimeType": 2,
+            "elfClass": 64,
+            "elfMachine": 62,
+            "archive": {
+              "format": "dwarfs",
+              "offset": 1454864,
+              "bytesUsed": 873997
+            }
+          },
           "checksumEvidence": {
             "sourceUrl": "https://github.com/pkgforge-dev/htop-AppImage/releases/tag/3.5.3%402026-09-02_1788349992"
           }
@@ -36,6 +47,17 @@
             "fuse": false,
             "zsync": true,
             "anylinux": true
+          },
+          "inspection": {
+            "format": "appimage",
+            "runtimeType": 2,
+            "elfClass": 64,
+            "elfMachine": 183,
+            "archive": {
+              "format": "dwarfs",
+              "offset": 1333032,
+              "bytesUsed": 766697
+            }
           },
           "checksumEvidence": {
             "sourceUrl": "https://github.com/pkgforge-dev/htop-AppImage/releases/tag/3.5.3%402026-09-02_1788349992"

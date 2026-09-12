@@ -20,6 +20,17 @@
             "zsync": true,
             "anylinux": true
           },
+          "inspection": {
+            "format": "appimage",
+            "runtimeType": 2,
+            "elfClass": 64,
+            "elfMachine": 62,
+            "archive": {
+              "format": "dwarfs",
+              "offset": 1454864,
+              "bytesUsed": 105904269
+            }
+          },
           "checksumEvidence": {
             "sourceUrl": "https://github.com/pkgforge-dev/NewsFlash-AppImage/releases/tag/5.2.5-1%402026-09-09_1788982590"
           }
@@ -36,6 +47,17 @@
             "fuse": false,
             "zsync": true,
             "anylinux": true
+          },
+          "inspection": {
+            "format": "appimage",
+            "runtimeType": 2,
+            "elfClass": 64,
+            "elfMachine": 183,
+            "archive": {
+              "format": "dwarfs",
+              "offset": 1333032,
+              "bytesUsed": 99617633
+            }
           },
           "checksumEvidence": {
             "sourceUrl": "https://github.com/pkgforge-dev/NewsFlash-AppImage/releases/tag/5.2.5-1%402026-09-09_1788982590"

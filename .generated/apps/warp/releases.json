@@ -20,6 +20,17 @@
             "zsync": true,
             "anylinux": true
           },
+          "inspection": {
+            "format": "appimage",
+            "runtimeType": 2,
+            "elfClass": 64,
+            "elfMachine": 62,
+            "archive": {
+              "format": "dwarfs",
+              "offset": 1487344,
+              "bytesUsed": 73035161
+            }
+          },
           "checksumEvidence": {
             "sourceUrl": "https://github.com/pkgforge-dev/Warp-AppImage/releases/tag/1.0.0-1%402026-09-01_1788265459"
           }
@@ -36,6 +47,17 @@
             "fuse": false,
             "zsync": true,
             "anylinux": true
+          },
+          "inspection": {
+            "format": "appimage",
+            "runtimeType": 2,
+            "elfClass": 64,
+            "elfMachine": 183,
+            "archive": {
+              "format": "dwarfs",
+              "offset": 1347632,
+              "bytesUsed": 69851824
+            }
           },
           "checksumEvidence": {
             "sourceUrl": "https://github.com/pkgforge-dev/Warp-AppImage/releases/tag/1.0.0-1%402026-09-01_1788265459"

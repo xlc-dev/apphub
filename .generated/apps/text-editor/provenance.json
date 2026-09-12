@@ -13,16 +13,12 @@
   },
   "refresh": {
     "metadata": {
-      "lastAttemptAt": "2026-09-12T19:34:58.430Z",
-      "lastSuccessAt": "2026-09-12T19:34:58.430Z"
+      "lastAttemptAt": "2026-09-12T19:55:47.314Z",
+      "lastSuccessAt": "2026-09-12T19:55:47.314Z"
     },
     "releases": {
-      "lastAttemptAt": "2026-09-12T19:35:03.789Z",
-      "lastSuccessAt": "2026-09-12T08:34:48.288Z",
-      "incident": {
-        "category": "integrity",
-        "consecutiveFailures": 1
-      }
+      "lastAttemptAt": "2026-09-12T19:56:04.008Z",
+      "lastSuccessAt": "2026-09-12T19:56:04.008Z"
     }
   }
 }

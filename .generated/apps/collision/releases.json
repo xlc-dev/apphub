@@ -20,6 +20,17 @@
             "zsync": true,
             "anylinux": true
           },
+          "inspection": {
+            "format": "appimage",
+            "runtimeType": 2,
+            "elfClass": 64,
+            "elfMachine": 62,
+            "archive": {
+              "format": "dwarfs",
+              "offset": 1487344,
+              "bytesUsed": 24588530
+            }
+          },
           "checksumEvidence": {
             "sourceUrl": "https://github.com/pkgforge-dev/Collision-AppImage/releases/tag/3.14.1-1%402026-09-01_1788278131"
           }
@@ -36,6 +47,17 @@
             "fuse": false,
             "zsync": true,
             "anylinux": true
+          },
+          "inspection": {
+            "format": "appimage",
+            "runtimeType": 2,
+            "elfClass": 64,
+            "elfMachine": 183,
+            "archive": {
+              "format": "dwarfs",
+              "offset": 1347632,
+              "bytesUsed": 25142651
+            }
           },
           "checksumEvidence": {
             "sourceUrl": "https://github.com/pkgforge-dev/Collision-AppImage/releases/tag/3.14.1-1%402026-09-01_1788278131"

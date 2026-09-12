@@ -20,6 +20,17 @@
             "zsync": true,
             "anylinux": true
           },
+          "inspection": {
+            "format": "appimage",
+            "runtimeType": 2,
+            "elfClass": 64,
+            "elfMachine": 62,
+            "archive": {
+              "format": "dwarfs",
+              "offset": 1487344,
+              "bytesUsed": 29941030
+            }
+          },
           "checksumEvidence": {
             "sourceUrl": "https://github.com/pkgforge-dev/Gnome-Calculator-AppImage/releases/tag/50.0-1%402026-09-01_1788266311"
           }
@@ -36,6 +47,17 @@
             "fuse": false,
             "zsync": true,
             "anylinux": true
+          },
+          "inspection": {
+            "format": "appimage",
+            "runtimeType": 2,
+            "elfClass": 64,
+            "elfMachine": 183,
+            "archive": {
+              "format": "dwarfs",
+              "offset": 1347632,
+              "bytesUsed": 31046904
+            }
           },
           "checksumEvidence": {
             "sourceUrl": "https://github.com/pkgforge-dev/Gnome-Calculator-AppImage/releases/tag/50.0-1%402026-09-01_1788266311"
