@@ -275,6 +275,18 @@ async function readJson(path: string) {
   return JSON.parse(await readFile(path, "utf8")) as unknown;
 }
 
+async function readNetworkReport() {
+  try {
+    return networkReportSchema.parse(await readJson(networkPath));
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === "ENOENT") {
+      return { durationMs: 0, requests: 0, bytes: 0, hosts: {} };
+    }
+
+    throw error;
+  }
+}
+
 async function readOptionalReleaseLock(path: string, appId: string) {
   try {
     return releaseLockSchema.parse(await readJson(path));
@@ -360,7 +372,7 @@ async function main() {
 
   if (command === "report") {
     const before = capturedRefreshStateSchema.parse(await readJson(statePath));
-    const network = networkReportSchema.parse(await readJson(networkPath));
+    const network = await readNetworkReport();
     const report = createRefreshReport(before, await captureRefreshState(), network);
 
     await writeFile(reportPath, `${JSON.stringify(report, null, 2)}\n`);
