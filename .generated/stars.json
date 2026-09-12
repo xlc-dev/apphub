@@ -1,102 +1,66 @@
 {
   "values": {
-    "brave-origin": 23446,
+    "brave-origin": 23622,
     "collision": 7,
-    "dolphin-emulator": 15446,
-    "eyedropper": 328,
-    "gear-lever": 2137,
-    "htop": 8287,
+    "dolphin-emulator": 15518,
+    "eyedropper": 332,
+    "gear-lever": 2179,
+    "htop": 8324,
     "impression": 58,
-    "librecad": 6286,
-    "localsend": 89512,
-    "mousai": 1217,
+    "librecad": 6353,
+    "localsend": 90620,
+    "mousai": 1218,
     "newsflash": 587,
-    "rnote": 11590
+    "rnote": 11634
   },
   "refresh": {
     "brave-origin": {
-      "lastAttemptAt": "2026-09-12T20:48:33.843Z",
-      "lastSuccessAt": "2026-08-27T18:27:25.460Z",
-      "incident": {
-        "category": "invalid-data",
-        "consecutiveFailures": 22
-      }
+      "lastAttemptAt": "2026-09-12T20:57:25.567Z",
+      "lastSuccessAt": "2026-09-12T20:57:25.567Z"
     },
     "collision": {
-      "lastAttemptAt": "2026-09-12T20:48:34.244Z",
-      "lastSuccessAt": "2026-09-12T20:48:34.244Z"
+      "lastAttemptAt": "2026-09-12T20:57:26.251Z",
+      "lastSuccessAt": "2026-09-12T20:57:26.251Z"
     },
     "dolphin-emulator": {
-      "lastAttemptAt": "2026-09-12T20:48:33.845Z",
-      "lastSuccessAt": "2026-08-27T18:15:13.179Z",
-      "incident": {
-        "category": "invalid-data",
-        "consecutiveFailures": 22
-      }
+      "lastAttemptAt": "2026-09-12T20:57:25.548Z",
+      "lastSuccessAt": "2026-09-12T20:57:25.548Z"
     },
     "eyedropper": {
-      "lastAttemptAt": "2026-09-12T20:48:33.930Z",
-      "lastSuccessAt": "2026-08-27T18:15:12.954Z",
-      "incident": {
-        "category": "invalid-data",
-        "consecutiveFailures": 22
-      }
+      "lastAttemptAt": "2026-09-12T20:57:25.795Z",
+      "lastSuccessAt": "2026-09-12T20:57:25.795Z"
     },
     "gear-lever": {
-      "lastAttemptAt": "2026-09-12T20:48:34.018Z",
-      "lastSuccessAt": "2026-08-27T18:15:13.144Z",
-      "incident": {
-        "category": "invalid-data",
-        "consecutiveFailures": 22
-      }
+      "lastAttemptAt": "2026-09-12T20:57:25.782Z",
+      "lastSuccessAt": "2026-09-12T20:57:25.782Z"
     },
     "htop": {
-      "lastAttemptAt": "2026-09-12T20:48:33.931Z",
-      "lastSuccessAt": "2026-08-27T18:15:13.506Z",
-      "incident": {
-        "category": "invalid-data",
-        "consecutiveFailures": 22
-      }
+      "lastAttemptAt": "2026-09-12T20:57:26.069Z",
+      "lastSuccessAt": "2026-09-12T20:57:26.069Z"
     },
     "impression": {
-      "lastAttemptAt": "2026-09-12T20:48:34.181Z",
-      "lastSuccessAt": "2026-09-12T20:48:34.181Z"
+      "lastAttemptAt": "2026-09-12T20:57:26.070Z",
+      "lastSuccessAt": "2026-09-12T20:57:26.070Z"
     },
     "librecad": {
-      "lastAttemptAt": "2026-09-12T20:48:34.042Z",
-      "lastSuccessAt": "2026-08-27T18:15:13.508Z",
-      "incident": {
-        "category": "invalid-data",
-        "consecutiveFailures": 22
-      }
+      "lastAttemptAt": "2026-09-12T20:57:26.128Z",
+      "lastSuccessAt": "2026-09-12T20:57:26.128Z"
     },
     "localsend": {
-      "lastAttemptAt": "2026-09-12T20:48:34.110Z",
-      "lastSuccessAt": "2026-08-27T18:15:13.728Z",
-      "incident": {
-        "category": "invalid-data",
-        "consecutiveFailures": 22
-      }
+      "lastAttemptAt": "2026-09-12T20:57:26.352Z",
+      "lastSuccessAt": "2026-09-12T20:57:26.352Z"
     },
     "mousai": {
-      "lastAttemptAt": "2026-09-12T20:48:34.118Z",
-      "lastSuccessAt": "2026-08-27T18:15:13.740Z",
-      "incident": {
-        "category": "invalid-data",
-        "consecutiveFailures": 22
-      }
+      "lastAttemptAt": "2026-09-12T20:57:26.379Z",
+      "lastSuccessAt": "2026-09-12T20:57:26.379Z"
     },
     "newsflash": {
-      "lastAttemptAt": "2026-09-12T20:48:34.291Z",
-      "lastSuccessAt": "2026-09-12T20:48:34.291Z"
+      "lastAttemptAt": "2026-09-12T20:57:26.361Z",
+      "lastSuccessAt": "2026-09-12T20:57:26.361Z"
     },
     "rnote": {
-      "lastAttemptAt": "2026-09-12T20:48:34.197Z",
-      "lastSuccessAt": "2026-08-27T18:15:13.963Z",
-      "incident": {
-        "category": "invalid-data",
-        "consecutiveFailures": 22
-      }
+      "lastAttemptAt": "2026-09-12T20:57:26.561Z",
+      "lastSuccessAt": "2026-09-12T20:57:26.561Z"
     }
   }
 }

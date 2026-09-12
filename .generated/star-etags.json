@@ -1,13 +1,13 @@
 {
-  "brave-origin": "W/\"c01b9bde4b4d458f70b43545db807db2041f29a415962a7d5241afdb56c7125f\"",
-  "dolphin-emulator": "W/\"2aea88e67f20d8ea2046544b634cd4d70c0218fc4e5615d217fb3fdc14ebe022\"",
-  "eyedropper": "W/\"f31cad183455a56982641db0e5a9923f6646db5e41fe35690f25725e23d61146\"",
-  "gear-lever": "W/\"3bfcb0313c9c6763ae5924f79735b1812c7fe1acb18503c44f301ca0a75d1de7\"",
-  "htop": "W/\"9ecf387dc7d200ff33d17c125275fc66e4f6c0f3eede2aa6cce12f3bb13cd0c1\"",
+  "brave-origin": "\"ffffebf845dc813c7cfe1b88971b75814df11213a71abaadd614411e829f5270\"",
+  "dolphin-emulator": "\"876d8d3cb423c2329999abee15ea517d268338420a428fc9ffdc56ce9a6c2255\"",
+  "eyedropper": "\"ca034ad55b175c9ce7e2fddb05ba4aea3cbab9743d5e92853a0ae1ce645299d2\"",
+  "gear-lever": "\"bd9adb05c75b808944e21d27850f70d454f740ff7395d78b861979d228d716a7\"",
+  "htop": "\"5e35439bd0f42e3dc6a1c465c649b6f93810515d55fb2cd7e7ab1ea0dd419426\"",
   "impression": "W/\"673edb62dfa9db71ee0c09011c5e53f9\"",
-  "librecad": "W/\"2f121c3cce8ced2a07885707d9a7cf424e1d75b6ef77d0497337ce4c9101cfed\"",
-  "localsend": "W/\"cb4e3fdde2e0c30f0bda3380fb369644b6a6ce93b7f72e7134f027d04598ad75\"",
-  "mousai": "W/\"786d61b78e9416e888fb4179f82ca60141762eeb2fea98bb5da1466eecde0445\"",
+  "librecad": "\"18f6989e40411a4cc2f43ada14e95ec06d0e49558103e4690fe46c84b6359304\"",
+  "localsend": "\"f86598589fb092b2d4fc5f71f2d5287b37df7597d24e31ff8bea40a0fde63932\"",
+  "mousai": "\"d25c0e24a6bef962ab77d523612df0db99c33e715eacb407ecb7e6b7d6103026\"",
   "newsflash": "W/\"005a090d1191bc40198a7d116c813c67\"",
-  "rnote": "W/\"fb18c5c0bb02b62940c90908810890d09153b70662eabd463b3dc1468c17fe25\""
+  "rnote": "\"45512e170a33b109548bb28c6d7a9b331174df3a711793b084dba1f50d5365b1\""
 }
