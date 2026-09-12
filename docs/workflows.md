@@ -80,12 +80,12 @@ never added to that commit. Pages uploads production directly as a GitHub Pages 
 reads or writes the `gh-pages` branch.
 
 Generated media is published as immutable GitHub Release assets. New media is placed into
-content-addressed batches of at most 900 assets. Each release remains a draft until every planned
-asset is present with GitHub's matching SHA-256 digest; publishing then lets GitHub lock the
-release. The committed `media-map.json` records the immutable tag for each content hash. The
-publisher rechecks local bytes, rejects mapping collisions and unexpected assets, and never replaces
-a published asset. Release immutability must remain enabled; publication fails when GitHub does not
-confirm that setting.
+content-addressed batches of at most 900 assets under readable sequential tags such as `media-0001`.
+Each release remains a draft until every planned asset is present with GitHub's matching SHA-256
+digest; publishing then lets GitHub lock the release. The committed `media-map.json` records the
+immutable tag for each content hash. The publisher rechecks local bytes, rejects mapping collisions
+and unexpected assets, and never replaces a published asset. Release immutability must remain
+enabled; publication fails when GitHub does not confirm that setting.
 
 Actions artifacts remain temporary worker inputs and audit reports; they are not durable catalog
 storage. Production publishes media before building. Every site build, including a local build,

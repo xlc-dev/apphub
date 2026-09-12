@@ -20,7 +20,7 @@ test("GitHub publication creates content-addressed immutable release batches", (
   ]);
 
   assert.equal(publication.media.length, 1);
-  assert.match(publication.media[0]!.tag, /^media-[a-f0-9]{64}$/);
+  assert.equal(publication.media[0]!.tag, "media-0001");
   assert.deepEqual(
     publication.media[0]!.assets.map(({ file }) => file),
     [`${first}.webp`, `${second}.webp`]
@@ -30,6 +30,23 @@ test("GitHub publication creates content-addressed immutable release batches", (
     `https://github.com/example/assets/releases/download/${publication.media[0]!.tag}/${first}.webp`
   );
   assert.equal(publication.mapping.assets[`${first}.webp`]?.tag, publication.media[0]!.tag);
+});
+
+test("GitHub publication gives new release batches readable sequential tags", () => {
+  const oldHash = "a".repeat(64);
+  const publication = createGitHubPublication(
+    "example/assets",
+    snapshot,
+    [asset(oldHash), asset("b".repeat(64))],
+    {
+      version: 1,
+      assets: {
+        [`${oldHash}.webp`]: { tag: `media-${"c".repeat(64)}`, sha256: oldHash, size: 100 },
+      },
+    }
+  );
+
+  assert.equal(publication.media[0]!.tag, "media-0002");
 });
 
 test("GitHub publication does not republish mapped media", () => {
