@@ -59,6 +59,7 @@ export function repositoryStarRequest(
   if (url.hostname === "github.com" && parts.length === 2) {
     const headers: Record<string, string> = {
       Accept: "application/vnd.github+json",
+      "User-Agent": "AppHub catalog updater",
       "X-GitHub-Api-Version": "2022-11-28",
     };
 
