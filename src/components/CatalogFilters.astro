@@ -59,16 +59,14 @@ const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown
                 {options.map(({ id, label, count }) => (
                   <div class="grid min-h-11 grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2 rounded-md px-2 text-sm hover:bg-[var(--card-raised)]">
                     <input
-                      id={`filter-${parameter}-${id}`}
                       class="size-4 accent-[var(--primary)]"
                       type="checkbox"
                       name={parameter}
                       value={id}
+                      aria-label={label}
                       data-catalog-filter
                     />
-                    <label class="cursor-pointer truncate" for={`filter-${parameter}-${id}`}>
-                      {label}
-                    </label>
+                    <span class="truncate">{label}</span>
                     <span class="text-right text-xs text-[var(--muted)] tabular-nums">{count}</span>
                   </div>
                 ))}

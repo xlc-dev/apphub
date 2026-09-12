@@ -78,12 +78,12 @@ const links = [
       inert
       aria-hidden="true"
       data-catalog-search>
-      <label class="sr-only" for="catalog-search">{t("search.label")}</label>
       <input
         class="focus-ring min-h-11 w-full rounded-md border border-[var(--border)] bg-[var(--control-bg)] px-3 py-1 text-sm shadow-sm outline-none placeholder:text-[var(--muted)]"
         id="catalog-search"
         type="search"
         name="q"
+        aria-label={t("search.label")}
         placeholder={t("search.placeholder")}
         autocomplete="off"
         data-catalog-search-input
