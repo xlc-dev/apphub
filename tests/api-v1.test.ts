@@ -60,6 +60,7 @@ describe("API v1 contract", () => {
   test("pins the application detail fields", () => {
     const app = apiAppDetailSchema.shape.app;
     const release = app.shape.latestRelease.unwrap();
+    const archive = release.shape.artifacts.element.shape.inspection.unwrap().shape.archive;
     const sandbox = app.shape.sandbox;
 
     assert.deepEqual(app.keyof().options.sort(), [
@@ -109,6 +110,14 @@ describe("API v1 contract", () => {
       "signatures",
       "size",
       "url",
+    ]);
+    assert.deepEqual(archive.shape.format.options, ["iso9660", "squashfs", "dwarfs"]);
+    assert.deepEqual(archive.keyof().options.sort(), [
+      "blockSize",
+      "bytesUsed",
+      "format",
+      "inodes",
+      "offset",
     ]);
     assert.deepEqual(sandbox.keyof().options.sort(), [
       "audio",

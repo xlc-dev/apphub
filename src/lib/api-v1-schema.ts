@@ -206,7 +206,8 @@ const artifactSchema = z
         elfMachine: z.number().int().positive(),
         archive: z
           .object({
-            format: z.enum(["iso9660", "squashfs"]),
+            format: z.enum(["iso9660", "squashfs", "dwarfs"]),
+            offset: z.number().int().nonnegative(),
             bytesUsed: z.number().int().positive(),
             inodes: z.number().int().positive().optional(),
             blockSize: z.number().int().positive().optional(),
