@@ -505,6 +505,24 @@ describe("download hashing", () => {
       /exceeds published size/
     );
   });
+
+  test("rejects an oversized response before streaming it", async () => {
+    const body = new ReadableStream({
+      pull(controller) {
+        controller.enqueue(Buffer.from("123456"));
+        controller.close();
+      },
+    });
+    const oversized = () =>
+      Promise.resolve(new Response(body, { headers: { "content-length": "6" } }));
+
+    assert.match(
+      await errorMessage(
+        hashDownload({ name: "fixture", url }, { fetcher: oversized, maximumSize: 5 })
+      ),
+      /response exceeds size limit/
+    );
+  });
 });
 
 describe("release observations", () => {
@@ -516,12 +534,27 @@ describe("release observations", () => {
     size: 100,
     sha256: "a".repeat(64),
     capabilities: { runtimeType: 2 as const, fuse: true, zsync: false, anylinux: false },
+    inspection: {
+      format: "appimage" as const,
+      runtimeType: 2 as const,
+      elfClass: 64 as const,
+      elfMachine: 62,
+      archive: {
+        format: "squashfs" as const,
+        offset: 128,
+        bytesUsed: 90,
+        inodes: 10,
+        blockSize: 131072,
+      },
+    },
   };
 
   test("reuses an unchanged provider asset without downloading it again", () => {
     assert.equal(canReuseObservation(recorded, { ...recorded, size: 100 }), true);
     assert.equal(canReuseObservation(recorded, { ...recorded, assetId: "456", size: 100 }), false);
     assert.equal(canReuseObservation(recorded, { ...recorded, size: 101 }), false);
+    const { inspection: _inspection, ...uninspected } = recorded;
+    assert.equal(canReuseObservation(uninspected, { ...recorded, size: 100 }), false);
   });
 
   test("reuses an artifact identified by its published checksum", () => {

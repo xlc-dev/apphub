@@ -1,3 +1,4 @@
+import { fileURLToPath } from "node:url";
 import { defineConfig } from "astro/config";
 import { defaultLocale, locales } from "./src/lib/locales";
 import tailwindcss from "@tailwindcss/vite";
@@ -7,6 +8,7 @@ const site = new URL(process.env.SITE_URL ?? "https://xlc-dev.github.io").origin
 export default defineConfig({
   site,
   base,
+  build: { inlineStylesheets: "never" },
   markdown: { syntaxHighlight: false },
   i18n: {
     defaultLocale,
@@ -21,12 +23,17 @@ export default defineConfig({
         "default-src 'self'",
         "font-src 'self'",
         "form-action 'self'",
-        "img-src 'self' data:",
+        "img-src 'self' data: https://github.com https://objects.githubusercontent.com https://release-assets.githubusercontent.com",
         "object-src 'none'",
       ],
     },
   },
   vite: {
     plugins: [tailwindcss()],
+    resolve: {
+      alias: {
+        "#media-loader": fileURLToPath(new URL("./src/lib/media-loader.ts", import.meta.url)),
+      },
+    },
   },
 });

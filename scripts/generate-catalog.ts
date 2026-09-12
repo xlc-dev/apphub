@@ -66,12 +66,7 @@ async function downloadImage(
       throw new Error(`Image returned 304 without a cached file: ${url}`);
     }
 
-    const content = await readFile(`.generated/media/${cached.file}`);
-    const file = `${createHash("sha256").update(content).digest("hex")}.webp`;
-
-    await createFileIfMissing(`${outputDirectory}/${file}`, content);
-
-    return { file, validator: cached.validator, size: content.length };
+    return stageCachedImage(cached, outputDirectory);
   }
 
   if (!response.ok) {

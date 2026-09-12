@@ -5,8 +5,10 @@ import { downloadCounts, downloadHistorySchema, latestDownloadDate } from "#cata
 import { readApps } from "#catalog/storage";
 import { imageType } from "#catalog/media";
 import { catalogStatus } from "#catalog/refresh";
+import { readRevokedHashes } from "#catalog/tuf/revocations";
 import { readCatalogSnapshot } from "#catalog/snapshot";
 import { getRepositoryStarData } from "#lib/repository-stars";
+import { mediaUrl } from "#media-loader";
 import {
   catalogAppResourceSchema,
   catalogAppSchema,
@@ -15,12 +17,6 @@ import {
 } from "#lib/catalog-model";
 
 const downloadsUrl = pathToFileURL(`${process.cwd()}/.generated/downloads.json`);
-
-const media = import.meta.glob<string>("/.generated/media/*.webp", {
-  eager: true,
-  import: "default",
-  query: "?url&no-inline",
-});
 
 let appsPromise: Promise<CatalogApp[]> | undefined;
 let downloadHistoryPromise: Promise<z.infer<typeof downloadHistorySchema>> | undefined;
@@ -38,37 +34,51 @@ export function getCatalogSnapshotTime() {
 }
 
 async function loadApps() {
-  const entries = await readApps();
+  const [entries, revoked] = await Promise.all([readApps(), readRevokedHashes()]);
   const apps = entries
     .map(({ slug, iconFile, app, lock }) => {
       const { assets: _assets, releaseSource: _releaseSource, ...manifest } = app;
       const { validator: _metadataValidator, ...metadataProvenance } = app.provenance.metadata;
       const { validator: _releaseValidator, ...releaseProvenance } = app.provenance.releaseSource;
 
+      const refreshStatus = catalogStatus(
+        app.provenance.refresh.metadata,
+        app.provenance.refresh.releases,
+        snapshotTime
+      );
+      const isRevoked = lock.releases.some((release) =>
+        release.artifacts.some(({ sha256 }) => revoked.has(sha256))
+      );
+      const status = isRevoked ? "revoked" : refreshStatus;
+      const mayInstall = status === "current" || status === "stale";
+      const releases = lock.releases.map((release) => ({
+        ...release,
+        artifacts: release.artifacts.map((artifact) => ({
+          ...artifact,
+          installable: Boolean(artifact.inspection) && mayInstall && !revoked.has(artifact.sha256),
+        })),
+      }));
+
       return {
         ...manifest,
         slug,
         icon: {
           ...app.icon,
-          url: media[`/.generated/media/${iconFile}`]!,
+          url: mediaUrl(iconFile),
           type: imageType(iconFile),
         },
         screenshots: app.screenshots.map(({ file, ...screenshot }) => ({
           ...screenshot,
-          url: media[`/.generated/media/${file}`]!,
+          url: mediaUrl(file),
           type: imageType(file),
         })),
-        releases: lock.releases,
+        releases,
         provenance: {
           ...app.provenance,
           metadata: metadataProvenance,
           releaseSource: releaseProvenance,
         },
-        status: catalogStatus(
-          app.provenance.refresh.metadata,
-          app.provenance.refresh.releases,
-          snapshotTime
-        ),
+        status,
       };
     })
     .sort(

@@ -1,9 +1,9 @@
-import { join } from "node:path";
 import type { APIRoute, GetStaticPaths } from "astro";
 import sharp from "sharp";
 import { readApps } from "#catalog/storage";
 import { getCatalogApps, getCatalogSnapshotTime } from "#lib/catalog-loader";
 import { featuredApps } from "#lib/featured-apps";
+import { mediaBytes } from "#media-loader";
 
 export const prerender = true;
 
@@ -13,7 +13,7 @@ interface Screenshot {
 }
 
 async function prepareScreenshot(file: string): Promise<Screenshot> {
-  const { data, info } = await sharp(join(process.cwd(), ".generated/media", file))
+  const { data, info } = await sharp(await mediaBytes(file))
     .trim({ background: { r: 0, g: 0, b: 0, alpha: 0 }, threshold: 64 })
     .toBuffer({ resolveWithObject: true });
 

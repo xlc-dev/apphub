@@ -57,17 +57,18 @@ const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown
               <fieldset class:list={[index > 0 && "mt-2 border-t border-[var(--border)] pt-2"]}>
                 {groupName && <legend class="px-2 py-1 text-sm font-semibold">{groupName}</legend>}
                 {options.map(({ id, label, count }) => (
-                  <label class="grid min-h-11 cursor-pointer grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2 rounded-md px-2 text-sm hover:bg-[var(--card-raised)]">
+                  <div class="grid min-h-11 grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2 rounded-md px-2 text-sm hover:bg-[var(--card-raised)]">
                     <input
                       class="size-4 accent-[var(--primary)]"
                       type="checkbox"
                       name={parameter}
                       value={id}
+                      aria-label={label}
                       data-catalog-filter
                     />
                     <span class="truncate">{label}</span>
                     <span class="text-right text-xs text-[var(--muted)] tabular-nums">{count}</span>
-                  </label>
+                  </div>
                 ))}
               </fieldset>
             ))}

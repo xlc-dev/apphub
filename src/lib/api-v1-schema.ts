@@ -17,7 +17,7 @@ const architectureSchema = z
   .regex(/^[a-z0-9][a-z0-9_+-]*$/)
   .describe("Linux architecture name");
 const localeSchema = z.string().regex(/^[a-z]{2,3}(?:-[A-Z][a-z]{3})?(?:-[A-Z]{2}|-[0-9]{3})?$/);
-const statusSchema = z.enum(["current", "stale", "unavailable", "quarantined"]);
+const statusSchema = z.enum(["current", "stale", "unavailable", "quarantined", "revoked"]);
 const incidentCategorySchema = z.enum([
   "network",
   "rate-limit",
@@ -197,6 +197,24 @@ const artifactSchema = z
     assetId: z.string().min(1).max(255).optional(),
     size: z.number().int().positive(),
     sha256: z.string().regex(/^[a-f0-9]{64}$/),
+    installable: z.boolean(),
+    inspection: z
+      .object({
+        format: z.literal("appimage"),
+        runtimeType: z.union([z.literal(1), z.literal(2)]),
+        elfClass: z.union([z.literal(32), z.literal(64)]),
+        elfMachine: z.number().int().positive(),
+        archive: z
+          .object({
+            format: z.enum(["iso9660", "squashfs"]),
+            bytesUsed: z.number().int().positive(),
+            inodes: z.number().int().positive().optional(),
+            blockSize: z.number().int().positive().optional(),
+          })
+          .strict(),
+      })
+      .strict()
+      .optional(),
     checksumEvidence: z.object({ sourceUrl: httpsUrlSchema }).strict().optional(),
     signatures: z
       .array(
@@ -416,6 +434,7 @@ export const apiMetadataV1Schema = apiSnapshotSchema
             stale: z.number().int().nonnegative(),
             unavailable: z.number().int().nonnegative(),
             quarantined: z.number().int().nonnegative(),
+            revoked: z.number().int().nonnegative(),
           })
           .strict(),
         incidents: z

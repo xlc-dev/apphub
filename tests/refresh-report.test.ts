@@ -4,7 +4,7 @@ import {
   createRefreshReport,
   type CapturedApp,
   type CapturedRefreshState,
-} from "#scripts/refresh-report";
+} from "#scripts/refresh/report";
 
 const start = "2026-08-26T10:00:00.000Z";
 const attempt = "2026-08-26T10:01:00.000Z";
@@ -115,6 +115,15 @@ test("refresh reports alert once per app on important transitions", () => {
   assert.deepEqual(report.rateLimitedProviders, [
     { host: "api.example.org", blockedUntil: "2026-08-26T11:00:00.000Z" },
   ]);
+  assert.deepEqual(
+    report.maintenance.map(({ slug, kind }) => ({ slug, kind })),
+    [
+      { slug: "unavailable", kind: "unavailable" },
+      { slug: "quarantined", kind: "quarantined" },
+      { slug: "unavailable", kind: "persistent-failure" },
+      { slug: "persistent", kind: "persistent-failure" },
+    ]
+  );
 });
 
 test("refresh reports do not repeat alerts for existing incidents", () => {
@@ -140,4 +149,5 @@ test("refresh reports do not repeat alerts for existing incidents", () => {
 
   assert.equal(report.alerts.length, 0);
   assert.equal(report.persistentFailures.length, 1);
+  assert.equal(report.maintenance.length, 2);
 });

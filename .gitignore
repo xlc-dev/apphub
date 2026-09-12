@@ -2,5 +2,7 @@ dist/
 node_modules/
 .astro/
 /.generated/*.tmp-*/
+/.generated/media/
+/.scale-fixture-*/
 package-lock.json
 pnpm-lock.yaml

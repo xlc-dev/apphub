@@ -22,9 +22,18 @@
     "check": "astro check",
     "test": "bun test",
     "test:node": "node --test tests/*.test.ts",
+    "test:scale": "bun scripts/test-scale.ts",
     "generate-catalog": "node scripts/generate-catalog.ts",
-    "refresh-catalog": "node scripts/refresh-catalog.ts",
-    "refresh-statistics": "node scripts/refresh-statistics.ts",
+    "plan-github-publication": "bun scripts/media/plan.ts",
+    "publish-github-media": "bun scripts/media/publish.ts",
+    "plan-refresh": "bun scripts/refresh/plan.ts",
+    "run-refresh-batch": "bun scripts/refresh/run-batch.ts",
+    "finalize-refresh-batches": "bun scripts/refresh/finalize.ts",
+    "create-tuf-root": "bun scripts/tuf/create-root.ts",
+    "generate-tuf": "bun scripts/tuf/generate.ts",
+    "update-revocations": "bun scripts/tuf/update-revocations.ts",
+    "validate-tuf": "bun scripts/tuf/validate.ts",
+    "validate-revocations": "bun scripts/tuf/validate-revocations.ts",
     "update-downloads": "node scripts/update-downloads.ts",
     "update-stars": "node scripts/update-stars.ts",
     "validate:catalog": "node scripts/validate.ts",
@@ -36,18 +45,18 @@
   "dependencies": {
     "@fontsource-variable/inter": "^5.3.0",
     "@tailwindcss/vite": "^4.3.3",
-    "astro": "^7.3.1",
+    "astro": "^7.3.2",
     "fast-xml-parser": "^5.11.1",
     "sharp": "^0.35.4",
     "spdx-expression-parse": "^5.0.0",
     "tailwindcss": "^4.3.3",
-    "zod": "^4.5.4"
+    "zod": "^4.6.2"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
     "@eslint/js": "^10.0.1",
-    "@types/node": "^26.4.1",
-    "eslint": "^10.9.1",
+    "@types/node": "^22.20.2",
+    "eslint": "^10.10.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-astro": "~3.1.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
@@ -55,6 +64,6 @@
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-tailwindcss": "^0.8.1",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.69.0"
+    "typescript-eslint": "^8.70.0"
   }
 }

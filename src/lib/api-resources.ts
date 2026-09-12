@@ -158,7 +158,13 @@ export async function getApiMetadata() {
     getDownloadHistory(),
   ]);
 
-  const statuses = { current: 0, stale: 0, unavailable: 0, quarantined: 0 };
+  const statuses = {
+    current: 0,
+    stale: 0,
+    unavailable: 0,
+    quarantined: 0,
+    revoked: 0,
+  };
   const incidents = { network: 0, rateLimit: 0, notFound: 0, invalidData: 0, integrity: 0 };
   let staleResources = 0;
 

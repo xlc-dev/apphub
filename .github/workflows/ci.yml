@@ -11,6 +11,8 @@ concurrency:
 
 jobs:
   validate:
+    env:
+      APPHUB_ASSET_REPOSITORY: ${{ github.repository }}
     permissions:
       contents: read
     runs-on: ubuntu-latest
@@ -34,8 +36,10 @@ jobs:
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
         run: |
-          if ! git diff --quiet "$BASE_SHA" HEAD -- .generated; then
-            echo "Do not submit .generated changes; CI owns generated catalog data."
+          changes=$(git diff --name-status "$BASE_SHA" HEAD -- .generated)
+          if test -n "$changes"; then
+            echo "Do not submit generated changes."
+            echo "$changes"
             exit 1
           fi
 

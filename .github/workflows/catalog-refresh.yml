@@ -1,0 +1,269 @@
+name: Refresh catalog
+
+on:
+  schedule:
+    - cron: "7 4 * * *"
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: catalog-refresh
+  cancel-in-progress: false
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    env:
+      APPHUB_ASSET_REPOSITORY: ${{ github.repository }}
+    outputs:
+      count: ${{ steps.plan.outputs.count }}
+      matrix: ${{ steps.plan.outputs.matrix }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
+        with:
+          bun-version: 1.3.14
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Validate current signed catalog
+        run: bun run validate-tuf
+
+      - name: Plan due applications
+        id: plan
+        env:
+          APPHUB_REFRESH_PLAN: /tmp/apphub-refresh-plan.json
+          FORCE_REFRESH: ${{ github.event_name == 'workflow_dispatch' && '1' || '0' }}
+        run: bun run plan-refresh
+
+      - name: Upload refresh plan
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: refresh-plan
+          path: /tmp/apphub-refresh-plan.json
+          retention-days: 7
+
+  refresh:
+    needs: plan
+    if: needs.plan.outputs.count != '0'
+    strategy:
+      fail-fast: false
+      max-parallel: 12
+      matrix: ${{ fromJSON(needs.plan.outputs.matrix) }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
+        with:
+          bun-version: 1.3.14
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Refresh batch
+        env:
+          APPHUB_ASSET_REPOSITORY: ${{ github.repository }}
+          APPHUB_REFRESH_BATCH: ${{ toJSON(matrix) }}
+          APPHUB_REFRESH_RESULT: /tmp/${{ matrix.id }}
+          FORCE_REFRESH: ${{ github.event_name == 'workflow_dispatch' && '1' || '0' }}
+        run: bun run run-refresh-batch
+
+      - name: Upload batch result
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: ${{ matrix.id }}
+          path: /tmp/${{ matrix.id }}
+          retention-days: 7
+
+  finalize:
+    needs: [plan, refresh]
+    if: >-
+      always() && needs.plan.result == 'success' && (needs.refresh.result == 'success' ||
+      needs.refresh.result == 'skipped')
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      actions: write
+      contents: read
+      issues: write
+      pages: write
+    outputs:
+      changed: ${{ steps.commit.outputs.changed }}
+    env:
+      APPHUB_ASSET_REPOSITORY: ${{ github.repository }}
+      APPHUB_REFRESH_NETWORK_REPORT: /tmp/apphub-refresh-network.json
+      APPHUB_REFRESH_REPORT: /tmp/apphub-refresh-report.json
+      APPHUB_REFRESH_STATE: /tmp/apphub-refresh-state.json
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
+        with:
+          bun-version: 1.3.14
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Capture previous state
+        run: bun scripts/refresh/report.ts capture
+
+      - name: Download refresh plan
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          name: refresh-plan
+          path: /tmp/refresh-plan
+
+      - name: Download batch results
+        if: needs.plan.outputs.count != '0'
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          pattern: batch-*
+          path: /tmp/refresh-results
+
+      - name: Finalize every batch
+        env:
+          APPHUB_ASSET_REPOSITORY: ${{ github.repository }}
+          APPHUB_REFRESH_PLAN: /tmp/refresh-plan/apphub-refresh-plan.json
+          APPHUB_REFRESH_RESULTS: /tmp/refresh-results
+        run: bun run finalize-refresh-batches
+
+      - name: Refresh statistics
+        run: bun run update-downloads && bun run update-stars
+
+      - name: Write final snapshot
+        run: bun scripts/write-snapshot.ts
+
+      - name: Validate complete catalog
+        run: bun run validate:catalog
+
+      - name: Create App token
+        id: app-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          client-id: ${{ vars.APP_CLIENT_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          permission-administration: read
+          permission-contents: write
+
+      - name: Plan GitHub publication
+        env:
+          APPHUB_ASSET_REPOSITORY: ${{ github.repository }}
+          APPHUB_PUBLICATION_PLAN: /tmp/apphub-publication-plan.json
+        run: bun run plan-github-publication
+
+      - name: Publish immutable media
+        env:
+          APPHUB_PUBLICATION_PLAN: /tmp/apphub-publication-plan.json
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: bun run publish-github-media
+
+      - name: Write published snapshot
+        run: bun scripts/write-snapshot.ts
+
+      - name: Generate signed catalog
+        env:
+          APPHUB_TUF_SNAPSHOT_KEY: ${{ secrets.APPHUB_TUF_SNAPSHOT_KEY }}
+          APPHUB_TUF_TARGETS_KEY: ${{ secrets.APPHUB_TUF_TARGETS_KEY }}
+          APPHUB_TUF_TIMESTAMP_KEY: ${{ secrets.APPHUB_TUF_TIMESTAMP_KEY }}
+        run: bun run generate-tuf
+
+      - name: Validate signed catalog
+        run: bun run validate-tuf
+
+      - name: Validate published catalog
+        run: bun run validate:catalog
+
+      - name: Create refresh report
+        if: always()
+        run: bun scripts/refresh/report.ts report
+
+      - name: Upload refresh report
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: catalog-refresh-${{ github.run_id }}
+          path: /tmp/apphub-refresh-report.json
+          retention-days: 30
+
+      - name: Build changed site
+        env:
+          APPHUB_ASSET_REPOSITORY: ${{ github.repository }}
+          BASE_PATH: /apphub
+        run: bun run build
+
+      - name: Validate changed site
+        run: bun run validate:dist
+
+      - name: Prepare Pages artifact
+        run: touch dist/.nojekyll
+
+      - name: Commit generated catalog
+        id: commit
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          gh auth setup-git
+          git add .generated/apps .generated/downloads.json .generated/media-map.json .generated/snapshot.json .generated/star-etags.json .generated/stars.json
+          if test -d .generated/tuf; then
+            git add .generated/tuf
+          fi
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore: update generated catalog"
+          git push
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Upload changed site
+        if: steps.commit.outputs.changed == 'true'
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5
+        with:
+          path: dist
+
+      - name: Maintain catalog issue
+        env:
+          APPHUB_MAINTENANCE_ASSIGNEE: ${{ vars.MAINTENANCE_ASSIGNEE || 'xlc-dev' }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bun scripts/refresh/issue.ts
+
+  deploy:
+    needs: finalize
+    if: needs.finalize.outputs.changed == 'true'
+    runs-on: ubuntu-latest
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy site
+        id: deployment
+        uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128 # v5

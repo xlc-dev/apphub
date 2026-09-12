@@ -50,7 +50,13 @@ export class RefreshError extends Error {
   }
 }
 
-export const catalogStatusSchema = z.enum(["current", "stale", "unavailable", "quarantined"]);
+export const catalogStatusSchema = z.enum([
+  "current",
+  "stale",
+  "unavailable",
+  "quarantined",
+  "revoked",
+]);
 type CatalogStatus = z.infer<typeof catalogStatusSchema>;
 
 export const staleAfterDays = {

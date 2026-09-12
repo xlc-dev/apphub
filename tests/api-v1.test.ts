@@ -102,6 +102,8 @@ describe("API v1 contract", () => {
       "assetId",
       "capabilities",
       "checksumEvidence",
+      "inspection",
+      "installable",
       "name",
       "sha256",
       "signatures",

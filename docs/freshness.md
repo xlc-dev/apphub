@@ -1,7 +1,7 @@
 # Refresh failures and freshness
 
-AppHub keeps serving the last generated data that passed validation. The committed `.generated/`
-directory is that last-known-good copy.
+AppHub keeps serving the last generated data that passed validation. Committed generated JSON is the
+last-known-good catalog state; its media hashes resolve to immutable GitHub Release assets.
 
 ## Refresh units
 
@@ -43,9 +43,9 @@ API are built from one complete snapshot.
 Temporary network, rate-limit, and invalid-data failures need no immediate action. They remain in
 the refresh report while AppHub keeps the previous value.
 
-A maintainer reviews newly quarantined or unavailable apps. Integrity, identity, ownership, and
-source changes need a reviewed catalog change. A release that remains missing may need a new source
-or removal.
+A maintainer reviews quarantined, unavailable, and repeatedly failing apps through the catalog
+maintenance issue. The workflow updates that issue after every successful scheduled deployment and
+closes it only when no actionable condition remains.
 
-Alerts are transition-based. An unresolved incident remains visible in later reports without failing
-every scheduled run again.
+Integrity, identity, ownership, source, and removal decisions always need a reviewed catalog change.
+The maintenance workflow never makes those changes itself.

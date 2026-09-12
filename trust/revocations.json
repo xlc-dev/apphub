@@ -1,0 +1,15 @@
+{
+  "signatures": [
+    {
+      "keyid": "4a90b554bd709af2f48b688029c48d4f34d15e623860d6bba3efdc367ae3fd60",
+      "sig": "d5a5914894c63d1064c4aacef2a8f82ea1006ede90909f82f6270f5394e61e306ddba8321e155a614627bc877e1239cdc31519fce7d8d7b67f1162c56358f603"
+    }
+  ],
+  "signed": {
+    "_type": "revocations",
+    "spec_version": "1.0.31",
+    "version": 1,
+    "expires": "2026-10-27T17:07:26.954Z",
+    "revoked": []
+  }
+}

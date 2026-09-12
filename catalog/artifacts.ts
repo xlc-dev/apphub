@@ -1,4 +1,9 @@
 import { createHash } from "node:crypto";
+import {
+  findSquashfsSuperblocks,
+  inspectAppImage,
+  type AppImageInspection,
+} from "#catalog/appimage";
 import { recordResponseBytes } from "#catalog/network";
 import { safeFetch } from "#catalog/http";
 import { RefreshError } from "#catalog/refresh";
@@ -92,9 +97,10 @@ export async function hashDownload(
   options: {
     maximumSize?: number;
     fetcher?: (input: string, init?: RequestInit) => Promise<Response>;
+    architecture?: Architecture;
   } = {}
 ) {
-  const { maximumSize = 2 * 1024 * 1024 * 1024, fetcher = fetch } = options;
+  const { maximumSize = 2 * 1024 * 1024 * 1024, fetcher = fetch, architecture } = options;
 
   if (file.size !== undefined && file.size > maximumSize) {
     throw new Error(`${file.name}: published size exceeds download limit`);
@@ -107,13 +113,36 @@ export async function hashDownload(
   }
 
   const hash = createHash("sha256");
-  const reader = response.body.getReader();
   let size = 0;
-  let prefix = new Uint8Array();
+  let prefix = Buffer.alloc(0);
   let tail = Buffer.alloc(0);
+  let archiveTail = Buffer.alloc(0);
+  const squashfsSuperblocks: Array<{ offset: number; data: Buffer }> = [];
   let fuse = false;
   let zsync = false;
   const sizeLimit = file.size ?? maximumSize;
+  const lengthHeader = response.headers.get("content-length");
+  const responseLength = lengthHeader === null ? undefined : Number(lengthHeader);
+  if (
+    responseLength !== undefined &&
+    Number.isFinite(responseLength) &&
+    responseLength > sizeLimit
+  ) {
+    await response.body.cancel();
+    throw new Error(
+      `${file.name}: response exceeds ${file.size === undefined ? "size limit" : "published size"}`
+    );
+  }
+  if (
+    file.size !== undefined &&
+    responseLength !== undefined &&
+    Number.isFinite(responseLength) &&
+    responseLength !== file.size
+  ) {
+    await response.body.cancel();
+    throw new Error(`${file.name}: response differs from published size`);
+  }
+  const reader = response.body.getReader();
   const fusePattern = Buffer.from("libfuse.so.2");
   const zsyncPattern = Buffer.from("zsync|");
   const overlap = Math.max(fusePattern.length, zsyncPattern.length) - 1;
@@ -125,6 +154,7 @@ export async function hashDownload(
       break;
     }
 
+    const chunkOffset = size;
     size += value.byteLength;
 
     if (size > sizeLimit) {
@@ -136,8 +166,8 @@ export async function hashDownload(
 
     hash.update(value);
 
-    if (prefix.length < 11) {
-      prefix = new Uint8Array([...prefix, ...value.slice(0, 11 - prefix.length)]);
+    if (prefix.length < 32_898) {
+      prefix = Buffer.concat([prefix, Buffer.from(value)]).subarray(0, 32_898);
     }
 
     if (!fuse || !zsync) {
@@ -146,6 +176,17 @@ export async function hashDownload(
       fuse ||= searchable.includes(fusePattern);
       zsync ||= searchable.includes(zsyncPattern);
       tail = Buffer.from(searchable.subarray(-overlap));
+    }
+
+    if (architecture) {
+      const chunk = Buffer.from(value.buffer, value.byteOffset, value.byteLength);
+      const archiveSearch = archiveTail.length ? Buffer.concat([archiveTail, chunk]) : chunk;
+      squashfsSuperblocks.push(
+        ...findSquashfsSuperblocks(archiveSearch, chunkOffset - archiveTail.length)
+      );
+      if (squashfsSuperblocks.length > 256)
+        throw new Error("too many SquashFS markers in AppImage");
+      archiveTail = Buffer.from(archiveSearch.subarray(-95));
     }
   }
 
@@ -159,6 +200,17 @@ export async function hashDownload(
     prefix[8] === 0x41 && prefix[9] === 0x49 && [1, 2].includes(prefix[10]!)
       ? (prefix[10] as 1 | 2)
       : undefined;
+  let inspection: AppImageInspection | undefined;
+  try {
+    inspection = architecture
+      ? inspectAppImage(prefix, squashfsSuperblocks, size, architecture)
+      : undefined;
+  } catch (error) {
+    throw new RefreshError(
+      "integrity",
+      `${file.name}: ${error instanceof Error ? error.message : String(error)}`
+    );
+  }
 
   return {
     size,
@@ -169,5 +221,6 @@ export async function hashDownload(
       zsync,
       anylinux: /(?:^|[^a-z0-9])anylinux(?:[^a-z0-9]|$)/i.test(file.name),
     },
+    ...(inspection ? { inspection } : {}),
   };
 }

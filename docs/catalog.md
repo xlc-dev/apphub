@@ -6,6 +6,10 @@ Each application has one reviewed manifest:
 apps/example-app.json
 ```
 
+See [Artifact admission](admission.md) for the boundary between a visible listing and an installable
+release. See [Catalog signing](signing.md) for key setup, publication, rotation, and emergency
+revocation.
+
 Copy the [application template](app.template.json) to `apps/<slug>.json`. Use a lowercase slug with
 words separated by hyphens. An app submission should change only this file.
 
@@ -31,18 +35,22 @@ Do not add optional fields unless they apply:
 The generator gets names, descriptions, links, media, releases, and checksums from the configured
 sources. Do not add generated data to the pull request.
 
-CI writes generated app data and media under `.generated/`. Production commits this data so builds
-do not need application sources. Contributor pull requests must not change it.
+CI writes generated app data and media under `.generated/`. Production commits the compact
+last-known-good JSON state so builds do not need application sources. Generated media is ignored by
+Git and published separately as immutable GitHub Release assets. Contributor pull requests must not
+change generated state.
 
 ## Stored data
 
 - `apps/*.json` contains reviewed source settings.
-- `.generated/` contains the committed last-known-good catalog, media, history, and statistics.
+- `.generated/` contains the last-known-good catalog, media references, history, and statistics.
+- `.generated/media/` is temporary refresh output awaiting publication to GitHub Releases.
 - `dist/`, `.astro/`, and installed dependencies are disposable.
 
 `.generated/snapshot.json` identifies the complete catalog snapshot. Its revision changes only when
-catalog data changes. If `.generated/` is lost, restore it from Git. Regenerating from current
-sources cannot recreate data that has disappeared upstream.
+catalog data changes. If generated JSON is lost, restore it from Git. Published media is restored
+from its content-addressed GitHub Release URL. Regenerating from current sources cannot recreate
+data that has disappeared upstream.
 
 ## Manifest
 
@@ -70,9 +78,11 @@ text falls back from the exact locale to its language and then to the default Ap
 Descriptions preserve AppStream paragraphs, ordered and unordered lists, emphasis, and code as
 structured data. Unsupported description markup fails the build.
 
-Images are downloaded, checked, converted to WebP, and stored under `.generated/media/` by their
-SHA-256. The website serves these local files instead of loading images from upstream. AppHub keeps
-icons at no more than 256 by 256 pixels and up to five screenshots fitted within 1280 by 800 pixels.
+Images are downloaded, checked, converted to WebP, and staged under `.generated/media/` by their
+SHA-256. Production uses immutable GitHub Release URLs instead of loading images from upstream or
+putting generated media in Git or the Pages artifact. Local builds use the same Release URLs and
+therefore require network access and the committed `.generated/media-map.json`. AppHub keeps icons
+at no more than 256 by 256 pixels and up to five screenshots fitted within 1280 by 800 pixels.
 
 Catalog content is not covered by AppHub's source-code license, including when delivered through the
 API. Individual materials remain subject to the rights and licenses of their respective sources.
@@ -231,5 +241,7 @@ See [Sandbox v1](sandbox.md) for every field and the runtime rules.
 The AppStream ID identifies the app. The manifest filename is its current website slug. Before
 AppHub 1.0, renamed or removed slugs do not leave redirects.
 
-See [Origin and provenance](provenance.md) for what AppHub records and
-[Refresh failures and freshness](freshness.md) for failure behavior.
+See [Origin and provenance](provenance.md) for what AppHub records,
+[Artifact admission](admission.md) for automatic release checks, and
+[Refresh failures and freshness](freshness.md) for failure behavior. See
+[Catalog signing](signing.md) for key setup, signed publication, and revocation.

@@ -3,6 +3,7 @@ import { catalogStatusSchema, refreshStateSchema } from "#catalog/refresh";
 import {
   applicationSlugSchema,
   appSchema,
+  artifactSchema,
   catalogProvenanceSchema,
   releaseSchema,
 } from "#catalog/schema";
@@ -33,7 +34,13 @@ export const catalogAppSchema = appSchema
     slug: applicationSlugSchema,
     icon: catalogImageSchema,
     screenshots: z.array(catalogScreenshotSchema).min(1).max(5),
-    releases: z.array(releaseSchema),
+    releases: z.array(
+      releaseSchema
+        .safeExtend({
+          artifacts: z.array(artifactSchema.extend({ installable: z.boolean() }).strict()),
+        })
+        .strict()
+    ),
     status: catalogStatusSchema,
     provenance: publicProvenanceSchema,
   })
@@ -121,7 +128,7 @@ export const catalogUpdatedAppsSchema = z
 const rankingPeriodSchema = z.enum(["week", "month", "all-time"]);
 
 export function isAppIndexable(app: { status: z.infer<typeof catalogStatusSchema> }) {
-  return app.status !== "quarantined";
+  return app.status !== "quarantined" && app.status !== "revoked";
 }
 
 export const catalogRankingSchema = z

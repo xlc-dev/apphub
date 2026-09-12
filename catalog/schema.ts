@@ -381,7 +381,25 @@ const signatureEvidenceSchema = z
   })
   .strict();
 
-const artifactSchema = z
+export const artifactInspectionSchema = z
+  .object({
+    format: z.literal("appimage"),
+    runtimeType: z.union([z.literal(1), z.literal(2)]),
+    elfClass: z.union([z.literal(32), z.literal(64)]),
+    elfMachine: z.number().int().positive(),
+    archive: z
+      .object({
+        format: z.enum(["iso9660", "squashfs"]),
+        offset: z.number().int().nonnegative(),
+        bytesUsed: z.number().int().positive(),
+        inodes: z.number().int().positive().optional(),
+        blockSize: z.number().int().positive().optional(),
+      })
+      .strict(),
+  })
+  .strict();
+
+export const artifactSchema = z
   .object({
     architecture: architectureSchema,
     name: z.string().min(1).max(255),
@@ -389,6 +407,7 @@ const artifactSchema = z
     assetId: z.string().min(1).max(255).optional(),
     size: z.number().int().positive(),
     sha256: z.string().regex(/^[a-f0-9]{64}$/),
+    inspection: artifactInspectionSchema.optional(),
     checksumEvidence: checksumEvidenceSchema.optional(),
     signatures: z.array(signatureEvidenceSchema).max(10).optional(),
     capabilities: z
