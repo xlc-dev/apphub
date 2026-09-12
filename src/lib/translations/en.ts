@@ -63,6 +63,8 @@ export const en = {
   "filters.host.system-bus": "System bus",
   "origin.upstream": "Official AppImage",
   "origin.thirdParty": "Community AppImage",
+  "origin.official": "Official",
+  "origin.community": "Community",
   "pagination.previous": "Previous",
   "pagination.next": "Next",
   "pagination.page": "Page {page} of {pages}",

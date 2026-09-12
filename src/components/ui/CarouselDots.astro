@@ -12,9 +12,11 @@ const { groupLabel, labels, name } = Astro.props;
   {
     labels.map((label, index) => (
       <label
+        for={`${name}-${index}`}
         class="flex size-11 cursor-pointer items-center justify-center rounded-full"
         data-carousel-dot>
         <input
+          id={`${name}-${index}`}
           class="sr-only"
           type="radio"
           name={name}

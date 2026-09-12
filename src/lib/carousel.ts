@@ -15,11 +15,11 @@ function currentSlide(track: HTMLElement, slides: HTMLElement[]) {
 
 function showSlide(slides: HTMLElement[], index: number) {
   const behavior = matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
+  const slide = slides[(index + slides.length) % slides.length];
 
-  slides[(index + slides.length) % slides.length]?.scrollIntoView({
+  slide?.parentElement?.scrollTo({
+    left: slide.offsetLeft,
     behavior,
-    block: "nearest",
-    inline: "center",
   });
 }
 

@@ -65,6 +65,8 @@ export const nl: Record<MessageKey, string> = {
   "filters.host.system-bus": "Systeembus",
   "origin.upstream": "Officiële AppImage",
   "origin.thirdParty": "Community-AppImage",
+  "origin.official": "Officieel",
+  "origin.community": "Community",
   "pagination.previous": "Vorige",
   "pagination.next": "Volgende",
   "pagination.page": "Pagina {page} van {pages}",

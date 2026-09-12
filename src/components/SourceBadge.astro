@@ -5,11 +5,22 @@ import { getLocale, translate } from "@/lib/i18n";
 
 interface Props {
   origin: Origin["type"];
+  short?: boolean;
 }
 
-const { origin } = Astro.props;
+const { origin, short = false } = Astro.props;
 const upstream = origin === "upstream";
 const locale = getLocale(Astro.currentLocale);
+const label = translate(
+  locale,
+  upstream
+    ? short
+      ? "origin.official"
+      : "origin.upstream"
+    : short
+      ? "origin.community"
+      : "origin.thirdParty"
+);
 ---
 
 <span
@@ -17,9 +28,7 @@ const locale = getLocale(Astro.currentLocale);
   class="inline-flex shrink-0 items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs">
   <Icon name="official" class="size-3.5" data-origin-icon="upstream" />
   <Icon name="community" class="size-3.5" data-origin-icon="third-party" />
-  <span data-origin-label>
-    {translate(locale, upstream ? "origin.upstream" : "origin.thirdParty")}
-  </span>
+  <span data-origin-label>{label}</span>
 </span>
 
 <style>

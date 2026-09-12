@@ -32,6 +32,8 @@ test("keeps enhanced carousel state synchronized with native choices", async () 
   assert.match(carousel, /choices: HTMLInputElement\[\]/);
   assert.match(carousel, /choice\.checked = index === current/);
   assert.match(carousel, /choice\.addEventListener\("change"/);
+  assert.match(carousel, /\.scrollTo\(/);
+  assert.doesNotMatch(carousel, /scrollIntoView/);
 });
 
 test("exposes fullscreen screenshots as a modal dialog", async () => {
