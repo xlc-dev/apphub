@@ -37,9 +37,10 @@ jobs:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
         run: |
           changes=$(git diff --name-status "$BASE_SHA" HEAD -- .generated)
-          if test -n "$changes"; then
+          invalid=$(printf '%s\n' "$changes" | grep -Ev '^D[[:space:]]+\.generated/media/[a-f0-9]{64}\.webp$' || true)
+          if test -n "$invalid"; then
             echo "Do not submit generated changes."
-            echo "$changes"
+            echo "$invalid"
             exit 1
           fi
 

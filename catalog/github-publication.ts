@@ -2,11 +2,10 @@ import { createHash } from "node:crypto";
 import { readFile, readdir } from "node:fs/promises";
 import { z } from "zod";
 import { catalogSnapshotSchema } from "#catalog/snapshot";
-import { canonicalJson } from "#catalog/tuf/metadata";
 
 const hashSchema = z.string().regex(/^[a-f0-9]{64}$/);
 const mediaFileSchema = z.string().regex(/^[a-f0-9]{64}\.webp$/);
-const mediaTagSchema = z.string().regex(/^media-[a-f0-9]{64}$/);
+const mediaTagSchema = z.string().regex(/^media-(?:[0-9]{4,}|[a-f0-9]{64})$/);
 export const maximumAssetsPerMediaRelease = 900;
 
 const mappedAssetSchema = z
@@ -71,8 +70,16 @@ function releaseUrl(repository: string, tag: string, file: string) {
   return `https://github.com/${repository}/releases/download/${tag}/${file}`;
 }
 
-function mediaReleaseTag(assets: MediaAsset[]) {
-  return `media-${createHash("sha256").update(canonicalJson(assets)).digest("hex")}`;
+function nextMediaRelease(mapping: z.infer<typeof githubMediaMapSchema>) {
+  const tags = new Set(Object.values(mapping.assets).map(({ tag }) => tag));
+  let next = 1 + [...tags].filter((tag) => /^media-[a-f0-9]{64}$/.test(tag)).length;
+
+  for (const tag of tags) {
+    const sequence = /^media-([0-9]{4,})$/.exec(tag)?.[1];
+    if (sequence) next = Math.max(next, Number(sequence) + 1);
+  }
+
+  return next;
 }
 
 export function createGitHubPublication(
@@ -85,6 +92,7 @@ export function createGitHubPublication(
   const nextAssets = { ...mapping.assets };
   const unpublished: MediaAsset[] = [];
   const seen = new Set<string>();
+  let releaseNumber = nextMediaRelease(mapping);
 
   for (const asset of [...assets].sort((left, right) => left.file.localeCompare(right.file))) {
     mediaFileSchema.parse(asset.file);
@@ -107,7 +115,7 @@ export function createGitHubPublication(
   const media = [];
   for (let offset = 0; offset < unpublished.length; offset += maximumAssetsPerMediaRelease) {
     const batch = unpublished.slice(offset, offset + maximumAssetsPerMediaRelease);
-    const tag = mediaReleaseTag(batch);
+    const tag = `media-${String(releaseNumber++).padStart(4, "0")}`;
     media.push({
       tag,
       assets: batch.map((asset) => ({

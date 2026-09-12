@@ -84,7 +84,12 @@ for (const slug of batch.slugs) {
 }
 
 for (const file of media) {
-  await cp(`.generated/media/${file}`, `${resultPath}/media/${file}`);
+  try {
+    await cp(`.generated/media/${file}`, `${resultPath}/media/${file}`);
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
+    media.delete(file);
+  }
 }
 
 const files = [...media].sort();
