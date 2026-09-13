@@ -17,12 +17,8 @@
       "lastSuccessAt": "2026-09-12T20:56:35.473Z"
     },
     "releases": {
-      "lastAttemptAt": "2026-09-12T20:56:52.677Z",
-      "lastSuccessAt": "2026-09-12T20:48:04.262Z",
-      "incident": {
-        "category": "rate-limit",
-        "consecutiveFailures": 1
-      }
+      "lastAttemptAt": "2026-09-13T09:21:33.943Z",
+      "lastSuccessAt": "2026-09-13T09:21:33.943Z"
     }
   }
 }
