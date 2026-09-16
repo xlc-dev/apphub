@@ -571,88 +571,113 @@
         "org.librecad.librecad": 540,
         "org.localsend.localsend_app": 593
       }
+    },
+    {
+      "date": "2026-09-16",
+      "apps": {
+        "app.drey.Warp": 815,
+        "com.belmoussaoui.Authenticator": 1913,
+        "com.brave.Browser.Origin": 1060,
+        "com.github.finefindus.eyedropper": 771,
+        "com.github.flxzt.rnote": 1294,
+        "com.github.neithern.g4music": 1044,
+        "com.github.PintaProject.Pinta": 4707,
+        "dev.geopjr.Collision": 859,
+        "io.github.htop_dev.htop": 1340,
+        "io.github.seadve.Mousai": 767,
+        "io.gitlab.adhami3310.Impression": 1298,
+        "io.gitlab.news_flash.NewsFlash": 1153,
+        "it.mijorus.gearlever": 2242,
+        "org.DolphinEmu.dolphin-emu": 28421,
+        "org.gnome.Calculator": 1461,
+        "org.gnome.gitlab.YaLTeR.Identity": 747,
+        "org.gnome.gitlab.YaLTeR.VideoTrimmer": 985,
+        "org.gnome.TextEditor": 929,
+        "org.librecad.librecad": 541,
+        "org.localsend.localsend_app": 597
+      }
     }
   ],
   "refresh": {
     "app.drey.Warp": {
-      "lastAttemptAt": "2026-09-15T09:20:07.218Z",
-      "lastSuccessAt": "2026-09-15T09:20:07.218Z"
+      "lastAttemptAt": "2026-09-16T09:12:57.335Z",
+      "lastSuccessAt": "2026-09-16T09:12:57.335Z"
     },
     "com.belmoussaoui.Authenticator": {
-      "lastAttemptAt": "2026-09-15T09:20:02.336Z",
-      "lastSuccessAt": "2026-09-15T09:20:02.336Z"
+      "lastAttemptAt": "2026-09-16T09:12:53.507Z",
+      "lastSuccessAt": "2026-09-16T09:12:53.507Z"
     },
     "com.brave.Browser.Origin": {
-      "lastAttemptAt": "2026-09-15T09:20:02.150Z",
-      "lastSuccessAt": "2026-09-15T09:20:02.150Z"
+      "lastAttemptAt": "2026-09-16T09:12:53.387Z",
+      "lastSuccessAt": "2026-09-16T09:12:53.387Z"
     },
     "com.github.finefindus.eyedropper": {
-      "lastAttemptAt": "2026-09-15T09:20:03.413Z",
-      "lastSuccessAt": "2026-09-15T09:20:03.413Z"
+      "lastAttemptAt": "2026-09-16T09:12:54.340Z",
+      "lastSuccessAt": "2026-09-16T09:12:54.340Z"
     },
     "com.github.flxzt.rnote": {
-      "lastAttemptAt": "2026-09-15T09:20:06.355Z",
-      "lastSuccessAt": "2026-09-15T09:20:06.355Z"
+      "lastAttemptAt": "2026-09-16T09:12:56.630Z",
+      "lastSuccessAt": "2026-09-16T09:12:56.630Z"
     },
     "com.github.neithern.g4music": {
-      "lastAttemptAt": "2026-09-15T09:20:03.865Z",
-      "lastSuccessAt": "2026-09-15T09:20:03.865Z"
+      "lastAttemptAt": "2026-09-16T09:12:54.708Z",
+      "lastSuccessAt": "2026-09-16T09:12:54.708Z"
     },
     "com.github.PintaProject.Pinta": {
-      "lastAttemptAt": "2026-09-15T09:20:06.163Z",
-      "lastSuccessAt": "2026-09-15T09:20:06.163Z"
+      "lastAttemptAt": "2026-09-16T09:12:56.443Z",
+      "lastSuccessAt": "2026-09-16T09:12:56.443Z"
     },
     "dev.geopjr.Collision": {
-      "lastAttemptAt": "2026-09-15T09:20:02.716Z",
-      "lastSuccessAt": "2026-09-15T09:20:02.716Z"
+      "lastAttemptAt": "2026-09-16T09:12:53.844Z",
+      "lastSuccessAt": "2026-09-16T09:12:53.844Z"
     },
     "io.github.htop_dev.htop": {
-      "lastAttemptAt": "2026-09-15T09:20:04.332Z",
-      "lastSuccessAt": "2026-09-15T09:20:04.332Z"
+      "lastAttemptAt": "2026-09-16T09:12:55.070Z",
+      "lastSuccessAt": "2026-09-16T09:12:55.070Z"
     },
     "io.github.seadve.Mousai": {
-      "lastAttemptAt": "2026-09-15T09:20:05.805Z",
-      "lastSuccessAt": "2026-09-15T09:20:05.805Z"
+      "lastAttemptAt": "2026-09-16T09:12:56.096Z",
+      "lastSuccessAt": "2026-09-16T09:12:56.096Z"
     },
     "io.gitlab.adhami3310.Impression": {
-      "lastAttemptAt": "2026-09-15T09:20:04.954Z",
-      "lastSuccessAt": "2026-09-15T09:20:04.954Z"
+      "lastAttemptAt": "2026-09-16T09:12:55.550Z",
+      "lastSuccessAt": "2026-09-16T09:12:55.550Z"
     },
     "io.gitlab.news_flash.NewsFlash": {
-      "lastAttemptAt": "2026-09-15T09:20:05.848Z",
-      "lastSuccessAt": "2026-09-15T09:20:05.848Z"
+      "lastAttemptAt": "2026-09-16T09:12:56.197Z",
+      "lastSuccessAt": "2026-09-16T09:12:56.197Z"
     },
     "it.mijorus.gearlever": {
-      "lastAttemptAt": "2026-09-15T09:20:04.087Z",
-      "lastSuccessAt": "2026-09-15T09:20:04.087Z"
+      "lastAttemptAt": "2026-09-16T09:12:54.871Z",
+      "lastSuccessAt": "2026-09-16T09:12:54.871Z"
     },
     "org.DolphinEmu.dolphin-emu": {
-      "lastAttemptAt": "2026-09-15T09:20:04.387Z",
-      "lastSuccessAt": "2026-09-15T09:20:04.387Z"
+      "lastAttemptAt": "2026-09-16T09:12:55.116Z",
+      "lastSuccessAt": "2026-09-16T09:12:55.116Z"
     },
     "org.gnome.Calculator": {
-      "lastAttemptAt": "2026-09-15T09:20:02.899Z",
-      "lastSuccessAt": "2026-09-15T09:20:02.899Z"
+      "lastAttemptAt": "2026-09-16T09:12:54.015Z",
+      "lastSuccessAt": "2026-09-16T09:12:54.015Z"
     },
     "org.gnome.gitlab.YaLTeR.Identity": {
-      "lastAttemptAt": "2026-09-15T09:20:04.832Z",
-      "lastSuccessAt": "2026-09-15T09:20:04.832Z"
+      "lastAttemptAt": "2026-09-16T09:12:55.446Z",
+      "lastSuccessAt": "2026-09-16T09:12:55.446Z"
     },
     "org.gnome.gitlab.YaLTeR.VideoTrimmer": {
-      "lastAttemptAt": "2026-09-15T09:20:06.855Z",
-      "lastSuccessAt": "2026-09-15T09:20:06.855Z"
+      "lastAttemptAt": "2026-09-16T09:12:56.978Z",
+      "lastSuccessAt": "2026-09-16T09:12:56.978Z"
     },
     "org.gnome.TextEditor": {
-      "lastAttemptAt": "2026-09-15T09:20:06.767Z",
-      "lastSuccessAt": "2026-09-15T09:20:06.767Z"
+      "lastAttemptAt": "2026-09-16T09:12:56.903Z",
+      "lastSuccessAt": "2026-09-16T09:12:56.903Z"
     },
     "org.librecad.librecad": {
-      "lastAttemptAt": "2026-09-15T09:20:05.303Z",
-      "lastSuccessAt": "2026-09-15T09:20:05.303Z"
+      "lastAttemptAt": "2026-09-16T09:12:55.745Z",
+      "lastSuccessAt": "2026-09-16T09:12:55.745Z"
     },
     "org.localsend.localsend_app": {
-      "lastAttemptAt": "2026-09-15T09:20:05.267Z",
-      "lastSuccessAt": "2026-09-15T09:20:05.267Z"
+      "lastAttemptAt": "2026-09-16T09:12:55.850Z",
+      "lastSuccessAt": "2026-09-16T09:12:55.850Z"
     }
   }
 }
