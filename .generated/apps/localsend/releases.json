@@ -2,18 +2,18 @@
   "appId": "org.localsend.localsend_app",
   "releases": [
     {
-      "version": "v1.18.2@2026-09-07_1788788240",
-      "publishedAt": "2026-09-07T13:37:21Z",
-      "page": "https://github.com/pkgforge-dev/LocalSend-AppImage/releases/tag/v1.18.2%402026-09-07_1788788240",
-      "releaseId": "384115369",
+      "version": "v1.18.2@2026-09-21_1789949797",
+      "publishedAt": "2026-09-21T00:16:38Z",
+      "page": "https://github.com/pkgforge-dev/LocalSend-AppImage/releases/tag/v1.18.2%402026-09-21_1789949797",
+      "releaseId": "392622217",
       "artifacts": [
         {
           "architecture": "x86_64",
           "name": "LocalSend-v1.18.2-anylinux-x86_64.AppImage",
-          "url": "https://github.com/pkgforge-dev/LocalSend-AppImage/releases/download/v1.18.2%402026-09-07_1788788240/LocalSend-v1.18.2-anylinux-x86_64.AppImage",
-          "assetId": "548845549",
-          "size": 36588353,
-          "sha256": "5f1668eafc4ba987d2b6390a26c6807f85450c5208a391555bd5ad8a69c2309b",
+          "url": "https://github.com/pkgforge-dev/LocalSend-AppImage/releases/download/v1.18.2%402026-09-21_1789949797/LocalSend-v1.18.2-anylinux-x86_64.AppImage",
+          "assetId": "577830710",
+          "size": 46254198,
+          "sha256": "5a200f3b6f869dcc52fba51eaca35930b277226c014a248059c01e4ec9bf9513",
           "capabilities": {
             "runtimeType": 2,
             "fuse": false,
@@ -27,21 +27,21 @@
             "elfMachine": 62,
             "archive": {
               "format": "dwarfs",
-              "offset": 1454864,
-              "bytesUsed": 35133489
+              "offset": 1469984,
+              "bytesUsed": 44784214
             }
           },
           "checksumEvidence": {
-            "sourceUrl": "https://github.com/pkgforge-dev/LocalSend-AppImage/releases/tag/v1.18.2%402026-09-07_1788788240"
+            "sourceUrl": "https://github.com/pkgforge-dev/LocalSend-AppImage/releases/tag/v1.18.2%402026-09-21_1789949797"
           }
         },
         {
           "architecture": "aarch64",
           "name": "LocalSend-v1.18.2-anylinux-aarch64.AppImage",
-          "url": "https://github.com/pkgforge-dev/LocalSend-AppImage/releases/download/v1.18.2%402026-09-07_1788788240/LocalSend-v1.18.2-anylinux-aarch64.AppImage",
-          "assetId": "548845546",
-          "size": 36044895,
-          "sha256": "919bfdc53b42e87cd9d9293b2ec4b259e9ca49733c62e29f09e881d5da94374b",
+          "url": "https://github.com/pkgforge-dev/LocalSend-AppImage/releases/download/v1.18.2%402026-09-21_1789949797/LocalSend-v1.18.2-anylinux-aarch64.AppImage",
+          "assetId": "577830705",
+          "size": 45380609,
+          "sha256": "c994c416e0c6792cf137a2b7d4efe6f277f8946025e5e617b5e99be7735f2b0b",
           "capabilities": {
             "runtimeType": 2,
             "fuse": false,
@@ -55,12 +55,12 @@
             "elfMachine": 183,
             "archive": {
               "format": "dwarfs",
-              "offset": 1333032,
-              "bytesUsed": 34711863
+              "offset": 1345360,
+              "bytesUsed": 44035249
             }
           },
           "checksumEvidence": {
-            "sourceUrl": "https://github.com/pkgforge-dev/LocalSend-AppImage/releases/tag/v1.18.2%402026-09-07_1788788240"
+            "sourceUrl": "https://github.com/pkgforge-dev/LocalSend-AppImage/releases/tag/v1.18.2%402026-09-21_1789949797"
           }
         }
       ]
