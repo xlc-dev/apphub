@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "revision": "1d8fa643c1f05f15c64c2b0715041a4d41be8c7f6cfb8364adf8959eef5c3016",
-  "generatedAt": "2026-09-21T09:49:23.994Z",
+  "revision": "197e2c8563aa5d2a837db3b8a2a6f7a384ba83aa74cca65df1671d49f01b141b",
+  "generatedAt": "2026-09-22T09:13:57.921Z",
   "apps": [
     {
       "id": "com.belmoussaoui.Authenticator",
