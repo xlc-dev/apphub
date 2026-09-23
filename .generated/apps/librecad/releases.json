@@ -2,18 +2,18 @@
   "appId": "org.librecad.librecad",
   "releases": [
     {
-      "version": "2.2.1.5-3@2026-09-01_1788278294",
-      "publishedAt": "2026-09-01T15:58:15Z",
-      "page": "https://github.com/pkgforge-dev/LibreCAD-AppImage/releases/tag/2.2.1.5-3%402026-09-01_1788278294",
-      "releaseId": "380642383",
+      "version": "2.2.1.5-3@2026-09-22_1790090488",
+      "publishedAt": "2026-09-22T15:21:30Z",
+      "page": "https://github.com/pkgforge-dev/LibreCAD-AppImage/releases/tag/2.2.1.5-3%402026-09-22_1790090488",
+      "releaseId": "393860568",
       "artifacts": [
         {
           "architecture": "x86_64",
           "name": "LibreCAD-2.2.1.5-3-anylinux-x86_64.AppImage",
-          "url": "https://github.com/pkgforge-dev/LibreCAD-AppImage/releases/download/2.2.1.5-3%402026-09-01_1788278294/LibreCAD-2.2.1.5-3-anylinux-x86_64.AppImage",
-          "assetId": "539786582",
-          "size": 52781851,
-          "sha256": "aef9cf90f7e75f36b07684425319d22915207f7a7592f4617b6c6dd200d3af70",
+          "url": "https://github.com/pkgforge-dev/LibreCAD-AppImage/releases/download/2.2.1.5-3%402026-09-22_1790090488/LibreCAD-2.2.1.5-3-anylinux-x86_64.AppImage",
+          "assetId": "581667213",
+          "size": 52946466,
+          "sha256": "06db713912685d615f7566b23f86a8ff2446c53992e8e4893a37930d476772e7",
           "capabilities": {
             "runtimeType": 2,
             "fuse": false,
@@ -27,21 +27,21 @@
             "elfMachine": 62,
             "archive": {
               "format": "dwarfs",
-              "offset": 1487344,
-              "bytesUsed": 51294507
+              "offset": 1469984,
+              "bytesUsed": 51476482
             }
           },
           "checksumEvidence": {
-            "sourceUrl": "https://github.com/pkgforge-dev/LibreCAD-AppImage/releases/tag/2.2.1.5-3%402026-09-01_1788278294"
+            "sourceUrl": "https://github.com/pkgforge-dev/LibreCAD-AppImage/releases/tag/2.2.1.5-3%402026-09-22_1790090488"
           }
         },
         {
           "architecture": "aarch64",
           "name": "LibreCAD-2.2.1.5-3-anylinux-aarch64.AppImage",
-          "url": "https://github.com/pkgforge-dev/LibreCAD-AppImage/releases/download/2.2.1.5-3%402026-09-01_1788278294/LibreCAD-2.2.1.5-3-anylinux-aarch64.AppImage",
-          "assetId": "539786581",
-          "size": 53362864,
-          "sha256": "49e6258e6e9553154c2b96efe366bb24f5466a248d10a7e2333dad1af88c546b",
+          "url": "https://github.com/pkgforge-dev/LibreCAD-AppImage/releases/download/2.2.1.5-3%402026-09-22_1790090488/LibreCAD-2.2.1.5-3-anylinux-aarch64.AppImage",
+          "assetId": "581667220",
+          "size": 53277027,
+          "sha256": "355e0e6318fd0757211a48af6538f74de7a8901c25488b536a9a13a9c02f98e0",
           "capabilities": {
             "runtimeType": 2,
             "fuse": false,
@@ -55,12 +55,12 @@
             "elfMachine": 183,
             "archive": {
               "format": "dwarfs",
-              "offset": 1347632,
-              "bytesUsed": 52015232
+              "offset": 1345360,
+              "bytesUsed": 51931667
             }
           },
           "checksumEvidence": {
-            "sourceUrl": "https://github.com/pkgforge-dev/LibreCAD-AppImage/releases/tag/2.2.1.5-3%402026-09-01_1788278294"
+            "sourceUrl": "https://github.com/pkgforge-dev/LibreCAD-AppImage/releases/tag/2.2.1.5-3%402026-09-22_1790090488"
           }
         }
       ]

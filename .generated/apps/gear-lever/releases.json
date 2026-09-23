@@ -2,18 +2,18 @@
   "appId": "it.mijorus.gearlever",
   "releases": [
     {
-      "version": "4.6.2-1@2026-09-01_1788278327",
-      "publishedAt": "2026-09-01T15:58:48Z",
-      "page": "https://github.com/pkgforge-dev/Gear-Lever-AppImage/releases/tag/4.6.2-1%402026-09-01_1788278327",
-      "releaseId": "380642711",
+      "version": "4.6.2-1@2026-09-22_1790090975",
+      "publishedAt": "2026-09-22T15:29:36Z",
+      "page": "https://github.com/pkgforge-dev/Gear-Lever-AppImage/releases/tag/4.6.2-1%402026-09-22_1790090975",
+      "releaseId": "393867073",
       "artifacts": [
         {
           "architecture": "x86_64",
           "name": "Gear_Lever-4.6.2-1-anylinux-x86_64.AppImage",
-          "url": "https://github.com/pkgforge-dev/Gear-Lever-AppImage/releases/download/4.6.2-1%402026-09-01_1788278327/Gear_Lever-4.6.2-1-anylinux-x86_64.AppImage",
-          "assetId": "539787419",
-          "size": 66894366,
-          "sha256": "80802ec9e4bf1d77ed062ae1a66fc687232c2b4ea1289065afdf1d672599e183",
+          "url": "https://github.com/pkgforge-dev/Gear-Lever-AppImage/releases/download/4.6.2-1%402026-09-22_1790090975/Gear_Lever-4.6.2-1-anylinux-x86_64.AppImage",
+          "assetId": "581681414",
+          "size": 68869547,
+          "sha256": "4dbc662fc468d5c687a0a9675a5b2ca7da107f8e19b05864b047614833792f54",
           "capabilities": {
             "runtimeType": 2,
             "fuse": false,
@@ -27,21 +27,21 @@
             "elfMachine": 62,
             "archive": {
               "format": "dwarfs",
-              "offset": 1487344,
-              "bytesUsed": 65407022
+              "offset": 1469984,
+              "bytesUsed": 67399563
             }
           },
           "checksumEvidence": {
-            "sourceUrl": "https://github.com/pkgforge-dev/Gear-Lever-AppImage/releases/tag/4.6.2-1%402026-09-01_1788278327"
+            "sourceUrl": "https://github.com/pkgforge-dev/Gear-Lever-AppImage/releases/tag/4.6.2-1%402026-09-22_1790090975"
           }
         },
         {
           "architecture": "aarch64",
           "name": "Gear_Lever-4.6.2-1-anylinux-aarch64.AppImage",
-          "url": "https://github.com/pkgforge-dev/Gear-Lever-AppImage/releases/download/4.6.2-1%402026-09-01_1788278327/Gear_Lever-4.6.2-1-anylinux-aarch64.AppImage",
-          "assetId": "539787416",
-          "size": 66604984,
-          "sha256": "dfde634306ce9203e1c5517826a2362142e14d8877f25a6f2b6541ad2bcbe142",
+          "url": "https://github.com/pkgforge-dev/Gear-Lever-AppImage/releases/download/4.6.2-1%402026-09-22_1790090975/Gear_Lever-4.6.2-1-anylinux-aarch64.AppImage",
+          "assetId": "581681415",
+          "size": 68307927,
+          "sha256": "6d22efcdce33773f0d3785eebdfb9d534c62b5d37a6f432cc70df10a0325b035",
           "capabilities": {
             "runtimeType": 2,
             "fuse": false,
@@ -55,12 +55,12 @@
             "elfMachine": 183,
             "archive": {
               "format": "dwarfs",
-              "offset": 1347632,
-              "bytesUsed": 65257352
+              "offset": 1345360,
+              "bytesUsed": 66962567
             }
           },
           "checksumEvidence": {
-            "sourceUrl": "https://github.com/pkgforge-dev/Gear-Lever-AppImage/releases/tag/4.6.2-1%402026-09-01_1788278327"
+            "sourceUrl": "https://github.com/pkgforge-dev/Gear-Lever-AppImage/releases/tag/4.6.2-1%402026-09-22_1790090975"
           }
         }
       ]

@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "revision": "197e2c8563aa5d2a837db3b8a2a6f7a384ba83aa74cca65df1671d49f01b141b",
-  "generatedAt": "2026-09-22T09:13:57.921Z",
+  "revision": "2f20429a758c8bee1c9f0b1620603fc811a5b00fca3e63e777e56358898fb638",
+  "generatedAt": "2026-09-23T09:13:49.703Z",
   "apps": [
     {
       "id": "com.belmoussaoui.Authenticator",
@@ -34,14 +34,14 @@
         }
       },
       "release": {
-        "version": "4.6.2-2@2026-09-01_1788278344",
-        "publishedAt": "2026-09-01T15:59:05Z",
+        "version": "4.6.2-2@2026-09-22_1790090865",
+        "publishedAt": "2026-09-22T15:27:46Z",
         "artifacts": [
           {
             "architecture": "x86_64",
-            "url": "https://github.com/pkgforge-dev/Authenticator-AppImage/releases/download/4.6.2-2%402026-09-01_1788278344/Authenticator-4.6.2-2-anylinux-x86_64.AppImage",
-            "size": 55910367,
-            "sha256": "cd7b4c558f86a208c6caf0008674809be0c4ec805b8135c6b15704ebf49aa991",
+            "url": "https://github.com/pkgforge-dev/Authenticator-AppImage/releases/download/4.6.2-2%402026-09-22_1790090865/Authenticator-4.6.2-2-anylinux-x86_64.AppImage",
+            "size": 57944328,
+            "sha256": "4ad2a053d2c430859d931a16dfc35dc824b99f1e49b880c5600ae70c38bda493",
             "inspection": {
               "format": "appimage",
               "runtimeType": 2,
@@ -49,17 +49,17 @@
               "elfMachine": 62,
               "archive": {
                 "format": "dwarfs",
-                "offset": 1487344,
-                "bytesUsed": 54423023
+                "offset": 1469984,
+                "bytesUsed": 56474344
               }
             },
             "installable": true
           },
           {
             "architecture": "aarch64",
-            "url": "https://github.com/pkgforge-dev/Authenticator-AppImage/releases/download/4.6.2-2%402026-09-01_1788278344/Authenticator-4.6.2-2-anylinux-aarch64.AppImage",
-            "size": 55920010,
-            "sha256": "fadb9ba20915a359195677b4cdec224d060f1d4c472320c2daa44349b49e0c84",
+            "url": "https://github.com/pkgforge-dev/Authenticator-AppImage/releases/download/4.6.2-2%402026-09-22_1790090865/Authenticator-4.6.2-2-anylinux-aarch64.AppImage",
+            "size": 57718849,
+            "sha256": "727c0eee05a2d5b79c4c51e02d241437fd215363cc028afe22c867657fe2fcef",
             "inspection": {
               "format": "appimage",
               "runtimeType": 2,
@@ -67,8 +67,8 @@
               "elfMachine": 183,
               "archive": {
                 "format": "dwarfs",
-                "offset": 1347632,
-                "bytesUsed": 54572378
+                "offset": 1345360,
+                "bytesUsed": 56373489
               }
             },
             "installable": true
@@ -186,14 +186,14 @@
         }
       },
       "release": {
-        "version": "50.0-1@2026-09-01_1788266311",
-        "publishedAt": "2026-09-01T12:38:33Z",
+        "version": "50.0-1@2026-09-22_1790084967",
+        "publishedAt": "2026-09-22T13:49:29Z",
         "artifacts": [
           {
             "architecture": "x86_64",
-            "url": "https://github.com/pkgforge-dev/Gnome-Calculator-AppImage/releases/download/50.0-1%402026-09-01_1788266311/Calculator-50.0-1-anylinux-x86_64.AppImage",
-            "size": 31428374,
-            "sha256": "fbb65169d63a9a2ff214d144c5cb7c51c1e60dd84dbcc3387bcdb08d48e08980",
+            "url": "https://github.com/pkgforge-dev/Gnome-Calculator-AppImage/releases/download/50.0-1%402026-09-22_1790084967/Calculator-50.0-1-anylinux-x86_64.AppImage",
+            "size": 33380991,
+            "sha256": "e9cd3483e00a11f2e1e3aca138e09e813f50bceb526000a4aca9fc45ce2a90a5",
             "inspection": {
               "format": "appimage",
               "runtimeType": 2,
@@ -201,17 +201,17 @@
               "elfMachine": 62,
               "archive": {
                 "format": "dwarfs",
-                "offset": 1487344,
-                "bytesUsed": 29941030
+                "offset": 1469984,
+                "bytesUsed": 31911007
               }
             },
             "installable": true
           },
           {
             "architecture": "aarch64",
-            "url": "https://github.com/pkgforge-dev/Gnome-Calculator-AppImage/releases/download/50.0-1%402026-09-01_1788266311/Calculator-50.0-1-anylinux-aarch64.AppImage",
-            "size": 32394536,
-            "sha256": "ace4f030d1b07411286b0df7b9928eaa326b41a93ae23bdfe03dcaa275c2fb1e",
+            "url": "https://github.com/pkgforge-dev/Gnome-Calculator-AppImage/releases/download/50.0-1%402026-09-22_1790084967/Calculator-50.0-1-anylinux-aarch64.AppImage",
+            "size": 34302319,
+            "sha256": "fdf1ceac8b7d6f2dc5f41d10ea21723abbc8343ca07523cc3842e3228896f9b2",
             "inspection": {
               "format": "appimage",
               "runtimeType": 2,
@@ -219,8 +219,8 @@
               "elfMachine": 183,
               "archive": {
                 "format": "dwarfs",
-                "offset": 1347632,
-                "bytesUsed": 31046904
+                "offset": 1345360,
+                "bytesUsed": 32956959
               }
             },
             "installable": true
@@ -259,14 +259,14 @@
         }
       },
       "release": {
-        "version": "3.14.1-1@2026-09-01_1788278131",
-        "publishedAt": "2026-09-01T15:55:32Z",
+        "version": "3.14.1-1@2026-09-22_1790090715",
+        "publishedAt": "2026-09-22T15:25:17Z",
         "artifacts": [
           {
             "architecture": "x86_64",
-            "url": "https://github.com/pkgforge-dev/Collision-AppImage/releases/download/3.14.1-1%402026-09-01_1788278131/Collision-3.14.1-1-anylinux-x86_64.AppImage",
-            "size": 26075874,
-            "sha256": "51b3bf21b830a4b0681a8df49e876f5508364186beed53407153cbace7dd8128",
+            "url": "https://github.com/pkgforge-dev/Collision-AppImage/releases/download/3.14.1-1%402026-09-22_1790090715/Collision-3.14.1-1-anylinux-x86_64.AppImage",
+            "size": 28021817,
+            "sha256": "d2e70f31cf72c863cedb30ba553cc13379c593a54f6fc41a9c1ae01e58a4023d",
             "inspection": {
               "format": "appimage",
               "runtimeType": 2,
@@ -274,17 +274,17 @@
               "elfMachine": 62,
               "archive": {
                 "format": "dwarfs",
-                "offset": 1487344,
-                "bytesUsed": 24588530
+                "offset": 1469984,
+                "bytesUsed": 26551833
               }
             },
             "installable": true
           },
           {
             "architecture": "aarch64",
-            "url": "https://github.com/pkgforge-dev/Collision-AppImage/releases/download/3.14.1-1%402026-09-01_1788278131/Collision-3.14.1-1-anylinux-aarch64.AppImage",
-            "size": 26490283,
-            "sha256": "9805f07b5c530b1aa226f953d07cbdc09eb2a7492509579cc1480d5434ca59d5",
+            "url": "https://github.com/pkgforge-dev/Collision-AppImage/releases/download/3.14.1-1%402026-09-22_1790090715/Collision-3.14.1-1-anylinux-aarch64.AppImage",
+            "size": 28421596,
+            "sha256": "11a2d7d6b87ca9e18848fca9a31d64d26daa56fa90f2082ee17a93354dad6fed",
             "inspection": {
               "format": "appimage",
               "runtimeType": 2,
@@ -292,8 +292,8 @@
               "elfMachine": 183,
               "archive": {
                 "format": "dwarfs",
-                "offset": 1347632,
-                "bytesUsed": 25142651
+                "offset": 1345360,
+                "bytesUsed": 27076236
               }
             },
             "installable": true
@@ -339,14 +339,14 @@
         }
       },
       "release": {
-        "version": "2606a@2026-09-01_1788278367",
-        "publishedAt": "2026-09-01T15:59:30Z",
+        "version": "2606a@2026-09-22_1790090389",
+        "publishedAt": "2026-09-22T15:19:51Z",
         "artifacts": [
           {
             "architecture": "x86_64",
-            "url": "https://github.com/pkgforge-dev/Dolphin-emu-AppImage/releases/download/2606a%402026-09-01_1788278367/Dolphin_Emulator-2606a-anylinux-x86_64.AppImage",
-            "size": 66749544,
-            "sha256": "8ac2cdfaa16807576a95e1d849086a6a98076d1851b58369e956bfbc51b6b022",
+            "url": "https://github.com/pkgforge-dev/Dolphin-emu-AppImage/releases/download/2606a%402026-09-22_1790090389/Dolphin_Emulator-2606a-anylinux-x86_64.AppImage",
+            "size": 64450371,
+            "sha256": "92319a2e6b0608b9f3b5cf15cfb0ad7068df48822516ef1bcc44fb832e1e54ca",
             "inspection": {
               "format": "appimage",
               "runtimeType": 2,
@@ -354,17 +354,17 @@
               "elfMachine": 62,
               "archive": {
                 "format": "dwarfs",
-                "offset": 1487344,
-                "bytesUsed": 65262200
+                "offset": 1469984,
+                "bytesUsed": 62980387
               }
             },
             "installable": true
           },
           {
             "architecture": "aarch64",
-            "url": "https://github.com/pkgforge-dev/Dolphin-emu-AppImage/releases/download/2606a%402026-09-01_1788278367/Dolphin_Emulator-2606a-anylinux-aarch64.AppImage",
-            "size": 64898135,
-            "sha256": "f14654fd1764479f4b226ffbd1ca141ba3ec84232f76b94dd6296c7487288453",
+            "url": "https://github.com/pkgforge-dev/Dolphin-emu-AppImage/releases/download/2606a%402026-09-22_1790090389/Dolphin_Emulator-2606a-anylinux-aarch64.AppImage",
+            "size": 64706145,
+            "sha256": "0e846cc6946a6d6ed310e35db9ae06ac9f8f1a6fac87ef11db176ab1bb7cde99",
             "inspection": {
               "format": "appimage",
               "runtimeType": 2,
@@ -372,8 +372,8 @@
               "elfMachine": 183,
               "archive": {
                 "format": "dwarfs",
-                "offset": 1347632,
-                "bytesUsed": 63550503
+                "offset": 1345360,
+                "bytesUsed": 63360785
               }
             },
             "installable": true
@@ -412,14 +412,14 @@
         }
       },
       "release": {
-        "version": "2.2.1-1@2026-09-01_1788277955",
-        "publishedAt": "2026-09-01T15:52:36Z",
+        "version": "2.2.1-1@2026-09-22_1790090597",
+        "publishedAt": "2026-09-22T15:23:19Z",
         "artifacts": [
           {
             "architecture": "x86_64",
-            "url": "https://github.com/pkgforge-dev/Eyedropper-AppImage/releases/download/2.2.1-1%402026-09-01_1788277955/Eyedropper-2.2.1-1-anylinux-x86_64.AppImage",
-            "size": 34745041,
-            "sha256": "ad3a1cfdcc286d0d4abf4a307119614ddbbf9158ffef5283f5dc0b49ccb7ac08",
+            "url": "https://github.com/pkgforge-dev/Eyedropper-AppImage/releases/download/2.2.1-1%402026-09-22_1790090597/Eyedropper-2.2.1-1-anylinux-x86_64.AppImage",
+            "size": 36695783,
+            "sha256": "27f5f9638207f122d14dca799bd301855773e618832531eac362bdf9f135d29c",
             "inspection": {
               "format": "appimage",
               "runtimeType": 2,
@@ -427,17 +427,17 @@
               "elfMachine": 62,
               "archive": {
                 "format": "dwarfs",
-                "offset": 1487344,
-                "bytesUsed": 33257697
+                "offset": 1469984,
+                "bytesUsed": 35225799
               }
             },
             "installable": true
           },
           {
             "architecture": "aarch64",
-            "url": "https://github.com/pkgforge-dev/Eyedropper-AppImage/releases/download/2.2.1-1%402026-09-01_1788277955/Eyedropper-2.2.1-1-anylinux-aarch64.AppImage",
-            "size": 35275586,
-            "sha256": "be6a4c58bc49b85d6385e6a90ef864092e23230502e8e53157d5380eab7d5eaf",
+            "url": "https://github.com/pkgforge-dev/Eyedropper-AppImage/releases/download/2.2.1-1%402026-09-22_1790090597/Eyedropper-2.2.1-1-anylinux-aarch64.AppImage",
+            "size": 37081321,
+            "sha256": "b7c753ee7070d22ecefaed2f3d5df1cc1e3fd0b4a582f792d8c2238de5a25d16",
             "inspection": {
               "format": "appimage",
               "runtimeType": 2,
@@ -445,8 +445,8 @@
               "elfMachine": 183,
               "archive": {
                 "format": "dwarfs",
-                "offset": 1347632,
-                "bytesUsed": 33927954
+                "offset": 1345360,
+                "bytesUsed": 35735961
               }
             },
             "installable": true
@@ -490,14 +490,14 @@
         }
       },
       "release": {
-        "version": "4.6.2-1@2026-09-01_1788277998",
-        "publishedAt": "2026-09-01T15:53:19Z",
+        "version": "4.6.2-1@2026-09-22_1790090656",
+        "publishedAt": "2026-09-22T15:24:17Z",
         "artifacts": [
           {
             "architecture": "x86_64",
-            "url": "https://github.com/pkgforge-dev/Gapless-AppImage/releases/download/4.6.2-1%402026-09-01_1788277998/Gapless-4.6.2-1-anylinux-x86_64.AppImage",
-            "size": 63244740,
-            "sha256": "a0c5cb185bc8eefa0c8765c5a6c99ccd89df0cc8d3acb325ba773f9608a9f94d",
+            "url": "https://github.com/pkgforge-dev/Gapless-AppImage/releases/download/4.6.2-1%402026-09-22_1790090656/Gapless-4.6.2-1-anylinux-x86_64.AppImage",
+            "size": 65271007,
+            "sha256": "3b0c51f3ad8376560f835d410619a6aa78ea441838ceeace180e90f885da33eb",
             "inspection": {
               "format": "appimage",
               "runtimeType": 2,
@@ -505,17 +505,17 @@
               "elfMachine": 62,
               "archive": {
                 "format": "dwarfs",
-                "offset": 1487344,
-                "bytesUsed": 61757396
+                "offset": 1469984,
+                "bytesUsed": 63801023
               }
             },
             "installable": true
           },
           {
             "architecture": "aarch64",
-            "url": "https://github.com/pkgforge-dev/Gapless-AppImage/releases/download/4.6.2-1%402026-09-01_1788277998/Gapless-4.6.2-1-anylinux-aarch64.AppImage",
-            "size": 60193914,
-            "sha256": "cb4e5400785fe0167dd32f036714e32f61abd247ce222f40b8645e94fc7b598e",
+            "url": "https://github.com/pkgforge-dev/Gapless-AppImage/releases/download/4.6.2-1%402026-09-22_1790090656/Gapless-4.6.2-1-anylinux-aarch64.AppImage",
+            "size": 62152814,
+            "sha256": "30eb8f6e6b1cc333104abbd22dc797e1eb17ddec5c985e797c368bd05b660615",
             "inspection": {
               "format": "appimage",
               "runtimeType": 2,
@@ -523,8 +523,8 @@
               "elfMachine": 183,
               "archive": {
                 "format": "dwarfs",
-                "offset": 1347632,
-                "bytesUsed": 58846282
+                "offset": 1345360,
+                "bytesUsed": 60807454
               }
             },
             "installable": true
@@ -569,14 +569,14 @@
         }
       },
       "release": {
-        "version": "4.6.2-1@2026-09-01_1788278327",
-        "publishedAt": "2026-09-01T15:58:48Z",
+        "version": "4.6.2-1@2026-09-22_1790090975",
+        "publishedAt": "2026-09-22T15:29:36Z",
         "artifacts": [
           {
             "architecture": "x86_64",
-            "url": "https://github.com/pkgforge-dev/Gear-Lever-AppImage/releases/download/4.6.2-1%402026-09-01_1788278327/Gear_Lever-4.6.2-1-anylinux-x86_64.AppImage",
-            "size": 66894366,
-            "sha256": "80802ec9e4bf1d77ed062ae1a66fc687232c2b4ea1289065afdf1d672599e183",
+            "url": "https://github.com/pkgforge-dev/Gear-Lever-AppImage/releases/download/4.6.2-1%402026-09-22_1790090975/Gear_Lever-4.6.2-1-anylinux-x86_64.AppImage",
+            "size": 68869547,
+            "sha256": "4dbc662fc468d5c687a0a9675a5b2ca7da107f8e19b05864b047614833792f54",
             "inspection": {
               "format": "appimage",
               "runtimeType": 2,
@@ -584,17 +584,17 @@
               "elfMachine": 62,
               "archive": {
                 "format": "dwarfs",
-                "offset": 1487344,
-                "bytesUsed": 65407022
+                "offset": 1469984,
+                "bytesUsed": 67399563
               }
             },
             "installable": true
           },
           {
             "architecture": "aarch64",
-            "url": "https://github.com/pkgforge-dev/Gear-Lever-AppImage/releases/download/4.6.2-1%402026-09-01_1788278327/Gear_Lever-4.6.2-1-anylinux-aarch64.AppImage",
-            "size": 66604984,
-            "sha256": "dfde634306ce9203e1c5517826a2362142e14d8877f25a6f2b6541ad2bcbe142",
+            "url": "https://github.com/pkgforge-dev/Gear-Lever-AppImage/releases/download/4.6.2-1%402026-09-22_1790090975/Gear_Lever-4.6.2-1-anylinux-aarch64.AppImage",
+            "size": 68307927,
+            "sha256": "6d22efcdce33773f0d3785eebdfb9d534c62b5d37a6f432cc70df10a0325b035",
             "inspection": {
               "format": "appimage",
               "runtimeType": 2,
@@ -602,8 +602,8 @@
               "elfMachine": 183,
               "archive": {
                 "format": "dwarfs",
-                "offset": 1347632,
-                "bytesUsed": 65257352
+                "offset": 1345360,
+                "bytesUsed": 66962567
               }
             },
             "installable": true
@@ -713,14 +713,14 @@
         }
       },
       "release": {
-        "version": "26.03-2@2026-09-01_1788278176",
-        "publishedAt": "2026-09-01T15:56:18Z",
+        "version": "26.03-2@2026-09-22_1790090542",
+        "publishedAt": "2026-09-22T15:22:23Z",
         "artifacts": [
           {
             "architecture": "x86_64",
-            "url": "https://github.com/pkgforge-dev/Identity-AppImage/releases/download/26.03-2%402026-09-01_1788278176/Identity-26.03-2-anylinux-x86_64.AppImage",
-            "size": 95337963,
-            "sha256": "9d103d8e6104725656000b163c451009fcdccd09e97117d220fdb09bc1d60121",
+            "url": "https://github.com/pkgforge-dev/Identity-AppImage/releases/download/26.03-2%402026-09-22_1790090542/Identity-26.03-2-anylinux-x86_64.AppImage",
+            "size": 97383811,
+            "sha256": "d34c22354bf80d0dc61f28558563c306d25deecb0b42309b4f28a7352369b329",
             "inspection": {
               "format": "appimage",
               "runtimeType": 2,
@@ -728,17 +728,17 @@
               "elfMachine": 62,
               "archive": {
                 "format": "dwarfs",
-                "offset": 1487344,
-                "bytesUsed": 93850619
+                "offset": 1469984,
+                "bytesUsed": 95913827
               }
             },
             "installable": true
           },
           {
             "architecture": "aarch64",
-            "url": "https://github.com/pkgforge-dev/Identity-AppImage/releases/download/26.03-2%402026-09-01_1788278176/Identity-26.03-2-anylinux-aarch64.AppImage",
-            "size": 89317450,
-            "sha256": "06c3d6ac9f131d8986a7ccf760499b9dafbe2bd233da57391d89868f61403f14",
+            "url": "https://github.com/pkgforge-dev/Identity-AppImage/releases/download/26.03-2%402026-09-22_1790090542/Identity-26.03-2-anylinux-aarch64.AppImage",
+            "size": 91233414,
+            "sha256": "86bf384d2ae48883a56a2dd5dd2c6356aa14901c093469bfe6600c409921caed",
             "inspection": {
               "format": "appimage",
               "runtimeType": 2,
@@ -746,8 +746,8 @@
               "elfMachine": 183,
               "archive": {
                 "format": "dwarfs",
-                "offset": 1347632,
-                "bytesUsed": 87969818
+                "offset": 1345360,
+                "bytesUsed": 89888054
               }
             },
             "installable": true
@@ -801,14 +801,14 @@
         }
       },
       "release": {
-        "version": "3.8.0-1@2026-09-01_1788277761",
-        "publishedAt": "2026-09-01T15:49:22Z",
+        "version": "3.8.0-1@2026-09-22_1790090573",
+        "publishedAt": "2026-09-22T15:22:54Z",
         "artifacts": [
           {
             "architecture": "x86_64",
-            "url": "https://github.com/pkgforge-dev/Impression-AppImage/releases/download/3.8.0-1%402026-09-01_1788277761/Impression-3.8.0-1-anylinux-x86_64.AppImage",
-            "size": 35854554,
-            "sha256": "7e4ddac215b81854d2c0eef6909640babfdf1eb70eb27f0a24d0d3cb5241a487",
+            "url": "https://github.com/pkgforge-dev/Impression-AppImage/releases/download/3.8.0-1%402026-09-22_1790090573/Impression-3.8.0-1-anylinux-x86_64.AppImage",
+            "size": 37868977,
+            "sha256": "cfa79f5f6bcd0aa44dc64854ebd86ee47bd5818ba1cb45d82dc0a1c4e27a51bd",
             "inspection": {
               "format": "appimage",
               "runtimeType": 2,
@@ -816,17 +816,17 @@
               "elfMachine": 62,
               "archive": {
                 "format": "dwarfs",
-                "offset": 1487344,
-                "bytesUsed": 34367210
+                "offset": 1469984,
+                "bytesUsed": 36398993
               }
             },
             "installable": true
           },
           {
             "architecture": "aarch64",
-            "url": "https://github.com/pkgforge-dev/Impression-AppImage/releases/download/3.8.0-1%402026-09-01_1788277761/Impression-3.8.0-1-anylinux-aarch64.AppImage",
-            "size": 36789605,
-            "sha256": "533741759515a08512c5ba3d46f6a7137b53e85c47d6b7525d8fb7ae66268d26",
+            "url": "https://github.com/pkgforge-dev/Impression-AppImage/releases/download/3.8.0-1%402026-09-22_1790090573/Impression-3.8.0-1-anylinux-aarch64.AppImage",
+            "size": 38613780,
+            "sha256": "e91f95fcdaeabb9d493ad72e77cbc2fd688489637c29acc745cdc3d7cbda22c8",
             "inspection": {
               "format": "appimage",
               "runtimeType": 2,
@@ -834,8 +834,8 @@
               "elfMachine": 183,
               "archive": {
                 "format": "dwarfs",
-                "offset": 1347632,
-                "bytesUsed": 35441973
+                "offset": 1345360,
+                "bytesUsed": 37268420
               }
             },
             "installable": true
@@ -874,14 +874,14 @@
         }
       },
       "release": {
-        "version": "2.2.1.5-3@2026-09-01_1788278294",
-        "publishedAt": "2026-09-01T15:58:15Z",
+        "version": "2.2.1.5-3@2026-09-22_1790090488",
+        "publishedAt": "2026-09-22T15:21:30Z",
         "artifacts": [
           {
             "architecture": "x86_64",
-            "url": "https://github.com/pkgforge-dev/LibreCAD-AppImage/releases/download/2.2.1.5-3%402026-09-01_1788278294/LibreCAD-2.2.1.5-3-anylinux-x86_64.AppImage",
-            "size": 52781851,
-            "sha256": "aef9cf90f7e75f36b07684425319d22915207f7a7592f4617b6c6dd200d3af70",
+            "url": "https://github.com/pkgforge-dev/LibreCAD-AppImage/releases/download/2.2.1.5-3%402026-09-22_1790090488/LibreCAD-2.2.1.5-3-anylinux-x86_64.AppImage",
+            "size": 52946466,
+            "sha256": "06db713912685d615f7566b23f86a8ff2446c53992e8e4893a37930d476772e7",
             "inspection": {
               "format": "appimage",
               "runtimeType": 2,
@@ -889,17 +889,17 @@
               "elfMachine": 62,
               "archive": {
                 "format": "dwarfs",
-                "offset": 1487344,
-                "bytesUsed": 51294507
+                "offset": 1469984,
+                "bytesUsed": 51476482
               }
             },
             "installable": true
           },
           {
             "architecture": "aarch64",
-            "url": "https://github.com/pkgforge-dev/LibreCAD-AppImage/releases/download/2.2.1.5-3%402026-09-01_1788278294/LibreCAD-2.2.1.5-3-anylinux-aarch64.AppImage",
-            "size": 53362864,
-            "sha256": "49e6258e6e9553154c2b96efe366bb24f5466a248d10a7e2333dad1af88c546b",
+            "url": "https://github.com/pkgforge-dev/LibreCAD-AppImage/releases/download/2.2.1.5-3%402026-09-22_1790090488/LibreCAD-2.2.1.5-3-anylinux-aarch64.AppImage",
+            "size": 53277027,
+            "sha256": "355e0e6318fd0757211a48af6538f74de7a8901c25488b536a9a13a9c02f98e0",
             "inspection": {
               "format": "appimage",
               "runtimeType": 2,
@@ -907,8 +907,8 @@
               "elfMachine": 183,
               "archive": {
                 "format": "dwarfs",
-                "offset": 1347632,
-                "bytesUsed": 52015232
+                "offset": 1345360,
+                "bytesUsed": 51931667
               }
             },
             "installable": true
@@ -1020,14 +1020,14 @@
         }
       },
       "release": {
-        "version": "0.7.10-1@2026-09-01_1788278425",
-        "publishedAt": "2026-09-01T16:00:26Z",
+        "version": "0.7.10-1@2026-09-22_1790090920",
+        "publishedAt": "2026-09-22T15:28:41Z",
         "artifacts": [
           {
             "architecture": "x86_64",
-            "url": "https://github.com/pkgforge-dev/Mousai-AppImage/releases/download/0.7.10-1%402026-09-01_1788278425/Mousai-0.7.10-1-anylinux-x86_64.AppImage",
-            "size": 53879097,
-            "sha256": "dbf4846bfbd66f0bea3b0e834f5ffe58dca80eb37ccfd82006cca240d11bf264",
+            "url": "https://github.com/pkgforge-dev/Mousai-AppImage/releases/download/0.7.10-1%402026-09-22_1790090920/Mousai-0.7.10-1-anylinux-x86_64.AppImage",
+            "size": 54798904,
+            "sha256": "feb2faa04cfe8da6ed3caadaf4f931d1d9b5c33000309bd9abd8ea8204912fb5",
             "inspection": {
               "format": "appimage",
               "runtimeType": 2,
@@ -1035,17 +1035,17 @@
               "elfMachine": 62,
               "archive": {
                 "format": "dwarfs",
-                "offset": 1487344,
-                "bytesUsed": 52391753
+                "offset": 1469984,
+                "bytesUsed": 53328920
               }
             },
             "installable": true
           },
           {
             "architecture": "aarch64",
-            "url": "https://github.com/pkgforge-dev/Mousai-AppImage/releases/download/0.7.10-1%402026-09-01_1788278425/Mousai-0.7.10-1-anylinux-aarch64.AppImage",
-            "size": 53980155,
-            "sha256": "b270bb04996130885822ab0b0963dbfe386b19d485f1c4b06673e5a3717a1fd2",
+            "url": "https://github.com/pkgforge-dev/Mousai-AppImage/releases/download/0.7.10-1%402026-09-22_1790090920/Mousai-0.7.10-1-anylinux-aarch64.AppImage",
+            "size": 54713431,
+            "sha256": "988492c1df37f3dfb493d0666a7f9f56cd4d190fe5955c6d06e88c90723de361",
             "inspection": {
               "format": "appimage",
               "runtimeType": 2,
@@ -1053,8 +1053,8 @@
               "elfMachine": 183,
               "archive": {
                 "format": "dwarfs",
-                "offset": 1347632,
-                "bytesUsed": 52632523
+                "offset": 1345360,
+                "bytesUsed": 53368071
               }
             },
             "installable": true
@@ -1093,14 +1093,14 @@
         }
       },
       "release": {
-        "version": "5.2.5-1@2026-09-09_1788982590",
-        "publishedAt": "2026-09-09T19:36:31Z",
+        "version": "5.2.5-1@2026-09-22_1790089140",
+        "publishedAt": "2026-09-22T14:59:02Z",
         "artifacts": [
           {
             "architecture": "x86_64",
-            "url": "https://github.com/pkgforge-dev/NewsFlash-AppImage/releases/download/5.2.5-1%402026-09-09_1788982590/Newsflash-5.2.5-1-anylinux-x86_64.AppImage",
-            "size": 107359133,
-            "sha256": "fe12f8c0dc85d4fc16594857a9a55539e5cae598df2c56f7901144e894c7b6e9",
+            "url": "https://github.com/pkgforge-dev/NewsFlash-AppImage/releases/download/5.2.5-1%402026-09-22_1790089140/Newsflash-5.2.5-1-anylinux-x86_64.AppImage",
+            "size": 107643834,
+            "sha256": "9e7f932131b38351b8847e4e626f4fd5a0dfbc710b722b923134386fa0e78928",
             "inspection": {
               "format": "appimage",
               "runtimeType": 2,
@@ -1108,17 +1108,17 @@
               "elfMachine": 62,
               "archive": {
                 "format": "dwarfs",
-                "offset": 1454864,
-                "bytesUsed": 105904269
+                "offset": 1469984,
+                "bytesUsed": 106173850
               }
             },
             "installable": true
           },
           {
             "architecture": "aarch64",
-            "url": "https://github.com/pkgforge-dev/NewsFlash-AppImage/releases/download/5.2.5-1%402026-09-09_1788982590/Newsflash-5.2.3-1-anylinux-aarch64.AppImage",
-            "size": 100950665,
-            "sha256": "dbaa6e70ef51b02b51cce2e328cd2367b52b8fa24d07e42c3637e2f09611b6e0",
+            "url": "https://github.com/pkgforge-dev/NewsFlash-AppImage/releases/download/5.2.5-1%402026-09-22_1790089140/Newsflash-5.2.3-1-anylinux-aarch64.AppImage",
+            "size": 101161325,
+            "sha256": "b680d854512bb67b01213b981bd5fa7306afdfbadfe318113057968ae9c702ca",
             "inspection": {
               "format": "appimage",
               "runtimeType": 2,
@@ -1126,8 +1126,8 @@
               "elfMachine": 183,
               "archive": {
                 "format": "dwarfs",
-                "offset": 1333032,
-                "bytesUsed": 99617633
+                "offset": 1345360,
+                "bytesUsed": 99815965
               }
             },
             "installable": true
@@ -1295,14 +1295,14 @@
         }
       },
       "release": {
-        "version": "50.1-1@2026-09-01_1788277896",
-        "publishedAt": "2026-09-01T15:51:38Z",
+        "version": "50.1-1@2026-09-22_1790090859",
+        "publishedAt": "2026-09-22T15:27:40Z",
         "artifacts": [
           {
             "architecture": "x86_64",
-            "url": "https://github.com/pkgforge-dev/Gnome-Text-Editor-AppImage/releases/download/50.1-1%402026-09-01_1788277896/Text_Editor-50.1-1-anylinux-x86_64.AppImage",
-            "size": 36369030,
-            "sha256": "8b2394f78f63a7368b68f1e7b52e52e08355a1f89022462032e7333a598dbf32",
+            "url": "https://github.com/pkgforge-dev/Gnome-Text-Editor-AppImage/releases/download/50.1-1%402026-09-22_1790090859/Text_Editor-50.1-1-anylinux-x86_64.AppImage",
+            "size": 38307880,
+            "sha256": "c9667befb6e36fd880727ea9dfd2f0d03126ccbe2c98b07a80bccb982c02c4bd",
             "inspection": {
               "format": "appimage",
               "runtimeType": 2,
@@ -1310,17 +1310,17 @@
               "elfMachine": 62,
               "archive": {
                 "format": "dwarfs",
-                "offset": 1487344,
-                "bytesUsed": 34881686
+                "offset": 1469984,
+                "bytesUsed": 36837896
               }
             },
             "installable": true
           },
           {
             "architecture": "aarch64",
-            "url": "https://github.com/pkgforge-dev/Gnome-Text-Editor-AppImage/releases/download/50.1-1%402026-09-01_1788277896/Text_Editor-50.1-1-anylinux-aarch64.AppImage",
-            "size": 36957404,
-            "sha256": "8514b5626c0ab3bbec9036d858b017b7a0f6d0237db9dc0710578cf603b78550",
+            "url": "https://github.com/pkgforge-dev/Gnome-Text-Editor-AppImage/releases/download/50.1-1%402026-09-22_1790090859/Text_Editor-50.1-1-anylinux-aarch64.AppImage",
+            "size": 38741457,
+            "sha256": "39278962220457aa0c952982d97b3c1ed16509c505ed881f306311340c45a348",
             "inspection": {
               "format": "appimage",
               "runtimeType": 2,
@@ -1328,8 +1328,8 @@
               "elfMachine": 183,
               "archive": {
                 "format": "dwarfs",
-                "offset": 1347632,
-                "bytesUsed": 35609772
+                "offset": 1345360,
+                "bytesUsed": 37396097
               }
             },
             "installable": true
@@ -1368,14 +1368,14 @@
         }
       },
       "release": {
-        "version": "26.03.1-1@2026-09-01_1788278253",
-        "publishedAt": "2026-09-01T15:57:34Z",
+        "version": "26.03.1-1@2026-09-22_1790090965",
+        "publishedAt": "2026-09-22T15:29:26Z",
         "artifacts": [
           {
             "architecture": "x86_64",
-            "url": "https://github.com/pkgforge-dev/Video-Trimmer-AppImage/releases/download/26.03.1-1%402026-09-01_1788278253/Video_Trimmer-26.03.1-1-anylinux-x86_64.AppImage",
-            "size": 107043397,
-            "sha256": "09ad99adba33bdd16632d819968994fc968804df098f331c42ed09d0297a1d48",
+            "url": "https://github.com/pkgforge-dev/Video-Trimmer-AppImage/releases/download/26.03.1-1%402026-09-22_1790090965/Video_Trimmer-26.03.1-1-anylinux-x86_64.AppImage",
+            "size": 107711820,
+            "sha256": "1b508f6cf3b0db1dd245b26c83ad32ec4de448745f82692250c2aafb3b1d11ab",
             "inspection": {
               "format": "appimage",
               "runtimeType": 2,
@@ -1383,17 +1383,17 @@
               "elfMachine": 62,
               "archive": {
                 "format": "dwarfs",
-                "offset": 1487344,
-                "bytesUsed": 105556053
+                "offset": 1469984,
+                "bytesUsed": 106241836
               }
             },
             "installable": true
           },
           {
             "architecture": "aarch64",
-            "url": "https://github.com/pkgforge-dev/Video-Trimmer-AppImage/releases/download/26.03.1-1%402026-09-01_1788278253/Video_Trimmer-26.03.1-1-anylinux-aarch64.AppImage",
-            "size": 98542151,
-            "sha256": "67432a6a60ef30c6d3a97271f2018de3c5112f45a310da8f7eb515c283ba1b18",
+            "url": "https://github.com/pkgforge-dev/Video-Trimmer-AppImage/releases/download/26.03.1-1%402026-09-22_1790090965/Video_Trimmer-26.03.1-1-anylinux-aarch64.AppImage",
+            "size": 98893787,
+            "sha256": "f02b402e65ca5edd9a7ee0dee724863539c91797f9ea43cc493be7d32ce2d284",
             "inspection": {
               "format": "appimage",
               "runtimeType": 2,
@@ -1401,8 +1401,8 @@
               "elfMachine": 183,
               "archive": {
                 "format": "dwarfs",
-                "offset": 1347632,
-                "bytesUsed": 97194519
+                "offset": 1345360,
+                "bytesUsed": 97548427
               }
             },
             "installable": true
@@ -1441,14 +1441,14 @@
         }
       },
       "release": {
-        "version": "1.0.0-1@2026-09-01_1788265459",
-        "publishedAt": "2026-09-01T12:24:20Z",
+        "version": "1.0.0-1@2026-09-22_1790084949",
+        "publishedAt": "2026-09-22T13:49:10Z",
         "artifacts": [
           {
             "architecture": "x86_64",
-            "url": "https://github.com/pkgforge-dev/Warp-AppImage/releases/download/1.0.0-1%402026-09-01_1788265459/Warp-1.0.0-1-anylinux-x86_64.AppImage",
-            "size": 74522505,
-            "sha256": "82c5d625435e7c53946da097e5eb77d2c189e7df8df3070c763165f7c802b1f2",
+            "url": "https://github.com/pkgforge-dev/Warp-AppImage/releases/download/1.0.0-1%402026-09-22_1790084949/Warp-1.0.0-1-anylinux-x86_64.AppImage",
+            "size": 76567470,
+            "sha256": "c6afbe3323f3a8f787bc8630675fb6160caa1a4e2ca09b5234addef8f8b224c5",
             "inspection": {
               "format": "appimage",
               "runtimeType": 2,
@@ -1456,17 +1456,17 @@
               "elfMachine": 62,
               "archive": {
                 "format": "dwarfs",
-                "offset": 1487344,
-                "bytesUsed": 73035161
+                "offset": 1469984,
+                "bytesUsed": 75097486
               }
             },
             "installable": true
           },
           {
             "architecture": "aarch64",
-            "url": "https://github.com/pkgforge-dev/Warp-AppImage/releases/download/1.0.0-1%402026-09-01_1788265459/Warp-1.0.0-1-anylinux-aarch64.AppImage",
-            "size": 71199456,
-            "sha256": "040d6624897ea8e0a6cefece1a8ae194a027b386995895ff254dab9696c0105d",
+            "url": "https://github.com/pkgforge-dev/Warp-AppImage/releases/download/1.0.0-1%402026-09-22_1790084949/Warp-1.0.0-1-anylinux-aarch64.AppImage",
+            "size": 72988473,
+            "sha256": "a95e6abb3980c9978da73072926303db424f39a663d3e78e0aff8e412ff89f1c",
             "inspection": {
               "format": "appimage",
               "runtimeType": 2,
@@ -1474,8 +1474,8 @@
               "elfMachine": 183,
               "archive": {
                 "format": "dwarfs",
-                "offset": 1347632,
-                "bytesUsed": 69851824
+                "offset": 1345360,
+                "bytesUsed": 71643113
               }
             },
             "installable": true

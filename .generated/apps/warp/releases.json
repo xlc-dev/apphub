@@ -2,18 +2,18 @@
   "appId": "app.drey.Warp",
   "releases": [
     {
-      "version": "1.0.0-1@2026-09-01_1788265459",
-      "publishedAt": "2026-09-01T12:24:20Z",
-      "page": "https://github.com/pkgforge-dev/Warp-AppImage/releases/tag/1.0.0-1%402026-09-01_1788265459",
-      "releaseId": "380475244",
+      "version": "1.0.0-1@2026-09-22_1790084949",
+      "publishedAt": "2026-09-22T13:49:10Z",
+      "page": "https://github.com/pkgforge-dev/Warp-AppImage/releases/tag/1.0.0-1%402026-09-22_1790084949",
+      "releaseId": "393781118",
       "artifacts": [
         {
           "architecture": "x86_64",
           "name": "Warp-1.0.0-1-anylinux-x86_64.AppImage",
-          "url": "https://github.com/pkgforge-dev/Warp-AppImage/releases/download/1.0.0-1%402026-09-01_1788265459/Warp-1.0.0-1-anylinux-x86_64.AppImage",
-          "assetId": "539514696",
-          "size": 74522505,
-          "sha256": "82c5d625435e7c53946da097e5eb77d2c189e7df8df3070c763165f7c802b1f2",
+          "url": "https://github.com/pkgforge-dev/Warp-AppImage/releases/download/1.0.0-1%402026-09-22_1790084949/Warp-1.0.0-1-anylinux-x86_64.AppImage",
+          "assetId": "581501525",
+          "size": 76567470,
+          "sha256": "c6afbe3323f3a8f787bc8630675fb6160caa1a4e2ca09b5234addef8f8b224c5",
           "capabilities": {
             "runtimeType": 2,
             "fuse": false,
@@ -27,21 +27,21 @@
             "elfMachine": 62,
             "archive": {
               "format": "dwarfs",
-              "offset": 1487344,
-              "bytesUsed": 73035161
+              "offset": 1469984,
+              "bytesUsed": 75097486
             }
           },
           "checksumEvidence": {
-            "sourceUrl": "https://github.com/pkgforge-dev/Warp-AppImage/releases/tag/1.0.0-1%402026-09-01_1788265459"
+            "sourceUrl": "https://github.com/pkgforge-dev/Warp-AppImage/releases/tag/1.0.0-1%402026-09-22_1790084949"
           }
         },
         {
           "architecture": "aarch64",
           "name": "Warp-1.0.0-1-anylinux-aarch64.AppImage",
-          "url": "https://github.com/pkgforge-dev/Warp-AppImage/releases/download/1.0.0-1%402026-09-01_1788265459/Warp-1.0.0-1-anylinux-aarch64.AppImage",
-          "assetId": "539514700",
-          "size": 71199456,
-          "sha256": "040d6624897ea8e0a6cefece1a8ae194a027b386995895ff254dab9696c0105d",
+          "url": "https://github.com/pkgforge-dev/Warp-AppImage/releases/download/1.0.0-1%402026-09-22_1790084949/Warp-1.0.0-1-anylinux-aarch64.AppImage",
+          "assetId": "581501523",
+          "size": 72988473,
+          "sha256": "a95e6abb3980c9978da73072926303db424f39a663d3e78e0aff8e412ff89f1c",
           "capabilities": {
             "runtimeType": 2,
             "fuse": false,
@@ -55,12 +55,12 @@
             "elfMachine": 183,
             "archive": {
               "format": "dwarfs",
-              "offset": 1347632,
-              "bytesUsed": 69851824
+              "offset": 1345360,
+              "bytesUsed": 71643113
             }
           },
           "checksumEvidence": {
-            "sourceUrl": "https://github.com/pkgforge-dev/Warp-AppImage/releases/tag/1.0.0-1%402026-09-01_1788265459"
+            "sourceUrl": "https://github.com/pkgforge-dev/Warp-AppImage/releases/tag/1.0.0-1%402026-09-22_1790084949"
           }
         }
       ]
