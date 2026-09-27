@@ -1,11 +1,11 @@
 {
   "icon": {
     "file": "3d22aac2ba369ea1629ae399337652db6b41014675697c5b94b46d90afe79143.webp",
-    "source": "https://dl.flathub.org/media/org/gnome/Calculator/fd4e2dd90b47f38119579c8e5b3c62fa/icons/128x128/org.gnome.Calculator.png",
     "validator": {
-      "etag": "\"6aa7c8c7-77e\"",
-      "lastModified": "Mon, 14 Sep 2026 10:13:27 GMT"
-    }
+      "etag": "\"6aad1a5a-77e\"",
+      "lastModified": "Fri, 18 Sep 2026 11:02:50 GMT"
+    },
+    "source": "https://dl.flathub.org/media/org/gnome/Calculator/fd4e2dd90b47f38119579c8e5b3c62fa/icons/128x128/org.gnome.Calculator.png"
   },
   "screenshots": [
     {
@@ -16,8 +16,8 @@
       },
       "source": "https://dl.flathub.org/media/org/gnome/Calculator/fd4e2dd90b47f38119579c8e5b3c62fa/screenshots/image-1_orig.png",
       "validator": {
-        "etag": "\"6aa7c8c7-5a56\"",
-        "lastModified": "Mon, 14 Sep 2026 10:13:27 GMT"
+        "etag": "\"6aad1a5a-5a56\"",
+        "lastModified": "Fri, 18 Sep 2026 11:02:50 GMT"
       }
     },
     {
@@ -28,8 +28,8 @@
       },
       "source": "https://dl.flathub.org/media/org/gnome/Calculator/fd4e2dd90b47f38119579c8e5b3c62fa/screenshots/image-2_orig.png",
       "validator": {
-        "etag": "\"6aa7c8c7-86c4\"",
-        "lastModified": "Mon, 14 Sep 2026 10:13:27 GMT"
+        "etag": "\"6aad1a5a-86c4\"",
+        "lastModified": "Fri, 18 Sep 2026 11:02:50 GMT"
       }
     },
     {
@@ -40,8 +40,8 @@
       },
       "source": "https://dl.flathub.org/media/org/gnome/Calculator/fd4e2dd90b47f38119579c8e5b3c62fa/screenshots/image-3_orig.png",
       "validator": {
-        "etag": "\"6aa7c8c7-86b8\"",
-        "lastModified": "Mon, 14 Sep 2026 10:13:27 GMT"
+        "etag": "\"6aad1a5a-86b8\"",
+        "lastModified": "Fri, 18 Sep 2026 11:02:50 GMT"
       }
     },
     {
@@ -52,8 +52,8 @@
       },
       "source": "https://dl.flathub.org/media/org/gnome/Calculator/fd4e2dd90b47f38119579c8e5b3c62fa/screenshots/image-4_orig.png",
       "validator": {
-        "etag": "\"6aa7c8c7-9c89\"",
-        "lastModified": "Mon, 14 Sep 2026 10:13:27 GMT"
+        "etag": "\"6aad1a5a-9c89\"",
+        "lastModified": "Fri, 18 Sep 2026 11:02:50 GMT"
       }
     },
     {
@@ -64,8 +64,8 @@
       },
       "source": "https://dl.flathub.org/media/org/gnome/Calculator/fd4e2dd90b47f38119579c8e5b3c62fa/screenshots/image-5_orig.png",
       "validator": {
-        "etag": "\"6aa7c8c7-4514\"",
-        "lastModified": "Mon, 14 Sep 2026 10:13:27 GMT"
+        "etag": "\"6aad1a5a-4514\"",
+        "lastModified": "Fri, 18 Sep 2026 11:02:50 GMT"
       }
     }
   ]
