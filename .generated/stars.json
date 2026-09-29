@@ -1,66 +1,66 @@
 {
   "values": {
-    "brave-origin": 23739,
+    "brave-origin": 23742,
     "collision": 8,
-    "dolphin-emulator": 15581,
+    "dolphin-emulator": 15586,
     "eyedropper": 332,
-    "gear-lever": 2233,
+    "gear-lever": 2241,
     "htop": 8353,
     "impression": 58,
-    "librecad": 6422,
-    "localsend": 92879,
+    "librecad": 6425,
+    "localsend": 92964,
     "mousai": 1220,
     "newsflash": 587,
-    "rnote": 11716
+    "rnote": 11718
   },
   "refresh": {
     "brave-origin": {
-      "lastAttemptAt": "2026-09-28T10:46:07.255Z",
-      "lastSuccessAt": "2026-09-28T10:46:07.255Z"
+      "lastAttemptAt": "2026-09-29T10:33:48.061Z",
+      "lastSuccessAt": "2026-09-29T10:33:48.061Z"
     },
     "collision": {
-      "lastAttemptAt": "2026-09-28T10:46:07.299Z",
-      "lastSuccessAt": "2026-09-28T10:46:07.299Z"
+      "lastAttemptAt": "2026-09-29T10:33:48.123Z",
+      "lastSuccessAt": "2026-09-29T10:33:48.123Z"
     },
     "dolphin-emulator": {
-      "lastAttemptAt": "2026-09-28T10:46:07.228Z",
-      "lastSuccessAt": "2026-09-28T10:46:07.228Z"
+      "lastAttemptAt": "2026-09-29T10:33:48.058Z",
+      "lastSuccessAt": "2026-09-29T10:33:48.058Z"
     },
     "eyedropper": {
-      "lastAttemptAt": "2026-09-28T10:46:07.536Z",
-      "lastSuccessAt": "2026-09-28T10:46:07.536Z"
+      "lastAttemptAt": "2026-09-29T10:33:48.273Z",
+      "lastSuccessAt": "2026-09-29T10:33:48.273Z"
     },
     "gear-lever": {
-      "lastAttemptAt": "2026-09-28T10:46:07.580Z",
-      "lastSuccessAt": "2026-09-28T10:46:07.580Z"
+      "lastAttemptAt": "2026-09-29T10:33:48.258Z",
+      "lastSuccessAt": "2026-09-29T10:33:48.258Z"
     },
     "htop": {
-      "lastAttemptAt": "2026-09-28T10:46:07.883Z",
-      "lastSuccessAt": "2026-09-28T10:46:07.883Z"
+      "lastAttemptAt": "2026-09-29T10:33:48.556Z",
+      "lastSuccessAt": "2026-09-29T10:33:48.556Z"
     },
     "impression": {
-      "lastAttemptAt": "2026-09-28T10:46:07.646Z",
-      "lastSuccessAt": "2026-09-28T10:46:07.646Z"
+      "lastAttemptAt": "2026-09-29T10:33:48.317Z",
+      "lastSuccessAt": "2026-09-29T10:33:48.317Z"
     },
     "librecad": {
-      "lastAttemptAt": "2026-09-28T10:46:07.952Z",
-      "lastSuccessAt": "2026-09-28T10:46:07.952Z"
+      "lastAttemptAt": "2026-09-29T10:33:48.605Z",
+      "lastSuccessAt": "2026-09-29T10:33:48.605Z"
     },
     "localsend": {
-      "lastAttemptAt": "2026-09-28T10:46:08.239Z",
-      "lastSuccessAt": "2026-09-28T10:46:08.239Z"
+      "lastAttemptAt": "2026-09-29T10:33:49.284Z",
+      "lastSuccessAt": "2026-09-29T10:33:49.284Z"
     },
     "mousai": {
-      "lastAttemptAt": "2026-09-28T10:46:08.259Z",
-      "lastSuccessAt": "2026-09-28T10:46:08.259Z"
+      "lastAttemptAt": "2026-09-29T10:33:48.873Z",
+      "lastSuccessAt": "2026-09-29T10:33:48.873Z"
     },
     "newsflash": {
-      "lastAttemptAt": "2026-09-28T10:46:08.118Z",
-      "lastSuccessAt": "2026-09-28T10:46:08.118Z"
+      "lastAttemptAt": "2026-09-29T10:33:48.779Z",
+      "lastSuccessAt": "2026-09-29T10:33:48.779Z"
     },
     "rnote": {
-      "lastAttemptAt": "2026-09-28T10:46:08.786Z",
-      "lastSuccessAt": "2026-09-28T10:46:08.786Z"
+      "lastAttemptAt": "2026-09-29T10:33:49.054Z",
+      "lastSuccessAt": "2026-09-29T10:33:49.054Z"
     }
   }
 }
