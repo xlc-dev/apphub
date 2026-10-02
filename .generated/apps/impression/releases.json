@@ -2,18 +2,18 @@
   "appId": "io.gitlab.adhami3310.Impression",
   "releases": [
     {
-      "version": "3.8.0-1@2026-09-22_1790090573",
-      "publishedAt": "2026-09-22T15:22:54Z",
-      "page": "https://github.com/pkgforge-dev/Impression-AppImage/releases/tag/3.8.0-1%402026-09-22_1790090573",
-      "releaseId": "393861706",
+      "version": "3.8.0-1@2026-10-01_1790876552",
+      "publishedAt": "2026-10-01T17:42:33Z",
+      "page": "https://github.com/pkgforge-dev/Impression-AppImage/releases/tag/3.8.0-1%402026-10-01_1790876552",
+      "releaseId": "401206182",
       "artifacts": [
         {
           "architecture": "x86_64",
           "name": "Impression-3.8.0-1-anylinux-x86_64.AppImage",
-          "url": "https://github.com/pkgforge-dev/Impression-AppImage/releases/download/3.8.0-1%402026-09-22_1790090573/Impression-3.8.0-1-anylinux-x86_64.AppImage",
-          "assetId": "581669717",
-          "size": 37868977,
-          "sha256": "cfa79f5f6bcd0aa44dc64854ebd86ee47bd5818ba1cb45d82dc0a1c4e27a51bd",
+          "url": "https://github.com/pkgforge-dev/Impression-AppImage/releases/download/3.8.0-1%402026-10-01_1790876552/Impression-3.8.0-1-anylinux-x86_64.AppImage",
+          "assetId": "603789377",
+          "size": 37973722,
+          "sha256": "6268f583b0233351febc9b9e8589837f6cc15c935f2e1c50610806ac30b1e38f",
           "capabilities": {
             "runtimeType": 2,
             "fuse": false,
@@ -27,21 +27,21 @@
             "elfMachine": 62,
             "archive": {
               "format": "dwarfs",
-              "offset": 1469984,
-              "bytesUsed": 36398993
+              "offset": 1507016,
+              "bytesUsed": 36466706
             }
           },
           "checksumEvidence": {
-            "sourceUrl": "https://github.com/pkgforge-dev/Impression-AppImage/releases/tag/3.8.0-1%402026-09-22_1790090573"
+            "sourceUrl": "https://github.com/pkgforge-dev/Impression-AppImage/releases/tag/3.8.0-1%402026-10-01_1790876552"
           }
         },
         {
           "architecture": "aarch64",
           "name": "Impression-3.8.0-1-anylinux-aarch64.AppImage",
-          "url": "https://github.com/pkgforge-dev/Impression-AppImage/releases/download/3.8.0-1%402026-09-22_1790090573/Impression-3.8.0-1-anylinux-aarch64.AppImage",
-          "assetId": "581669719",
-          "size": 38613780,
-          "sha256": "e91f95fcdaeabb9d493ad72e77cbc2fd688489637c29acc745cdc3d7cbda22c8",
+          "url": "https://github.com/pkgforge-dev/Impression-AppImage/releases/download/3.8.0-1%402026-10-01_1790876552/Impression-3.8.0-1-anylinux-aarch64.AppImage",
+          "assetId": "603789382",
+          "size": 37606972,
+          "sha256": "03fb69b888ce001d8b1ef562f52ee943749179bef71f095d2e7f0fca0fc3b01d",
           "capabilities": {
             "runtimeType": 2,
             "fuse": false,
@@ -55,12 +55,12 @@
             "elfMachine": 183,
             "archive": {
               "format": "dwarfs",
-              "offset": 1345360,
-              "bytesUsed": 37268420
+              "offset": 1378048,
+              "bytesUsed": 36228924
             }
           },
           "checksumEvidence": {
-            "sourceUrl": "https://github.com/pkgforge-dev/Impression-AppImage/releases/tag/3.8.0-1%402026-09-22_1790090573"
+            "sourceUrl": "https://github.com/pkgforge-dev/Impression-AppImage/releases/tag/3.8.0-1%402026-10-01_1790876552"
           }
         }
       ]

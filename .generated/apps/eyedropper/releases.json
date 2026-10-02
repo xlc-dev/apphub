@@ -2,18 +2,18 @@
   "appId": "com.github.finefindus.eyedropper",
   "releases": [
     {
-      "version": "2.2.1-1@2026-09-22_1790090597",
-      "publishedAt": "2026-09-22T15:23:19Z",
-      "page": "https://github.com/pkgforge-dev/Eyedropper-AppImage/releases/tag/2.2.1-1%402026-09-22_1790090597",
-      "releaseId": "393862012",
+      "version": "2.2.1-1@2026-10-01_1790875954",
+      "publishedAt": "2026-10-01T17:32:35Z",
+      "page": "https://github.com/pkgforge-dev/Eyedropper-AppImage/releases/tag/2.2.1-1%402026-10-01_1790875954",
+      "releaseId": "401198673",
       "artifacts": [
         {
           "architecture": "x86_64",
           "name": "Eyedropper-2.2.1-1-anylinux-x86_64.AppImage",
-          "url": "https://github.com/pkgforge-dev/Eyedropper-AppImage/releases/download/2.2.1-1%402026-09-22_1790090597/Eyedropper-2.2.1-1-anylinux-x86_64.AppImage",
-          "assetId": "581670464",
-          "size": 36695783,
-          "sha256": "27f5f9638207f122d14dca799bd301855773e618832531eac362bdf9f135d29c",
+          "url": "https://github.com/pkgforge-dev/Eyedropper-AppImage/releases/download/2.2.1-1%402026-10-01_1790875954/Eyedropper-2.2.1-1-anylinux-x86_64.AppImage",
+          "assetId": "603772827",
+          "size": 36799573,
+          "sha256": "e9844a0d9a20c49b3a2dc4e7b512b423f575c1a914716cf7ee218afb9b82b607",
           "capabilities": {
             "runtimeType": 2,
             "fuse": false,
@@ -27,21 +27,21 @@
             "elfMachine": 62,
             "archive": {
               "format": "dwarfs",
-              "offset": 1469984,
-              "bytesUsed": 35225799
+              "offset": 1507016,
+              "bytesUsed": 35292557
             }
           },
           "checksumEvidence": {
-            "sourceUrl": "https://github.com/pkgforge-dev/Eyedropper-AppImage/releases/tag/2.2.1-1%402026-09-22_1790090597"
+            "sourceUrl": "https://github.com/pkgforge-dev/Eyedropper-AppImage/releases/tag/2.2.1-1%402026-10-01_1790875954"
           }
         },
         {
           "architecture": "aarch64",
           "name": "Eyedropper-2.2.1-1-anylinux-aarch64.AppImage",
-          "url": "https://github.com/pkgforge-dev/Eyedropper-AppImage/releases/download/2.2.1-1%402026-09-22_1790090597/Eyedropper-2.2.1-1-anylinux-aarch64.AppImage",
-          "assetId": "581670458",
-          "size": 37081321,
-          "sha256": "b7c753ee7070d22ecefaed2f3d5df1cc1e3fd0b4a582f792d8c2238de5a25d16",
+          "url": "https://github.com/pkgforge-dev/Eyedropper-AppImage/releases/download/2.2.1-1%402026-10-01_1790875954/Eyedropper-2.2.1-1-anylinux-aarch64.AppImage",
+          "assetId": "603772828",
+          "size": 36472453,
+          "sha256": "c8feb42712754cd11fbf7c268b0491ca20f84e2bf4f03e5c3d562522d69906d2",
           "capabilities": {
             "runtimeType": 2,
             "fuse": false,
@@ -55,12 +55,12 @@
             "elfMachine": 183,
             "archive": {
               "format": "dwarfs",
-              "offset": 1345360,
-              "bytesUsed": 35735961
+              "offset": 1378048,
+              "bytesUsed": 35094405
             }
           },
           "checksumEvidence": {
-            "sourceUrl": "https://github.com/pkgforge-dev/Eyedropper-AppImage/releases/tag/2.2.1-1%402026-09-22_1790090597"
+            "sourceUrl": "https://github.com/pkgforge-dev/Eyedropper-AppImage/releases/tag/2.2.1-1%402026-10-01_1790875954"
           }
         }
       ]
