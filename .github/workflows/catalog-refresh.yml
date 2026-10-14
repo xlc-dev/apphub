@@ -130,14 +130,14 @@ jobs:
         run: bun scripts/refresh/report.ts capture
 
       - name: Download refresh plan
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
         with:
           name: refresh-plan
           path: /tmp/refresh-plan
 
       - name: Download batch results
         if: needs.plan.outputs.count != '0'
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
         with:
           pattern: batch-*
           path: /tmp/refresh-results
