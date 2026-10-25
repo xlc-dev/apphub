@@ -1,102 +1,66 @@
 {
   "values": {
-    "brave-origin": 23446,
-    "collision": 7,
-    "dolphin-emulator": 15446,
-    "eyedropper": 328,
-    "gear-lever": 2137,
-    "htop": 8287,
+    "brave-origin": 23793,
+    "collision": 8,
+    "dolphin-emulator": 15610,
+    "eyedropper": 332,
+    "gear-lever": 2252,
+    "htop": 8366,
     "impression": 58,
-    "librecad": 6286,
-    "localsend": 89512,
-    "mousai": 1217,
+    "librecad": 6446,
+    "localsend": 93321,
+    "mousai": 1221,
     "newsflash": 587,
-    "rnote": 11590
+    "rnote": 11726
   },
   "refresh": {
     "brave-origin": {
-      "lastAttemptAt": "2026-09-12T20:48:33.843Z",
-      "lastSuccessAt": "2026-08-27T18:27:25.460Z",
-      "incident": {
-        "category": "invalid-data",
-        "consecutiveFailures": 22
-      }
+      "lastAttemptAt": "2026-10-04T10:30:40.414Z",
+      "lastSuccessAt": "2026-10-04T10:30:40.414Z"
     },
     "collision": {
-      "lastAttemptAt": "2026-09-12T20:48:34.244Z",
-      "lastSuccessAt": "2026-09-12T20:48:34.244Z"
+      "lastAttemptAt": "2026-10-04T10:30:40.529Z",
+      "lastSuccessAt": "2026-10-04T10:30:40.529Z"
     },
     "dolphin-emulator": {
-      "lastAttemptAt": "2026-09-12T20:48:33.845Z",
-      "lastSuccessAt": "2026-08-27T18:15:13.179Z",
-      "incident": {
-        "category": "invalid-data",
-        "consecutiveFailures": 22
-      }
+      "lastAttemptAt": "2026-10-04T10:30:40.338Z",
+      "lastSuccessAt": "2026-10-04T10:30:40.338Z"
     },
     "eyedropper": {
-      "lastAttemptAt": "2026-09-12T20:48:33.930Z",
-      "lastSuccessAt": "2026-08-27T18:15:12.954Z",
-      "incident": {
-        "category": "invalid-data",
-        "consecutiveFailures": 22
-      }
+      "lastAttemptAt": "2026-10-04T10:30:40.578Z",
+      "lastSuccessAt": "2026-10-04T10:30:40.578Z"
     },
     "gear-lever": {
-      "lastAttemptAt": "2026-09-12T20:48:34.018Z",
-      "lastSuccessAt": "2026-08-27T18:15:13.144Z",
-      "incident": {
-        "category": "invalid-data",
-        "consecutiveFailures": 22
-      }
+      "lastAttemptAt": "2026-10-04T10:30:40.571Z",
+      "lastSuccessAt": "2026-10-04T10:30:40.571Z"
     },
     "htop": {
-      "lastAttemptAt": "2026-09-12T20:48:33.931Z",
-      "lastSuccessAt": "2026-08-27T18:15:13.506Z",
-      "incident": {
-        "category": "invalid-data",
-        "consecutiveFailures": 22
-      }
+      "lastAttemptAt": "2026-10-04T10:30:40.787Z",
+      "lastSuccessAt": "2026-10-04T10:30:40.787Z"
     },
     "impression": {
-      "lastAttemptAt": "2026-09-12T20:48:34.181Z",
-      "lastSuccessAt": "2026-09-12T20:48:34.181Z"
+      "lastAttemptAt": "2026-10-04T10:30:40.701Z",
+      "lastSuccessAt": "2026-10-04T10:30:40.701Z"
     },
     "librecad": {
-      "lastAttemptAt": "2026-09-12T20:48:34.042Z",
-      "lastSuccessAt": "2026-08-27T18:15:13.508Z",
-      "incident": {
-        "category": "invalid-data",
-        "consecutiveFailures": 22
-      }
+      "lastAttemptAt": "2026-10-04T10:30:40.837Z",
+      "lastSuccessAt": "2026-10-04T10:30:40.837Z"
     },
     "localsend": {
-      "lastAttemptAt": "2026-09-12T20:48:34.110Z",
-      "lastSuccessAt": "2026-08-27T18:15:13.728Z",
-      "incident": {
-        "category": "invalid-data",
-        "consecutiveFailures": 22
-      }
+      "lastAttemptAt": "2026-10-04T10:30:41.021Z",
+      "lastSuccessAt": "2026-10-04T10:30:41.021Z"
     },
     "mousai": {
-      "lastAttemptAt": "2026-09-12T20:48:34.118Z",
-      "lastSuccessAt": "2026-08-27T18:15:13.740Z",
-      "incident": {
-        "category": "invalid-data",
-        "consecutiveFailures": 22
-      }
+      "lastAttemptAt": "2026-10-04T10:30:41.022Z",
+      "lastSuccessAt": "2026-10-04T10:30:41.022Z"
     },
     "newsflash": {
-      "lastAttemptAt": "2026-09-12T20:48:34.291Z",
-      "lastSuccessAt": "2026-09-12T20:48:34.291Z"
+      "lastAttemptAt": "2026-10-04T10:30:40.997Z",
+      "lastSuccessAt": "2026-10-04T10:30:40.997Z"
     },
     "rnote": {
-      "lastAttemptAt": "2026-09-12T20:48:34.197Z",
-      "lastSuccessAt": "2026-08-27T18:15:13.963Z",
-      "incident": {
-        "category": "invalid-data",
-        "consecutiveFailures": 22
-      }
+      "lastAttemptAt": "2026-10-04T10:30:41.190Z",
+      "lastSuccessAt": "2026-10-04T10:30:41.190Z"
     }
   }
 }

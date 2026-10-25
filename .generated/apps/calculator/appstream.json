@@ -112,6 +112,15 @@
           "content": [
             {
               "type": "text",
+              "value": "Programmeermodus ondersteunt conversie tussen algemene talstelsels (binair, octaal, decimaal en hexadecimaal), bitsgewijze bewerkingen, 2-complement, teken-naar-tekencodeconversie en meer."
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
               "value": "Conversiemodus ondersteunt conversies tussen veelvoorkomende eenheden, munteenheden en grondtallen."
             }
           ]

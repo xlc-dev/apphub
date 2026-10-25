@@ -2,18 +2,18 @@
   "appId": "io.github.htop_dev.htop",
   "releases": [
     {
-      "version": "3.5.3@2026-09-02_1788349992",
-      "publishedAt": "2026-09-02T11:53:14Z",
-      "page": "https://github.com/pkgforge-dev/htop-AppImage/releases/tag/3.5.3%402026-09-02_1788349992",
-      "releaseId": "381214169",
+      "version": "3.5.3@2026-10-02_1790947336",
+      "publishedAt": "2026-10-02T13:22:17Z",
+      "page": "https://github.com/pkgforge-dev/htop-AppImage/releases/tag/3.5.3%402026-10-02_1790947336",
+      "releaseId": "401838071",
       "artifacts": [
         {
           "architecture": "x86_64",
           "name": "Htop-3.5.3-anylinux-x86_64.AppImage",
-          "url": "https://github.com/pkgforge-dev/htop-AppImage/releases/download/3.5.3%402026-09-02_1788349992/Htop-3.5.3-anylinux-x86_64.AppImage",
-          "assetId": "541105401",
-          "size": 2328861,
-          "sha256": "08470e8c7730014661a2c7be47a667bdcc56a8d372ed853cde3e6a637b6c4cbc",
+          "url": "https://github.com/pkgforge-dev/htop-AppImage/releases/download/3.5.3%402026-10-02_1790947336/Htop-3.5.3-anylinux-x86_64.AppImage",
+          "assetId": "605659669",
+          "size": 2421977,
+          "sha256": "6d5c48fb0a6f72be9e33f6b3746a37597aef36424bf620ef7d4413269bb7a248",
           "capabilities": {
             "runtimeType": 2,
             "fuse": false,
@@ -27,21 +27,21 @@
             "elfMachine": 62,
             "archive": {
               "format": "dwarfs",
-              "offset": 1454864,
-              "bytesUsed": 873997
+              "offset": 1507016,
+              "bytesUsed": 914961
             }
           },
           "checksumEvidence": {
-            "sourceUrl": "https://github.com/pkgforge-dev/htop-AppImage/releases/tag/3.5.3%402026-09-02_1788349992"
+            "sourceUrl": "https://github.com/pkgforge-dev/htop-AppImage/releases/tag/3.5.3%402026-10-02_1790947336"
           }
         },
         {
           "architecture": "aarch64",
           "name": "Htop-3.5.3-anylinux-aarch64.AppImage",
-          "url": "https://github.com/pkgforge-dev/htop-AppImage/releases/download/3.5.3%402026-09-02_1788349992/Htop-3.5.3-anylinux-aarch64.AppImage",
-          "assetId": "541105399",
-          "size": 2099729,
-          "sha256": "e254d5dfb30a187fc933ce27790583ca408370cc5afee2b55624d2379b29c288",
+          "url": "https://github.com/pkgforge-dev/htop-AppImage/releases/download/3.5.3%402026-10-02_1790947336/Htop-3.5.3-anylinux-aarch64.AppImage",
+          "assetId": "605659667",
+          "size": 2157855,
+          "sha256": "4ad40898090676346311161c2979819ced4c2327c145585b1e2b13069a1d9006",
           "capabilities": {
             "runtimeType": 2,
             "fuse": false,
@@ -55,12 +55,12 @@
             "elfMachine": 183,
             "archive": {
               "format": "dwarfs",
-              "offset": 1333032,
-              "bytesUsed": 766697
+              "offset": 1378048,
+              "bytesUsed": 779807
             }
           },
           "checksumEvidence": {
-            "sourceUrl": "https://github.com/pkgforge-dev/htop-AppImage/releases/tag/3.5.3%402026-09-02_1788349992"
+            "sourceUrl": "https://github.com/pkgforge-dev/htop-AppImage/releases/tag/3.5.3%402026-10-02_1790947336"
           }
         }
       ]

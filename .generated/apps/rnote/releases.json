@@ -2,18 +2,18 @@
   "appId": "com.github.flxzt.rnote",
   "releases": [
     {
-      "version": "0.14.2-2@2026-09-01_1788278289",
-      "publishedAt": "2026-09-01T15:58:10Z",
-      "page": "https://github.com/pkgforge-dev/Rnote-AppImage/releases/tag/0.14.2-2%402026-09-01_1788278289",
-      "releaseId": "380642332",
+      "version": "0.14.2-2@2026-10-01_1790876568",
+      "publishedAt": "2026-10-01T17:42:49Z",
+      "page": "https://github.com/pkgforge-dev/Rnote-AppImage/releases/tag/0.14.2-2%402026-10-01_1790876568",
+      "releaseId": "401206378",
       "artifacts": [
         {
           "architecture": "x86_64",
           "name": "Rnote-0.14.2-2-anylinux-x86_64.AppImage",
-          "url": "https://github.com/pkgforge-dev/Rnote-AppImage/releases/download/0.14.2-2%402026-09-01_1788278289/Rnote-0.14.2-2-anylinux-x86_64.AppImage",
-          "assetId": "539786470",
-          "size": 48540616,
-          "sha256": "a871ce09faf56b5da946355a6fc0e9fa41bcf1ed7ba570a7ce737f8da9403528",
+          "url": "https://github.com/pkgforge-dev/Rnote-AppImage/releases/download/0.14.2-2%402026-10-01_1790876568/Rnote-0.14.2-2-anylinux-x86_64.AppImage",
+          "assetId": "603789815",
+          "size": 50019565,
+          "sha256": "19a46f4b5d20e583771fdf5f4d02a0db8de3412c9c3e67c932fdeddbd9247603",
           "capabilities": {
             "runtimeType": 2,
             "fuse": false,
@@ -27,21 +27,21 @@
             "elfMachine": 62,
             "archive": {
               "format": "dwarfs",
-              "offset": 1487344,
-              "bytesUsed": 47053272
+              "offset": 1507016,
+              "bytesUsed": 48512549
             }
           },
           "checksumEvidence": {
-            "sourceUrl": "https://github.com/pkgforge-dev/Rnote-AppImage/releases/tag/0.14.2-2%402026-09-01_1788278289"
+            "sourceUrl": "https://github.com/pkgforge-dev/Rnote-AppImage/releases/tag/0.14.2-2%402026-10-01_1790876568"
           }
         },
         {
           "architecture": "aarch64",
           "name": "Rnote-0.14.2-2-anylinux-aarch64.AppImage",
-          "url": "https://github.com/pkgforge-dev/Rnote-AppImage/releases/download/0.14.2-2%402026-09-01_1788278289/Rnote-0.14.2-2-anylinux-aarch64.AppImage",
-          "assetId": "539786469",
-          "size": 47935288,
-          "sha256": "4587f5566f11e19b2bb5c01c7c5ff9fd0870605bdf288230712fa8da95194b62",
+          "url": "https://github.com/pkgforge-dev/Rnote-AppImage/releases/download/0.14.2-2%402026-10-01_1790876568/Rnote-0.14.2-2-anylinux-aarch64.AppImage",
+          "assetId": "603789819",
+          "size": 48401420,
+          "sha256": "2369424ae0fc6d87c2dbd0154b4ceb928c2c667f05e1a2662540efa200cf31d2",
           "capabilities": {
             "runtimeType": 2,
             "fuse": false,
@@ -55,12 +55,12 @@
             "elfMachine": 183,
             "archive": {
               "format": "dwarfs",
-              "offset": 1347632,
-              "bytesUsed": 46587656
+              "offset": 1378048,
+              "bytesUsed": 47023372
             }
           },
           "checksumEvidence": {
-            "sourceUrl": "https://github.com/pkgforge-dev/Rnote-AppImage/releases/tag/0.14.2-2%402026-09-01_1788278289"
+            "sourceUrl": "https://github.com/pkgforge-dev/Rnote-AppImage/releases/tag/0.14.2-2%402026-10-01_1790876568"
           }
         }
       ]
