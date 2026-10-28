@@ -1,0 +1,108 @@
+{
+  "appstream": {
+    "type": "manual",
+    "metadata": {
+      "id": "io.github.stirling_tools.stirling_pdf",
+      "name": "Stirling PDF",
+      "summary": "Edit, sign, redact, convert, and automate PDF documents locally",
+      "description": [
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "value": "Stirling PDF is a versatile, locally hosted PDF editing platform that provides a complete suite of document processing tools without transmitting private data to third-party services."
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "value": "Accessible as a desktop application, through a web browser, or via automated backend workflows, it offers extensive tools to modify and streamline everyday document workflows."
+            }
+          ]
+        },
+        {
+          "type": "unordered-list",
+          "items": [
+            [
+              {
+                "type": "text",
+                "value": "Over 50 dedicated PDF operations including merge, split, compress, and rotate"
+              }
+            ],
+            [
+              {
+                "type": "text",
+                "value": "Document security tools to redact sensitive data, add digital signatures, and manage permissions"
+              }
+            ],
+            [
+              {
+                "type": "text",
+                "value": "Built-in optical character recognition (OCR) and document format conversion"
+              }
+            ],
+            [
+              {
+                "type": "text",
+                "value": "Automated document processing pipelines with no-code workflows and REST API support"
+              }
+            ],
+            [
+              {
+                "type": "text",
+                "value": "Multilingual interface supporting over 40 languages"
+              }
+            ]
+          ]
+        }
+      ],
+      "projectLicense": "GPL-3.0-or-later",
+      "developer": {
+        "name": "Stirling PDF Developers",
+        "url": "https://github.com/Stirling-Tools/Stirling-PDF"
+      },
+      "homepage": "https://github.com/Stirling-Tools/Stirling-PDF",
+      "repository": "https://github.com/pkgforge-dev/Stirling-PDF-AppImage",
+      "keywords": ["pdf", "editor", "merge", "split", "ocr", "convert", "redact", "sign"],
+      "categories": ["Office", "Utility", "Publishing", "OCR", "Viewer"]
+    },
+    "media": {
+      "icon": "https://raw.githubusercontent.com/pkgforge-dev/Anylinux-Metadata/main/icons/stirling-pdf.png",
+      "screenshots": [
+        {
+          "caption": "Stirling PDF main tools dashboard",
+          "source": "https://raw.githubusercontent.com/Stirling-Tools/Stirling-PDF/main/images/home-light.png"
+        }
+      ]
+    }
+  },
+  "addedAt": "2026-09-16",
+  "origin": {
+    "type": "third-party"
+  },
+  "releaseSource": {
+    "type": "github",
+    "repository": "pkgforge-dev/Stirling-PDF-AppImage"
+  },
+  "sandbox": {
+    "network": "full",
+    "display": "wayland-or-x11",
+    "audio": "none",
+    "processes": "isolated",
+    "ipc": true,
+    "filesystem": [],
+    "devices": [],
+    "sessionBus": {
+      "access": "none",
+      "rules": []
+    },
+    "systemBus": {
+      "access": "none",
+      "rules": []
+    }
+  }
+}
