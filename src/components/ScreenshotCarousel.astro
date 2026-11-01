@@ -49,69 +49,63 @@ const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown
       class="col-start-1 row-start-1 flex aspect-video snap-x snap-mandatory items-center overflow-x-auto overscroll-x-contain scroll-smooth rounded-xl motion-reduce:scroll-auto sm:col-start-2"
       aria-live="polite"
       data-carousel-track>
-      {
-        screenshots.map((screenshot, index) => (
-          <figure
-            class="m-0 flex h-full w-full shrink-0 snap-center flex-col items-center justify-center"
-            role="group"
-            aria-roledescription={t("carousel.slide")}
-            aria-label={t("carousel.position", {
-              index: index + 1,
-              count: screenshots.length,
-            })}
-            data-carousel-slide>
-            <Image
-              class="block max-h-full min-h-0 max-w-full rounded-xl object-contain"
-              src={screenshot.url}
-              alt=""
-              data-optimize-loading={index === 0 || undefined}
-              width={1920}
-              height={1080}
-              loading="lazy"
-            />
-            <figcaption class="mt-2">{screenshot.caption}</figcaption>
-          </figure>
-        ))
-      }
+      {screenshots.map((screenshot, index) => (
+        <figure
+          class="m-0 flex h-full w-full shrink-0 snap-center flex-col items-center justify-center"
+          role="group"
+          aria-roledescription={t("carousel.slide")}
+          aria-label={t("carousel.position", {
+            index: index + 1,
+            count: screenshots.length,
+          })}
+          data-carousel-slide>
+          <Image
+            class="block max-h-full min-h-0 max-w-full rounded-xl object-contain"
+            src={screenshot.url}
+            alt=""
+            data-optimize-loading={index === 0 || undefined}
+            width={1920}
+            height={1080}
+            loading="lazy"
+          />
+          <figcaption class="mt-2">{screenshot.caption}</figcaption>
+        </figure>
+      ))}
     </div>
 
-    {
-      screenshots.length > 1 && (
-        <>
-          <Button
-            icon
-            hidden
-            class="absolute top-1/2 left-2 z-10 size-11 -translate-y-1/2 rounded-full sm:static sm:col-start-1 sm:row-start-1 sm:translate-y-0"
-            aria-label={t("screenshots.previous")}
-            data-carousel-previous>
-            <Icon name="chevron-left" class="size-5" />
-          </Button>
-          <Button
-            icon
-            hidden
-            class="absolute top-1/2 right-2 z-10 size-11 -translate-y-1/2 rounded-full sm:static sm:col-start-3 sm:row-start-1 sm:translate-y-0"
-            aria-label={t("screenshots.next")}
-            data-carousel-next>
-            <Icon name="chevron-right" class="size-5" />
-          </Button>
-        </>
-      )
-    }
+    {screenshots.length > 1 && (
+      <>
+        <Button
+          icon
+          hidden
+          class="absolute top-1/2 left-2 z-10 size-11 -translate-y-1/2 rounded-full sm:static sm:col-start-1 sm:row-start-1 sm:translate-y-0"
+          aria-label={t("screenshots.previous")}
+          data-carousel-previous>
+          <Icon name="chevron-left" class="size-5" />
+        </Button>
+        <Button
+          icon
+          hidden
+          class="absolute top-1/2 right-2 z-10 size-11 -translate-y-1/2 rounded-full sm:static sm:col-start-3 sm:row-start-1 sm:translate-y-0"
+          aria-label={t("screenshots.next")}
+          data-carousel-next>
+          <Icon name="chevron-right" class="size-5" />
+        </Button>
+      </>
+    )}
   </div>
 
-  {
-    screenshots.length > 1 && (
-      <div class="mt-2 flex min-h-11 items-center justify-center">
-        <CarouselDots
-          groupLabel={t("screenshots.choose")}
-          labels={screenshots.map((_, index) =>
-            t("screenshots.show", { index: index + 1, count: screenshots.length })
-          )}
-          name={`${id}-slide`}
-        />
-      </div>
-    )
-  }
+  {screenshots.length > 1 && (
+    <div class="mt-2 flex min-h-11 items-center justify-center">
+      <CarouselDots
+        groupLabel={t("screenshots.choose")}
+        labels={screenshots.map((_, index) =>
+          t("screenshots.show", { index: index + 1, count: screenshots.length })
+        )}
+        name={`${id}-slide`}
+      />
+    </div>
+  )}
 </Section>
 
 <script>

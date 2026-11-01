@@ -22,9 +22,7 @@ if (!relativePrivateDirectory.startsWith("..") || relativePrivateDirectory === "
 }
 
 function createPrivateKey() {
-  return generateKeyPairSync("ed25519")
-    .privateKey.export({ type: "pkcs8", format: "pem" })
-    .toString();
+  return generateKeyPairSync("ed25519").privateKey.export({ type: "pkcs8", format: "pem" });
 }
 
 const names = ["root", "targets", "snapshot", "timestamp", "revocations"] as const;

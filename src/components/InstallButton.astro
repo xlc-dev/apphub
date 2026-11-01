@@ -44,23 +44,21 @@ const messages = {
     class="col-span-2 col-start-1 row-start-3 m-0 max-w-full text-sm text-[var(--muted)] sm:whitespace-nowrap"
     hidden={!blocked}
     data-install-message>
-    {
-      blocked ? (
-        messages.blocked
-      ) : (
-        <>
-          {translate(locale, "install.nothingHappened")}{" "}
-          {translate(locale, "install.compatibleClient")}{" "}
-          <Link accent href="https://github.com/kem-a/AppManager">
-            AppManager
-          </Link>
-          , {translate(locale, "install.or")}{" "}
-          <Link accent href="#downloads">
-            {translate(locale, "install.downloadManually")}
-          </Link>
-        </>
-      )
-    }
+    {blocked ? (
+      messages.blocked
+    ) : (
+      <>
+        {translate(locale, "install.nothingHappened")}{" "}
+        {translate(locale, "install.compatibleClient")}{" "}
+        <Link accent href="https://github.com/kem-a/AppManager">
+          AppManager
+        </Link>
+        , {translate(locale, "install.or")}{" "}
+        <Link accent href="#downloads">
+          {translate(locale, "install.downloadManually")}
+        </Link>
+      </>
+    )}
   </p>
 </div>
 

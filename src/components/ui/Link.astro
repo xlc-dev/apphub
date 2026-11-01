@@ -38,4 +38,6 @@ if (!unstyled) {
 }
 ---
 
-<a {...attributes} href={localizedHref} class:list={[linkClass, className]}><slot /></a>
+<a {...attributes} href={localizedHref} class:list={[linkClass, className]}>
+  <slot />
+</a>

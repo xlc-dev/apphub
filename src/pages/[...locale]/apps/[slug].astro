@@ -91,93 +91,79 @@ const developerHref = app.developer.url ?? developerUrl(app.repository, app.home
       />
       <div class="min-w-0 break-words">
         <h1 class="text-3xl font-bold sm:text-4xl">{app.name}</h1>
-        <p class="mt-1 max-w-2xl leading-6 text-[var(--muted)]">
-          {app.summary}
-        </p>
+        <p class="mt-1 max-w-2xl leading-6 text-[var(--muted)]">{app.summary}</p>
         <p class="mt-2 text-sm text-[var(--muted)]">
           {t("app.by")}{" "}
-          <Link accent href={developerHref}>{app.developer.name}</Link>
+          <Link accent href={developerHref}>
+            {app.developer.name}
+          </Link>
         </p>
         <div class="mt-3 flex flex-wrap items-center gap-2">
           <SourceBadge origin={app.origin.type} />
-          {
-            ageRating && (
-              <span
-                class={badgeClass}
-                title={app.contentRating?.label}
-                aria-label={ageLabelWithDescription}>
-                <Icon name="age-rating" class="size-3.5 text-[var(--muted)]" />
-                {ageLabel}
-              </span>
-            )
-          }
+          {ageRating && (
+            <span
+              class={badgeClass}
+              title={app.contentRating?.label}
+              aria-label={ageLabelWithDescription}>
+              <Icon name="age-rating" class="size-3.5 text-[var(--muted)]" />
+              {ageLabel}
+            </span>
+          )}
         </div>
-        {
-          app.origin.type === "upstream" && (
-            <p class="mt-2 max-w-2xl text-xs text-[var(--muted)]">{t("origin.officialNotice")}</p>
-          )
-        }
-        {
-          contentWarnings.length > 0 && (
-            <details class="group mt-3 max-w-2xl text-sm text-[var(--muted)]">
-              <DisclosureSummary class="gap-2 rounded-sm font-medium text-[var(--text)]">
-                {t("app.contentNotes")}
-              </DisclosureSummary>
-              <ul class="m-0 space-y-1 pl-5">
-                {contentWarnings.map((warning) => (
-                  <li>{warning}</li>
-                ))}
-              </ul>
-            </details>
-          )
-        }
+        {app.origin.type === "upstream" && (
+          <p class="mt-2 max-w-2xl text-xs text-[var(--muted)]">{t("origin.officialNotice")}</p>
+        )}
+        {contentWarnings.length > 0 && (
+          <details class="group mt-3 max-w-2xl text-sm text-[var(--muted)]">
+            <DisclosureSummary class="gap-2 rounded-sm font-medium text-[var(--text)]">
+              {t("app.contentNotes")}
+            </DisclosureSummary>
+            <ul class="m-0 space-y-1 pl-5">
+              {contentWarnings.map((warning) => (
+                <li>{warning}</li>
+              ))}
+            </ul>
+          </details>
+        )}
         <div class="mt-5">
           <div class="grid grid-cols-[auto_minmax(0,1fr)] items-start gap-x-2 gap-y-2">
             <InstallButton
               artifacts={latest?.artifacts ?? []}
               blocked={downloadsBlocked || !latest}
             />
-            {
-              donation && (
-                <ButtonLink
-                  class="col-start-2 row-start-1 gap-2 justify-self-start"
-                  href={donation}
-                  variant="outline">
-                  <Icon name="donate" class="size-4" />
-                  {t("app.donate")}
-                </ButtonLink>
-              )
-            }
+            {donation && (
+              <ButtonLink
+                class="col-start-2 row-start-1 gap-2 justify-self-start"
+                href={donation}
+                variant="outline">
+                <Icon name="donate" class="size-4" />
+                {t("app.donate")}
+              </ButtonLink>
+            )}
             <p class="col-span-2 col-start-1 row-start-2 m-0 text-sm text-[var(--muted)]">
-              {
-                latest && (
-                  <>
-                    {t("downloads.version", { version: formatVersion(latest.version) })}
-                    {" · "}
-                  </>
-                )
-              }
-              {
-                !downloadsBlocked && (
-                  <Link accent href="#downloads">
-                    {t("downloads.manual")}
-                  </Link>
-                )
-              }
+              {latest && (
+                <>
+                  {t("downloads.version", { version: formatVersion(latest.version) })}
+                  {" · "}
+                </>
+              )}
+              {!downloadsBlocked && (
+                <Link accent href="#downloads">
+                  {t("downloads.manual")}
+                </Link>
+              )}
             </p>
           </div>
         </div>
       </div>
     </div>
-    {
-      statusMessage && (
-        <aside
-          class="mt-6 rounded-xl border border-[var(--border)] bg-[var(--card-raised)] p-4"
-          aria-live="polite">
-          <p class="m-0">{statusMessage}</p>
-        </aside>
-      )
-    }
+    {statusMessage && (
+      <aside
+        class="mt-6 rounded-xl border border-[var(--border)] bg-[var(--card-raised)] p-4"
+        aria-live="polite">
+        <p class="m-0">{statusMessage}</p>
+      </aside>
+    )}
     <div class="mt-10 min-w-0">
       <ScreenshotCarousel label={t("app.screenshots")} screenshots={app.screenshots} />
     </div>

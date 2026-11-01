@@ -239,36 +239,32 @@ const catalogPath = sitePath(localePath(basePath, locale));
       </div>
       <div class="min-w-0 lg:col-start-2 lg:row-start-2">
         <div data-catalog-results data-current-category={category} data-catalog-path={catalogPath}>
-          {
-            displayedCatalog.length > 0 ? (
-              <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3" data-catalog-grid>
-                {apps.map((app) => (
-                  <AppCard app={app} stars={stars[app.slug]} />
-                ))}
-              </div>
-            ) : (
-              <EmptyState>{t("apps.none")}</EmptyState>
-            )
-          }
+          {displayedCatalog.length > 0 ? (
+            <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3" data-catalog-grid>
+              {apps.map((app) => (
+                <AppCard app={app} stars={stars[app.slug]} />
+              ))}
+            </div>
+          ) : (
+            <EmptyState>{t("apps.none")}</EmptyState>
+          )}
         </div>
         <div class="mt-8" hidden data-search-empty>
           <EmptyState>{t("search.empty")}</EmptyState>
         </div>
-        {
-          catalog[0] && (
-            <template data-search-card-template>
-              <AppCard app={catalog[0]} stars={0} />
-            </template>
-          )
-        }
+        {catalog[0] && (
+          <template data-search-card-template>
+            <AppCard app={catalog[0]} stars={0} />
+          </template>
+        )}
       </div>
       <Pagination
         dynamic
         class="mt-4 lg:col-span-2 lg:col-start-1"
         basePath={basePath}
-        label={category
-          ? t("apps.categoryPages", { category: localizedCategoryName })
-          : t("apps.pages")}
+        label={
+          category ? t("apps.categoryPages", { category: localizedCategoryName }) : t("apps.pages")
+        }
         page={state.page}
         pages={state.pages}
       />

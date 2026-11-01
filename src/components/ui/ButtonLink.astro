@@ -14,8 +14,9 @@ const { href, size = "large", variant = "primary", class: className, ...attribut
 
 <a
   {...attributes}
-  href={typeof href === "string"
-    ? sitePath(localePath(href, getLocale(Astro.currentLocale)))
-    : href}
-  class:list={[buttonClasses(variant, size), className]}><slot /></a
->
+  href={
+    typeof href === "string" ? sitePath(localePath(href, getLocale(Astro.currentLocale))) : href
+  }
+  class:list={[buttonClasses(variant, size), className]}>
+  <slot />
+</a>

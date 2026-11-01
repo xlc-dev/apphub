@@ -52,31 +52,29 @@ const getDetail = (app: CatalogAppSummary) => {
   <Page>
     <PageHeader title={title} description={description} />
     <nav class="flex flex-wrap gap-x-4 gap-y-2" aria-label={t("ranking.navigation")}>
-      <Link href="/trending/" aria-current={period === "week" ? "page" : undefined}
-        >{t("ranking.week")}</Link
-      >
-      <Link href="/trending/month/" aria-current={period === "month" ? "page" : undefined}
-        >{t("ranking.month")}</Link
-      >
-      <Link href="/trending/all-time/" aria-current={period === "all-time" ? "page" : undefined}
-        >{t("ranking.allTime")}</Link
-      >
+      <Link href="/trending/" aria-current={period === "week" ? "page" : undefined}>
+        {t("ranking.week")}
+      </Link>
+      <Link href="/trending/month/" aria-current={period === "month" ? "page" : undefined}>
+        {t("ranking.month")}
+      </Link>
+      <Link href="/trending/all-time/" aria-current={period === "all-time" ? "page" : undefined}>
+        {t("ranking.allTime")}
+      </Link>
     </nav>
-    {
-      ranking === null ? (
-        <EmptyState class="mt-8">{t("ranking.historyUnavailable")}</EmptyState>
-      ) : (
-        <AppCollection
-          class="mt-8"
-          apps={ranking.map(({ app }) => app)}
-          basePath={basePath}
-          empty={t("ranking.none")}
-          getDetail={getDetail}
-          heading={t("apps.applications")}
-          page={page}
-          paginationLabel={t("ranking.pages")}
-        />
-      )
-    }
+    {ranking === null ? (
+      <EmptyState class="mt-8">{t("ranking.historyUnavailable")}</EmptyState>
+    ) : (
+      <AppCollection
+        class="mt-8"
+        apps={ranking.map(({ app }) => app)}
+        basePath={basePath}
+        empty={t("ranking.none")}
+        getDetail={getDetail}
+        heading={t("apps.applications")}
+        page={page}
+        paginationLabel={t("ranking.pages")}
+      />
+    )}
   </Page>
 </BaseLayout>

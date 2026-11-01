@@ -21,34 +21,30 @@ const icons = {
       aria-label={t("theme.label")}
       title={t("theme.label")}
       data-theme-summary>
-      {
-        modes.map((mode) => (
-          <Icon
-            name={icons[mode]}
-            class:list={["size-5", mode !== "system" && "hidden"]}
-            data-theme-current={mode}
-          />
-        ))
-      }
+      {modes.map((mode) => (
+        <Icon
+          name={icons[mode]}
+          class:list={["size-5", mode !== "system" && "hidden"]}
+          data-theme-current={mode}
+        />
+      ))}
     </summary>
     <div
       class="card-surface absolute right-0 z-50 mt-2 w-40 rounded-md p-1 shadow-lg"
       role="group"
       aria-label={t("theme.label")}
       data-dropdown-panel>
-      {
-        modes.map((mode) => (
-          <button
-            class="focus-ring-inset flex min-h-11 w-full cursor-pointer items-center gap-2 rounded-sm px-2 text-left text-sm hover:bg-[var(--card-raised)] aria-[pressed=true]:bg-[var(--card-raised)]"
-            type="button"
-            aria-pressed="false"
-            data-theme-option={mode}>
-            <Icon name={icons[mode]} class="size-4" />
-            <span class="grow">{labels[mode]}</span>
-            <Icon name="check" class="invisible size-4" data-theme-check />
-          </button>
-        ))
-      }
+      {modes.map((mode) => (
+        <button
+          class="focus-ring-inset flex min-h-11 w-full cursor-pointer items-center gap-2 rounded-sm px-2 text-left text-sm hover:bg-[var(--card-raised)] aria-[pressed=true]:bg-[var(--card-raised)]"
+          type="button"
+          aria-pressed="false"
+          data-theme-option={mode}>
+          <Icon name={icons[mode]} class="size-4" />
+          <span class="grow">{labels[mode]}</span>
+          <Icon name="check" class="invisible size-4" data-theme-check />
+        </button>
+      ))}
     </div>
   </details>
 </div>

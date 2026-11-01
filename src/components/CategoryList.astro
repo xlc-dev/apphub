@@ -41,21 +41,19 @@ const t = (key: Parameters<typeof translate>[1]) => translate(locale, key);
       data-category-link>
       <span class="truncate">{t("apps.all")}</span>
     </Link>
-    {
-      categories.map(({ id, name, count }) => (
-        <Link
-          unstyled
-          class={itemClass}
-          href={categoryPath(id)}
-          aria-current={id === current ? "page" : undefined}
-          data-category-option
-          data-category-link
-          data-category-value={name.toLowerCase()}>
-          <span class="truncate">{name}</span>
-          <span class="text-right text-xs text-[var(--muted)] tabular-nums">{count}</span>
-        </Link>
-      ))
-    }
+    {categories.map(({ id, name, count }) => (
+      <Link
+        unstyled
+        class={itemClass}
+        href={categoryPath(id)}
+        aria-current={id === current ? "page" : undefined}
+        data-category-option
+        data-category-link
+        data-category-value={name.toLowerCase()}>
+        <span class="truncate">{name}</span>
+        <span class="text-right text-xs text-[var(--muted)] tabular-nums">{count}</span>
+      </Link>
+    ))}
   </nav>
 </div>
 

@@ -27,8 +27,7 @@ const links = [
 <header
   data-app-header
   class="sticky top-0 z-50 w-full border-b border-[var(--border)] bg-[color-mix(in_srgb,var(--page)_90%,transparent)] shadow-sm backdrop-blur-md">
-  <div
-    class="mx-auto grid w-full max-w-7xl grid-cols-[1fr_auto] items-center gap-4 px-4 py-3 md:grid-cols-[auto_minmax(12rem,32rem)_auto] md:px-6">
+  <div class="mx-auto grid w-full max-w-7xl grid-cols-[1fr_auto] items-center gap-4 px-4 py-3 md:grid-cols-[auto_minmax(12rem,32rem)_auto] md:px-6">
     <Link
       unstyled
       class="focus-ring col-start-1 row-start-1 flex items-center gap-2 justify-self-start rounded-sm text-xl font-bold transition-colors hover:text-[var(--primary)] focus-visible:text-[var(--primary)] motion-reduce:transition-none"
@@ -57,16 +56,14 @@ const links = [
           aria-label={t("nav.main")}
           data-dropdown-panel>
           <div class="mx-auto grid max-w-6xl gap-1 px-4 py-3">
-            {
-              links.map(({ href, label, current }) => (
-                <Link
-                  class="aria-[current=page]:bg-accent/10 flex min-h-11 items-center rounded-lg px-3 py-2.5 font-medium"
-                  href={href}
-                  aria-current={current ? "page" : undefined}>
-                  {label}
-                </Link>
-              ))
-            }
+            {links.map(({ href, label, current }) => (
+              <Link
+                class="aria-[current=page]:bg-accent/10 flex min-h-11 items-center rounded-lg px-3 py-2.5 font-medium"
+                href={href}
+                aria-current={current ? "page" : undefined}>
+                {label}
+              </Link>
+            ))}
           </div>
         </nav>
       </details>
@@ -94,13 +91,11 @@ const links = [
     <nav
       class="col-start-3 row-start-1 hidden items-center justify-end gap-x-4 text-sm md:flex"
       aria-label={t("nav.main")}>
-      {
-        links.map(({ href, label, current }) => (
-          <Link href={href} aria-current={current ? "page" : undefined}>
-            {label}
-          </Link>
-        ))
-      }
+      {links.map(({ href, label, current }) => (
+        <Link href={href} aria-current={current ? "page" : undefined}>
+          {label}
+        </Link>
+      ))}
       <ThemeSelect />
     </nav>
   </div>

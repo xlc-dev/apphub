@@ -10,31 +10,29 @@ const { blocks } = Astro.props;
 ---
 
 <div class="space-y-4 leading-6 text-[var(--muted)]">
-  {
-    blocks.map((block) => {
-      const List = block.type === "ordered-list" ? "ol" : "ul";
+  {blocks.map((block) => {
+    const List = block.type === "ordered-list" ? "ol" : "ul";
 
-      if (block.type === "paragraph") {
-        return (
-          <p>
-            <AppDescriptionText parts={block.content} />
-          </p>
-        );
-      }
-
+    if (block.type === "paragraph") {
       return (
-        <List
-          class:list={[
-            "ml-6 list-outside space-y-1 marker:text-[var(--muted)]",
-            block.type === "ordered-list" ? "list-decimal" : "list-disc",
-          ]}>
-          {block.items.map((item) => (
-            <li>
-              <AppDescriptionText parts={item} />
-            </li>
-          ))}
-        </List>
+        <p>
+          <AppDescriptionText parts={block.content} />
+        </p>
       );
-    })
-  }
+    }
+
+    return (
+      <List
+        class:list={[
+          "ml-6 list-outside space-y-1 marker:text-[var(--muted)]",
+          block.type === "ordered-list" ? "list-decimal" : "list-disc",
+        ]}>
+        {block.items.map((item) => (
+          <li>
+            <AppDescriptionText parts={item} />
+          </li>
+        ))}
+      </List>
+    );
+  })}
 </div>

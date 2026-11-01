@@ -23,9 +23,7 @@ const t = (key: Parameters<typeof translate>[1]) => translate(locale, key);
     />
 
     <div class="space-y-10">
-      <PrivacySection title={t("privacy.collectsTitle")}>
-        {t("privacy.collects")}
-      </PrivacySection>
+      <PrivacySection title={t("privacy.collectsTitle")}>{t("privacy.collects")}</PrivacySection>
       <PrivacySection title={t("privacy.notCollectTitle")}>
         {t("privacy.notCollect")}
       </PrivacySection>
@@ -36,17 +34,12 @@ const t = (key: Parameters<typeof translate>[1]) => translate(locale, key);
           accent
           href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">
           {t("privacy.github")}
-        </Link>.
+        </Link>
+        .
       </PrivacySection>
-      <PrivacySection title={t("privacy.retentionTitle")}>
-        {t("privacy.retention")}
-      </PrivacySection>
-      <PrivacySection title={t("privacy.externalTitle")}>
-        {t("privacy.external")}
-      </PrivacySection>
-      <PrivacySection title={t("privacy.changesTitle")}>
-        {t("privacy.changes")}
-      </PrivacySection>
+      <PrivacySection title={t("privacy.retentionTitle")}>{t("privacy.retention")}</PrivacySection>
+      <PrivacySection title={t("privacy.externalTitle")}>{t("privacy.external")}</PrivacySection>
+      <PrivacySection title={t("privacy.changesTitle")}>{t("privacy.changes")}</PrivacySection>
     </div>
   </Page>
 </BaseLayout>
