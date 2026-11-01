@@ -46,10 +46,15 @@ export async function createTufMetadata(
   verifyTufRole(root, "root", rootEnvelope, { now, minimumVersion: root.version });
 
   const entries = await readApps();
+  const snapshotState = await readCatalogSnapshot();
+
+  // Catalog status is derived from release age. Evaluate it at snapshot time so
+  // metadata generated here matches what validate-tuf recomputes deterministically
+  // from the committed snapshot, regardless of when signing runs.
   const catalog = createTrustedCatalog(
     entries,
-    await readCatalogSnapshot(),
-    now,
+    snapshotState,
+    undefined,
     await readRevokedHashes(undefined, now)
   );
   const catalogBytes = jsonBytes(catalog);

@@ -32,26 +32,24 @@ const displayedApps = apps.slice(state.start, state.end);
 const headingId = `${basePath.replace(/[^a-z0-9]+/gi, "-").replace(/^-|-$/g, "")}-apps-heading`;
 ---
 
-{
-  apps.length > 0 ? (
-    <section {...attributes} class={className} aria-labelledby={headingId}>
-      <h2 class="sr-only" id={headingId}>
-        {heading}
-      </h2>
-      <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {displayedApps.map((app) => (
-          <AppCard app={app} detail={getDetail?.(app)} stars={app.statistics.stars ?? undefined} />
-        ))}
-      </div>
-      <Pagination
-        class="mt-8"
-        basePath={basePath}
-        label={paginationLabel}
-        page={state.page}
-        pages={state.pages}
-      />
-    </section>
-  ) : (
-    <EmptyState class={className}>{empty}</EmptyState>
-  )
-}
+{apps.length > 0 ? (
+  <section {...attributes} class={className} aria-labelledby={headingId}>
+    <h2 class="sr-only" id={headingId}>
+      {heading}
+    </h2>
+    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      {displayedApps.map((app) => (
+        <AppCard app={app} detail={getDetail?.(app)} stars={app.statistics.stars ?? undefined} />
+      ))}
+    </div>
+    <Pagination
+      class="mt-8"
+      basePath={basePath}
+      label={paginationLabel}
+      page={state.page}
+      pages={state.pages}
+    />
+  </section>
+) : (
+  <EmptyState class={className}>{empty}</EmptyState>
+)}

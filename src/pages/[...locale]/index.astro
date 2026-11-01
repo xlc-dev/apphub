@@ -58,12 +58,12 @@ const releaseDate = new Intl.DateTimeFormat(locale, { dateStyle: "medium" });
   <Page>
     <header class="mx-auto max-w-3xl text-center">
       <h1 class="text-3xl font-bold tracking-tight sm:text-4xl">{t("home.title")}</h1>
-      <p class="mx-auto mt-3 max-w-2xl text-lg leading-7 text-[var(--muted)]">
-        {t("home.intro")}
-      </p>
+      <p class="mx-auto mt-3 max-w-2xl text-lg leading-7 text-[var(--muted)]">{t("home.intro")}</p>
       <div class="mt-5 flex flex-wrap justify-center gap-3">
         <ButtonLink href="/apps/">{t("home.browse")}</ButtonLink>
-        <ButtonLink href="/new/" variant="outline">{t("home.seeNew")}</ButtonLink>
+        <ButtonLink href="/new/" variant="outline">
+          {t("home.seeNew")}
+        </ButtonLink>
       </div>
     </header>
 
@@ -72,47 +72,43 @@ const releaseDate = new Intl.DateTimeFormat(locale, { dateStyle: "medium" });
     </div>
 
     <Section title={t("home.updated")} description={t("home.updatedDescription")}>
-      <Link slot="actions" href="/updated/" aria-label={t("home.moreUpdated")}
-        >{t("home.more")}</Link
-      >
-      {
-        recentlyUpdated.length > 0 ? (
-          <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {recentlyUpdated.map((app) => (
-              <AppCard
-                app={app}
-                detail={`${formatVersion(app.latestRelease!.version)}, ${releaseDate.format(new Date(app.latestRelease!.publishedAt))}`}
-                headingLevel={3}
-                stars={app.statistics.stars ?? undefined}
-              />
-            ))}
-          </div>
-        ) : (
-          <EmptyState>{t("releases.none")}</EmptyState>
-        )
-      }
+      <Link slot="actions" href="/updated/" aria-label={t("home.moreUpdated")}>
+        {t("home.more")}
+      </Link>
+      {recentlyUpdated.length > 0 ? (
+        <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {recentlyUpdated.map((app) => (
+            <AppCard
+              app={app}
+              detail={`${formatVersion(app.latestRelease!.version)}, ${releaseDate.format(new Date(app.latestRelease!.publishedAt))}`}
+              headingLevel={3}
+              stars={app.statistics.stars ?? undefined}
+            />
+          ))}
+        </div>
+      ) : (
+        <EmptyState>{t("releases.none")}</EmptyState>
+      )}
     </Section>
 
     <Section title={t("home.trending")} description={t("home.trendingDescription")}>
-      <Link slot="actions" href="/trending/" aria-label={t("home.moreTrending")}
-        >{t("home.more")}</Link
-      >
+      <Link slot="actions" href="/trending/" aria-label={t("home.moreTrending")}>
+        {t("home.more")}
+      </Link>
       {trending === null && <EmptyState>{t("ranking.historyUnavailable")}</EmptyState>}
       {trending?.length === 0 && <EmptyState>{t("ranking.none")}</EmptyState>}
-      {
-        trending && trending.length > 0 && (
-          <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {trending.map(({ app, downloads }) => (
-              <AppCard
-                app={app}
-                detail={t("downloads.count", { count: downloads.toLocaleString(locale) })}
-                headingLevel={3}
-                stars={app.statistics.stars ?? undefined}
-              />
-            ))}
-          </div>
-        )
-      }
+      {trending && trending.length > 0 && (
+        <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {trending.map(({ app, downloads }) => (
+            <AppCard
+              app={app}
+              detail={t("downloads.count", { count: downloads.toLocaleString(locale) })}
+              headingLevel={3}
+              stars={app.statistics.stars ?? undefined}
+            />
+          ))}
+        </div>
+      )}
     </Section>
 
     <Section
@@ -122,28 +118,26 @@ const releaseDate = new Intl.DateTimeFormat(locale, { dateStyle: "medium" });
         categories: categories.length,
         architectures: architectures.length,
       })}>
-      <Link slot="actions" href="/apps/" aria-label={t("home.moreCategories")}
-        >{t("home.more")}</Link
-      >
-      {
-        popularCategories.length > 0 ? (
-          <ul class="flex list-none flex-wrap gap-2 p-0">
-            {popularCategories.map(({ name, slug, count }) => (
-              <li>
-                <Link
-                  chip
-                  class="inline-flex min-h-11 items-center gap-2 px-4 py-2 text-sm"
-                  href={`/categories/${slug}/`}>
-                  <span>{name}</span>
-                  <span class="font-normal opacity-70">{count}</span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <EmptyState>{t("categories.none")}</EmptyState>
-        )
-      }
+      <Link slot="actions" href="/apps/" aria-label={t("home.moreCategories")}>
+        {t("home.more")}
+      </Link>
+      {popularCategories.length > 0 ? (
+        <ul class="flex list-none flex-wrap gap-2 p-0">
+          {popularCategories.map(({ name, slug, count }) => (
+            <li>
+              <Link
+                chip
+                class="inline-flex min-h-11 items-center gap-2 px-4 py-2 text-sm"
+                href={`/categories/${slug}/`}>
+                <span>{name}</span>
+                <span class="font-normal opacity-70">{count}</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <EmptyState>{t("categories.none")}</EmptyState>
+      )}
     </Section>
   </Page>
 </BaseLayout>

@@ -20,34 +20,32 @@ const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown
   translate(locale, key, values);
 ---
 
-{
-  (pages > 1 || dynamic) && (
-    <nav
-      class:list={["flex items-center justify-center gap-4", className]}
-      aria-label={label}
-      hidden={pages <= 1}
-      data-search-pagination={dynamic || undefined}>
-      {page > 1 ? (
-        <Link unstyled class={controlClass} href={pagePath(page - 1)}>
-          {t("pagination.previous")}
-        </Link>
-      ) : (
-        <span class:list={[controlClass, "opacity-50"]} aria-disabled="true">
-          {t("pagination.previous")}
-        </span>
-      )}
-      <span class="min-w-24 text-center text-sm text-[var(--muted)]">
-        {t("pagination.page", { page, pages })}
+{(pages > 1 || dynamic) && (
+  <nav
+    class:list={["flex items-center justify-center gap-4", className]}
+    aria-label={label}
+    hidden={pages <= 1}
+    data-search-pagination={dynamic || undefined}>
+    {page > 1 ? (
+      <Link unstyled class={controlClass} href={pagePath(page - 1)}>
+        {t("pagination.previous")}
+      </Link>
+    ) : (
+      <span class:list={[controlClass, "opacity-50"]} aria-disabled="true">
+        {t("pagination.previous")}
       </span>
-      {page < pages ? (
-        <Link unstyled class={controlClass} href={pagePath(page + 1)}>
-          {t("pagination.next")}
-        </Link>
-      ) : (
-        <span class:list={[controlClass, "opacity-50"]} aria-disabled="true">
-          {t("pagination.next")}
-        </span>
-      )}
-    </nav>
-  )
-}
+    )}
+    <span class="min-w-24 text-center text-sm text-[var(--muted)]">
+      {t("pagination.page", { page, pages })}
+    </span>
+    {page < pages ? (
+      <Link unstyled class={controlClass} href={pagePath(page + 1)}>
+        {t("pagination.next")}
+      </Link>
+    ) : (
+      <span class:list={[controlClass, "opacity-50"]} aria-disabled="true">
+        {t("pagination.next")}
+      </span>
+    )}
+  </nav>
+)}

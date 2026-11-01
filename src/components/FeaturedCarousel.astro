@@ -19,92 +19,90 @@ const t = (key: Parameters<typeof translate>[1], values?: Record<string, unknown
   translate(locale, key, values);
 ---
 
-{
-  apps.length > 0 && (
-    <section
-      class="card-surface overflow-hidden rounded-2xl shadow-sm"
-      aria-label={t("featured.label")}
-      aria-roledescription={t("carousel.role")}
-      data-carousel-root="featured"
-      data-featured-carousel>
-      <div
-        class="flex snap-x snap-mandatory overflow-x-auto overscroll-x-contain scroll-smooth motion-reduce:scroll-auto"
-        aria-live="off"
-        data-carousel-track>
-        {apps.map((app, index) => (
-          <article
-            class="grid w-full shrink-0 snap-center md:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)]"
-            aria-label={t("carousel.position", { index: index + 1, count: apps.length })}
-            aria-roledescription={t("carousel.slide")}
-            data-carousel-slide>
-            <div class="flex min-w-0 flex-col items-center justify-center px-14 pt-8 pb-16 text-center sm:px-16 md:items-start md:py-12 md:pr-8 md:pl-14 md:text-left">
-              <Image
-                class="size-14 shrink-0 rounded-xl"
-                src={app.icon.url}
-                alt=""
-                width={56}
-                height={56}
-                priority={index === 0}
-              />
-              <h2 class="mt-5 text-2xl font-bold sm:text-3xl">
-                <Link accent href={`/apps/${app.slug}/`}>
-                  {app.name}
-                </Link>
-              </h2>
-              <p class="mt-2 line-clamp-3 max-w-xl leading-6 text-[var(--muted)]">{app.summary}</p>
-              <ButtonLink class="mt-5" href={`/apps/${app.slug}/`}>
-                {t("app.view")}
-              </ButtonLink>
-            </div>
-            <Link
-              unstyled
-              class="focus-ring-deep-inset relative hidden aspect-[16/10] overflow-hidden bg-[var(--control-bg)] md:block"
-              href={`/apps/${app.slug}/`}
-              aria-label={t("featured.view", { name: app.name })}>
-              <img
-                class="absolute inset-0 size-full object-cover"
-                src={sitePath(`/featured/${app.slug}.webp`)}
-                alt=""
-                width="1280"
-                height="800"
-                loading={index === 0 ? undefined : "lazy"}
-                fetchpriority={index === 0 ? "high" : undefined}
-                decoding="async"
-              />
-            </Link>
-          </article>
-        ))}
+{apps.length > 0 && (
+  <section
+    class="card-surface overflow-hidden rounded-2xl shadow-sm"
+    aria-label={t("featured.label")}
+    aria-roledescription={t("carousel.role")}
+    data-carousel-root="featured"
+    data-featured-carousel>
+    <div
+      class="flex snap-x snap-mandatory overflow-x-auto overscroll-x-contain scroll-smooth motion-reduce:scroll-auto"
+      aria-live="off"
+      data-carousel-track>
+      {apps.map((app, index) => (
+        <article
+          class="grid w-full shrink-0 snap-center md:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)]"
+          aria-label={t("carousel.position", { index: index + 1, count: apps.length })}
+          aria-roledescription={t("carousel.slide")}
+          data-carousel-slide>
+          <div class="flex min-w-0 flex-col items-center justify-center px-14 pt-8 pb-16 text-center sm:px-16 md:items-start md:py-12 md:pr-8 md:pl-14 md:text-left">
+            <Image
+              class="size-14 shrink-0 rounded-xl"
+              src={app.icon.url}
+              alt=""
+              width={56}
+              height={56}
+              priority={index === 0}
+            />
+            <h2 class="mt-5 text-2xl font-bold sm:text-3xl">
+              <Link accent href={`/apps/${app.slug}/`}>
+                {app.name}
+              </Link>
+            </h2>
+            <p class="mt-2 line-clamp-3 max-w-xl leading-6 text-[var(--muted)]">{app.summary}</p>
+            <ButtonLink class="mt-5" href={`/apps/${app.slug}/`}>
+              {t("app.view")}
+            </ButtonLink>
+          </div>
+          <Link
+            unstyled
+            class="focus-ring-deep-inset relative hidden aspect-[16/10] overflow-hidden bg-[var(--control-bg)] md:block"
+            href={`/apps/${app.slug}/`}
+            aria-label={t("featured.view", { name: app.name })}>
+            <img
+              class="absolute inset-0 size-full object-cover"
+              src={sitePath(`/featured/${app.slug}.webp`)}
+              alt=""
+              width="1280"
+              height="800"
+              loading={index === 0 ? undefined : "lazy"}
+              fetchpriority={index === 0 ? "high" : undefined}
+              decoding="async"
+            />
+          </Link>
+        </article>
+      ))}
+    </div>
+    {apps.length > 1 && (
+      <div class="flex min-h-14 items-center justify-center border-t border-[var(--border)]">
+        <Button
+          icon
+          hidden
+          class="border-0 bg-transparent shadow-none"
+          aria-label={t("featured.previous")}
+          data-featured-previous>
+          <Icon name="chevron-left" class="size-4" />
+        </Button>
+        <CarouselDots
+          groupLabel={t("featured.choose")}
+          labels={apps.map((_, index) =>
+            t("featured.show", { index: index + 1, count: apps.length })
+          )}
+          name="featured-slide"
+        />
+        <Button
+          icon
+          hidden
+          class="border-0 bg-transparent shadow-none"
+          aria-label={t("featured.next")}
+          data-featured-next>
+          <Icon name="chevron-right" class="size-4" />
+        </Button>
       </div>
-      {apps.length > 1 && (
-        <div class="flex min-h-14 items-center justify-center border-t border-[var(--border)]">
-          <Button
-            icon
-            hidden
-            class="border-0 bg-transparent shadow-none"
-            aria-label={t("featured.previous")}
-            data-featured-previous>
-            <Icon name="chevron-left" class="size-4" />
-          </Button>
-          <CarouselDots
-            groupLabel={t("featured.choose")}
-            labels={apps.map((_, index) =>
-              t("featured.show", { index: index + 1, count: apps.length })
-            )}
-            name="featured-slide"
-          />
-          <Button
-            icon
-            hidden
-            class="border-0 bg-transparent shadow-none"
-            aria-label={t("featured.next")}
-            data-featured-next>
-            <Icon name="chevron-right" class="size-4" />
-          </Button>
-        </div>
-      )}
-    </section>
-  )
-}
+    )}
+  </section>
+)}
 
 <script>
   import { connectCarousel } from "@/lib/carousel";

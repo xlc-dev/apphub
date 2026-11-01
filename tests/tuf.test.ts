@@ -12,9 +12,7 @@ import {
 } from "#catalog/tuf/metadata";
 
 function privateKey() {
-  return generateKeyPairSync("ed25519")
-    .privateKey.export({ type: "pkcs8", format: "pem" })
-    .toString();
+  return generateKeyPairSync("ed25519").privateKey.export({ type: "pkcs8", format: "pem" });
 }
 
 function fixture(expires = "2030-01-01T00:00:00.000Z") {

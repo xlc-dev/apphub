@@ -90,28 +90,25 @@ const capabilities = [
   description={t("sandbox.description")}
   headingId="capabilities-heading"
   aria-labelledby="capabilities-heading">
-  <dl
-    class="grid grid-cols-1 gap-px overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--border)] shadow-sm sm:grid-cols-3">
-    {
-      capabilities.map(({ name, value, granted }) => (
-        <div class="min-w-0 bg-[var(--card)] p-4">
-          <dt class="font-semibold">{name}</dt>
-          <dd
+  <dl class="grid grid-cols-1 gap-px overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--border)] shadow-sm sm:grid-cols-3">
+    {capabilities.map(({ name, value, granted }) => (
+      <div class="min-w-0 bg-[var(--card)] p-4">
+        <dt class="font-semibold">{name}</dt>
+        <dd
+          class:list={[
+            "m-0 mt-2 flex min-w-0 items-center gap-2 text-sm break-words",
+            granted ? "text-[var(--text)]" : "text-[var(--muted)]",
+          ]}>
+          <span
             class:list={[
-              "m-0 mt-2 flex min-w-0 items-center gap-2 text-sm break-words",
-              granted ? "text-[var(--text)]" : "text-[var(--muted)]",
-            ]}>
-            <span
-              class:list={[
-                "size-1.5 shrink-0 rounded-full",
-                granted ? "bg-[var(--primary)]" : "bg-[var(--muted)]",
-              ]}
-              aria-hidden="true"
-            />
-            {value}
-          </dd>
-        </div>
-      ))
-    }
+              "size-1.5 shrink-0 rounded-full",
+              granted ? "bg-[var(--primary)]" : "bg-[var(--muted)]",
+            ]}
+            aria-hidden="true"
+          />
+          {value}
+        </dd>
+      </div>
+    ))}
   </dl>
 </Section>
