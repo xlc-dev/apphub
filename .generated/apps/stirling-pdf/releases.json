@@ -1,0 +1,41 @@
+{
+  "appId": "io.github.stirling_tools.stirling_pdf",
+  "releases": [
+    {
+      "version": "v3.2.1@2026-10-22_1792687633",
+      "publishedAt": "2026-10-22T16:47:16Z",
+      "page": "https://github.com/pkgforge-dev/Stirling-PDF-AppImage/releases/tag/v3.2.1%402026-10-22_1792687633",
+      "releaseId": "420966783",
+      "artifacts": [
+        {
+          "architecture": "x86_64",
+          "name": "Stirling-PDF-v3.2.1-anylinux-x86_64.AppImage",
+          "url": "https://github.com/pkgforge-dev/Stirling-PDF-AppImage/releases/download/v3.2.1%402026-10-22_1792687633/Stirling-PDF-v3.2.1-anylinux-x86_64.AppImage",
+          "assetId": "666459393",
+          "size": 328790076,
+          "sha256": "9d5f5aecfbf63f82539cfdb847168b540715d7c532c459b9d4aefe1d231d9532",
+          "capabilities": {
+            "runtimeType": 2,
+            "fuse": false,
+            "zsync": true,
+            "anylinux": true
+          },
+          "inspection": {
+            "format": "appimage",
+            "runtimeType": 2,
+            "elfClass": 64,
+            "elfMachine": 62,
+            "archive": {
+              "format": "dwarfs",
+              "offset": 1507016,
+              "bytesUsed": 327283060
+            }
+          },
+          "checksumEvidence": {
+            "sourceUrl": "https://github.com/pkgforge-dev/Stirling-PDF-AppImage/releases/tag/v3.2.1%402026-10-22_1792687633"
+          }
+        }
+      ]
+    }
+  ]
+}

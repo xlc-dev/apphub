@@ -475,6 +475,16 @@
       "tag": "media-0002",
       "sha256": "ef0a56369cc94b8406a1f91ea6373ff8a715825f9c4c5e973a39760a3e503052",
       "size": 38624
+    },
+    "0fa53fad5bc27bd06dbbd80cf0655abd34420be966c32b17f8a35e7c1b8ceab4.webp": {
+      "tag": "media-0003",
+      "sha256": "0fa53fad5bc27bd06dbbd80cf0655abd34420be966c32b17f8a35e7c1b8ceab4",
+      "size": 4720
+    },
+    "8c388664d9fc5f12bd05ca7b215b5fe6ba56ac8cb44b09f544e5d0d74677cb4a.webp": {
+      "tag": "media-0003",
+      "sha256": "8c388664d9fc5f12bd05ca7b215b5fe6ba56ac8cb44b09f544e5d0d74677cb4a",
+      "size": 20744
     }
   }
 }

@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "revision": "f05c6e17bc036f5f8dfc45971e01ac8039345a2a2ab29420ff08b3103d734d61",
-  "generatedAt": "2026-11-01T09:43:51.084Z",
+  "revision": "21db10c349bfb3be7d9a7dd29df54f90d27915e768d6d318a23365960829d6c3",
+  "generatedAt": "2026-11-01T10:15:28.906Z",
   "apps": [
     {
       "id": "com.belmoussaoui.Authenticator",
@@ -1257,6 +1257,59 @@
                 "format": "dwarfs",
                 "offset": 1378048,
                 "bytesUsed": 47023372
+              }
+            },
+            "installable": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "io.github.stirling_tools.stirling_pdf",
+      "slug": "stirling-pdf",
+      "status": "current",
+      "publisher": {
+        "identity": "{\"provider\":\"github\",\"ownerId\":\"189202376\",\"projectId\":\"1119768764\",\"configuredUrl\":\"https://github.com/pkgforge-dev/Stirling-PDF-AppImage\"}",
+        "evidence": "https://github.com/pkgforge-dev/Stirling-PDF-AppImage"
+      },
+      "sandbox": {
+        "sha256": "9578497b493687484d9b6cf1f0d697e3d2f5161af0b13357775eac74cd6ff323",
+        "policy": {
+          "network": "full",
+          "display": "wayland-or-x11",
+          "audio": "none",
+          "processes": "isolated",
+          "ipc": true,
+          "filesystem": [],
+          "devices": [],
+          "sessionBus": {
+            "access": "none",
+            "rules": []
+          },
+          "systemBus": {
+            "access": "none",
+            "rules": []
+          }
+        }
+      },
+      "release": {
+        "version": "v3.2.1@2026-10-22_1792687633",
+        "publishedAt": "2026-10-22T16:47:16Z",
+        "artifacts": [
+          {
+            "architecture": "x86_64",
+            "url": "https://github.com/pkgforge-dev/Stirling-PDF-AppImage/releases/download/v3.2.1%402026-10-22_1792687633/Stirling-PDF-v3.2.1-anylinux-x86_64.AppImage",
+            "size": 328790076,
+            "sha256": "9d5f5aecfbf63f82539cfdb847168b540715d7c532c459b9d4aefe1d231d9532",
+            "inspection": {
+              "format": "appimage",
+              "runtimeType": 2,
+              "elfClass": 64,
+              "elfMachine": 62,
+              "archive": {
+                "format": "dwarfs",
+                "offset": 1507016,
+                "bytesUsed": 327283060
               }
             },
             "installable": true

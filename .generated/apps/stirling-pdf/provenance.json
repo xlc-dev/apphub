@@ -1,0 +1,23 @@
+{
+  "metadata": {
+    "provider": "manifest",
+    "providerId": "io.github.stirling_tools.stirling_pdf"
+  },
+  "releaseSource": {
+    "provider": "github",
+    "configuredUrl": "https://github.com/pkgforge-dev/Stirling-PDF-AppImage",
+    "sourceUrl": "https://github.com/pkgforge-dev/Stirling-PDF-AppImage",
+    "projectId": "1119768764",
+    "ownerId": "189202376"
+  },
+  "refresh": {
+    "metadata": {
+      "lastAttemptAt": "2026-11-01T10:15:21.273Z",
+      "lastSuccessAt": "2026-11-01T10:15:21.273Z"
+    },
+    "releases": {
+      "lastAttemptAt": "2026-11-01T10:15:24.103Z",
+      "lastSuccessAt": "2026-11-01T10:15:24.103Z"
+    }
+  }
+}
