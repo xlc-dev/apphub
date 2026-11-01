@@ -57,7 +57,7 @@
   "homepage": "https://apps.gnome.org/Calculator",
   "repository": "https://gitlab.gnome.org/GNOME/gnome-calculator",
   "links": {
-    "bugtracker": "https://gitlab.gnome.org/GNOME/gnome-calculator/issues",
+    "bugtracker": "https://gitlab.gnome.org/GNOME/gnome-calculator/-/work_items",
     "help": "https://help.gnome.org/users/gnome-calculator/stable/",
     "donation": "https://www.gnome.org/donate/",
     "translate": "https://l10n.gnome.org/module/gnome-calculator/"

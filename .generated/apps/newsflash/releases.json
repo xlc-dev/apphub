@@ -2,18 +2,18 @@
   "appId": "io.gitlab.news_flash.NewsFlash",
   "releases": [
     {
-      "version": "5.2.5-1@2026-10-01_1790875135",
-      "publishedAt": "2026-10-01T17:18:56Z",
-      "page": "https://github.com/pkgforge-dev/NewsFlash-AppImage/releases/tag/5.2.5-1%402026-10-01_1790875135",
-      "releaseId": "401188586",
+      "version": "5.2.3-1@2026-10-22_1792688923",
+      "publishedAt": "2026-10-22T17:08:45Z",
+      "page": "https://github.com/pkgforge-dev/NewsFlash-AppImage/releases/tag/5.2.3-1%402026-10-22_1792688923",
+      "releaseId": "420987063",
       "artifacts": [
         {
           "architecture": "x86_64",
           "name": "Newsflash-5.2.5-1-anylinux-x86_64.AppImage",
-          "url": "https://github.com/pkgforge-dev/NewsFlash-AppImage/releases/download/5.2.5-1%402026-10-01_1790875135/Newsflash-5.2.5-1-anylinux-x86_64.AppImage",
-          "assetId": "603745618",
-          "size": 107413022,
-          "sha256": "bc6f8bed5409549407b3a886b76d56a4c1ec9be2d94f053f69af3b13dd104e63",
+          "url": "https://github.com/pkgforge-dev/NewsFlash-AppImage/releases/download/5.2.3-1%402026-10-22_1792688923/Newsflash-5.2.5-1-anylinux-x86_64.AppImage",
+          "assetId": "666512986",
+          "size": 108918066,
+          "sha256": "cc2df8ca3b0be8e3f2252b57e529560633b577b393161420abc19e5e0189c41a",
           "capabilities": {
             "runtimeType": 2,
             "fuse": false,
@@ -28,20 +28,20 @@
             "archive": {
               "format": "dwarfs",
               "offset": 1507016,
-              "bytesUsed": 105906006
+              "bytesUsed": 107411050
             }
           },
           "checksumEvidence": {
-            "sourceUrl": "https://github.com/pkgforge-dev/NewsFlash-AppImage/releases/tag/5.2.5-1%402026-10-01_1790875135"
+            "sourceUrl": "https://github.com/pkgforge-dev/NewsFlash-AppImage/releases/tag/5.2.3-1%402026-10-22_1792688923"
           }
         },
         {
           "architecture": "aarch64",
           "name": "Newsflash-5.2.3-1-anylinux-aarch64.AppImage",
-          "url": "https://github.com/pkgforge-dev/NewsFlash-AppImage/releases/download/5.2.5-1%402026-10-01_1790875135/Newsflash-5.2.3-1-anylinux-aarch64.AppImage",
-          "assetId": "603745620",
-          "size": 100191296,
-          "sha256": "fa718679cf65d98b3b13bf5fed2ea2eaa71f242af4a2d8f83198d44dd1ec521b",
+          "url": "https://github.com/pkgforge-dev/NewsFlash-AppImage/releases/download/5.2.3-1%402026-10-22_1792688923/Newsflash-5.2.3-1-anylinux-aarch64.AppImage",
+          "assetId": "666512983",
+          "size": 101024286,
+          "sha256": "2a4b0b8c639ed48eae303a502202d972863d864ef0a1647606475f7ec89a3627",
           "capabilities": {
             "runtimeType": 2,
             "fuse": false,
@@ -56,11 +56,11 @@
             "archive": {
               "format": "dwarfs",
               "offset": 1378048,
-              "bytesUsed": 98813248
+              "bytesUsed": 99646238
             }
           },
           "checksumEvidence": {
-            "sourceUrl": "https://github.com/pkgforge-dev/NewsFlash-AppImage/releases/tag/5.2.5-1%402026-10-01_1790875135"
+            "sourceUrl": "https://github.com/pkgforge-dev/NewsFlash-AppImage/releases/tag/5.2.3-1%402026-10-22_1792688923"
           }
         }
       ]
