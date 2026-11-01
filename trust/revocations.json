@@ -2,14 +2,14 @@
   "signatures": [
     {
       "keyid": "4a90b554bd709af2f48b688029c48d4f34d15e623860d6bba3efdc367ae3fd60",
-      "sig": "f6a157f221eda07a4c56a69e94fde6e018fd1018cf5b8d82dfd5fa89d81ac542b16e1c1e397ac4e9c76a0b5547beba12ba3c0d77a0a46b0e9039a3b6ef70580b"
+      "sig": "368fc7facf473d7f8af6d54fef369b16479f4c9192320031adebeedb458048f8bae6ac28993d9618c721f078c666bce5bb287bbe60ec95fa37cbbbc1ad964604"
     }
   ],
   "signed": {
     "_type": "revocations",
     "spec_version": "1.0.31",
-    "version": 2,
-    "expires": "2026-11-15T11:40:37.100Z",
+    "version": 3,
+    "expires": "2026-12-16T11:53:57.258Z",
     "revoked": []
   }
 }
