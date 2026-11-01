@@ -14,6 +14,14 @@ test("all site media uses immutable GitHub Release URLs", async () => {
   assert.doesNotMatch(source, /\.generated\/media\//);
 });
 
+test("only preview builds may serve unpublished media", async () => {
+  const source = await readFile("src/lib/media-loader.ts", "utf8");
+
+  assert.match(source, /process\.env\.APPHUB_ALLOW_UNPUBLISHED_MEDIA === "1"/);
+  assert.match(source, /data:image\/webp;base64,/);
+  assert.doesNotMatch(source, /APPHUB_ALLOW_UNPUBLISHED_MEDIA \?\?/);
+});
+
 test("featured images use the same release media loader", async () => {
   const source = await readFile("src/pages/featured/[slug].webp.ts", "utf8");
 

@@ -46,6 +46,7 @@ jobs:
       - name: Build preview
         env:
           BASE_PATH: /apphub
+          APPHUB_ALLOW_UNPUBLISHED_MEDIA: "1"
         run: bun run build
 
       - name: Validate preview
