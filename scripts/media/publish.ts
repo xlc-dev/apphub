@@ -73,7 +73,6 @@ async function release(options: GitHubClientOptions, tag: string) {
       body: JSON.stringify({
         tag_name: tag,
         name: tag,
-        body: "AppHub content-addressed media. This release is immutable after publication.",
         draft: true,
         prerelease: true,
       }),
