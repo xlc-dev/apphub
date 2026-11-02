@@ -2,18 +2,18 @@
   "appId": "com.github.neithern.g4music",
   "releases": [
     {
-      "version": "4.6.2-1@2026-10-22_1792689212",
-      "publishedAt": "2026-10-22T17:13:34Z",
-      "page": "https://github.com/pkgforge-dev/Gapless-AppImage/releases/tag/4.6.2-1%402026-10-22_1792689212",
-      "releaseId": "420991265",
+      "version": "4.6.2-1@2026-11-01_1793557747",
+      "publishedAt": "2026-11-01T18:29:08Z",
+      "page": "https://github.com/pkgforge-dev/Gapless-AppImage/releases/tag/4.6.2-1%402026-11-01_1793557747",
+      "releaseId": "430773174",
       "artifacts": [
         {
           "architecture": "x86_64",
           "name": "Gapless-4.6.2-1-anylinux-x86_64.AppImage",
-          "url": "https://github.com/pkgforge-dev/Gapless-AppImage/releases/download/4.6.2-1%402026-10-22_1792689212/Gapless-4.6.2-1-anylinux-x86_64.AppImage",
-          "assetId": "666525126",
-          "size": 65087649,
-          "sha256": "0b910491af30e64113df26365230ec100cd6be4f69e13401ad3bf46aa32a3c19",
+          "url": "https://github.com/pkgforge-dev/Gapless-AppImage/releases/download/4.6.2-1%402026-11-01_1793557747/Gapless-4.6.2-1-anylinux-x86_64.AppImage",
+          "assetId": "699154798",
+          "size": 65317721,
+          "sha256": "955336fe276b6fab0e9bdaa307a2ee61df6d2d083e2390fc5c9afdf57c79228d",
           "capabilities": {
             "runtimeType": 2,
             "fuse": false,
@@ -28,20 +28,20 @@
             "archive": {
               "format": "dwarfs",
               "offset": 1507016,
-              "bytesUsed": 63580633
+              "bytesUsed": 63810705
             }
           },
           "checksumEvidence": {
-            "sourceUrl": "https://github.com/pkgforge-dev/Gapless-AppImage/releases/tag/4.6.2-1%402026-10-22_1792689212"
+            "sourceUrl": "https://github.com/pkgforge-dev/Gapless-AppImage/releases/tag/4.6.2-1%402026-11-01_1793557747"
           }
         },
         {
           "architecture": "aarch64",
           "name": "Gapless-4.6.2-1-anylinux-aarch64.AppImage",
-          "url": "https://github.com/pkgforge-dev/Gapless-AppImage/releases/download/4.6.2-1%402026-10-22_1792689212/Gapless-4.6.2-1-anylinux-aarch64.AppImage",
-          "assetId": "666525131",
-          "size": 60873112,
-          "sha256": "f96c8cd67c7d3695688edb267dfa5dcd7fb443a6ff3be01c2035e72c7118b2fd",
+          "url": "https://github.com/pkgforge-dev/Gapless-AppImage/releases/download/4.6.2-1%402026-11-01_1793557747/Gapless-4.6.2-1-anylinux-aarch64.AppImage",
+          "assetId": "699154800",
+          "size": 61104566,
+          "sha256": "324f45aecde226cac27df740f52fbca5d0a97c642cd142f3c684463cbebfc953",
           "capabilities": {
             "runtimeType": 2,
             "fuse": false,
@@ -56,11 +56,11 @@
             "archive": {
               "format": "dwarfs",
               "offset": 1378048,
-              "bytesUsed": 59495064
+              "bytesUsed": 59726518
             }
           },
           "checksumEvidence": {
-            "sourceUrl": "https://github.com/pkgforge-dev/Gapless-AppImage/releases/tag/4.6.2-1%402026-10-22_1792689212"
+            "sourceUrl": "https://github.com/pkgforge-dev/Gapless-AppImage/releases/tag/4.6.2-1%402026-11-01_1793557747"
           }
         }
       ]

@@ -1,10 +1,10 @@
 {
   "icon": {
     "file": "0fa53fad5bc27bd06dbbd80cf0655abd34420be966c32b17f8a35e7c1b8ceab4.webp",
+    "source": "https://raw.githubusercontent.com/pkgforge-dev/Anylinux-Metadata/main/icons/stirling-pdf.png",
     "validator": {
       "etag": "\"ecf580cd752f496a16c1629dfba6b73e2b2d861239b2670b4e044d7c19137f35\""
-    },
-    "source": "https://raw.githubusercontent.com/pkgforge-dev/Anylinux-Metadata/main/icons/stirling-pdf.png"
+    }
   },
   "screenshots": [
     {

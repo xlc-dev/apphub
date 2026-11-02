@@ -2,18 +2,18 @@
   "appId": "com.brave.Browser.Origin",
   "releases": [
     {
-      "version": "1.98.60-1@2026-10-23_1792758562",
-      "publishedAt": "2026-10-23T12:29:24Z",
-      "page": "https://github.com/pkgforge-dev/Brave-Origin-AppImage/releases/tag/1.98.60-1%402026-10-23_1792758562",
-      "releaseId": "421817340",
+      "version": "1.98.63-1@2026-11-01_1793557412",
+      "publishedAt": "2026-11-01T18:23:33Z",
+      "page": "https://github.com/pkgforge-dev/Brave-Origin-AppImage/releases/tag/1.98.63-1%402026-11-01_1793557412",
+      "releaseId": "430770030",
       "artifacts": [
         {
           "architecture": "x86_64",
-          "name": "Brave_Origin-1.98.60-1-anylinux-x86_64.AppImage",
-          "url": "https://github.com/pkgforge-dev/Brave-Origin-AppImage/releases/download/1.98.60-1%402026-10-23_1792758562/Brave_Origin-1.98.60-1-anylinux-x86_64.AppImage",
-          "assetId": "669061790",
-          "size": 205544447,
-          "sha256": "665b1ff4f052ee096d45b352ec8a47319e4ab294c37def374931e8e9ce029a43",
+          "name": "Brave_Origin-1.98.63-1-anylinux-x86_64.AppImage",
+          "url": "https://github.com/pkgforge-dev/Brave-Origin-AppImage/releases/download/1.98.63-1%402026-11-01_1793557412/Brave_Origin-1.98.63-1-anylinux-x86_64.AppImage",
+          "assetId": "699141241",
+          "size": 205637149,
+          "sha256": "d523043b4c46450434dc9b5d0e04b64e64209abd2bc749d542aeb21bda8acb35",
           "capabilities": {
             "runtimeType": 2,
             "fuse": false,
@@ -28,20 +28,20 @@
             "archive": {
               "format": "dwarfs",
               "offset": 1507016,
-              "bytesUsed": 204037431
+              "bytesUsed": 204130133
             }
           },
           "checksumEvidence": {
-            "sourceUrl": "https://github.com/pkgforge-dev/Brave-Origin-AppImage/releases/tag/1.98.60-1%402026-10-23_1792758562"
+            "sourceUrl": "https://github.com/pkgforge-dev/Brave-Origin-AppImage/releases/tag/1.98.63-1%402026-11-01_1793557412"
           }
         },
         {
           "architecture": "aarch64",
-          "name": "Brave_Origin-1.98.60-1-anylinux-aarch64.AppImage",
-          "url": "https://github.com/pkgforge-dev/Brave-Origin-AppImage/releases/download/1.98.60-1%402026-10-23_1792758562/Brave_Origin-1.98.60-1-anylinux-aarch64.AppImage",
-          "assetId": "669061793",
-          "size": 199056971,
-          "sha256": "bf85cd3ec580de13e32d9037cd520ec1a68c289993acf1b1f3ddb3114abc799e",
+          "name": "Brave_Origin-1.98.63-1-anylinux-aarch64.AppImage",
+          "url": "https://github.com/pkgforge-dev/Brave-Origin-AppImage/releases/download/1.98.63-1%402026-11-01_1793557412/Brave_Origin-1.98.63-1-anylinux-aarch64.AppImage",
+          "assetId": "699141237",
+          "size": 200151522,
+          "sha256": "6a3187ade3b60931180352e45b67067c2081304841789a4d802df9c1d6b3ef21",
           "capabilities": {
             "runtimeType": 2,
             "fuse": false,
@@ -56,11 +56,11 @@
             "archive": {
               "format": "dwarfs",
               "offset": 1378048,
-              "bytesUsed": 197678923
+              "bytesUsed": 198773474
             }
           },
           "checksumEvidence": {
-            "sourceUrl": "https://github.com/pkgforge-dev/Brave-Origin-AppImage/releases/tag/1.98.60-1%402026-10-23_1792758562"
+            "sourceUrl": "https://github.com/pkgforge-dev/Brave-Origin-AppImage/releases/tag/1.98.63-1%402026-11-01_1793557412"
           }
         }
       ]
