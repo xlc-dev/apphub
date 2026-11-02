@@ -1,11 +1,11 @@
 {
   "icon": {
     "file": "3d22aac2ba369ea1629ae399337652db6b41014675697c5b94b46d90afe79143.webp",
+    "source": "https://dl.flathub.org/media/org/gnome/Calculator/e38157e4387ef6a0aef6faed3debf861/icons/128x128/org.gnome.Calculator.png",
     "validator": {
       "etag": "\"6acccc1f-77e\"",
       "lastModified": "Mon, 12 Oct 2026 12:01:35 GMT"
-    },
-    "source": "https://dl.flathub.org/media/org/gnome/Calculator/e38157e4387ef6a0aef6faed3debf861/icons/128x128/org.gnome.Calculator.png"
+    }
   },
   "screenshots": [
     {

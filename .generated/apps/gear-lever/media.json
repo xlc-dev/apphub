@@ -1,11 +1,11 @@
 {
   "icon": {
     "file": "d42abb1ef20c0e09833280d7585b2e80eb8f75f02f2a488873736fdc342fd5ae.webp",
+    "source": "https://dl.flathub.org/media/it/mijorus/gearlever/b62a60074be3bc956df4f9ab3e5bdadd/icons/128x128/it.mijorus.gearlever.png",
     "validator": {
       "etag": "\"6ae12276-1262\"",
       "lastModified": "Tue, 27 Oct 2026 22:15:18 GMT"
-    },
-    "source": "https://dl.flathub.org/media/it/mijorus/gearlever/b62a60074be3bc956df4f9ab3e5bdadd/icons/128x128/it.mijorus.gearlever.png"
+    }
   },
   "screenshots": [
     {
