@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "revision": "3f8c065621f78c226af2a0132ad3f186d8edde0a88b290b53e716ca480ed60aa",
-  "generatedAt": "2026-11-02T12:12:36.719Z",
+  "revision": "a41e3a53ac90ac0f7a909542093f3d0244ecfccef4964344a8e1c088437537ea",
+  "generatedAt": "2026-11-03T11:47:00.614Z",
   "apps": [
     {
       "id": "com.belmoussaoui.Authenticator",
@@ -640,14 +640,14 @@
         }
       },
       "release": {
-        "version": "3.5.3@2026-10-02_1790947336",
-        "publishedAt": "2026-10-02T13:22:17Z",
+        "version": "3.5.3@2026-11-02_1793637778",
+        "publishedAt": "2026-11-02T16:42:59Z",
         "artifacts": [
           {
             "architecture": "x86_64",
-            "url": "https://github.com/pkgforge-dev/htop-AppImage/releases/download/3.5.3%402026-10-02_1790947336/Htop-3.5.3-anylinux-x86_64.AppImage",
-            "size": 2421977,
-            "sha256": "6d5c48fb0a6f72be9e33f6b3746a37597aef36424bf620ef7d4413269bb7a248",
+            "url": "https://github.com/pkgforge-dev/htop-AppImage/releases/download/3.5.3%402026-11-02_1793637778/Htop-3.5.3-anylinux-x86_64.AppImage",
+            "size": 2493975,
+            "sha256": "3d9de04f3406af8e20aa8c24b3826f38a44145663c25a927e199d6d9b6c97054",
             "inspection": {
               "format": "appimage",
               "runtimeType": 2,
@@ -656,16 +656,16 @@
               "archive": {
                 "format": "dwarfs",
                 "offset": 1507016,
-                "bytesUsed": 914961
+                "bytesUsed": 986959
               }
             },
             "installable": true
           },
           {
             "architecture": "aarch64",
-            "url": "https://github.com/pkgforge-dev/htop-AppImage/releases/download/3.5.3%402026-10-02_1790947336/Htop-3.5.3-anylinux-aarch64.AppImage",
-            "size": 2157855,
-            "sha256": "4ad40898090676346311161c2979819ced4c2327c145585b1e2b13069a1d9006",
+            "url": "https://github.com/pkgforge-dev/htop-AppImage/releases/download/3.5.3%402026-11-02_1793637778/Htop-3.5.3-anylinux-aarch64.AppImage",
+            "size": 2233671,
+            "sha256": "8a2a8705706293dbc934576f86c61c9db443565794571de2566e15440f0296ef",
             "inspection": {
               "format": "appimage",
               "runtimeType": 2,
@@ -674,7 +674,7 @@
               "archive": {
                 "format": "dwarfs",
                 "offset": 1378048,
-                "bytesUsed": 779807
+                "bytesUsed": 855623
               }
             },
             "installable": true
@@ -1166,14 +1166,14 @@
         }
       },
       "release": {
-        "version": "3.1.2@2026-10-02_1790948980",
-        "publishedAt": "2026-10-02T13:49:41Z",
+        "version": "3.1.2@2026-11-02_1793638846",
+        "publishedAt": "2026-11-02T17:00:48Z",
         "artifacts": [
           {
             "architecture": "x86_64",
-            "url": "https://github.com/pkgforge-dev/Pinta-AppImage/releases/download/3.1.2%402026-10-02_1790948980/Pinta-3.1.2-anylinux-x86_64.AppImage",
-            "size": 45719857,
-            "sha256": "7cfd1a8b8a35d59de4be34bb7e320982cffce17f01efef8cd7992a4c7f07867c",
+            "url": "https://github.com/pkgforge-dev/Pinta-AppImage/releases/download/3.1.2%402026-11-02_1793638846/Pinta-3.1.2-anylinux-x86_64.AppImage",
+            "size": 46337640,
+            "sha256": "d47cbfb71c359bb2da3e1427b8b2d1896ba941da3df518be5eaad6a7a7191071",
             "inspection": {
               "format": "appimage",
               "runtimeType": 2,
@@ -1182,7 +1182,7 @@
               "archive": {
                 "format": "dwarfs",
                 "offset": 1507016,
-                "bytesUsed": 44212841
+                "bytesUsed": 44830624
               }
             },
             "installable": true
