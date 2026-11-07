@@ -1,0 +1,68 @@
+{
+  "appstream": {
+    "type": "flathub",
+    "id": "org.freecad.FreeCAD"
+  },
+  "addedAt": "2026-11-07",
+  "origin": {
+    "type": "third-party"
+  },
+  "releaseSource": {
+    "type": "github",
+    "repository": "FreeCAD/FreeCAD"
+  },
+  "sandbox": {
+    "network": "full",
+    "audio": "none",
+    "display": "x11",
+    "processes": "isolated",
+    "ipc": false,
+    "filesystem": [
+      {
+        "location": "home",
+        "access": "read-write"
+      },
+      {
+        "location": "removable-media",
+        "access": "read-write"
+      }
+    ],
+    "devices": [
+      "gpu"
+    ],
+    "sessionBus": {
+      "access": "filtered",
+      "rules": [
+        {
+          "name": "org.freecad.FreeCAD",
+          "access": "own"
+        },
+        {
+          "name": "org.freedesktop.Notifications",
+          "access": "talk"
+        },
+        {
+          "name": "org.kde.StatusNotifierWatcher",
+          "access": "talk"
+        },
+        {
+          "name": "org.mpris.MediaPlayer2.FreeCAD",
+          "access": "own"
+        },
+        {
+          "name": "org.mpris.MediaPlayer2.org.freecad.FreeCAD",
+          "access": "own"
+        }
+      ]
+    },
+    "systemBus": {
+      "access": "filtered",
+      "rules": [
+        {
+          "name": "org.freedesktop.login1",
+          "access": "talk"
+        }
+      ]
+    }
+  }
+}
