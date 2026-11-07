@@ -1,1 +1,92 @@
-{"appstream":{"type":"flathub","id":"net.donnybeelo.Convey"},"addedAt":"2026-11-07","origin":{"type":"third-party"},"releaseSource":{"type":"github","repository":"pkgforge-dev/Convey-AppImage"},"sandbox":{"network":"none","display":"none","audio":"none","processes":"isolated","ipc":false,"filesystem":[],"devices":[],"sessionBus":{"access":"none","rules":[]},"systemBus":{"access":"none","rules":[]}}}
+{
+  "appstream": {
+    "type": "flathub",
+    "id": "net.donnybeelo.Convey"
+  },
+  "addedAt": "2026-11-07",
+  "origin": {
+    "type": "third-party"
+  },
+  "releaseSource": {
+    "type": "github",
+    "repository": "pkgforge-dev/Convey-AppImage"
+  },
+  "sandbox": {
+    "network": "full",
+    "audio": "full",
+    "display": "wayland-or-x11",
+    "processes": "isolated",
+    "ipc": false,
+    "filesystem": [
+      {
+        "location": "desktop",
+        "access": "read-write"
+      }
+    ],
+    "devices": [
+      "gpu"
+    ],
+    "sessionBus": {
+      "access": "filtered",
+      "rules": [
+        {
+          "name": "net.donnybeelo.Convey",
+          "access": "own"
+        },
+        {
+          "name": "org.freedesktop.Notifications",
+          "access": "talk"
+        },
+        {
+          "name": "org.freedesktop.secrets",
+          "access": "talk"
+        },
+        {
+          "name": "org.gnome.Contacts",
+          "access": "talk"
+        },
+        {
+          "name": "org.gnome.OnlineAccounts",
+          "access": "talk"
+        },
+        {
+          "name": "org.gnome.Settings",
+          "access": "talk"
+        },
+        {
+          "name": "org.gnome.keyring.SystemPrompter",
+          "access": "talk"
+        },
+        {
+          "name": "org.kde.StatusNotifierWatcher",
+          "access": "talk"
+        },
+        {
+          "name": "org.kde.kwalletd5",
+          "access": "talk"
+        },
+        {
+          "name": "org.kde.kwalletd6",
+          "access": "talk"
+        },
+        {
+          "name": "org.mpris.MediaPlayer2.Convey",
+          "access": "own"
+        },
+        {
+          "name": "org.mpris.MediaPlayer2.net.donnybeelo.Convey",
+          "access": "own"
+        }
+      ]
+    },
+    "systemBus": {
+      "access": "filtered",
+      "rules": [
+        {
+          "name": "org.freedesktop.login1",
+          "access": "talk"
+        }
+      ]
+    }
+  }
+}
