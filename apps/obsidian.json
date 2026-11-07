@@ -1,0 +1,84 @@
+{
+  "appstream": {
+    "type": "flathub",
+    "id": "md.obsidian.Obsidian"
+  },
+  "addedAt": "2026-11-07",
+  "origin": {
+    "type": "third-party"
+  },
+  "releaseSource": {
+    "type": "github",
+    "repository": "obsidianmd/obsidian-releases"
+  },
+  "sandbox": {
+    "network": "full",
+    "audio": "full",
+    "display": "wayland-or-x11",
+    "processes": "isolated",
+    "ipc": false,
+    "filesystem": [
+      {
+        "location": "home",
+        "access": "read-write"
+      },
+      {
+        "location": "removable-media",
+        "access": "read-write"
+      }
+    ],
+    "devices": [
+      "gpu"
+    ],
+    "sessionBus": {
+      "access": "filtered",
+      "rules": [
+        {
+          "name": "md.obsidian.Obsidian",
+          "access": "own"
+        },
+        {
+          "name": "org.freedesktop.Notifications",
+          "access": "talk"
+        },
+        {
+          "name": "org.freedesktop.secrets",
+          "access": "talk"
+        },
+        {
+          "name": "org.gnome.keyring.SystemPrompter",
+          "access": "talk"
+        },
+        {
+          "name": "org.kde.StatusNotifierWatcher",
+          "access": "talk"
+        },
+        {
+          "name": "org.kde.kwalletd5",
+          "access": "talk"
+        },
+        {
+          "name": "org.kde.kwalletd6",
+          "access": "talk"
+        },
+        {
+          "name": "org.mpris.MediaPlayer2.Obsidian",
+          "access": "own"
+        },
+        {
+          "name": "org.mpris.MediaPlayer2.md.obsidian.Obsidian",
+          "access": "own"
+        }
+      ]
+    },
+    "systemBus": {
+      "access": "filtered",
+      "rules": [
+        {
+          "name": "org.freedesktop.login1",
+          "access": "talk"
+        }
+      ]
+    }
+  }
+}
