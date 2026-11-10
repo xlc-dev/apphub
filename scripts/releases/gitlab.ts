@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { selectAssets } from "#catalog/artifacts";
 import { httpsUrlSchema, type App, type ReleaseLock } from "#catalog/schema";
-import { getJson, getPages } from "#scripts/releases/http";
+import { getJson, getPages, releaseListJsonSizeLimit } from "#scripts/releases/http";
 import { normalizeDate, selectCurrent, type SourceRelease } from "#scripts/releases/model";
 
 const releaseSchema = z.object({
@@ -80,7 +80,8 @@ export async function fetchGitLabReleases(app: App, lock: ReleaseLock) {
     getPages(
       z.array(releaseSchema),
       (page) => `https://gitlab.com/api/v4/projects/${project}/releases?per_page=100&page=${page}`,
-      100
+      100,
+      { sizeLimit: releaseListJsonSizeLimit }
     ),
   ]);
   const identity = projectSchema.parse(projectData);
