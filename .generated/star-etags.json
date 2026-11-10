@@ -1,14 +1,14 @@
 {
-  "brave-origin": "\"7306f1e433c37c7d0d8d0da187250bb4eb40dd95be9e976214ce378b3efc93a7\"",
-  "dolphin-emulator": "\"de1591b3fb710a4744c402b3ab01c253fb284f3844112c9f20f67cd9b61fd94c\"",
-  "eyedropper": "\"d09259c8047b8430e584b07f0a8b0cc218537084b0ad80d39caea6800da21c5b\"",
-  "gear-lever": "\"677d6d9a0a0dde7aee7693b48b35c4cc080ec2e3411c4c0b2a9d8c0794ddb004\"",
-  "htop": "\"76d3fbc4ec50c75bfd24b849238b95e31e26cfcc44fd39841002ab46acfa3a2f\"",
-  "impression": "W/\"e450ffc7cd428ced709b0575f12c482c\"",
-  "librecad": "\"9156d9bdc99f3f2a51798c63cb138a6720db591cba45dc291ef7e955eff18e83\"",
-  "localsend": "\"58a601b91cfa084c01d9a9ce3210150ca6ebf143800eabee58ce0de31702b498\"",
-  "mousai": "\"dd9db89abf7dd6cd15945b27c16453ea8d37312ec0e58a42166c6de5050029fb\"",
-  "newsflash": "W/\"9a72412ee2da00c797342ffe2fe577eb\"",
-  "rnote": "\"e11dff0cfb3f73336c94bb2ca5527b54e1e17325cc5c5e2e8b5264718d0e0283\"",
-  "stirling-pdf": "\"7ff86c2607d73deb0d89d7cc70ecce9c2110f5b829dd5de22fd8eafb9bf5fe05\""
+  "brave-origin": "\"cdf15b839b5648798a18c0533b1ad25f367067b068ce304dbdc393a6e6fffa67\"",
+  "dolphin-emulator": "\"5ec5e5aded9c6464d4e5e7055a64151e5d7d09b12eec5236cae7ffd935e034ea\"",
+  "eyedropper": "\"a765aa615caf4da105733dc14f91f16f445f443a46e16a47711c1841bdf1c048\"",
+  "gear-lever": "\"1fda089a3c4782e8a21d24f1fca52678fb9a6ada74af3153c9b69c10071e802c\"",
+  "htop": "\"101345a29732993822b69809ba3606b3000931b2f9ceff4de4bfb219761e25a7\"",
+  "impression": "W/\"582f9b64078dd5fb472824d0bc895d61\"",
+  "librecad": "\"0ddb6815b5b5c79b0e8ba9b43234d850658caf4b3e93e3319f05959a4bd96519\"",
+  "localsend": "\"bc0100bc64d19c3107c11172b301cd18593fc53e794885d5fc569017199399da\"",
+  "mousai": "\"3fb58913548919c7a70ba3938c2d1e0653e3be1682d887a80b42169f31d96749\"",
+  "newsflash": "W/\"597a47e026a4652e4cbb5c5c87c25c78\"",
+  "rnote": "\"30cc7fe4c756b61b053cf83860ba42c0c9c61921bfedfe661bba6c269928125a\"",
+  "stirling-pdf": "\"a90e742b609b087748354fcd27fcad2776e8d18079556f01c0e02561915deeee\""
 }
