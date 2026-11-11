@@ -485,6 +485,16 @@
       "tag": "media-0003",
       "sha256": "8c388664d9fc5f12bd05ca7b215b5fe6ba56ac8cb44b09f544e5d0d74677cb4a",
       "size": 20744
+    },
+    "5deef4f92a74d24207087b5b166a0e03dfa2b19b586a88f01648bb74ee34cc98.webp": {
+      "tag": "media-0004",
+      "sha256": "5deef4f92a74d24207087b5b166a0e03dfa2b19b586a88f01648bb74ee34cc98",
+      "size": 2004
+    },
+    "c99f5ba785c1b508fe3cd9ab7ab65f070291213a7b60837d7e2a20fa3a31c456.webp": {
+      "tag": "media-0004",
+      "sha256": "c99f5ba785c1b508fe3cd9ab7ab65f070291213a7b60837d7e2a20fa3a31c456",
+      "size": 2308
     }
   }
 }
