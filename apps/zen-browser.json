@@ -23,9 +23,7 @@
         "access": "read-write"
       }
     ],
-    "devices": [
-      "gpu"
-    ],
+    "devices": ["gpu"],
     "sessionBus": {
       "access": "filtered",
       "rules": [
