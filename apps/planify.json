@@ -18,9 +18,7 @@
     "processes": "isolated",
     "ipc": false,
     "filesystem": [],
-    "devices": [
-      "gpu"
-    ],
+    "devices": ["gpu"],
     "sessionBus": {
       "access": "filtered",
       "rules": [
