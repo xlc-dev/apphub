@@ -1,11 +1,11 @@
 {
   "icon": {
     "file": "5deef4f92a74d24207087b5b166a0e03dfa2b19b586a88f01648bb74ee34cc98.webp",
+    "source": "https://dl.flathub.org/media/org/gnome/TextEditor/a86cb12a5a29d4696ccfbeaada78d4a0/icons/128x128/org.gnome.TextEditor.png",
     "validator": {
       "etag": "\"6af03a33-989\"",
       "lastModified": "Sun, 08 Nov 2026 09:00:35 GMT"
-    },
-    "source": "https://dl.flathub.org/media/org/gnome/TextEditor/a86cb12a5a29d4696ccfbeaada78d4a0/icons/128x128/org.gnome.TextEditor.png"
+    }
   },
   "screenshots": [
     {
