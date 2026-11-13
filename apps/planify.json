@@ -1,0 +1,73 @@
+{
+  "appstream": {
+    "type": "flathub",
+    "id": "io.github.alainm23.planify"
+  },
+  "addedAt": "2026-11-07",
+  "origin": {
+    "type": "third-party"
+  },
+  "releaseSource": {
+    "type": "github",
+    "repository": "pkgforge-dev/Planify-AppImage"
+  },
+  "sandbox": {
+    "network": "full",
+    "audio": "full",
+    "display": "wayland-or-x11",
+    "processes": "isolated",
+    "ipc": false,
+    "filesystem": [],
+    "devices": ["gpu"],
+    "sessionBus": {
+      "access": "filtered",
+      "rules": [
+        {
+          "name": "io.github.alainm23.planify",
+          "access": "own"
+        },
+        {
+          "name": "org.freedesktop.Notifications",
+          "access": "talk"
+        },
+        {
+          "name": "org.gnome.Contacts",
+          "access": "talk"
+        },
+        {
+          "name": "org.gnome.OnlineAccounts",
+          "access": "talk"
+        },
+        {
+          "name": "org.gnome.Settings",
+          "access": "talk"
+        },
+        {
+          "name": "org.kde.StatusNotifierWatcher",
+          "access": "talk"
+        },
+        {
+          "name": "org.mpris.MediaPlayer2.Planify",
+          "access": "own"
+        },
+        {
+          "name": "org.mpris.MediaPlayer2.io.github.alainm23.planify",
+          "access": "own"
+        },
+        {
+          "name": "org.mpris.MediaPlayer2.planify",
+          "access": "own"
+        }
+      ]
+    },
+    "systemBus": {
+      "access": "filtered",
+      "rules": [
+        {
+          "name": "org.freedesktop.login1",
+          "access": "talk"
+        }
+      ]
+    }
+  }
+}
