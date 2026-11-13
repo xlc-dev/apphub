@@ -1,0 +1,74 @@
+{
+  "appstream": {
+    "type": "flathub",
+    "id": "com.bitwarden.desktop"
+  },
+  "addedAt": "2026-11-07",
+  "origin": {
+    "type": "third-party"
+  },
+  "releaseSource": {
+    "type": "github",
+    "repository": "bitwarden/clients"
+  },
+  "sandbox": {
+    "network": "full",
+    "audio": "none",
+    "display": "wayland-or-x11",
+    "processes": "full",
+    "ipc": false,
+    "filesystem": [
+      {
+        "location": "downloads",
+        "access": "read-write"
+      }
+    ],
+    "devices": ["gpu"],
+    "sessionBus": {
+      "access": "filtered",
+      "rules": [
+        {
+          "name": "org.freedesktop.Notifications",
+          "access": "talk"
+        },
+        {
+          "name": "org.freedesktop.secrets",
+          "access": "talk"
+        },
+        {
+          "name": "org.gnome.keyring.SystemPrompter",
+          "access": "talk"
+        },
+        {
+          "name": "org.kde.StatusNotifierWatcher",
+          "access": "talk"
+        },
+        {
+          "name": "org.kde.kwalletd5",
+          "access": "talk"
+        },
+        {
+          "name": "org.kde.kwalletd6",
+          "access": "talk"
+        },
+        {
+          "name": "org.mpris.MediaPlayer2.Bitwarden",
+          "access": "own"
+        }
+      ]
+    },
+    "systemBus": {
+      "access": "filtered",
+      "rules": [
+        {
+          "name": "org.freedesktop.PolicyKit1",
+          "access": "talk"
+        },
+        {
+          "name": "org.freedesktop.login1",
+          "access": "talk"
+        }
+      ]
+    }
+  }
+}
