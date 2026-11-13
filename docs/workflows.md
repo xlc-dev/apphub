@@ -1,7 +1,7 @@
 # GitHub Actions workflows
 
 GitHub Actions validates pull requests, builds previews, refreshes the catalog, and deploys the
-website. Every JavaScript job uses Bun and the committed lockfile.
+website. Every JavaScript job uses Node.js and pnpm with the committed lockfile.
 
 ## Continuous integration
 
@@ -12,7 +12,7 @@ The workflow:
 
 1. Rejects contributor changes under `.generated/`.
 2. Generates changed apps, or the full catalog when shared generation code changes.
-3. Checks formatting and runs the test suite with Bun.
+3. Checks formatting and runs the test suite with Node.js.
 4. Runs Astro and TypeScript diagnostics.
 5. Builds the static site at its production `/apphub` path from the generated catalog.
 6. Validates the catalog and built website.
