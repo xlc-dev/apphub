@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { readFile, readdir } from "node:fs/promises";
 import { test } from "node:test";
-import { optimizeImageLoading } from "../src/client/image-loading";
+import { optimizeImageLoading } from "../src/client/image-loading.ts";
 
 test("uses native image loading priorities without redundant eager hints", async () => {
   const paths = (await readdir("src", { recursive: true }))

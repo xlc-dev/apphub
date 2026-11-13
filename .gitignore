@@ -1,8 +1,9 @@
 dist/
 node_modules/
+.pnpm-store/
 .astro/
 /.generated/*.tmp-*/
 /.generated/media/
 /.scale-fixture-*/
 package-lock.json
-pnpm-lock.yaml
+bun.lock

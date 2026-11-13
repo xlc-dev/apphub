@@ -1,1 +1,3 @@
 /.generated/
+pnpm-lock.yaml
+.pnpm-store/
