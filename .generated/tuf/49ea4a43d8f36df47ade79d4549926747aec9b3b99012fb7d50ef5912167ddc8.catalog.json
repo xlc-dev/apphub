@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "revision": "656b2bdfd1641ca7c651a3d05e60a77a13b692403b2483ccc89cf7acca343728",
-  "generatedAt": "2026-11-13T12:01:42.240Z",
+  "revision": "04492e1334ed17cceca3337ddaaded943e0c6fbad5a8f684835ecffa204b0e1c",
+  "generatedAt": "2026-11-13T13:06:11.879Z",
   "apps": [
     {
       "id": "com.belmoussaoui.Authenticator",
@@ -1372,6 +1372,114 @@
                 "format": "dwarfs",
                 "offset": 1378048,
                 "bytesUsed": 99646238
+              }
+            },
+            "installable": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "md.obsidian.Obsidian",
+      "slug": "obsidian",
+      "status": "current",
+      "publisher": {
+        "identity": "{\"provider\":\"github\",\"ownerId\":\"65011256\",\"projectId\":\"262342594\",\"configuredUrl\":\"https://github.com/obsidianmd/obsidian-releases\"}",
+        "evidence": "https://github.com/obsidianmd/obsidian-releases"
+      },
+      "sandbox": {
+        "sha256": "f80c24508d431f7e3abef563e59429fba24a22a3f4f9a0e9eb7f7f707d1fe65f",
+        "policy": {
+          "network": "full",
+          "display": "wayland-or-x11",
+          "audio": "full",
+          "processes": "isolated",
+          "ipc": false,
+          "filesystem": [
+            {
+              "location": "home",
+              "access": "read-write"
+            },
+            {
+              "location": "removable-media",
+              "access": "read-write"
+            }
+          ],
+          "devices": [
+            "gpu"
+          ],
+          "sessionBus": {
+            "access": "filtered",
+            "rules": [
+              {
+                "name": "md.obsidian.Obsidian",
+                "access": "own"
+              },
+              {
+                "name": "org.freedesktop.Notifications",
+                "access": "talk"
+              },
+              {
+                "name": "org.freedesktop.secrets",
+                "access": "talk"
+              },
+              {
+                "name": "org.gnome.keyring.SystemPrompter",
+                "access": "talk"
+              },
+              {
+                "name": "org.kde.StatusNotifierWatcher",
+                "access": "talk"
+              },
+              {
+                "name": "org.kde.kwalletd5",
+                "access": "talk"
+              },
+              {
+                "name": "org.kde.kwalletd6",
+                "access": "talk"
+              },
+              {
+                "name": "org.mpris.MediaPlayer2.Obsidian",
+                "access": "own"
+              },
+              {
+                "name": "org.mpris.MediaPlayer2.md.obsidian.Obsidian",
+                "access": "own"
+              }
+            ]
+          },
+          "systemBus": {
+            "access": "filtered",
+            "rules": [
+              {
+                "name": "org.freedesktop.login1",
+                "access": "talk"
+              }
+            ]
+          }
+        }
+      },
+      "release": {
+        "version": "v1.15.1",
+        "publishedAt": "2026-11-12T15:43:18Z",
+        "artifacts": [
+          {
+            "architecture": "aarch64",
+            "url": "https://github.com/obsidianmd/obsidian-releases/releases/download/v1.15.1/Obsidian-1.15.1-arm64.AppImage",
+            "size": 139388112,
+            "sha256": "2a0c0cae8329c708035c8aff905ba6bdec4153be300657cccb5a94ff0bbba898",
+            "inspection": {
+              "format": "appimage",
+              "runtimeType": 2,
+              "elfClass": 64,
+              "elfMachine": 183,
+              "archive": {
+                "format": "squashfs",
+                "offset": 197808,
+                "bytesUsed": 139040447,
+                "inodes": 124,
+                "blockSize": 131072
               }
             },
             "installable": true
