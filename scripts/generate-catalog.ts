@@ -529,9 +529,13 @@ export async function generateCatalog({
   }
 }
 
+function requestedSlugsFromArguments(args: string[]) {
+  return args.filter((argument) => argument !== "--");
+}
+
 if (import.meta.main) {
   try {
-    await generateCatalog({ requestedSlugs: process.argv.slice(2) });
+    await generateCatalog({ requestedSlugs: requestedSlugsFromArguments(process.argv.slice(2)) });
     await writeCatalogSnapshot();
   } finally {
     await printRefreshNetworkSummary();
