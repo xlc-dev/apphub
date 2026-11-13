@@ -18,8 +18,17 @@ test("only preview builds may serve unpublished media", async () => {
   const source = await readFile("src/lib/media-loader.ts", "utf8");
 
   assert.match(source, /process\.env\.APPHUB_ALLOW_UNPUBLISHED_MEDIA === "1"/);
-  assert.match(source, /data:image\/webp;base64,/);
+  assert.match(source, /sitePath\(`\/media\/\$\{file\}`\)/);
+  assert.doesNotMatch(source, /data:image/);
   assert.doesNotMatch(source, /APPHUB_ALLOW_UNPUBLISHED_MEDIA \?\?/);
+});
+
+test("preview media is served from the build output", async () => {
+  const source = await readFile("src/pages/media/[file].webp.ts", "utf8");
+
+  assert.match(source, /unpublishedMediaFiles/);
+  assert.match(source, /mediaBytes/);
+  assert.doesNotMatch(source, /\.generated\/media/);
 });
 
 test("featured images use the same release media loader", async () => {
