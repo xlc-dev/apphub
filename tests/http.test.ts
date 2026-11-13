@@ -1,7 +1,12 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { assertPublicUrl, pinnedLookup, readResponse, safeFetch } from "#catalog/http";
-import { collectPages, getJson } from "#scripts/releases/http";
+import {
+  collectPages,
+  defaultJsonSizeLimit,
+  getJson,
+  releaseListJsonSizeLimit,
+} from "#scripts/releases/http";
 
 test("collects every page", async () => {
   const pages = [[1, 2], [3]];
@@ -33,9 +38,31 @@ test("reports rate-limit reset times", async () => {
     );
 
   await assert.rejects(
-    getJson("https://api.github.com/example", undefined, fetcher),
+    getJson("https://api.github.com/example", undefined, { fetcher }),
     new RegExp(new Date(reset * 1000).toISOString())
   );
+});
+
+test("enforces the default JSON size limit", async () => {
+  const body = "x".repeat(defaultJsonSizeLimit + 1);
+  const fetcher = () => Promise.resolve(new Response(body));
+
+  await assert.rejects(
+    getJson("https://api.github.com/example", undefined, { fetcher }),
+    /too large/
+  );
+});
+
+test("allows release lists to exceed the default JSON size limit", async () => {
+  const padding = "x".repeat(defaultJsonSizeLimit);
+  const fetcher = () => Promise.resolve(new Response(JSON.stringify({ padding })));
+
+  const value = await getJson("https://api.github.com/example", undefined, {
+    fetcher,
+    sizeLimit: releaseListJsonSizeLimit,
+  });
+
+  assert.deepEqual(value, { padding });
 });
 
 test("rejects private remote addresses", async () => {
