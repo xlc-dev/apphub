@@ -1,0 +1,177 @@
+{
+  "id": "io.github.alainm23.planify",
+  "name": "Planify",
+  "summary": "Forget about forgetting things",
+  "description": [
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "value": "Planify is your modern and powerful task manager that helps you keep your life organized. With a clean and intuitive interface, cloud synchronization, and advanced features, you'll never forget what matters again."
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "value": "✨ Core Features:"
+        }
+      ]
+    },
+    {
+      "type": "unordered-list",
+      "items": [
+        [
+          {
+            "type": "text",
+            "value": "Modern and clean interface designed with GTK4 and libadwaita"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "value": "Drag and drop to organize tasks and projects effortlessly"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "value": "Visual progress indicators for each project"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "value": "Smart organization with sections and custom labels"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "value": "Calendar integration to visualize your schedule"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "value": "Multiple reminders per task to never miss a deadline"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "value": "Dark mode with seamless system theme integration"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "value": "Quick and powerful search to find anything instantly"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "value": "Recurring tasks with flexible patterns"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "value": "Attachments and links in your tasks"
+          }
+        ]
+      ]
+    },
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "value": "☁️ Cloud Synchronization:"
+        }
+      ]
+    },
+    {
+      "type": "unordered-list",
+      "items": [
+        [
+          {
+            "type": "text",
+            "value": "Full synchronization with Todoist to access your tasks from anywhere"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "value": "Support for Nextcloud and CalDAV servers (Radicale, Baïkal) to keep your data private"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "value": "Offline mode: work without internet and sync when you're back online"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "value": "Cross-platform synchronization to access from any device"
+          }
+        ]
+      ]
+    },
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "value": "* Planify is not created by, affiliated with, or supported by Doist"
+        }
+      ]
+    }
+  ],
+  "projectLicense": "GPL-3.0+",
+  "developer": {
+    "name": "Alain",
+    "url": "https://github.com/alainm23"
+  },
+  "homepage": "https://useplanify.com/",
+  "repository": "https://github.com/alainm23/planify",
+  "links": {
+    "bugtracker": "https://github.com/alainm23/planify/issues",
+    "donation": "https://useplanify.com/donate",
+    "translate": "https://github.com/alainm23/planify/tree/main/po#readme"
+  },
+  "contentRating": {
+    "label": "Early Childhood",
+    "minimumAge": 3,
+    "warnings": [
+      "Checking for the latest application version"
+    ]
+  },
+  "keywords": [
+    "task",
+    "tasks",
+    "project"
+  ],
+  "categories": [
+    "Utility",
+    "Office",
+    "ProjectManagement",
+    "Calendar"
+  ],
+  "translations": {
+    "nl": {
+      "contentRating": {
+        "label": "3",
+        "warnings": [
+          "Controleren op de nieuwste app-versie"
+        ]
+      }
+    }
+  }
+}
