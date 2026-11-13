@@ -97,11 +97,11 @@ files remain hosted by their release source.
 
 Run the same generation step without building the site with:
 
-bun run generate-catalog
+pnpm run generate-catalog
 
 Pass one or more application slugs to refresh only those entries:
 
-bun run generate-catalog -- example-app
+pnpm run generate-catalog -- example-app
 
 ## AppStream sources
 

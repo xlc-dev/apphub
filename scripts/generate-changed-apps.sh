@@ -12,7 +12,7 @@ changed_apps=$(
 if [ -n "$changed_apps" ]; then
   set -- $changed_apps
 
-  bun run generate-catalog -- "$@"
+  pnpm run generate-catalog -- "$@"
 fi
 
-bun scripts/write-snapshot.ts
+node scripts/write-snapshot.ts

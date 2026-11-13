@@ -2,8 +2,8 @@ import { categoryName } from "#lib/categories";
 import { getLocale, localePath, translate } from "#lib/i18n";
 import type { Locale } from "#lib/locales";
 import { sitePath } from "#lib/paths";
-import { buttonClasses } from "../components/ui/buttonStyles";
-import { optimizeImageLoading } from "./image-loading";
+import { buttonClasses } from "../components/ui/buttonStyles.ts";
+import { optimizeImageLoading } from "./image-loading.ts";
 import {
   catalogFilterParameters,
   searchCardSelectors,
