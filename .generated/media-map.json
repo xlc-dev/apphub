@@ -515,6 +515,31 @@
       "tag": "media-0005",
       "sha256": "e2d0593e1477dfa282f5fefbe87c07576b374454dcfb1c9bca2e3c7ee64b607d",
       "size": 33874
+    },
+    "37ba92773fad1b3ce4d2c895088dd650b101be39e29c4bf698107480cc94772d.webp": {
+      "tag": "media-0006",
+      "sha256": "37ba92773fad1b3ce4d2c895088dd650b101be39e29c4bf698107480cc94772d",
+      "size": 46122
+    },
+    "8616d266fbfb29d1708142683afee33af8154e0243758b5d195a8a9997882056.webp": {
+      "tag": "media-0006",
+      "sha256": "8616d266fbfb29d1708142683afee33af8154e0243758b5d195a8a9997882056",
+      "size": 55334
+    },
+    "b54f8ab567950f2b6f3f1c4cae6662462ede58de2d35008d2c696066d1c5d62a.webp": {
+      "tag": "media-0006",
+      "sha256": "b54f8ab567950f2b6f3f1c4cae6662462ede58de2d35008d2c696066d1c5d62a",
+      "size": 1096
+    },
+    "c1891acd75adfaaf930139c9be41be433b4f256147f0823285c6d8d0a6d03166.webp": {
+      "tag": "media-0006",
+      "sha256": "c1891acd75adfaaf930139c9be41be433b4f256147f0823285c6d8d0a6d03166",
+      "size": 49714
+    },
+    "eb10bf1d78a3f9f2ad2fc15c0977b10b0ef2f0a464b04d7653d96afdc3dfc0fa.webp": {
+      "tag": "media-0006",
+      "sha256": "eb10bf1d78a3f9f2ad2fc15c0977b10b0ef2f0a464b04d7653d96afdc3dfc0fa",
+      "size": 75942
     }
   }
 }
