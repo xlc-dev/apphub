@@ -38,7 +38,8 @@ sources. Do not add generated data to the pull request.
 CI writes generated app data and media under `.generated/`. Production commits the compact
 last-known-good JSON state so builds do not need application sources. Generated media is ignored by
 Git and published separately as immutable GitHub Release assets. Contributor pull requests must not
-change generated state.
+change generated state. Preview builds serve media that is not published yet from the build output
+under `/media/<sha256>.webp`, so preview API resources keep the same URL lengths as production.
 
 ## Stored data
 
@@ -96,11 +97,11 @@ files remain hosted by their release source.
 
 Run the same generation step without building the site with:
 
-bun run generate-catalog
+pnpm run generate-catalog
 
 Pass one or more application slugs to refresh only those entries:
 
-bun run generate-catalog -- example-app
+pnpm run generate-catalog -- example-app
 
 ## AppStream sources
 

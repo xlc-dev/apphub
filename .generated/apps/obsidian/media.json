@@ -1,0 +1,60 @@
+{
+  "icon": {
+    "file": "a7fdb9e5a6e964b59047a5cd29ac42df15f6743d6d1a85c510adb24740037577.webp",
+    "validator": {
+      "etag": "\"6ae94e66-329d\"",
+      "lastModified": "Tue, 03 Nov 2026 03:00:54 GMT"
+    },
+    "source": "https://dl.flathub.org/media/md/obsidian/Obsidian/c97fbe7fe83bc7e70ac76009b6b56055/icons/128x128/md.obsidian.Obsidian.png"
+  },
+  "screenshots": [
+    {
+      "file": "59749a4e02898013f70f858e5e2db13a1fb2f7792fd99443cf14a7f23b7899d8.webp",
+      "caption": "Screenshot of Obsidian's main interface",
+      "captionTranslations": {
+        "nl": "Obsidian screenshot"
+      },
+      "source": "https://dl.flathub.org/media/md/obsidian/Obsidian/c97fbe7fe83bc7e70ac76009b6b56055/screenshots/image-1_orig.png",
+      "validator": {
+        "etag": "\"6ae94e66-8e3f3\"",
+        "lastModified": "Tue, 03 Nov 2026 03:00:54 GMT"
+      }
+    },
+    {
+      "file": "7a9cbf8b038a6d0790e7fa23fcfaaec22f4fe737d3027eb25a1e60878b517f2a.webp",
+      "caption": "Examples of Obsidian's basic text formatting capabilities",
+      "captionTranslations": {
+        "nl": "Obsidian screenshot"
+      },
+      "source": "https://dl.flathub.org/media/md/obsidian/Obsidian/c97fbe7fe83bc7e70ac76009b6b56055/screenshots/image-2_orig.png",
+      "validator": {
+        "etag": "\"6ae94e66-3ee0e\"",
+        "lastModified": "Tue, 03 Nov 2026 03:00:54 GMT"
+      }
+    },
+    {
+      "file": "8c05eccaf68209b6342ebbf3475ff4f2a9e70775816b7a20ba13eca1312a3f90.webp",
+      "caption": "Screenshot of Obsidian's graph view",
+      "captionTranslations": {
+        "nl": "Obsidian screenshot"
+      },
+      "source": "https://dl.flathub.org/media/md/obsidian/Obsidian/c97fbe7fe83bc7e70ac76009b6b56055/screenshots/image-3_orig.png",
+      "validator": {
+        "etag": "\"6ae94e66-6a2a0\"",
+        "lastModified": "Tue, 03 Nov 2026 03:00:54 GMT"
+      }
+    },
+    {
+      "file": "dbfdbfdae24e2a06a94b31c42dcba929329c43e3d4cdde9c1535037ab616bef6.webp",
+      "caption": "Example of Obsidian's multi-pane (now multi-tab) layout capabilities",
+      "captionTranslations": {
+        "nl": "Obsidian screenshot"
+      },
+      "source": "https://dl.flathub.org/media/md/obsidian/Obsidian/c97fbe7fe83bc7e70ac76009b6b56055/screenshots/image-4_orig.png",
+      "validator": {
+        "etag": "\"6ae94e66-3c0bf\"",
+        "lastModified": "Tue, 03 Nov 2026 03:00:54 GMT"
+      }
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "appId": "net.donnybeelo.Convey",
+  "releases": [
+    {
+      "version": "51.0@2026-11-01_1793557736",
+      "publishedAt": "2026-11-01T18:28:57Z",
+      "page": "https://github.com/pkgforge-dev/Convey-AppImage/releases/tag/51.0%402026-11-01_1793557736",
+      "releaseId": "430773071",
+      "artifacts": [
+        {
+          "architecture": "x86_64",
+          "name": "Convey-51.0-anylinux-x86_64.AppImage",
+          "url": "https://github.com/pkgforge-dev/Convey-AppImage/releases/download/51.0%402026-11-01_1793557736/Convey-51.0-anylinux-x86_64.AppImage",
+          "assetId": "699154383",
+          "size": 115165382,
+          "sha256": "fc1cffdb4f9e3361dbe5a03e985b9f6285e06579821f7dba7a60cc275ee67589",
+          "capabilities": {
+            "runtimeType": 2,
+            "fuse": false,
+            "zsync": true,
+            "anylinux": true
+          },
+          "inspection": {
+            "format": "appimage",
+            "runtimeType": 2,
+            "elfClass": 64,
+            "elfMachine": 62,
+            "archive": {
+              "format": "dwarfs",
+              "offset": 1507016,
+              "bytesUsed": 113658366
+            }
+          },
+          "checksumEvidence": {
+            "sourceUrl": "https://github.com/pkgforge-dev/Convey-AppImage/releases/tag/51.0%402026-11-01_1793557736"
+          }
+        },
+        {
+          "architecture": "aarch64",
+          "name": "Convey-51.0-anylinux-aarch64.AppImage",
+          "url": "https://github.com/pkgforge-dev/Convey-AppImage/releases/download/51.0%402026-11-01_1793557736/Convey-51.0-anylinux-aarch64.AppImage",
+          "assetId": "699154385",
+          "size": 116722317,
+          "sha256": "0d508f59fa203c63f9ee248902d247bb8e42115e2a7509d50a91821165f21164",
+          "capabilities": {
+            "runtimeType": 2,
+            "fuse": false,
+            "zsync": true,
+            "anylinux": true
+          },
+          "inspection": {
+            "format": "appimage",
+            "runtimeType": 2,
+            "elfClass": 64,
+            "elfMachine": 183,
+            "archive": {
+              "format": "dwarfs",
+              "offset": 1378048,
+              "bytesUsed": 115344269
+            }
+          },
+          "checksumEvidence": {
+            "sourceUrl": "https://github.com/pkgforge-dev/Convey-AppImage/releases/tag/51.0%402026-11-01_1793557736"
+          }
+        }
+      ]
+    }
+  ]
+}
