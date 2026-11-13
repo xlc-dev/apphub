@@ -13,10 +13,12 @@ describe("refresh HTTP", () => {
       "https://conditional.example/releases.json",
       undefined,
       validator,
-      async (_url, init) => {
-        headers = new Headers(init?.headers);
+      {
+        fetcher: async (_url, init) => {
+          headers = new Headers(init?.headers);
 
-        return new Response(null, { status: 304 });
+          return new Response(null, { status: 304 });
+        },
       }
     );
 
