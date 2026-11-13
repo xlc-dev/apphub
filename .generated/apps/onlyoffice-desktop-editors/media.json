@@ -1,0 +1,57 @@
+{
+  "icon": {
+    "file": "966220c5f133c042bc5b4c6612b84e662ae23be0b74170c0d27201f5dfbd8c46.webp",
+    "validator": {
+      "etag": "\"6af1d34b-568\"",
+      "lastModified": "Mon, 09 Nov 2026 14:06:03 GMT"
+    },
+    "source": "https://dl.flathub.org/media/org/onlyoffice/desktopeditors/3760ea2b23912d02a32ae35898f66582/icons/128x128/org.onlyoffice.desktopeditors.png"
+  },
+  "screenshots": [
+    {
+      "file": "a6269f5aa96a35f670f66930bb123b179d4789469cd8fb7ad482257c977c258b.webp",
+      "caption": "Home",
+      "source": "https://dl.flathub.org/media/org/onlyoffice/desktopeditors/3760ea2b23912d02a32ae35898f66582/screenshots/image-1_orig.png",
+      "validator": {
+        "etag": "\"6af1d34b-bd2b\"",
+        "lastModified": "Mon, 09 Nov 2026 14:06:03 GMT"
+      }
+    },
+    {
+      "file": "126f50858afd4ee233b5d489d0b0f779e0ae59e42ced64ec3e05ffa3ef72e61c.webp",
+      "caption": "AI Tools",
+      "source": "https://dl.flathub.org/media/org/onlyoffice/desktopeditors/3760ea2b23912d02a32ae35898f66582/screenshots/image-2_orig.png",
+      "validator": {
+        "etag": "\"6af1d34b-2739a\"",
+        "lastModified": "Mon, 09 Nov 2026 14:06:03 GMT"
+      }
+    },
+    {
+      "file": "7d1e838a222d80eab6f4f35a3210fb0296584fa31f749358c3261eededc743a2.webp",
+      "caption": "Docs",
+      "source": "https://dl.flathub.org/media/org/onlyoffice/desktopeditors/3760ea2b23912d02a32ae35898f66582/screenshots/image-3_orig.png",
+      "validator": {
+        "etag": "\"6af1d34b-35aad\"",
+        "lastModified": "Mon, 09 Nov 2026 14:06:03 GMT"
+      }
+    },
+    {
+      "file": "58b87dd0f28f9cee230de62a1b2e8a38c2349ea1105e27e2d08087df4111f0c7.webp",
+      "caption": "PDF Editor",
+      "source": "https://dl.flathub.org/media/org/onlyoffice/desktopeditors/3760ea2b23912d02a32ae35898f66582/screenshots/image-4_orig.png",
+      "validator": {
+        "etag": "\"6af1d34b-2bea2\"",
+        "lastModified": "Mon, 09 Nov 2026 14:06:03 GMT"
+      }
+    },
+    {
+      "file": "a23d4b9a40d543d864a7120703f64872c2b0ba68c019073d3e4cde0efb27abf1.webp",
+      "caption": "Sheets",
+      "source": "https://dl.flathub.org/media/org/onlyoffice/desktopeditors/3760ea2b23912d02a32ae35898f66582/screenshots/image-5_orig.png",
+      "validator": {
+        "etag": "\"6af1d34b-2b584\"",
+        "lastModified": "Mon, 09 Nov 2026 14:06:03 GMT"
+      }
+    }
+  ]
+}

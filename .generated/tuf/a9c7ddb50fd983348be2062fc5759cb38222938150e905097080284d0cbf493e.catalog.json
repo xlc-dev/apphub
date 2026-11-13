@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "revision": "5b6834c398837f9ca39bcaa46904830ff477aa9854436fee1591ceae1f1ec0c8",
-  "generatedAt": "2026-11-13T13:37:10.634Z",
+  "revision": "f9554b8f513dfc4800f1f1dd6842da68422e8c5fda6e157836484da6f8972e8d",
+  "generatedAt": "2026-11-13T13:44:41.810Z",
   "apps": [
     {
       "id": "com.belmoussaoui.Authenticator",
@@ -1595,6 +1595,110 @@
                 "offset": 197808,
                 "bytesUsed": 139040447,
                 "inodes": 124,
+                "blockSize": 131072
+              }
+            },
+            "installable": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "org.onlyoffice.desktopeditors",
+      "slug": "onlyoffice-desktop-editors",
+      "status": "current",
+      "publisher": {
+        "identity": "{\"provider\":\"github\",\"ownerId\":\"1426033\",\"projectId\":\"69867298\",\"configuredUrl\":\"https://github.com/ONLYOFFICE/DesktopEditors\"}",
+        "evidence": "https://github.com/ONLYOFFICE/DesktopEditors"
+      },
+      "sandbox": {
+        "sha256": "6de64cdd5a42a43adfd0a5cfdc4b35ffc7c3c0b314e27fb9fa91b85d15bfa052",
+        "policy": {
+          "network": "none",
+          "display": "wayland-or-x11",
+          "audio": "none",
+          "processes": "isolated",
+          "ipc": false,
+          "filesystem": [
+            {
+              "location": "downloads",
+              "access": "read-write"
+            },
+            {
+              "location": "documents",
+              "access": "read-write"
+            }
+          ],
+          "devices": [
+            "gpu"
+          ],
+          "sessionBus": {
+            "access": "filtered",
+            "rules": [
+              {
+                "name": "org.freedesktop.Notifications",
+                "access": "talk"
+              },
+              {
+                "name": "org.kde.StatusNotifierWatcher",
+                "access": "talk"
+              },
+              {
+                "name": "org.mpris.MediaPlayer2.ONLYOFFICEDesktopEditors",
+                "access": "own"
+              }
+            ]
+          },
+          "systemBus": {
+            "access": "filtered",
+            "rules": [
+              {
+                "name": "org.freedesktop.login1",
+                "access": "talk"
+              }
+            ]
+          }
+        }
+      },
+      "release": {
+        "version": "v10.0.0",
+        "publishedAt": "2026-10-13T10:18:58Z",
+        "artifacts": [
+          {
+            "architecture": "x86_64",
+            "url": "https://github.com/ONLYOFFICE/DesktopEditors/releases/download/v10.0.0/DesktopEditors-x86_64.AppImage",
+            "size": 425810424,
+            "sha256": "3e4668d44f6881d1d8873b38ea9c9fd81b9c77132facdb735bfebfe960edb745",
+            "inspection": {
+              "format": "appimage",
+              "runtimeType": 2,
+              "elfClass": 64,
+              "elfMachine": 62,
+              "archive": {
+                "format": "squashfs",
+                "offset": 944632,
+                "bytesUsed": 424862624,
+                "inodes": 8018,
+                "blockSize": 131072
+              }
+            },
+            "installable": true
+          },
+          {
+            "architecture": "aarch64",
+            "url": "https://github.com/ONLYOFFICE/DesktopEditors/releases/download/v10.0.0/DesktopEditors-arm64.AppImage",
+            "size": 417688072,
+            "sha256": "b26c0a80ca2fe93db637d52f9ff5cb70450fe5ee7585099fea3612b5decf5775",
+            "inspection": {
+              "format": "appimage",
+              "runtimeType": 2,
+              "elfClass": 64,
+              "elfMachine": 183,
+              "archive": {
+                "format": "squashfs",
+                "offset": 936456,
+                "bytesUsed": 416749614,
+                "inodes": 7921,
                 "blockSize": 131072
               }
             },
