@@ -495,6 +495,26 @@
       "tag": "media-0004",
       "sha256": "c99f5ba785c1b508fe3cd9ab7ab65f070291213a7b60837d7e2a20fa3a31c456",
       "size": 2308
+    },
+    "41d34a71ad558c9da17d51e9ba7967a7538c4b42235d0732d293742649ffa25d.webp": {
+      "tag": "media-0005",
+      "sha256": "41d34a71ad558c9da17d51e9ba7967a7538c4b42235d0732d293742649ffa25d",
+      "size": 84256
+    },
+    "4adc9d1ae42ea434602e3622795bfa93e1f1d7cef9477f617cd44802ec121c91.webp": {
+      "tag": "media-0005",
+      "sha256": "4adc9d1ae42ea434602e3622795bfa93e1f1d7cef9477f617cd44802ec121c91",
+      "size": 61736
+    },
+    "59def061bdaa5052271a437c2aff3d7018dd45d196ac4cddd210bba3265f43c7.webp": {
+      "tag": "media-0005",
+      "sha256": "59def061bdaa5052271a437c2aff3d7018dd45d196ac4cddd210bba3265f43c7",
+      "size": 2392
+    },
+    "e2d0593e1477dfa282f5fefbe87c07576b374454dcfb1c9bca2e3c7ee64b607d.webp": {
+      "tag": "media-0005",
+      "sha256": "e2d0593e1477dfa282f5fefbe87c07576b374454dcfb1c9bca2e3c7ee64b607d",
+      "size": 33874
     }
   }
 }
