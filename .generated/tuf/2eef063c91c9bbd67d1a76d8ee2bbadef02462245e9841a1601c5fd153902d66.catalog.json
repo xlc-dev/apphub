@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "revision": "a1572a55a152cc2a408080af92ae67b2845fb5d923b91ab4b70b1db87570c574",
-  "generatedAt": "2026-11-13T10:40:38.124Z",
+  "revision": "05791a474adc952be014bab754f2fc61ec18ff72f115f62171ead4487da5a17b",
+  "generatedAt": "2026-11-13T10:45:28.338Z",
   "apps": [
     {
       "id": "com.belmoussaoui.Authenticator",
@@ -1773,6 +1773,106 @@
                 "format": "dwarfs",
                 "offset": 1378048,
                 "bytesUsed": 71054776
+              }
+            },
+            "installable": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "app.zen_browser.zen",
+      "slug": "zen-browser",
+      "status": "current",
+      "publisher": {
+        "identity": "{\"provider\":\"github\",\"ownerId\":\"165225155\",\"projectId\":\"778556932\",\"configuredUrl\":\"https://github.com/zen-browser/desktop\"}",
+        "evidence": "https://github.com/zen-browser/desktop"
+      },
+      "sandbox": {
+        "sha256": "e1cc1127df47fd6c3f7bd4d25e57940b000d03fa6b2af1532b5a9b3be66d3da0",
+        "policy": {
+          "network": "full",
+          "display": "wayland-or-x11",
+          "audio": "full",
+          "processes": "isolated",
+          "ipc": false,
+          "filesystem": [
+            {
+              "location": "downloads",
+              "access": "read-write"
+            }
+          ],
+          "devices": [
+            "gpu"
+          ],
+          "sessionBus": {
+            "access": "filtered",
+            "rules": [
+              {
+                "name": "org.freedesktop.Notifications",
+                "access": "talk"
+              },
+              {
+                "name": "org.kde.StatusNotifierWatcher",
+                "access": "talk"
+              },
+              {
+                "name": "org.mpris.MediaPlayer2.ZenBrowser",
+                "access": "own"
+              }
+            ]
+          },
+          "systemBus": {
+            "access": "filtered",
+            "rules": [
+              {
+                "name": "org.freedesktop.login1",
+                "access": "talk"
+              }
+            ]
+          }
+        }
+      },
+      "release": {
+        "version": "1.24.2b",
+        "publishedAt": "2026-11-12T10:18:28Z",
+        "artifacts": [
+          {
+            "architecture": "x86_64",
+            "url": "https://github.com/zen-browser/desktop/releases/download/1.24.2b/zen-x86_64.AppImage",
+            "size": 149775840,
+            "sha256": "2e73140a2adf6b0bb5669396339d2c0e7a119408a392a5a807d87810f1a99bf5",
+            "inspection": {
+              "format": "appimage",
+              "runtimeType": 2,
+              "elfClass": 64,
+              "elfMachine": 62,
+              "archive": {
+                "format": "squashfs",
+                "offset": 1226208,
+                "bytesUsed": 148547318,
+                "inodes": 69,
+                "blockSize": 131072
+              }
+            },
+            "installable": true
+          },
+          {
+            "architecture": "aarch64",
+            "url": "https://github.com/zen-browser/desktop/releases/download/1.24.2b/zen-aarch64.AppImage",
+            "size": 137910432,
+            "sha256": "228d42846c7ec9eff24e7ec571bda26fb872ee44ed7baa4af929f7fda8e562e1",
+            "inspection": {
+              "format": "appimage",
+              "runtimeType": 2,
+              "elfClass": 64,
+              "elfMachine": 183,
+              "archive": {
+                "format": "squashfs",
+                "offset": 1169568,
+                "bytesUsed": 136738936,
+                "inodes": 69,
+                "blockSize": 131072
               }
             },
             "installable": true
