@@ -323,6 +323,10 @@ export async function generateCatalog({
     if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) {
       throw new Error(`Invalid application slug: ${slug}`);
     }
+
+    if (!manifests.has(slug)) {
+      throw new Error(`Unknown application: ${slug}`);
+    }
   }
 
   const selected = requested.size ? slugs.filter((slug) => requested.has(slug)) : slugs;
