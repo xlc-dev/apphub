@@ -1,0 +1,72 @@
+{
+  "icon": {
+    "file": "19e2ee145344c80adebc689a9a8deb7b6a64889f5f56ac3da4cb9c94221a40dc.webp",
+    "validator": {
+      "etag": "\"6abd082c-1250\"",
+      "lastModified": "Wed, 30 Sep 2026 13:01:32 GMT"
+    },
+    "source": "https://dl.flathub.org/media/be/alexandervanhee/gradia/bab74d2ac1fb3c19e3fa4903c6a2075c/icons/128x128/be.alexandervanhee.gradia.png"
+  },
+  "screenshots": [
+    {
+      "file": "8bbfc9bff321de074aba8cb3141c3a2ac6d5ec985257c85462975e25cd42e06b.webp",
+      "caption": "Edited screenshot",
+      "captionTranslations": {
+        "nl": "Bewerkte schermafbeelding"
+      },
+      "source": "https://dl.flathub.org/media/be/alexandervanhee/gradia/bab74d2ac1fb3c19e3fa4903c6a2075c/screenshots/image-1_orig.png",
+      "validator": {
+        "etag": "\"6abd082c-33292\"",
+        "lastModified": "Wed, 30 Sep 2026 13:01:32 GMT"
+      }
+    },
+    {
+      "file": "aa719e564c2f5831b9819bb35ca6dd3a635ca9c73a45fa1056b83f6942e5c469.webp",
+      "caption": "Edited screenshot",
+      "captionTranslations": {
+        "nl": "Bewerkte schermafbeelding"
+      },
+      "source": "https://dl.flathub.org/media/be/alexandervanhee/gradia/bab74d2ac1fb3c19e3fa4903c6a2075c/screenshots/image-2_orig.png",
+      "validator": {
+        "etag": "\"6abd082c-46bc3\"",
+        "lastModified": "Wed, 30 Sep 2026 13:01:32 GMT"
+      }
+    },
+    {
+      "file": "cda6282e916f0f6602e8f5a006fdbebf655b93ba75b623a4aab6e6ad3500400f.webp",
+      "caption": "Startup view",
+      "captionTranslations": {
+        "nl": "Opstartweergave"
+      },
+      "source": "https://dl.flathub.org/media/be/alexandervanhee/gradia/bab74d2ac1fb3c19e3fa4903c6a2075c/screenshots/image-3_orig.png",
+      "validator": {
+        "etag": "\"6abd082c-2ff60\"",
+        "lastModified": "Wed, 30 Sep 2026 13:01:32 GMT"
+      }
+    },
+    {
+      "file": "4a104b3d2ecb70a31dcd8f6d6783188f50e670ff93ddc14af0653cff46bec596.webp",
+      "caption": "UI element showcase",
+      "captionTranslations": {
+        "nl": "Presentatie van UI-elementen"
+      },
+      "source": "https://dl.flathub.org/media/be/alexandervanhee/gradia/bab74d2ac1fb3c19e3fa4903c6a2075c/screenshots/image-4_orig.png",
+      "validator": {
+        "etag": "\"6abd082c-16d52\"",
+        "lastModified": "Wed, 30 Sep 2026 13:01:32 GMT"
+      }
+    },
+    {
+      "file": "d0b5999a2ea37da43bcf59d77f825b912a863eb45c45c9d83fd68960a220cc03.webp",
+      "caption": "Source Snippets",
+      "captionTranslations": {
+        "nl": "Bronfragmenten"
+      },
+      "source": "https://dl.flathub.org/media/be/alexandervanhee/gradia/bab74d2ac1fb3c19e3fa4903c6a2075c/screenshots/image-5_orig.png",
+      "validator": {
+        "etag": "\"6abd082c-98ab\"",
+        "lastModified": "Wed, 30 Sep 2026 13:01:32 GMT"
+      }
+    }
+  ]
+}

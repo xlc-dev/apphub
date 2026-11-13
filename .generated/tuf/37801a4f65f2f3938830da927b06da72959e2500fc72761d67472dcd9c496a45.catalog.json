@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "revision": "04492e1334ed17cceca3337ddaaded943e0c6fbad5a8f684835ecffa204b0e1c",
-  "generatedAt": "2026-11-13T13:06:11.879Z",
+  "revision": "a13263b889f3857d18059f4f1a07c4967318ee85a987f4d17ebea711274872c6",
+  "generatedAt": "2026-11-13T13:24:46.335Z",
   "apps": [
     {
       "id": "com.belmoussaoui.Authenticator",
@@ -848,6 +848,122 @@
                 "format": "dwarfs",
                 "offset": 1378048,
                 "bytesUsed": 65964087
+              }
+            },
+            "installable": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "be.alexandervanhee.gradia",
+      "slug": "gradia",
+      "status": "current",
+      "publisher": {
+        "identity": "{\"provider\":\"github\",\"ownerId\":\"189202376\",\"projectId\":\"1142026015\",\"configuredUrl\":\"https://github.com/pkgforge-dev/Gradia-AppImage\"}",
+        "evidence": "https://github.com/pkgforge-dev/Gradia-AppImage"
+      },
+      "sandbox": {
+        "sha256": "8a704061fa3f75e5bc3789bdb239a1cce025d2d507c189a9ab056805c2bbbd99",
+        "policy": {
+          "network": "full",
+          "display": "wayland-or-x11",
+          "audio": "none",
+          "processes": "isolated",
+          "ipc": false,
+          "filesystem": [
+            {
+              "location": "downloads",
+              "access": "read-write"
+            },
+            {
+              "location": "pictures",
+              "access": "read-write"
+            }
+          ],
+          "devices": [
+            "gpu"
+          ],
+          "sessionBus": {
+            "access": "filtered",
+            "rules": [
+              {
+                "name": "be.alexandervanhee.gradia",
+                "access": "own"
+              },
+              {
+                "name": "org.freedesktop.Notifications",
+                "access": "talk"
+              },
+              {
+                "name": "org.freedesktop.portal.Desktop",
+                "access": "talk"
+              },
+              {
+                "name": "org.kde.StatusNotifierWatcher",
+                "access": "talk"
+              },
+              {
+                "name": "org.mpris.MediaPlayer2.Gradia",
+                "access": "own"
+              },
+              {
+                "name": "org.mpris.MediaPlayer2.be.alexandervanhee.gradia",
+                "access": "own"
+              },
+              {
+                "name": "org.mpris.MediaPlayer2.gradia",
+                "access": "own"
+              }
+            ]
+          },
+          "systemBus": {
+            "access": "filtered",
+            "rules": [
+              {
+                "name": "org.freedesktop.login1",
+                "access": "talk"
+              }
+            ]
+          }
+        }
+      },
+      "release": {
+        "version": "1.13.0@2026-11-01_1793557258",
+        "publishedAt": "2026-11-01T18:21:00Z",
+        "artifacts": [
+          {
+            "architecture": "x86_64",
+            "url": "https://github.com/pkgforge-dev/Gradia-AppImage/releases/download/1.13.0%402026-11-01_1793557258/Gradia-1.13.0-anylinux-x86_64.AppImage",
+            "size": 69180678,
+            "sha256": "4751c2a3d6ace4567c63f77aac32815899bbd8afa8d10025478e4f43e13d3b4c",
+            "inspection": {
+              "format": "appimage",
+              "runtimeType": 2,
+              "elfClass": 64,
+              "elfMachine": 62,
+              "archive": {
+                "format": "dwarfs",
+                "offset": 1507016,
+                "bytesUsed": 67673662
+              }
+            },
+            "installable": true
+          },
+          {
+            "architecture": "aarch64",
+            "url": "https://github.com/pkgforge-dev/Gradia-AppImage/releases/download/1.13.0%402026-11-01_1793557258/Gradia-1.13.0-anylinux-aarch64.AppImage",
+            "size": 65811329,
+            "sha256": "5aaaae834b17bc926ab4083b737b5f46ca63361fe547981474a0d79f3ca65a18",
+            "inspection": {
+              "format": "appimage",
+              "runtimeType": 2,
+              "elfClass": 64,
+              "elfMachine": 183,
+              "archive": {
+                "format": "dwarfs",
+                "offset": 1378048,
+                "bytesUsed": 64433281
               }
             },
             "installable": true
