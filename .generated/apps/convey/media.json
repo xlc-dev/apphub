@@ -1,0 +1,45 @@
+{
+  "icon": {
+    "file": "59def061bdaa5052271a437c2aff3d7018dd45d196ac4cddd210bba3265f43c7.webp",
+    "validator": {
+      "etag": "\"6adc229d-e9e\"",
+      "lastModified": "Sat, 24 Oct 2026 03:14:37 GMT"
+    },
+    "source": "https://dl.flathub.org/media/net/donnybeelo/Convey/4edc3a3639f7af64f1fea683b00737a4/icons/128x128/net.donnybeelo.Convey.png"
+  },
+  "screenshots": [
+    {
+      "file": "4adc9d1ae42ea434602e3622795bfa93e1f1d7cef9477f617cd44802ec121c91.webp",
+      "caption": "Convey showing an inbox of conversations",
+      "source": "https://dl.flathub.org/media/net/donnybeelo/Convey/4edc3a3639f7af64f1fea683b00737a4/screenshots/image-1_orig.png",
+      "validator": {
+        "etag": "\"6adc229d-40c55\"",
+        "lastModified": "Sat, 24 Oct 2026 03:14:37 GMT"
+      }
+    },
+    {
+      "file": "e2d0593e1477dfa282f5fefbe87c07576b374454dcfb1c9bca2e3c7ee64b607d.webp",
+      "caption": "Convey displaying a conversation",
+      "captionTranslations": {
+        "nl": "Weergave van een gesprek in Convey"
+      },
+      "source": "https://dl.flathub.org/media/net/donnybeelo/Convey/4edc3a3639f7af64f1fea683b00737a4/screenshots/image-2_orig.png",
+      "validator": {
+        "etag": "\"6adc229d-1c3d2\"",
+        "lastModified": "Sat, 24 Oct 2026 03:14:37 GMT"
+      }
+    },
+    {
+      "file": "41d34a71ad558c9da17d51e9ba7967a7538c4b42235d0732d293742649ffa25d.webp",
+      "caption": "Convey showing the rich text composer",
+      "captionTranslations": {
+        "nl": "Tekstverwerker met opmaakmogelijkheden in Convey"
+      },
+      "source": "https://dl.flathub.org/media/net/donnybeelo/Convey/4edc3a3639f7af64f1fea683b00737a4/screenshots/image-3_orig.png",
+      "validator": {
+        "etag": "\"6adc229d-19844a\"",
+        "lastModified": "Sat, 24 Oct 2026 03:14:37 GMT"
+      }
+    }
+  ]
+}

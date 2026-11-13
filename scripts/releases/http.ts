@@ -4,6 +4,20 @@ import type { HttpValidator } from "#catalog/refresh";
 
 type Fetcher = (input: string, init?: RequestInit) => Promise<Response>;
 
+interface JsonOptions {
+  fetcher?: Fetcher;
+  sizeLimit?: number;
+}
+
+interface PageOptions {
+  headers?: Record<string, string>;
+  sizeLimit?: number;
+}
+
+export const defaultJsonSizeLimit = 2 * 1024 * 1024;
+
+export const releaseListJsonSizeLimit = 16 * 1024 * 1024;
+
 function responseError(url: string, response: Response) {
   const retryAfter = response.headers.get("retry-after");
   const resetHeader = response.headers.get("x-ratelimit-reset");
@@ -22,9 +36,9 @@ function responseError(url: string, response: Response) {
 export async function getJson(
   url: string,
   headers?: Record<string, string>,
-  fetcher: Fetcher = fetch
+  options: JsonOptions = {}
 ) {
-  const result = await getJsonConditional(url, headers, undefined, fetcher);
+  const result = await getJsonConditional(url, headers, undefined, options);
 
   if (result.notModified) throw new Error(`${url}: unexpected 304 response`);
 
@@ -35,8 +49,10 @@ export async function getJsonConditional(
   url: string,
   headers?: Record<string, string>,
   validator?: HttpValidator,
-  fetcher: Fetcher = fetch
+  options: JsonOptions = {}
 ) {
+  const { fetcher = fetch, sizeLimit = defaultJsonSizeLimit } = options;
+
   const response = await safeFetch(
     url,
     {
@@ -57,7 +73,7 @@ export async function getJsonConditional(
   }
 
   const value: unknown = JSON.parse(
-    (await readResponse(response, 2 * 1024 * 1024, url)).toString("utf8")
+    (await readResponse(response, sizeLimit, url)).toString("utf8")
   );
 
   return {
@@ -93,10 +109,13 @@ export function getPages<T>(
   schema: z.ZodType<T[]>,
   pageUrl: (page: number) => string,
   pageSize: number,
-  headers?: Record<string, string>
+  options: PageOptions = {}
 ) {
+  const { headers, sizeLimit } = options;
+  const jsonOptions: JsonOptions = sizeLimit === undefined ? {} : { sizeLimit };
+
   return collectPages(
-    async (page) => schema.parse(await getJson(pageUrl(page), headers)),
+    async (page) => schema.parse(await getJson(pageUrl(page), headers, jsonOptions)),
     pageSize
   );
 }
