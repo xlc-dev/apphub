@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "revision": "7260bf946bf7fd9024e558401e68134851e28b0a18f91b94ef08d007ad4f9d0d",
-  "generatedAt": "2026-11-12T12:26:49.790Z",
+  "revision": "656b2bdfd1641ca7c651a3d05e60a77a13b692403b2483ccc89cf7acca343728",
+  "generatedAt": "2026-11-13T12:01:42.240Z",
   "apps": [
     {
       "id": "com.belmoussaoui.Authenticator",
@@ -302,6 +302,138 @@
       }
     },
     {
+      "id": "net.donnybeelo.Convey",
+      "slug": "convey",
+      "status": "current",
+      "publisher": {
+        "identity": "{\"provider\":\"github\",\"ownerId\":\"189202376\",\"projectId\":\"1434883622\",\"configuredUrl\":\"https://github.com/pkgforge-dev/Convey-AppImage\"}",
+        "evidence": "https://github.com/pkgforge-dev/Convey-AppImage"
+      },
+      "sandbox": {
+        "sha256": "f090edc0b67fd76f645f1611f73bba9230655f13629dda5fd5e5204a2ddde985",
+        "policy": {
+          "network": "full",
+          "display": "wayland-or-x11",
+          "audio": "full",
+          "processes": "isolated",
+          "ipc": false,
+          "filesystem": [
+            {
+              "location": "desktop",
+              "access": "read-write"
+            }
+          ],
+          "devices": [
+            "gpu"
+          ],
+          "sessionBus": {
+            "access": "filtered",
+            "rules": [
+              {
+                "name": "net.donnybeelo.Convey",
+                "access": "own"
+              },
+              {
+                "name": "org.freedesktop.Notifications",
+                "access": "talk"
+              },
+              {
+                "name": "org.freedesktop.secrets",
+                "access": "talk"
+              },
+              {
+                "name": "org.gnome.Contacts",
+                "access": "talk"
+              },
+              {
+                "name": "org.gnome.OnlineAccounts",
+                "access": "talk"
+              },
+              {
+                "name": "org.gnome.Settings",
+                "access": "talk"
+              },
+              {
+                "name": "org.gnome.keyring.SystemPrompter",
+                "access": "talk"
+              },
+              {
+                "name": "org.kde.StatusNotifierWatcher",
+                "access": "talk"
+              },
+              {
+                "name": "org.kde.kwalletd5",
+                "access": "talk"
+              },
+              {
+                "name": "org.kde.kwalletd6",
+                "access": "talk"
+              },
+              {
+                "name": "org.mpris.MediaPlayer2.Convey",
+                "access": "own"
+              },
+              {
+                "name": "org.mpris.MediaPlayer2.net.donnybeelo.Convey",
+                "access": "own"
+              }
+            ]
+          },
+          "systemBus": {
+            "access": "filtered",
+            "rules": [
+              {
+                "name": "org.freedesktop.login1",
+                "access": "talk"
+              }
+            ]
+          }
+        }
+      },
+      "release": {
+        "version": "51.0@2026-11-01_1793557736",
+        "publishedAt": "2026-11-01T18:28:57Z",
+        "artifacts": [
+          {
+            "architecture": "x86_64",
+            "url": "https://github.com/pkgforge-dev/Convey-AppImage/releases/download/51.0%402026-11-01_1793557736/Convey-51.0-anylinux-x86_64.AppImage",
+            "size": 115165382,
+            "sha256": "fc1cffdb4f9e3361dbe5a03e985b9f6285e06579821f7dba7a60cc275ee67589",
+            "inspection": {
+              "format": "appimage",
+              "runtimeType": 2,
+              "elfClass": 64,
+              "elfMachine": 62,
+              "archive": {
+                "format": "dwarfs",
+                "offset": 1507016,
+                "bytesUsed": 113658366
+              }
+            },
+            "installable": true
+          },
+          {
+            "architecture": "aarch64",
+            "url": "https://github.com/pkgforge-dev/Convey-AppImage/releases/download/51.0%402026-11-01_1793557736/Convey-51.0-anylinux-aarch64.AppImage",
+            "size": 116722317,
+            "sha256": "0d508f59fa203c63f9ee248902d247bb8e42115e2a7509d50a91821165f21164",
+            "inspection": {
+              "format": "appimage",
+              "runtimeType": 2,
+              "elfClass": 64,
+              "elfMachine": 183,
+              "archive": {
+                "format": "dwarfs",
+                "offset": 1378048,
+                "bytesUsed": 115344269
+              }
+            },
+            "installable": true
+          }
+        ]
+      }
+    },
+    {
       "id": "org.DolphinEmu.dolphin-emu",
       "slug": "dolphin-emulator",
       "status": "current",
@@ -447,6 +579,118 @@
                 "format": "dwarfs",
                 "offset": 1378048,
                 "bytesUsed": 29917709
+              }
+            },
+            "installable": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "org.freecad.FreeCAD",
+      "slug": "freecad",
+      "status": "current",
+      "publisher": {
+        "identity": "{\"provider\":\"github\",\"ownerId\":\"2306237\",\"projectId\":\"5736080\",\"configuredUrl\":\"https://github.com/FreeCAD/FreeCAD\"}",
+        "evidence": "https://github.com/FreeCAD/FreeCAD"
+      },
+      "sandbox": {
+        "sha256": "beed0707a9652853b6a5e1d5d20f79bdbe577e201071b06ed607fc33348d2b62",
+        "policy": {
+          "network": "full",
+          "display": "x11",
+          "audio": "none",
+          "processes": "isolated",
+          "ipc": false,
+          "filesystem": [
+            {
+              "location": "home",
+              "access": "read-write"
+            },
+            {
+              "location": "removable-media",
+              "access": "read-write"
+            }
+          ],
+          "devices": [
+            "gpu"
+          ],
+          "sessionBus": {
+            "access": "filtered",
+            "rules": [
+              {
+                "name": "org.freecad.FreeCAD",
+                "access": "own"
+              },
+              {
+                "name": "org.freedesktop.Notifications",
+                "access": "talk"
+              },
+              {
+                "name": "org.kde.StatusNotifierWatcher",
+                "access": "talk"
+              },
+              {
+                "name": "org.mpris.MediaPlayer2.FreeCAD",
+                "access": "own"
+              },
+              {
+                "name": "org.mpris.MediaPlayer2.org.freecad.FreeCAD",
+                "access": "own"
+              }
+            ]
+          },
+          "systemBus": {
+            "access": "filtered",
+            "rules": [
+              {
+                "name": "org.freedesktop.login1",
+                "access": "talk"
+              }
+            ]
+          }
+        }
+      },
+      "release": {
+        "version": "1.1.4",
+        "publishedAt": "2026-09-28T13:58:35Z",
+        "artifacts": [
+          {
+            "architecture": "x86_64",
+            "url": "https://github.com/FreeCAD/FreeCAD/releases/download/1.1.4/FreeCAD_1.1.4-Linux-x86_64-py311.AppImage",
+            "size": 820812280,
+            "sha256": "f6dc6ba676e5ac96a565ebc8d657232f94c6158e85b4352141bd1a46f6b43434",
+            "inspection": {
+              "format": "appimage",
+              "runtimeType": 2,
+              "elfClass": 64,
+              "elfMachine": 62,
+              "archive": {
+                "format": "squashfs",
+                "offset": 944632,
+                "bytesUsed": 819863768,
+                "inodes": 35522,
+                "blockSize": 131072
+              }
+            },
+            "installable": true
+          },
+          {
+            "architecture": "aarch64",
+            "url": "https://github.com/FreeCAD/FreeCAD/releases/download/1.1.4/FreeCAD_1.1.4-Linux-aarch64-py311.AppImage",
+            "size": 755591688,
+            "sha256": "675d1a4295b2183e0e1d816a4b5557dcb63aeced4e60aaa28d6c3686f4c71dc9",
+            "inspection": {
+              "format": "appimage",
+              "runtimeType": 2,
+              "elfClass": 64,
+              "elfMachine": 183,
+              "archive": {
+                "format": "squashfs",
+                "offset": 936456,
+                "bytesUsed": 754654896,
+                "inodes": 35068,
+                "blockSize": 131072
               }
             },
             "installable": true
@@ -1529,6 +1773,106 @@
                 "format": "dwarfs",
                 "offset": 1378048,
                 "bytesUsed": 71054776
+              }
+            },
+            "installable": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "app.zen_browser.zen",
+      "slug": "zen-browser",
+      "status": "current",
+      "publisher": {
+        "identity": "{\"provider\":\"github\",\"ownerId\":\"165225155\",\"projectId\":\"778556932\",\"configuredUrl\":\"https://github.com/zen-browser/desktop\"}",
+        "evidence": "https://github.com/zen-browser/desktop"
+      },
+      "sandbox": {
+        "sha256": "e1cc1127df47fd6c3f7bd4d25e57940b000d03fa6b2af1532b5a9b3be66d3da0",
+        "policy": {
+          "network": "full",
+          "display": "wayland-or-x11",
+          "audio": "full",
+          "processes": "isolated",
+          "ipc": false,
+          "filesystem": [
+            {
+              "location": "downloads",
+              "access": "read-write"
+            }
+          ],
+          "devices": [
+            "gpu"
+          ],
+          "sessionBus": {
+            "access": "filtered",
+            "rules": [
+              {
+                "name": "org.freedesktop.Notifications",
+                "access": "talk"
+              },
+              {
+                "name": "org.kde.StatusNotifierWatcher",
+                "access": "talk"
+              },
+              {
+                "name": "org.mpris.MediaPlayer2.ZenBrowser",
+                "access": "own"
+              }
+            ]
+          },
+          "systemBus": {
+            "access": "filtered",
+            "rules": [
+              {
+                "name": "org.freedesktop.login1",
+                "access": "talk"
+              }
+            ]
+          }
+        }
+      },
+      "release": {
+        "version": "1.24.2b",
+        "publishedAt": "2026-11-12T10:18:28Z",
+        "artifacts": [
+          {
+            "architecture": "x86_64",
+            "url": "https://github.com/zen-browser/desktop/releases/download/1.24.2b/zen-x86_64.AppImage",
+            "size": 149775840,
+            "sha256": "2e73140a2adf6b0bb5669396339d2c0e7a119408a392a5a807d87810f1a99bf5",
+            "inspection": {
+              "format": "appimage",
+              "runtimeType": 2,
+              "elfClass": 64,
+              "elfMachine": 62,
+              "archive": {
+                "format": "squashfs",
+                "offset": 1226208,
+                "bytesUsed": 148547318,
+                "inodes": 69,
+                "blockSize": 131072
+              }
+            },
+            "installable": true
+          },
+          {
+            "architecture": "aarch64",
+            "url": "https://github.com/zen-browser/desktop/releases/download/1.24.2b/zen-aarch64.AppImage",
+            "size": 137910432,
+            "sha256": "228d42846c7ec9eff24e7ec571bda26fb872ee44ed7baa4af929f7fda8e562e1",
+            "inspection": {
+              "format": "appimage",
+              "runtimeType": 2,
+              "elfClass": 64,
+              "elfMachine": 183,
+              "archive": {
+                "format": "squashfs",
+                "offset": 1169568,
+                "bytesUsed": 136738936,
+                "inodes": 69,
+                "blockSize": 131072
               }
             },
             "installable": true

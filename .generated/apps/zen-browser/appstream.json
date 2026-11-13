@@ -1,0 +1,93 @@
+{
+  "id": "app.zen_browser.zen",
+  "name": "Zen",
+  "summary": "Stay focused, browse faster",
+  "description": [
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "value": "Zen is the best way to browse the web. Beautifully designed, privacy-focused, and packed with features. We care about your experience, not your data."
+        }
+      ]
+    },
+    {
+      "type": "unordered-list",
+      "items": [
+        [
+          {
+            "type": "text",
+            "value": "Split view"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "value": "Web sidebar"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "value": "Tab groups"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "value": "Customizable interface"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "value": "Vertical tabs"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "value": "And more…"
+          }
+        ]
+      ]
+    }
+  ],
+  "projectLicense": "MPL-2.0",
+  "developer": {
+    "name": "Zen Team",
+    "url": "https://zen-browser.app"
+  },
+  "homepage": "https://zen-browser.app",
+  "repository": "https://github.com/zen-browser",
+  "links": {
+    "bugtracker": "https://github.com/zen-browser/desktop/issues",
+    "help": "https://docs.zen-browser.app",
+    "contact": "https://discord.gg/zen-browser",
+    "donation": "https://www.patreon.com/zen_browser",
+    "translate": "https://crowdin.com/project/zen-browser",
+    "contribute": "https://docs.zen-browser.app/contribute/CONTRIBUTING",
+    "faq": "https://docs.zen-browser.app/faq"
+  },
+  "contentRating": {
+    "label": "Early Childhood",
+    "minimumAge": 3
+  },
+  "keywords": [
+    "Internet",
+    "WWW",
+    "Browser"
+  ],
+  "categories": [
+    "Network",
+    "WebBrowser"
+  ],
+  "translations": {
+    "nl": {
+      "contentRating": {
+        "label": "3"
+      }
+    }
+  }
+}
