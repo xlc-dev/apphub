@@ -1,0 +1,152 @@
+{
+  "id": "be.alexandervanhee.gradia",
+  "name": "Gradia",
+  "summary": "Annotate your screenshots",
+  "description": [
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "value": "Gradia helps you get your screenshots ready for sharing, whether quickly with friends or colleagues, or professionally with the entire world."
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "value": "Key features:"
+        }
+      ]
+    },
+    {
+      "type": "unordered-list",
+      "items": [
+        [
+          {
+            "type": "text",
+            "value": "Ten annotation modes, including text, arrow, and censor"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "value": "Optional image and gradient backgrounds"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "value": "Image settings like shadow, padding, and auto-balance"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "value": "Quick upload flow to easily share images via services like Imgur"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "value": "Convert code snippets into clean high-resolution images"
+          }
+        ]
+      ]
+    }
+  ],
+  "projectLicense": "GPL-3.0-or-later",
+  "developer": {
+    "name": "Alexander Vanhee",
+    "url": "https://github.com/AlexanderVanhee"
+  },
+  "homepage": "https://gradia.alexandervanhee.be/",
+  "repository": "https://github.com/AlexanderVanhee/Gradia",
+  "links": {
+    "bugtracker": "https://github.com/AlexanderVanhee/Gradia/issues",
+    "donation": "https://ko-fi.com/alexandervanhee",
+    "translate": "https://github.com/AlexanderVanhee/Gradia/blob/master/TRANSLATING.md"
+  },
+  "contentRating": {
+    "label": "Early Childhood",
+    "minimumAge": 3
+  },
+  "keywords": [
+    "Image",
+    "Gradient",
+    "Background"
+  ],
+  "categories": [
+    "Graphics"
+  ],
+  "translations": {
+    "nl": {
+      "summary": "Annoteer je schermafbeeldingen",
+      "description": [
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "value": "Gradia helpt je om je schermafbeeldingen klaar te maken om te delen, of dit nu snel is met vrienden of collega's, of professioneel met de hele wereld."
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "value": "Belangrijkste functies:"
+            }
+          ]
+        },
+        {
+          "type": "unordered-list",
+          "items": [
+            [
+              {
+                "type": "text",
+                "value": "Tien annotatiemodi, inclusief tekst, pijl en censuur"
+              }
+            ],
+            [
+              {
+                "type": "text",
+                "value": "Optionele afbeelding- en verloopachtergronden"
+              }
+            ],
+            [
+              {
+                "type": "text",
+                "value": "Afbeeldingsinstellingen zoals schaduw, opvulling en auto-balans"
+              }
+            ],
+            [
+              {
+                "type": "text",
+                "value": "Snelle uploadknop om afbeeldingen gemakkelijk te delen via diensten zoals Imgur"
+              }
+            ],
+            [
+              {
+                "type": "text",
+                "value": "Converteer codefragmenten naar schone afbeeldingen met een hoge resolutie"
+              }
+            ]
+          ]
+        }
+      ],
+      "keywords": [
+        "Afbeelding",
+        "Verloop",
+        "Achtergrond"
+      ],
+      "contentRating": {
+        "label": "3"
+      }
+    }
+  }
+}

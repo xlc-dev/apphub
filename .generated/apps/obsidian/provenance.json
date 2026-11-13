@@ -1,0 +1,24 @@
+{
+  "metadata": {
+    "provider": "flathub",
+    "sourceUrl": "https://flathub.org/api/v2/appstream/md.obsidian.Obsidian",
+    "providerId": "md.obsidian.Obsidian"
+  },
+  "releaseSource": {
+    "provider": "github",
+    "configuredUrl": "https://github.com/obsidianmd/obsidian-releases",
+    "sourceUrl": "https://github.com/obsidianmd/obsidian-releases",
+    "projectId": "262342594",
+    "ownerId": "65011256"
+  },
+  "refresh": {
+    "metadata": {
+      "lastAttemptAt": "2026-11-13T13:06:02.631Z",
+      "lastSuccessAt": "2026-11-13T13:06:02.631Z"
+    },
+    "releases": {
+      "lastAttemptAt": "2026-11-13T13:06:04.196Z",
+      "lastSuccessAt": "2026-11-13T13:06:04.196Z"
+    }
+  }
+}

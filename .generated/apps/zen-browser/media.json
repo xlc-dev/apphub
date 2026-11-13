@@ -1,0 +1,21 @@
+{
+  "icon": {
+    "file": "778680653647eb44265a7d4d3aa391416e09e93ba10de61b1fa781cca3ba1498.webp",
+    "validator": {
+      "etag": "\"6af59cf0-141a\"",
+      "lastModified": "Thu, 12 Nov 2026 11:03:12 GMT"
+    },
+    "source": "https://dl.flathub.org/media/app/zen_browser/zen/c2e6b7d4b0e8c49d86ebff7ec1381869/icons/128x128/app.zen_browser.zen.png"
+  },
+  "screenshots": [
+    {
+      "file": "48a70f8363f20432dc0a433bc195eceb745e1aab4daa4ebfee2e51f81a97e4d5.webp",
+      "caption": "Zen screenshot",
+      "source": "https://dl.flathub.org/media/app/zen_browser/zen/c2e6b7d4b0e8c49d86ebff7ec1381869/screenshots/image-1_orig.png",
+      "validator": {
+        "etag": "\"6af59cf0-3344a3\"",
+        "lastModified": "Thu, 12 Nov 2026 11:03:12 GMT"
+      }
+    }
+  ]
+}
