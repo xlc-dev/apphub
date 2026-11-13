@@ -1,0 +1,24 @@
+{
+  "metadata": {
+    "provider": "flathub",
+    "sourceUrl": "https://flathub.org/api/v2/appstream/net.donnybeelo.Convey",
+    "providerId": "net.donnybeelo.Convey"
+  },
+  "releaseSource": {
+    "provider": "github",
+    "configuredUrl": "https://github.com/pkgforge-dev/Convey-AppImage",
+    "sourceUrl": "https://github.com/pkgforge-dev/Convey-AppImage",
+    "projectId": "1434883622",
+    "ownerId": "189202376"
+  },
+  "refresh": {
+    "metadata": {
+      "lastAttemptAt": "2026-11-13T10:37:48.079Z",
+      "lastSuccessAt": "2026-11-13T10:37:48.079Z"
+    },
+    "releases": {
+      "lastAttemptAt": "2026-11-13T10:37:54.456Z",
+      "lastSuccessAt": "2026-11-13T10:37:54.456Z"
+    }
+  }
+}

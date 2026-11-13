@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "revision": "216c9dd76f341f223492be192887016ac1315d1c78259fee3bfa8859b2668023",
-  "generatedAt": "2026-11-07T10:58:08.792Z",
+  "revision": "78f06428f1a931678153d9852523d97f2e17bd4b86716a2536719f6a07e83667",
+  "generatedAt": "2026-11-13T10:38:00.765Z",
   "apps": [
     {
       "id": "com.belmoussaoui.Authenticator",
@@ -294,6 +294,138 @@
                 "format": "dwarfs",
                 "offset": 1378048,
                 "bytesUsed": 24038604
+              }
+            },
+            "installable": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "net.donnybeelo.Convey",
+      "slug": "convey",
+      "status": "current",
+      "publisher": {
+        "identity": "{\"provider\":\"github\",\"ownerId\":\"189202376\",\"projectId\":\"1434883622\",\"configuredUrl\":\"https://github.com/pkgforge-dev/Convey-AppImage\"}",
+        "evidence": "https://github.com/pkgforge-dev/Convey-AppImage"
+      },
+      "sandbox": {
+        "sha256": "f090edc0b67fd76f645f1611f73bba9230655f13629dda5fd5e5204a2ddde985",
+        "policy": {
+          "network": "full",
+          "display": "wayland-or-x11",
+          "audio": "full",
+          "processes": "isolated",
+          "ipc": false,
+          "filesystem": [
+            {
+              "location": "desktop",
+              "access": "read-write"
+            }
+          ],
+          "devices": [
+            "gpu"
+          ],
+          "sessionBus": {
+            "access": "filtered",
+            "rules": [
+              {
+                "name": "net.donnybeelo.Convey",
+                "access": "own"
+              },
+              {
+                "name": "org.freedesktop.Notifications",
+                "access": "talk"
+              },
+              {
+                "name": "org.freedesktop.secrets",
+                "access": "talk"
+              },
+              {
+                "name": "org.gnome.Contacts",
+                "access": "talk"
+              },
+              {
+                "name": "org.gnome.OnlineAccounts",
+                "access": "talk"
+              },
+              {
+                "name": "org.gnome.Settings",
+                "access": "talk"
+              },
+              {
+                "name": "org.gnome.keyring.SystemPrompter",
+                "access": "talk"
+              },
+              {
+                "name": "org.kde.StatusNotifierWatcher",
+                "access": "talk"
+              },
+              {
+                "name": "org.kde.kwalletd5",
+                "access": "talk"
+              },
+              {
+                "name": "org.kde.kwalletd6",
+                "access": "talk"
+              },
+              {
+                "name": "org.mpris.MediaPlayer2.Convey",
+                "access": "own"
+              },
+              {
+                "name": "org.mpris.MediaPlayer2.net.donnybeelo.Convey",
+                "access": "own"
+              }
+            ]
+          },
+          "systemBus": {
+            "access": "filtered",
+            "rules": [
+              {
+                "name": "org.freedesktop.login1",
+                "access": "talk"
+              }
+            ]
+          }
+        }
+      },
+      "release": {
+        "version": "51.0@2026-11-01_1793557736",
+        "publishedAt": "2026-11-01T18:28:57Z",
+        "artifacts": [
+          {
+            "architecture": "x86_64",
+            "url": "https://github.com/pkgforge-dev/Convey-AppImage/releases/download/51.0%402026-11-01_1793557736/Convey-51.0-anylinux-x86_64.AppImage",
+            "size": 115165382,
+            "sha256": "fc1cffdb4f9e3361dbe5a03e985b9f6285e06579821f7dba7a60cc275ee67589",
+            "inspection": {
+              "format": "appimage",
+              "runtimeType": 2,
+              "elfClass": 64,
+              "elfMachine": 62,
+              "archive": {
+                "format": "dwarfs",
+                "offset": 1507016,
+                "bytesUsed": 113658366
+              }
+            },
+            "installable": true
+          },
+          {
+            "architecture": "aarch64",
+            "url": "https://github.com/pkgforge-dev/Convey-AppImage/releases/download/51.0%402026-11-01_1793557736/Convey-51.0-anylinux-aarch64.AppImage",
+            "size": 116722317,
+            "sha256": "0d508f59fa203c63f9ee248902d247bb8e42115e2a7509d50a91821165f21164",
+            "inspection": {
+              "format": "appimage",
+              "runtimeType": 2,
+              "elfClass": 64,
+              "elfMachine": 183,
+              "archive": {
+                "format": "dwarfs",
+                "offset": 1378048,
+                "bytesUsed": 115344269
               }
             },
             "installable": true
@@ -947,14 +1079,14 @@
         }
       },
       "release": {
-        "version": "v1.18.2@2026-09-21_1789949797",
-        "publishedAt": "2026-09-21T00:16:38Z",
+        "version": "v1.18.2@2026-11-07_1794060258",
+        "publishedAt": "2026-11-07T14:04:19Z",
         "artifacts": [
           {
             "architecture": "x86_64",
-            "url": "https://github.com/pkgforge-dev/LocalSend-AppImage/releases/download/v1.18.2%402026-09-21_1789949797/LocalSend-v1.18.2-anylinux-x86_64.AppImage",
-            "size": 46254198,
-            "sha256": "5a200f3b6f869dcc52fba51eaca35930b277226c014a248059c01e4ec9bf9513",
+            "url": "https://github.com/pkgforge-dev/LocalSend-AppImage/releases/download/v1.18.2%402026-11-07_1794060258/LocalSend-v1.18.2-anylinux-x86_64.AppImage",
+            "size": 46557359,
+            "sha256": "bd0830241f3b51c4fff394a626d5eb6f6973658644669e0d725aa1f7ec0e254b",
             "inspection": {
               "format": "appimage",
               "runtimeType": 2,
@@ -962,17 +1094,17 @@
               "elfMachine": 62,
               "archive": {
                 "format": "dwarfs",
-                "offset": 1469984,
-                "bytesUsed": 44784214
+                "offset": 1507016,
+                "bytesUsed": 45050343
               }
             },
             "installable": true
           },
           {
             "architecture": "aarch64",
-            "url": "https://github.com/pkgforge-dev/LocalSend-AppImage/releases/download/v1.18.2%402026-09-21_1789949797/LocalSend-v1.18.2-anylinux-aarch64.AppImage",
-            "size": 45380609,
-            "sha256": "c994c416e0c6792cf137a2b7d4efe6f277f8946025e5e617b5e99be7735f2b0b",
+            "url": "https://github.com/pkgforge-dev/LocalSend-AppImage/releases/download/v1.18.2%402026-11-07_1794060258/LocalSend-v1.18.2-anylinux-aarch64.AppImage",
+            "size": 45127897,
+            "sha256": "b315f505d4fd2038923b2b891f61848771ee94cfe00b7ef02829de5c41b2cb51",
             "inspection": {
               "format": "appimage",
               "runtimeType": 2,
@@ -980,8 +1112,8 @@
               "elfMachine": 183,
               "archive": {
                 "format": "dwarfs",
-                "offset": 1345360,
-                "bytesUsed": 44035249
+                "offset": 1378048,
+                "bytesUsed": 43749849
               }
             },
             "installable": true
