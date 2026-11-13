@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "revision": "78f06428f1a931678153d9852523d97f2e17bd4b86716a2536719f6a07e83667",
-  "generatedAt": "2026-11-13T10:38:00.765Z",
+  "revision": "a1572a55a152cc2a408080af92ae67b2845fb5d923b91ab4b70b1db87570c574",
+  "generatedAt": "2026-11-13T10:40:38.124Z",
   "apps": [
     {
       "id": "com.belmoussaoui.Authenticator",
@@ -579,6 +579,118 @@
                 "format": "dwarfs",
                 "offset": 1378048,
                 "bytesUsed": 29917709
+              }
+            },
+            "installable": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "org.freecad.FreeCAD",
+      "slug": "freecad",
+      "status": "current",
+      "publisher": {
+        "identity": "{\"provider\":\"github\",\"ownerId\":\"2306237\",\"projectId\":\"5736080\",\"configuredUrl\":\"https://github.com/FreeCAD/FreeCAD\"}",
+        "evidence": "https://github.com/FreeCAD/FreeCAD"
+      },
+      "sandbox": {
+        "sha256": "beed0707a9652853b6a5e1d5d20f79bdbe577e201071b06ed607fc33348d2b62",
+        "policy": {
+          "network": "full",
+          "display": "x11",
+          "audio": "none",
+          "processes": "isolated",
+          "ipc": false,
+          "filesystem": [
+            {
+              "location": "home",
+              "access": "read-write"
+            },
+            {
+              "location": "removable-media",
+              "access": "read-write"
+            }
+          ],
+          "devices": [
+            "gpu"
+          ],
+          "sessionBus": {
+            "access": "filtered",
+            "rules": [
+              {
+                "name": "org.freecad.FreeCAD",
+                "access": "own"
+              },
+              {
+                "name": "org.freedesktop.Notifications",
+                "access": "talk"
+              },
+              {
+                "name": "org.kde.StatusNotifierWatcher",
+                "access": "talk"
+              },
+              {
+                "name": "org.mpris.MediaPlayer2.FreeCAD",
+                "access": "own"
+              },
+              {
+                "name": "org.mpris.MediaPlayer2.org.freecad.FreeCAD",
+                "access": "own"
+              }
+            ]
+          },
+          "systemBus": {
+            "access": "filtered",
+            "rules": [
+              {
+                "name": "org.freedesktop.login1",
+                "access": "talk"
+              }
+            ]
+          }
+        }
+      },
+      "release": {
+        "version": "1.1.4",
+        "publishedAt": "2026-09-28T13:58:35Z",
+        "artifacts": [
+          {
+            "architecture": "x86_64",
+            "url": "https://github.com/FreeCAD/FreeCAD/releases/download/1.1.4/FreeCAD_1.1.4-Linux-x86_64-py311.AppImage",
+            "size": 820812280,
+            "sha256": "f6dc6ba676e5ac96a565ebc8d657232f94c6158e85b4352141bd1a46f6b43434",
+            "inspection": {
+              "format": "appimage",
+              "runtimeType": 2,
+              "elfClass": 64,
+              "elfMachine": 62,
+              "archive": {
+                "format": "squashfs",
+                "offset": 944632,
+                "bytesUsed": 819863768,
+                "inodes": 35522,
+                "blockSize": 131072
+              }
+            },
+            "installable": true
+          },
+          {
+            "architecture": "aarch64",
+            "url": "https://github.com/FreeCAD/FreeCAD/releases/download/1.1.4/FreeCAD_1.1.4-Linux-aarch64-py311.AppImage",
+            "size": 755591688,
+            "sha256": "675d1a4295b2183e0e1d816a4b5557dcb63aeced4e60aaa28d6c3686f4c71dc9",
+            "inspection": {
+              "format": "appimage",
+              "runtimeType": 2,
+              "elfClass": 64,
+              "elfMachine": 183,
+              "archive": {
+                "format": "squashfs",
+                "offset": 936456,
+                "bytesUsed": 754654896,
+                "inodes": 35068,
+                "blockSize": 131072
               }
             },
             "installable": true
