@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "revision": "a13263b889f3857d18059f4f1a07c4967318ee85a987f4d17ebea711274872c6",
-  "generatedAt": "2026-11-13T13:24:46.335Z",
+  "revision": "5b6834c398837f9ca39bcaa46904830ff477aa9854436fee1591ceae1f1ec0c8",
+  "generatedAt": "2026-11-13T13:37:10.634Z",
   "apps": [
     {
       "id": "com.belmoussaoui.Authenticator",
@@ -1651,6 +1651,121 @@
                 "format": "dwarfs",
                 "offset": 1507016,
                 "bytesUsed": 44830624
+              }
+            },
+            "installable": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "io.github.alainm23.planify",
+      "slug": "planify",
+      "status": "current",
+      "publisher": {
+        "identity": "{\"provider\":\"github\",\"ownerId\":\"189202376\",\"projectId\":\"1218506184\",\"configuredUrl\":\"https://github.com/pkgforge-dev/Planify-AppImage\"}",
+        "evidence": "https://github.com/pkgforge-dev/Planify-AppImage"
+      },
+      "sandbox": {
+        "sha256": "3d6ab6b3006c937a9fa7f7841a1e2d15ea099effec7629535d0ec2964dc77f40",
+        "policy": {
+          "network": "full",
+          "display": "wayland-or-x11",
+          "audio": "full",
+          "processes": "isolated",
+          "ipc": false,
+          "filesystem": [],
+          "devices": [
+            "gpu"
+          ],
+          "sessionBus": {
+            "access": "filtered",
+            "rules": [
+              {
+                "name": "io.github.alainm23.planify",
+                "access": "own"
+              },
+              {
+                "name": "org.freedesktop.Notifications",
+                "access": "talk"
+              },
+              {
+                "name": "org.gnome.Contacts",
+                "access": "talk"
+              },
+              {
+                "name": "org.gnome.OnlineAccounts",
+                "access": "talk"
+              },
+              {
+                "name": "org.gnome.Settings",
+                "access": "talk"
+              },
+              {
+                "name": "org.kde.StatusNotifierWatcher",
+                "access": "talk"
+              },
+              {
+                "name": "org.mpris.MediaPlayer2.Planify",
+                "access": "own"
+              },
+              {
+                "name": "org.mpris.MediaPlayer2.io.github.alainm23.planify",
+                "access": "own"
+              },
+              {
+                "name": "org.mpris.MediaPlayer2.planify",
+                "access": "own"
+              }
+            ]
+          },
+          "systemBus": {
+            "access": "filtered",
+            "rules": [
+              {
+                "name": "org.freedesktop.login1",
+                "access": "talk"
+              }
+            ]
+          }
+        }
+      },
+      "release": {
+        "version": "v4.20.0@2026-11-07_1794059733",
+        "publishedAt": "2026-11-07T13:55:35Z",
+        "artifacts": [
+          {
+            "architecture": "x86_64",
+            "url": "https://github.com/pkgforge-dev/Planify-AppImage/releases/download/v4.20.0%402026-11-07_1794059733/Planify-v4.20.0-anylinux-x86_64.AppImage",
+            "size": 39367259,
+            "sha256": "3e0cf65f4303aae71aedacb17efb70dbeddf54a74e6dc8a365f259118fc50817",
+            "inspection": {
+              "format": "appimage",
+              "runtimeType": 2,
+              "elfClass": 64,
+              "elfMachine": 62,
+              "archive": {
+                "format": "dwarfs",
+                "offset": 1507016,
+                "bytesUsed": 37860243
+              }
+            },
+            "installable": true
+          },
+          {
+            "architecture": "aarch64",
+            "url": "https://github.com/pkgforge-dev/Planify-AppImage/releases/download/v4.20.0%402026-11-07_1794059733/Planify-v4.20.0-anylinux-aarch64.AppImage",
+            "size": 38360954,
+            "sha256": "5f13ef23f1f4067575ebc478def469e1517e37fde092d397392c72b510a251b9",
+            "inspection": {
+              "format": "appimage",
+              "runtimeType": 2,
+              "elfClass": 64,
+              "elfMachine": 183,
+              "archive": {
+                "format": "dwarfs",
+                "offset": 1378048,
+                "bytesUsed": 36982906
               }
             },
             "installable": true

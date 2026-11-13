@@ -1,0 +1,24 @@
+{
+  "metadata": {
+    "provider": "flathub",
+    "sourceUrl": "https://flathub.org/api/v2/appstream/io.github.alainm23.planify",
+    "providerId": "io.github.alainm23.planify"
+  },
+  "releaseSource": {
+    "provider": "github",
+    "configuredUrl": "https://github.com/pkgforge-dev/Planify-AppImage",
+    "sourceUrl": "https://github.com/pkgforge-dev/Planify-AppImage",
+    "projectId": "1218506184",
+    "ownerId": "189202376"
+  },
+  "refresh": {
+    "metadata": {
+      "lastAttemptAt": "2026-11-13T13:37:00.298Z",
+      "lastSuccessAt": "2026-11-13T13:37:00.298Z"
+    },
+    "releases": {
+      "lastAttemptAt": "2026-11-13T13:37:02.290Z",
+      "lastSuccessAt": "2026-11-13T13:37:02.290Z"
+    }
+  }
+}
