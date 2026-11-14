@@ -1,11 +1,11 @@
 {
   "icon": {
     "file": "b54f8ab567950f2b6f3f1c4cae6662462ede58de2d35008d2c696066d1c5d62a.webp",
+    "source": "https://dl.flathub.org/media/org/freecad/FreeCAD/8aed740e69136048ee215e0b23487525/icons/128x128/org.freecad.FreeCAD.png",
     "validator": {
       "etag": "\"6af565b4-66a\"",
       "lastModified": "Thu, 12 Nov 2026 07:07:32 GMT"
-    },
-    "source": "https://dl.flathub.org/media/org/freecad/FreeCAD/8aed740e69136048ee215e0b23487525/icons/128x128/org.freecad.FreeCAD.png"
+    }
   },
   "screenshots": [
     {

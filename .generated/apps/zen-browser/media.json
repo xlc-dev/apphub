@@ -1,11 +1,11 @@
 {
   "icon": {
     "file": "778680653647eb44265a7d4d3aa391416e09e93ba10de61b1fa781cca3ba1498.webp",
+    "source": "https://dl.flathub.org/media/app/zen_browser/zen/c2e6b7d4b0e8c49d86ebff7ec1381869/icons/128x128/app.zen_browser.zen.png",
     "validator": {
       "etag": "\"6af59cf0-141a\"",
       "lastModified": "Thu, 12 Nov 2026 11:03:12 GMT"
-    },
-    "source": "https://dl.flathub.org/media/app/zen_browser/zen/c2e6b7d4b0e8c49d86ebff7ec1381869/icons/128x128/app.zen_browser.zen.png"
+    }
   },
   "screenshots": [
     {

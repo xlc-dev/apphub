@@ -1,11 +1,11 @@
 {
   "icon": {
     "file": "19e2ee145344c80adebc689a9a8deb7b6a64889f5f56ac3da4cb9c94221a40dc.webp",
+    "source": "https://dl.flathub.org/media/be/alexandervanhee/gradia/bab74d2ac1fb3c19e3fa4903c6a2075c/icons/128x128/be.alexandervanhee.gradia.png",
     "validator": {
       "etag": "\"6abd082c-1250\"",
       "lastModified": "Wed, 30 Sep 2026 13:01:32 GMT"
-    },
-    "source": "https://dl.flathub.org/media/be/alexandervanhee/gradia/bab74d2ac1fb3c19e3fa4903c6a2075c/icons/128x128/be.alexandervanhee.gradia.png"
+    }
   },
   "screenshots": [
     {

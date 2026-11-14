@@ -1,11 +1,11 @@
 {
   "icon": {
     "file": "39c36af7134834270a4b5db5a79f22df005910debf9fc3e95968bd41b88feb05.webp",
+    "source": "https://dl.flathub.org/media/io/github/alainm23.planify/caab2d5959e999c8cfa39e9fac258229/icons/128x128/io.github.alainm23.planify.png",
     "validator": {
       "etag": "\"6aa3d16f-1693\"",
       "lastModified": "Fri, 11 Sep 2026 10:01:19 GMT"
-    },
-    "source": "https://dl.flathub.org/media/io/github/alainm23.planify/caab2d5959e999c8cfa39e9fac258229/icons/128x128/io.github.alainm23.planify.png"
+    }
   },
   "screenshots": [
     {
