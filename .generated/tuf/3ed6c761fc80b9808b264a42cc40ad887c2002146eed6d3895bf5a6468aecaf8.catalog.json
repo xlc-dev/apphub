@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "revision": "e323d61a815e31e56cd92edd476e39c0ffffd7244b4d8cad3e4facb255fa38c5",
-  "generatedAt": "2026-11-15T11:52:19.101Z",
+  "revision": "f07a6a6c397b82da7d71850e1d0cd5c7a057536db97d1fd49106490a57df7162",
+  "generatedAt": "2026-11-16T12:35:45.481Z",
   "apps": [
     {
       "id": "com.belmoussaoui.Authenticator",
@@ -2226,7 +2226,7 @@
     {
       "id": "app.zen_browser.zen",
       "slug": "zen-browser",
-      "status": "current",
+      "status": "stale",
       "publisher": {
         "identity": "{\"provider\":\"github\",\"ownerId\":\"165225155\",\"projectId\":\"778556932\",\"configuredUrl\":\"https://github.com/zen-browser/desktop\"}",
         "evidence": "https://github.com/zen-browser/desktop"
