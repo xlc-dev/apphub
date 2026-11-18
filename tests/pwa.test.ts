@@ -14,6 +14,7 @@ test("provides installable app metadata without offline caching", async () => {
     id: "./",
     start_url: "./",
     scope: "./",
+    categories: ["utilities"],
     display: "standalone",
     background_color: "#fafafa",
     theme_color: "#fafafa",
