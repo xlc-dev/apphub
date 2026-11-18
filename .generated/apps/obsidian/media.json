@@ -1,11 +1,11 @@
 {
   "icon": {
     "file": "a7fdb9e5a6e964b59047a5cd29ac42df15f6743d6d1a85c510adb24740037577.webp",
+    "source": "https://dl.flathub.org/media/md/obsidian/Obsidian/c97fbe7fe83bc7e70ac76009b6b56055/icons/128x128/md.obsidian.Obsidian.png",
     "validator": {
       "etag": "\"6ae94e66-329d\"",
       "lastModified": "Tue, 03 Nov 2026 03:00:54 GMT"
-    },
-    "source": "https://dl.flathub.org/media/md/obsidian/Obsidian/c97fbe7fe83bc7e70ac76009b6b56055/icons/128x128/md.obsidian.Obsidian.png"
+    }
   },
   "screenshots": [
     {
