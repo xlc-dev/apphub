@@ -1,11 +1,11 @@
 {
   "icon": {
     "file": "f9fbea10152584a51dead2211e2e973244e59c76b7991cf6a3e1024b3af9f2de.webp",
+    "source": "https://dl.flathub.org/media/org/dolphinemu/dolphin-emu/3addcf579c2984c5a782c4d4c8e28353/icons/128x128/org.DolphinEmu.dolphin-emu.png",
     "validator": {
       "etag": "\"6af84d98-1de9\"",
       "lastModified": "Sat, 14 Nov 2026 12:01:28 GMT"
-    },
-    "source": "https://dl.flathub.org/media/org/dolphinemu/dolphin-emu/3addcf579c2984c5a782c4d4c8e28353/icons/128x128/org.DolphinEmu.dolphin-emu.png"
+    }
   },
   "screenshots": [
     {
