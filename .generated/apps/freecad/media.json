@@ -1,11 +1,11 @@
 {
   "icon": {
     "file": "b54f8ab567950f2b6f3f1c4cae6662462ede58de2d35008d2c696066d1c5d62a.webp",
-    "source": "https://dl.flathub.org/media/org/freecad/FreeCAD/8aed740e69136048ee215e0b23487525/icons/128x128/org.freecad.FreeCAD.png",
     "validator": {
-      "etag": "\"6af565b4-66a\"",
-      "lastModified": "Thu, 12 Nov 2026 07:07:32 GMT"
-    }
+      "etag": "\"6af7a575-66a\"",
+      "lastModified": "Sat, 14 Nov 2026 00:04:05 GMT"
+    },
+    "source": "https://dl.flathub.org/media/org/freecad/FreeCAD/8aed740e69136048ee215e0b23487525/icons/128x128/org.freecad.FreeCAD.png"
   },
   "screenshots": [
     {
@@ -13,8 +13,8 @@
       "caption": "Part Design",
       "source": "https://dl.flathub.org/media/org/freecad/FreeCAD/8aed740e69136048ee215e0b23487525/screenshots/image-1_orig.png",
       "validator": {
-        "etag": "\"6af565b4-629b7\"",
-        "lastModified": "Thu, 12 Nov 2026 07:07:32 GMT"
+        "etag": "\"6af7a575-629b7\"",
+        "lastModified": "Sat, 14 Nov 2026 00:04:05 GMT"
       }
     },
     {
@@ -22,8 +22,8 @@
       "caption": "Assembly",
       "source": "https://dl.flathub.org/media/org/freecad/FreeCAD/8aed740e69136048ee215e0b23487525/screenshots/image-2_orig.png",
       "validator": {
-        "etag": "\"6af565b4-5de36\"",
-        "lastModified": "Thu, 12 Nov 2026 07:07:32 GMT"
+        "etag": "\"6af7a575-5de36\"",
+        "lastModified": "Sat, 14 Nov 2026 00:04:05 GMT"
       }
     },
     {
@@ -31,8 +31,8 @@
       "caption": "BIM",
       "source": "https://dl.flathub.org/media/org/freecad/FreeCAD/8aed740e69136048ee215e0b23487525/screenshots/image-3_orig.png",
       "validator": {
-        "etag": "\"6af565b4-7aa73\"",
-        "lastModified": "Thu, 12 Nov 2026 07:07:32 GMT"
+        "etag": "\"6af7a575-7aa73\"",
+        "lastModified": "Sat, 14 Nov 2026 00:04:05 GMT"
       }
     },
     {
@@ -40,8 +40,8 @@
       "caption": "FEM",
       "source": "https://dl.flathub.org/media/org/freecad/FreeCAD/8aed740e69136048ee215e0b23487525/screenshots/image-4_orig.png",
       "validator": {
-        "etag": "\"6af565b4-5eb85\"",
-        "lastModified": "Thu, 12 Nov 2026 07:07:32 GMT"
+        "etag": "\"6af7a575-5eb85\"",
+        "lastModified": "Sat, 14 Nov 2026 00:04:05 GMT"
       }
     }
   ]
