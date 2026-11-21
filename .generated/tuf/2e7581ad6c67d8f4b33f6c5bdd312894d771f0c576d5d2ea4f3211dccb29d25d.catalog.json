@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "revision": "164a8018e8fea923fa0b2ef1234935cbcfb73748e7b964a0b0da276d7ae71f28",
-  "generatedAt": "2026-11-20T12:42:16.337Z",
+  "revision": "0f3e46a20e0f17663d446608acaff7634b0c1144fdb84dd8daacdc6811b178ec",
+  "generatedAt": "2026-11-21T12:23:40.748Z",
   "apps": [
     {
       "id": "com.belmoussaoui.Authenticator",
@@ -2277,14 +2277,14 @@
         }
       },
       "release": {
-        "version": "1.24.2b",
-        "publishedAt": "2026-11-12T10:18:28Z",
+        "version": "1.24.3b",
+        "publishedAt": "2026-11-18T19:27:04Z",
         "artifacts": [
           {
             "architecture": "x86_64",
-            "url": "https://github.com/zen-browser/desktop/releases/download/1.24.2b/zen-x86_64.AppImage",
-            "size": 149775840,
-            "sha256": "2e73140a2adf6b0bb5669396339d2c0e7a119408a392a5a807d87810f1a99bf5",
+            "url": "https://github.com/zen-browser/desktop/releases/download/1.24.3b/zen-x86_64.AppImage",
+            "size": 149678528,
+            "sha256": "4fdbf6a99911b240062366c0ecb0b4c683346a9041fe317069d767053563fa15",
             "inspection": {
               "format": "appimage",
               "runtimeType": 2,
@@ -2292,8 +2292,8 @@
               "elfMachine": 62,
               "archive": {
                 "format": "squashfs",
-                "offset": 1226208,
-                "bytesUsed": 148547318,
+                "offset": 1223104,
+                "bytesUsed": 148452252,
                 "inodes": 69,
                 "blockSize": 131072
               }
@@ -2302,9 +2302,9 @@
           },
           {
             "architecture": "aarch64",
-            "url": "https://github.com/zen-browser/desktop/releases/download/1.24.2b/zen-aarch64.AppImage",
-            "size": 137910432,
-            "sha256": "228d42846c7ec9eff24e7ec571bda26fb872ee44ed7baa4af929f7fda8e562e1",
+            "url": "https://github.com/zen-browser/desktop/releases/download/1.24.3b/zen-aarch64.AppImage",
+            "size": 137871728,
+            "sha256": "a04917abc108762dbce78dce0afb46d09428c45f7264aa770ee7418297895225",
             "inspection": {
               "format": "appimage",
               "runtimeType": 2,
@@ -2312,8 +2312,8 @@
               "elfMachine": 183,
               "archive": {
                 "format": "squashfs",
-                "offset": 1169568,
-                "bytesUsed": 136738936,
+                "offset": 1167728,
+                "bytesUsed": 136701790,
                 "inodes": 69,
                 "blockSize": 131072
               }

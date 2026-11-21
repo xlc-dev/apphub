@@ -2,18 +2,18 @@
   "appId": "app.zen_browser.zen",
   "releases": [
     {
-      "version": "1.24.2b",
-      "publishedAt": "2026-11-12T10:18:28Z",
-      "page": "https://github.com/zen-browser/desktop/releases/tag/1.24.2b",
-      "releaseId": "442780209",
+      "version": "1.24.3b",
+      "publishedAt": "2026-11-18T19:27:04Z",
+      "page": "https://github.com/zen-browser/desktop/releases/tag/1.24.3b",
+      "releaseId": "450454376",
       "artifacts": [
         {
           "architecture": "x86_64",
           "name": "zen-x86_64.AppImage",
-          "url": "https://github.com/zen-browser/desktop/releases/download/1.24.2b/zen-x86_64.AppImage",
-          "assetId": "739015273",
-          "size": 149775840,
-          "sha256": "2e73140a2adf6b0bb5669396339d2c0e7a119408a392a5a807d87810f1a99bf5",
+          "url": "https://github.com/zen-browser/desktop/releases/download/1.24.3b/zen-x86_64.AppImage",
+          "assetId": "764695274",
+          "size": 149678528,
+          "sha256": "4fdbf6a99911b240062366c0ecb0b4c683346a9041fe317069d767053563fa15",
           "capabilities": {
             "runtimeType": 2,
             "fuse": false,
@@ -27,23 +27,23 @@
             "elfMachine": 62,
             "archive": {
               "format": "squashfs",
-              "offset": 1226208,
-              "bytesUsed": 148547318,
+              "offset": 1223104,
+              "bytesUsed": 148452252,
               "inodes": 69,
               "blockSize": 131072
             }
           },
           "checksumEvidence": {
-            "sourceUrl": "https://github.com/zen-browser/desktop/releases/tag/1.24.2b"
+            "sourceUrl": "https://github.com/zen-browser/desktop/releases/tag/1.24.3b"
           }
         },
         {
           "architecture": "aarch64",
           "name": "zen-aarch64.AppImage",
-          "url": "https://github.com/zen-browser/desktop/releases/download/1.24.2b/zen-aarch64.AppImage",
-          "assetId": "739015277",
-          "size": 137910432,
-          "sha256": "228d42846c7ec9eff24e7ec571bda26fb872ee44ed7baa4af929f7fda8e562e1",
+          "url": "https://github.com/zen-browser/desktop/releases/download/1.24.3b/zen-aarch64.AppImage",
+          "assetId": "764695281",
+          "size": 137871728,
+          "sha256": "a04917abc108762dbce78dce0afb46d09428c45f7264aa770ee7418297895225",
           "capabilities": {
             "runtimeType": 2,
             "fuse": false,
@@ -57,14 +57,14 @@
             "elfMachine": 183,
             "archive": {
               "format": "squashfs",
-              "offset": 1169568,
-              "bytesUsed": 136738936,
+              "offset": 1167728,
+              "bytesUsed": 136701790,
               "inodes": 69,
               "blockSize": 131072
             }
           },
           "checksumEvidence": {
-            "sourceUrl": "https://github.com/zen-browser/desktop/releases/tag/1.24.2b"
+            "sourceUrl": "https://github.com/zen-browser/desktop/releases/tag/1.24.3b"
           }
         }
       ]
