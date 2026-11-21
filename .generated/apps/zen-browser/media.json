@@ -1,20 +1,20 @@
 {
   "icon": {
     "file": "778680653647eb44265a7d4d3aa391416e09e93ba10de61b1fa781cca3ba1498.webp",
-    "source": "https://dl.flathub.org/media/app/zen_browser/zen/c2e6b7d4b0e8c49d86ebff7ec1381869/icons/128x128/app.zen_browser.zen.png",
+    "source": "https://dl.flathub.org/media/app/zen_browser/zen/dcd0308f712faee3a5ac958b166e336d/icons/128x128/app.zen_browser.zen.png",
     "validator": {
-      "etag": "\"6af59cf0-141a\"",
-      "lastModified": "Thu, 12 Nov 2026 11:03:12 GMT"
+      "etag": "\"6afe14e2-141a\"",
+      "lastModified": "Wed, 18 Nov 2026 21:13:06 GMT"
     }
   },
   "screenshots": [
     {
       "file": "48a70f8363f20432dc0a433bc195eceb745e1aab4daa4ebfee2e51f81a97e4d5.webp",
       "caption": "Zen screenshot",
-      "source": "https://dl.flathub.org/media/app/zen_browser/zen/c2e6b7d4b0e8c49d86ebff7ec1381869/screenshots/image-1_orig.png",
+      "source": "https://dl.flathub.org/media/app/zen_browser/zen/dcd0308f712faee3a5ac958b166e336d/screenshots/image-1_orig.png",
       "validator": {
-        "etag": "\"6af59cf0-3344a3\"",
-        "lastModified": "Thu, 12 Nov 2026 11:03:12 GMT"
+        "etag": "\"6afe14e2-3344a3\"",
+        "lastModified": "Wed, 18 Nov 2026 21:13:06 GMT"
       }
     }
   ]

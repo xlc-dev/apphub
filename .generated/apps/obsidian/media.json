@@ -1,11 +1,11 @@
 {
   "icon": {
     "file": "a7fdb9e5a6e964b59047a5cd29ac42df15f6743d6d1a85c510adb24740037577.webp",
-    "source": "https://dl.flathub.org/media/md/obsidian/Obsidian/c97fbe7fe83bc7e70ac76009b6b56055/icons/128x128/md.obsidian.Obsidian.png",
     "validator": {
-      "etag": "\"6ae94e66-329d\"",
-      "lastModified": "Tue, 03 Nov 2026 03:00:54 GMT"
-    }
+      "etag": "\"6af77aa7-329d\"",
+      "lastModified": "Fri, 13 Nov 2026 21:01:27 GMT"
+    },
+    "source": "https://dl.flathub.org/media/md/obsidian/Obsidian/cf7bc04e771397dee717a90628eeba9d/icons/128x128/md.obsidian.Obsidian.png"
   },
   "screenshots": [
     {
@@ -14,10 +14,10 @@
       "captionTranslations": {
         "nl": "Obsidian screenshot"
       },
-      "source": "https://dl.flathub.org/media/md/obsidian/Obsidian/c97fbe7fe83bc7e70ac76009b6b56055/screenshots/image-1_orig.png",
+      "source": "https://dl.flathub.org/media/md/obsidian/Obsidian/cf7bc04e771397dee717a90628eeba9d/screenshots/image-1_orig.png",
       "validator": {
-        "etag": "\"6ae94e66-8e3f3\"",
-        "lastModified": "Tue, 03 Nov 2026 03:00:54 GMT"
+        "etag": "\"6af77aa7-8e3f3\"",
+        "lastModified": "Fri, 13 Nov 2026 21:01:27 GMT"
       }
     },
     {
@@ -26,10 +26,10 @@
       "captionTranslations": {
         "nl": "Obsidian screenshot"
       },
-      "source": "https://dl.flathub.org/media/md/obsidian/Obsidian/c97fbe7fe83bc7e70ac76009b6b56055/screenshots/image-2_orig.png",
+      "source": "https://dl.flathub.org/media/md/obsidian/Obsidian/cf7bc04e771397dee717a90628eeba9d/screenshots/image-2_orig.png",
       "validator": {
-        "etag": "\"6ae94e66-3ee0e\"",
-        "lastModified": "Tue, 03 Nov 2026 03:00:54 GMT"
+        "etag": "\"6af77aa7-3ee0e\"",
+        "lastModified": "Fri, 13 Nov 2026 21:01:27 GMT"
       }
     },
     {
@@ -38,10 +38,10 @@
       "captionTranslations": {
         "nl": "Obsidian screenshot"
       },
-      "source": "https://dl.flathub.org/media/md/obsidian/Obsidian/c97fbe7fe83bc7e70ac76009b6b56055/screenshots/image-3_orig.png",
+      "source": "https://dl.flathub.org/media/md/obsidian/Obsidian/cf7bc04e771397dee717a90628eeba9d/screenshots/image-3_orig.png",
       "validator": {
-        "etag": "\"6ae94e66-6a2a0\"",
-        "lastModified": "Tue, 03 Nov 2026 03:00:54 GMT"
+        "etag": "\"6af77aa7-6a2a0\"",
+        "lastModified": "Fri, 13 Nov 2026 21:01:27 GMT"
       }
     },
     {
@@ -50,10 +50,10 @@
       "captionTranslations": {
         "nl": "Obsidian screenshot"
       },
-      "source": "https://dl.flathub.org/media/md/obsidian/Obsidian/c97fbe7fe83bc7e70ac76009b6b56055/screenshots/image-4_orig.png",
+      "source": "https://dl.flathub.org/media/md/obsidian/Obsidian/cf7bc04e771397dee717a90628eeba9d/screenshots/image-4_orig.png",
       "validator": {
-        "etag": "\"6ae94e66-3c0bf\"",
-        "lastModified": "Tue, 03 Nov 2026 03:00:54 GMT"
+        "etag": "\"6af77aa7-3c0bf\"",
+        "lastModified": "Fri, 13 Nov 2026 21:01:27 GMT"
       }
     }
   ]
