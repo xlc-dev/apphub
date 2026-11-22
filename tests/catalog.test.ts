@@ -410,6 +410,8 @@ describe("asset matching", () => {
   test("architectures require filename boundaries", () => {
     assert.equal(matchesArchitecture("Example-x86_64.AppImage", "x86_64"), true);
     assert.equal(matchesArchitecture("Example-amd64.AppImage", "x86_64"), true);
+    assert.equal(matchesArchitecture("Example-x64.AppImage", "x86_64"), true);
+    assert.equal(matchesArchitecture("Example-linux64.AppImage", "x86_64"), false);
     assert.equal(matchesArchitecture("Example-notarm64.AppImage", "aarch64"), false);
     assert.equal(matchesArchitecture("Example-arm64.AppImage.zsync", "aarch64"), false);
   });
@@ -441,6 +443,42 @@ describe("asset matching", () => {
           { name: "Example-2-x86_64.AppImage" },
         ]),
       /expected one x86_64 asset, found 2/
+    );
+  });
+
+  test("treats an untagged AppImage as x86_64", () => {
+    assert.deepEqual(
+      selectAssets(app, [
+        { name: "Obsidian-1.15.1-arm64.AppImage" },
+        { name: "Obsidian-1.15.1.AppImage" },
+        { name: "obsidian_1.15.1_amd64.deb" },
+        { name: "Obsidian-1.15.1.dmg" },
+      ]),
+      [
+        { architecture: "x86_64", asset: { name: "Obsidian-1.15.1.AppImage" } },
+        { architecture: "aarch64", asset: { name: "Obsidian-1.15.1-arm64.AppImage" } },
+      ]
+    );
+  });
+
+  test("prefers an explicit x86_64 asset over an untagged one", () => {
+    assert.deepEqual(
+      selectAssets(app, [{ name: "Example.AppImage" }, { name: "Example-x86_64.AppImage" }]),
+      [{ architecture: "x86_64", asset: { name: "Example-x86_64.AppImage" } }]
+    );
+  });
+
+  test("ambiguous untagged assets fail closed", () => {
+    assert.throws(
+      () => selectAssets(app, [{ name: "Example.AppImage" }, { name: "Example-debug.AppImage" }]),
+      /expected one x86_64 asset, found 2/
+    );
+  });
+
+  test("does not treat other architecture names as x86_64", () => {
+    assert.deepEqual(
+      selectAssets(app, [{ name: "Example-ia32.AppImage" }, { name: "Example-arm64.AppImage" }]),
+      [{ architecture: "aarch64", asset: { name: "Example-arm64.AppImage" } }]
     );
   });
 

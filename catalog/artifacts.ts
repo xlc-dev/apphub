@@ -26,7 +26,7 @@ interface SelectedAsset<T extends SelectableAsset> {
 }
 
 const architectureMatchers: Array<[Architecture, RegExp]> = [
-  ["x86_64", /(?:^|[^a-z0-9])(?:x86[_-]?64|amd64)(?:[^a-z0-9]|$)/i],
+  ["x86_64", /(?:^|[^a-z0-9])(?:x86[_-]?64|amd64|x64)(?:[^a-z0-9]|$)/i],
   ["i686", /(?:^|[^a-z0-9])(?:i[3-6]86|x86[_-]?32)(?:[^a-z0-9]|$)/i],
   ["aarch64", /(?:^|[^a-z0-9])(?:aarch64|arm64)(?:[^a-z0-9]|$)/i],
   ["armv7l", /(?:^|[^a-z0-9])(?:armv7l?|armhf)(?:[^a-z0-9]|$)/i],
@@ -34,6 +34,9 @@ const architectureMatchers: Array<[Architecture, RegExp]> = [
   ["ppc64le", /(?:^|[^a-z0-9])ppc64le(?:[^a-z0-9]|$)/i],
   ["s390x", /(?:^|[^a-z0-9])s390x(?:[^a-z0-9]|$)/i],
 ];
+
+// Architecture names that no rule selects but that still rule out the x86_64 default.
+const otherArchitecture = /(?:^|[^a-z0-9])(?:ia32|arm32)(?:[^a-z0-9]|$)/i;
 
 export function needsArtifactInspection(lock: ReleaseLock) {
   return lock.releases.some((release) =>
@@ -57,6 +60,14 @@ export function matchesArchitecture(name: string, architecture: Architecture) {
   return expression?.test(name) ?? false;
 }
 
+function hasNoArchitecture(name: string) {
+  return (
+    name.toLowerCase().endsWith(".appimage") &&
+    !otherArchitecture.test(name) &&
+    !architectureMatchers.some(([, expression]) => expression.test(name))
+  );
+}
+
 export function selectAssets<T extends SelectableAsset>(app: App, assets: T[]) {
   const selected: Array<SelectedAsset<T>> = [];
 
@@ -65,9 +76,16 @@ export function selectAssets<T extends SelectableAsset>(app: App, assets: T[]) {
     : architectureMatchers.map(([architecture]) => [architecture, undefined]);
 
   for (const [architecture, pattern] of rules) {
-    const matches = assets.filter((asset) =>
+    let matches = assets.filter((asset) =>
       pattern ? globRegex(pattern).test(asset.name) : matchesArchitecture(asset.name, architecture)
     );
+
+    // Untagged AppImages are x86_64 by convention, e.g. Obsidian-1.15.1.AppImage.
+    // The ELF check in hashDownload rejects a wrong guess.
+    if (!pattern && architecture === "x86_64" && matches.length === 0) {
+      matches = assets.filter(({ name }) => hasNoArchitecture(name));
+    }
+
     const asset = matches[0];
 
     if (!pattern && matches.length === 0) {
