@@ -180,8 +180,9 @@ are not application submission sources.
 Supported sources are `github`, `gitlab`, `codeberg`, and `feed`. The build uses the newest stable
 release.
 
-Automatic architecture detection uses AppImage filenames. Add `assets` only when those names are
-ambiguous:
+Automatic architecture detection uses AppImage filenames. When no filename names x86_64, a single
+AppImage without any architecture in its name is used as x86_64, and its ELF header must match. Add
+`assets` only when those names are ambiguous:
 
 ```json
 {
