@@ -5,6 +5,7 @@
   "id": "./",
   "start_url": "./",
   "scope": "./",
+  "categories": ["utilities"],
   "display": "standalone",
   "background_color": "#fafafa",
   "theme_color": "#fafafa",

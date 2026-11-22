@@ -1,0 +1,73 @@
+{
+  "appId": "org.onlyoffice.desktopeditors",
+  "releases": [
+    {
+      "version": "v10.0.0",
+      "publishedAt": "2026-10-13T10:18:58Z",
+      "page": "https://github.com/ONLYOFFICE/DesktopEditors/releases/tag/v10.0.0",
+      "releaseId": "411541452",
+      "artifacts": [
+        {
+          "architecture": "x86_64",
+          "name": "DesktopEditors-x86_64.AppImage",
+          "url": "https://github.com/ONLYOFFICE/DesktopEditors/releases/download/v10.0.0/DesktopEditors-x86_64.AppImage",
+          "assetId": "656564602",
+          "size": 425810424,
+          "sha256": "3e4668d44f6881d1d8873b38ea9c9fd81b9c77132facdb735bfebfe960edb745",
+          "capabilities": {
+            "runtimeType": 2,
+            "fuse": false,
+            "zsync": false,
+            "anylinux": false
+          },
+          "inspection": {
+            "format": "appimage",
+            "runtimeType": 2,
+            "elfClass": 64,
+            "elfMachine": 62,
+            "archive": {
+              "format": "squashfs",
+              "offset": 944632,
+              "bytesUsed": 424862624,
+              "inodes": 8018,
+              "blockSize": 131072
+            }
+          },
+          "checksumEvidence": {
+            "sourceUrl": "https://github.com/ONLYOFFICE/DesktopEditors/releases/tag/v10.0.0"
+          }
+        },
+        {
+          "architecture": "aarch64",
+          "name": "DesktopEditors-arm64.AppImage",
+          "url": "https://github.com/ONLYOFFICE/DesktopEditors/releases/download/v10.0.0/DesktopEditors-arm64.AppImage",
+          "assetId": "656542151",
+          "size": 417688072,
+          "sha256": "b26c0a80ca2fe93db637d52f9ff5cb70450fe5ee7585099fea3612b5decf5775",
+          "capabilities": {
+            "runtimeType": 2,
+            "fuse": false,
+            "zsync": false,
+            "anylinux": false
+          },
+          "inspection": {
+            "format": "appimage",
+            "runtimeType": 2,
+            "elfClass": 64,
+            "elfMachine": 183,
+            "archive": {
+              "format": "squashfs",
+              "offset": 936456,
+              "bytesUsed": 416749614,
+              "inodes": 7921,
+              "blockSize": 131072
+            }
+          },
+          "checksumEvidence": {
+            "sourceUrl": "https://github.com/ONLYOFFICE/DesktopEditors/releases/tag/v10.0.0"
+          }
+        }
+      ]
+    }
+  ]
+}

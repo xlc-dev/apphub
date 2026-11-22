@@ -1,0 +1,112 @@
+{
+  "id": "md.obsidian.Obsidian",
+  "name": "Obsidian",
+  "summary": "Markdown-based knowledge base",
+  "description": [
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "value": "Obsidian is a powerful knowledge base that works on top of a local folder of plain text Markdown files. In Obsidian, making and following connections is frictionless, and with the connections in place, you can explore all of your knowledge in the interactive graph view. Obsidian supports CommonMark and GitHub Flavored Markdown (GFM), along with other useful notetaking features such as tags, LaTeX mathematical expressions, mermaid diagrams, footnotes, internal links and embedding Obsidian notes or external files. Obsidian also has a plugin system with 20+ supported plugins to expand its capabilities."
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "value": "The documentation can be accessed by opening the demo vault that is shipped in Obsidian."
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "value": "Obsidian is free for all purposes, including personal, commercial, and non-profit use. No account or license is required for qualifying use cases described in the End User License Agreement. Users have the option to purchase a Catalyst license to get early access to insider builds and support the development. Additionally, Obsidian offers optional paid services for publishing and synchronizing your notes. Details about these optional hosted services can be found on the Obsidian website."
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "value": "This distribution is verified by the Obsidian team but isn't supported"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "value": "GPU acceleration can be disabled if necessary by setting OBSIDIAN_DISABLE_GPU=1 in Flatseal"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "value": "Pdflatex support in pandoc currently requires installing the org.freedesktop.Sdk.Extension.texlive SDK"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "value": "Note: Regular users should disable \"Automatic Updates\" within Obsidian as public release updates are handled by Flatpak itself. Insiders should keep this enabled to receive insider builds, as those will not be made available on Flathub."
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "value": "This flatpak goes into great lengths to provide a nice experience for end users. In order for the Git plugin to work it requires permission to the ssh-auth socket (--socket=ssh-auth). It also exposes the home directory in the sandbox (required for Drag and Drop operations). If you don't use the Git plugin you can disable the ssh-auth socket permission, e.g. using Flatseal. You can also remove access to the home directory if you want and the flatpak will continue to work, albeit with reduced functionality. In case you do remove access to the homedir, note that in order for things to not break for the Git plugin, --persist=.ssh flag has been passed and a bind mount to ~/.var/app/md.obsidian.Obsidian/ is created by flatpak, allowing that location to be used for persistent data (but your home directory's .ssh remains unaccessible)"
+        }
+      ]
+    }
+  ],
+  "projectLicense": "LicenseRef-proprietary",
+  "developer": {
+    "name": "Obsidian",
+    "url": "https://obsidian.md/"
+  },
+  "homepage": "https://obsidian.md/",
+  "links": {
+    "bugtracker": "https://github.com/flathub/md.obsidian.Obsidian/issues",
+    "help": "https://help.obsidian.md/Home",
+    "translate": "https://github.com/obsidianmd/obsidian-translations"
+  },
+  "contentRating": {
+    "label": "Everyone 10+",
+    "minimumAge": 12,
+    "warnings": [
+      "User-to-user interactions without chat functionality • Checking for the latest application version",
+      "Users are encouraged to donate real money"
+    ]
+  },
+  "categories": [
+    "Office"
+  ],
+  "translations": {
+    "nl": {
+      "contentRating": {
+        "label": "12",
+        "warnings": [
+          "Interacties tussen gebruikers zonder chatfunctie • Controleren op de nieuwste app-versie",
+          "Gebruikers worden aangemoedigd om echt geld te doneren"
+        ]
+      }
+    }
+  }
+}

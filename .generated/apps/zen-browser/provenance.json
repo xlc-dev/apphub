@@ -1,0 +1,28 @@
+{
+  "metadata": {
+    "provider": "flathub",
+    "sourceUrl": "https://flathub.org/api/v2/appstream/app.zen_browser.zen",
+    "providerId": "app.zen_browser.zen"
+  },
+  "releaseSource": {
+    "provider": "github",
+    "configuredUrl": "https://github.com/zen-browser/desktop",
+    "sourceUrl": "https://github.com/zen-browser/desktop",
+    "projectId": "778556932",
+    "ownerId": "165225155"
+  },
+  "refresh": {
+    "metadata": {
+      "lastAttemptAt": "2026-11-20T12:41:20.615Z",
+      "lastSuccessAt": "2026-11-20T12:41:20.615Z"
+    },
+    "releases": {
+      "lastAttemptAt": "2026-11-22T12:26:03.951Z",
+      "lastSuccessAt": "2026-11-21T12:22:48.584Z",
+      "incident": {
+        "category": "rate-limit",
+        "consecutiveFailures": 1
+      }
+    }
+  }
+}

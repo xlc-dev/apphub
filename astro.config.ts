@@ -23,7 +23,7 @@ export default defineConfig({
         "default-src 'self'",
         "font-src 'self'",
         "form-action 'self'",
-        "img-src 'self' data: https://github.com https://objects.githubusercontent.com https://release-assets.githubusercontent.com",
+        "img-src 'self' https://github.com https://objects.githubusercontent.com https://release-assets.githubusercontent.com",
         "object-src 'none'",
       ],
     },

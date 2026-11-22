@@ -1,0 +1,43 @@
+{
+  "appId": "md.obsidian.Obsidian",
+  "releases": [
+    {
+      "version": "v1.15.1",
+      "publishedAt": "2026-11-12T15:43:18Z",
+      "page": "https://github.com/obsidianmd/obsidian-releases/releases/tag/v1.15.1",
+      "releaseId": "443083180",
+      "artifacts": [
+        {
+          "architecture": "aarch64",
+          "name": "Obsidian-1.15.1-arm64.AppImage",
+          "url": "https://github.com/obsidianmd/obsidian-releases/releases/download/v1.15.1/Obsidian-1.15.1-arm64.AppImage",
+          "assetId": "739936719",
+          "size": 139388112,
+          "sha256": "2a0c0cae8329c708035c8aff905ba6bdec4153be300657cccb5a94ff0bbba898",
+          "capabilities": {
+            "runtimeType": 2,
+            "fuse": true,
+            "zsync": false,
+            "anylinux": false
+          },
+          "inspection": {
+            "format": "appimage",
+            "runtimeType": 2,
+            "elfClass": 64,
+            "elfMachine": 183,
+            "archive": {
+              "format": "squashfs",
+              "offset": 197808,
+              "bytesUsed": 139040447,
+              "inodes": 124,
+              "blockSize": 131072
+            }
+          },
+          "checksumEvidence": {
+            "sourceUrl": "https://github.com/obsidianmd/obsidian-releases/releases/tag/v1.15.1"
+          }
+        }
+      ]
+    }
+  ]
+}

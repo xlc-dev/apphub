@@ -7,7 +7,7 @@ const directives = [
   "default-src 'self'",
   "font-src 'self'",
   "form-action 'self'",
-  "img-src 'self' data:",
+  "img-src 'self'",
   "object-src 'none'",
 ];
 let validated = 0;

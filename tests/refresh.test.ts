@@ -71,4 +71,32 @@ describe("refresh state", () => {
     assert.equal(classifyRefreshError(new Error("No current release")), "not-found");
     assert.equal(classifyRefreshError(new Error("Malformed JSON")), "invalid-data");
   });
+
+  test("classifies connection failures from codes on wrapped errors", () => {
+    const aggregate = new AggregateError(
+      [
+        Object.assign(new Error("connect ETIMEDOUT 199.232.57.91:443"), { code: "ETIMEDOUT" }),
+        Object.assign(new Error("connect ENETUNREACH 2a04:4e42:4b::347:443"), {
+          code: "ENETUNREACH",
+        }),
+      ],
+      ""
+    );
+
+    assert.equal(classifyRefreshError(aggregate), "network");
+    assert.equal(
+      classifyRefreshError(Object.assign(new Error("socket hang up"), { code: "ECONNRESET" })),
+      "network"
+    );
+    assert.equal(
+      classifyRefreshError(
+        new Error("request failed", {
+          cause: Object.assign(new Error("getaddrinfo EAI_AGAIN flathub.org"), {
+            code: "EAI_AGAIN",
+          }),
+        })
+      ),
+      "network"
+    );
+  });
 });

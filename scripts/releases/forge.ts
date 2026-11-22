@@ -2,7 +2,7 @@ import { z } from "zod";
 import { sumReleaseDownloads } from "#catalog/downloads";
 import { selectAssets } from "#catalog/artifacts";
 import { httpsUrlSchema, type App, type ReleaseLock } from "#catalog/schema";
-import { getJson, getPages } from "#scripts/releases/http";
+import { getJson, getPages, releaseListJsonSizeLimit } from "#scripts/releases/http";
 import { normalizeDate, selectCurrent, type SourceRelease } from "#scripts/releases/model";
 
 const assetSchema = z.object({
@@ -91,13 +91,14 @@ function getForgeReleases(type: ForgeType, repository: string) {
           z.array(releaseSchema),
           (page) => `https://api.github.com/repos/${repository}/releases?per_page=100&page=${page}`,
           100,
-          githubHeaders
+          { headers: githubHeaders, sizeLimit: releaseListJsonSizeLimit }
         )
       : getPages(
           z.array(releaseSchema),
           (page) =>
             `https://codeberg.org/api/v1/repos/${repository}/releases?limit=50&page=${page}`,
-          50
+          50,
+          { sizeLimit: releaseListJsonSizeLimit }
         );
 
   releaseRequests.set(key, request);
@@ -111,7 +112,9 @@ async function getForgeReleasePage(type: ForgeType, repository: string) {
       ? `https://api.github.com/repos/${repository}/releases?per_page=100&page=1`
       : `https://codeberg.org/api/v1/repos/${repository}/releases?limit=50&page=1`;
 
-  const value = await getJson(url, type === "github" ? githubHeaders : undefined);
+  const value = await getJson(url, type === "github" ? githubHeaders : undefined, {
+    sizeLimit: releaseListJsonSizeLimit,
+  });
 
   return z.array(releaseSchema).parse(value);
 }

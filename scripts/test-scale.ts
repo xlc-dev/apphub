@@ -175,7 +175,7 @@ try {
   await writeCatalogSnapshot(new Date("2026-09-12T12:00:00.000Z"), pathToFileURL(`${fixture}/`));
 
   const started = Date.now();
-  await run("bun", ["run", "build", "--", "--silent"]);
+  await run("pnpm", ["run", "build", "--", "--silent"]);
   const durationMs = Date.now() - started;
   const siteBytes = await directorySize(join(fixture, "dist"));
   const categoryShards = (await readdir(join(fixture, "dist/search-index"))).filter((name) =>

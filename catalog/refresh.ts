@@ -143,14 +143,37 @@ export function catalogStatus(
   return "current";
 }
 
+function describeError(error: unknown, seen = new Set<unknown>()): string {
+  if (typeof error === "string") return error;
+  if (!(error instanceof Error) || seen.has(error)) return "";
+
+  seen.add(error);
+
+  const code = (error as NodeJS.ErrnoException).code;
+  const parts = [error.name, error.message, ...(code ? [code] : [])];
+  const nestedErrors = (error as { errors?: unknown[] }).errors ?? [];
+
+  for (const nested of nestedErrors) {
+    parts.push(describeError(nested, seen));
+  }
+
+  if (error.cause !== undefined) parts.push(describeError(error.cause, seen));
+
+  return parts.filter(Boolean).join(" ");
+}
+
 export function classifyRefreshError(error: unknown): RefreshIncidentCategory {
   if (error instanceof RefreshError) return error.category;
 
-  const message = error instanceof Error ? `${error.name}: ${error.message}` : String(error);
+  const message = describeError(error);
 
   if (/\b(?:404|410)\b|not found|no current release/i.test(message)) return "not-found";
   if (/\b429\b|rate.?limit|retry.after/i.test(message)) return "rate-limit";
-  if (/\b5\d\d\b|timeout|abort|fetch failed|ECONN|ENOTFOUND|EAI_AGAIN/i.test(message)) {
+  if (
+    /\b5\d\d\b|timeout|ETIMEDOUT|abort|fetch failed|ECONN|EHOSTUNREACH|ENETUNREACH|ENOTFOUND|EAI_AGAIN|EPIPE/i.test(
+      message
+    )
+  ) {
     return "network";
   }
 

@@ -11,7 +11,7 @@ import { writeJsonAtomic } from "#scripts/files";
 
 const privateDirectoryArgument = process.argv[2];
 if (!privateDirectoryArgument || !isAbsolute(privateDirectoryArgument)) {
-  throw new Error("usage: bun run create-tuf-root -- /absolute/offline/private-directory");
+  throw new Error("usage: pnpm run create-tuf-root -- /absolute/offline/private-directory");
 }
 
 const project = resolve(new URL("../..", import.meta.url).pathname);

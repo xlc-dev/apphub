@@ -21,24 +21,10 @@ to use the application checklist.
 
 ## Development
 
-AppHub supports Bun and Node.js 22.22.3 or newer. Bun is the main development environment:
-
-```sh
-bun install
-```
-
-With npm:
-
-```sh
-npm install
-npm run validate:node
-```
-
-With pnpm:
+AppHub runs on Node.js 22.23.4 or newer with pnpm:
 
 ```sh
 pnpm install
-pnpm run validate:node
 ```
 
 The repository is split by purpose:
@@ -62,11 +48,10 @@ changes.
 Run the complete validation before submitting a pull request:
 
 ```sh
-bun run validate
+pnpm run validate
 ```
 
-For focused work, use `bun test`, `bun run check`, or `bun run format:check`. Node users can use
-`npm run test:node` or `pnpm run test:node`.
+For focused work, use `pnpm test`, `pnpm run check`, or `pnpm run format:check`.
 
 ## Pull requests
 

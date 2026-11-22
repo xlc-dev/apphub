@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { readFile, readdir } from "node:fs/promises";
 import { test } from "node:test";
-import { buttonClasses } from "../src/components/ui/buttonStyles";
+import { buttonClasses } from "../src/components/ui/buttonStyles.ts";
 
 test("routes links through base-aware components", async () => {
   const allowed = new Set([

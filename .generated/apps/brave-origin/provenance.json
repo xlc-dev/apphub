@@ -12,12 +12,16 @@
   },
   "refresh": {
     "metadata": {
-      "lastAttemptAt": "2026-11-01T09:42:57.765Z",
-      "lastSuccessAt": "2026-11-01T09:42:57.765Z"
+      "lastAttemptAt": "2026-11-18T12:53:17.642Z",
+      "lastSuccessAt": "2026-11-18T12:53:17.642Z"
     },
     "releases": {
-      "lastAttemptAt": "2026-11-07T10:57:39.507Z",
-      "lastSuccessAt": "2026-11-07T10:57:39.507Z"
+      "lastAttemptAt": "2026-11-22T12:25:27.915Z",
+      "lastSuccessAt": "2026-11-21T12:22:37.982Z",
+      "incident": {
+        "category": "rate-limit",
+        "consecutiveFailures": 1
+      }
     }
   }
 }

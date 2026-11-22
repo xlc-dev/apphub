@@ -1,0 +1,73 @@
+{
+  "appId": "org.freecad.FreeCAD",
+  "releases": [
+    {
+      "version": "1.1.4",
+      "publishedAt": "2026-09-28T13:58:35Z",
+      "page": "https://github.com/FreeCAD/FreeCAD/releases/tag/1.1.4",
+      "releaseId": "398304099",
+      "artifacts": [
+        {
+          "architecture": "x86_64",
+          "name": "FreeCAD_1.1.4-Linux-x86_64-py311.AppImage",
+          "url": "https://github.com/FreeCAD/FreeCAD/releases/download/1.1.4/FreeCAD_1.1.4-Linux-x86_64-py311.AppImage",
+          "assetId": "595913165",
+          "size": 820812280,
+          "sha256": "f6dc6ba676e5ac96a565ebc8d657232f94c6158e85b4352141bd1a46f6b43434",
+          "capabilities": {
+            "runtimeType": 2,
+            "fuse": false,
+            "zsync": true,
+            "anylinux": false
+          },
+          "inspection": {
+            "format": "appimage",
+            "runtimeType": 2,
+            "elfClass": 64,
+            "elfMachine": 62,
+            "archive": {
+              "format": "squashfs",
+              "offset": 944632,
+              "bytesUsed": 819863768,
+              "inodes": 35522,
+              "blockSize": 131072
+            }
+          },
+          "checksumEvidence": {
+            "sourceUrl": "https://github.com/FreeCAD/FreeCAD/releases/tag/1.1.4"
+          }
+        },
+        {
+          "architecture": "aarch64",
+          "name": "FreeCAD_1.1.4-Linux-aarch64-py311.AppImage",
+          "url": "https://github.com/FreeCAD/FreeCAD/releases/download/1.1.4/FreeCAD_1.1.4-Linux-aarch64-py311.AppImage",
+          "assetId": "595863129",
+          "size": 755591688,
+          "sha256": "675d1a4295b2183e0e1d816a4b5557dcb63aeced4e60aaa28d6c3686f4c71dc9",
+          "capabilities": {
+            "runtimeType": 2,
+            "fuse": false,
+            "zsync": true,
+            "anylinux": false
+          },
+          "inspection": {
+            "format": "appimage",
+            "runtimeType": 2,
+            "elfClass": 64,
+            "elfMachine": 183,
+            "archive": {
+              "format": "squashfs",
+              "offset": 936456,
+              "bytesUsed": 754654896,
+              "inodes": 35068,
+              "blockSize": 131072
+            }
+          },
+          "checksumEvidence": {
+            "sourceUrl": "https://github.com/FreeCAD/FreeCAD/releases/tag/1.1.4"
+          }
+        }
+      ]
+    }
+  ]
+}

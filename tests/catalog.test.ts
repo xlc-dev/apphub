@@ -190,6 +190,23 @@ describe("catalog schema", () => {
     );
   });
 
+  test("drops the AppStream EULA link from proprietary license references", () => {
+    assert.equal(
+      appSchema.parse({
+        ...app,
+        projectLicense: "LicenseRef-proprietary=https://obsidian.md/eula",
+      }).projectLicense,
+      "LicenseRef-proprietary"
+    );
+    assert.equal(
+      appSchema.parse({
+        ...app,
+        projectLicense: `LicenseRef-proprietary=https://example.com/${"a".repeat(120)}`,
+      }).projectLicense,
+      "LicenseRef-proprietary"
+    );
+  });
+
   test("accepts MIME types and URI handlers", () => {
     assert.deepEqual(
       appSchema.parse({

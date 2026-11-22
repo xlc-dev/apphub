@@ -323,6 +323,10 @@ export async function generateCatalog({
     if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) {
       throw new Error(`Invalid application slug: ${slug}`);
     }
+
+    if (!manifests.has(slug)) {
+      throw new Error(`Unknown application: ${slug}`);
+    }
   }
 
   const selected = requested.size ? slugs.filter((slug) => requested.has(slug)) : slugs;
@@ -529,9 +533,13 @@ export async function generateCatalog({
   }
 }
 
+function requestedSlugsFromArguments(args: string[]) {
+  return args.filter((argument) => argument !== "--");
+}
+
 if (import.meta.main) {
   try {
-    await generateCatalog({ requestedSlugs: process.argv.slice(2) });
+    await generateCatalog({ requestedSlugs: requestedSlugsFromArguments(process.argv.slice(2)) });
     await writeCatalogSnapshot();
   } finally {
     await printRefreshNetworkSummary();

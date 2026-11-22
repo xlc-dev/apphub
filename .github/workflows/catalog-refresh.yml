@@ -28,28 +28,27 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Set up pnpm
+        uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6.1.1
+
       - name: Set up Node.js
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 22.23.4
-
-      - name: Set up Bun
-        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
-        with:
-          bun-version: 1.3.14
+          cache: pnpm
 
       - name: Install dependencies
-        run: bun install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Validate current signed catalog
-        run: bun run validate-tuf
+        run: pnpm run validate-tuf
 
       - name: Plan due applications
         id: plan
         env:
           APPHUB_REFRESH_PLAN: /tmp/apphub-refresh-plan.json
           FORCE_REFRESH: ${{ github.event_name == 'workflow_dispatch' && '1' || '0' }}
-        run: bun run plan-refresh
+        run: pnpm run plan-refresh
 
       - name: Upload refresh plan
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
@@ -75,18 +74,17 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Set up pnpm
+        uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6.1.1
+
       - name: Set up Node.js
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 22.23.4
-
-      - name: Set up Bun
-        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
-        with:
-          bun-version: 1.3.14
+          cache: pnpm
 
       - name: Install dependencies
-        run: bun install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Refresh batch
         env:
@@ -94,7 +92,7 @@ jobs:
           APPHUB_REFRESH_BATCH: ${{ toJSON(matrix) }}
           APPHUB_REFRESH_RESULT: /tmp/${{ matrix.id }}
           FORCE_REFRESH: ${{ github.event_name == 'workflow_dispatch' && '1' || '0' }}
-        run: bun run run-refresh-batch
+        run: pnpm run run-refresh-batch
 
       - name: Upload batch result
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
@@ -128,21 +126,20 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Set up pnpm
+        uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6.1.1
+
       - name: Set up Node.js
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 22.23.4
-
-      - name: Set up Bun
-        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
-        with:
-          bun-version: 1.3.14
+          cache: pnpm
 
       - name: Install dependencies
-        run: bun install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Capture previous state
-        run: bun scripts/refresh/report.ts capture
+        run: node scripts/refresh/report.ts capture
 
       - name: Download refresh plan
         uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
@@ -163,18 +160,18 @@ jobs:
           APPHUB_ASSET_REPOSITORY: ${{ github.repository }}
           APPHUB_REFRESH_PLAN: /tmp/refresh-plan/apphub-refresh-plan.json
           APPHUB_REFRESH_RESULTS: /tmp/refresh-results
-        run: bun run finalize-refresh-batches
+        run: pnpm run finalize-refresh-batches
 
       - name: Refresh statistics
         env:
           GITHUB_TOKEN: ${{ secrets.PUBLIC_GITHUB_TOKEN }}
-        run: bun run update-downloads && bun run update-stars
+        run: pnpm run update-downloads && pnpm run update-stars
 
       - name: Write final snapshot
-        run: bun scripts/write-snapshot.ts
+        run: node scripts/write-snapshot.ts
 
       - name: Validate complete catalog
-        run: bun run validate:catalog
+        run: pnpm run validate:catalog
 
       - name: Create App token
         id: app-token
@@ -189,33 +186,33 @@ jobs:
         env:
           APPHUB_ASSET_REPOSITORY: ${{ github.repository }}
           APPHUB_PUBLICATION_PLAN: /tmp/apphub-publication-plan.json
-        run: bun run plan-github-publication
+        run: pnpm run plan-github-publication
 
       - name: Publish immutable media
         env:
           APPHUB_PUBLICATION_PLAN: /tmp/apphub-publication-plan.json
           GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
-        run: bun run publish-github-media
+        run: pnpm run publish-github-media
 
       - name: Write published snapshot
-        run: bun scripts/write-snapshot.ts
+        run: node scripts/write-snapshot.ts
 
       - name: Generate signed catalog
         env:
           APPHUB_TUF_SNAPSHOT_KEY: ${{ secrets.APPHUB_TUF_SNAPSHOT_KEY }}
           APPHUB_TUF_TARGETS_KEY: ${{ secrets.APPHUB_TUF_TARGETS_KEY }}
           APPHUB_TUF_TIMESTAMP_KEY: ${{ secrets.APPHUB_TUF_TIMESTAMP_KEY }}
-        run: bun run generate-tuf
+        run: pnpm run generate-tuf
 
       - name: Validate signed catalog
-        run: bun run validate-tuf
+        run: pnpm run validate-tuf
 
       - name: Validate published catalog
-        run: bun run validate:catalog
+        run: pnpm run validate:catalog
 
       - name: Create refresh report
         if: always()
-        run: bun scripts/refresh/report.ts report
+        run: node scripts/refresh/report.ts report
 
       - name: Upload refresh report
         if: always()
@@ -229,10 +226,10 @@ jobs:
         env:
           APPHUB_ASSET_REPOSITORY: ${{ github.repository }}
           BASE_PATH: /apphub
-        run: bun run build
+        run: pnpm run build
 
       - name: Validate changed site
-        run: bun run validate:dist
+        run: pnpm run validate:dist
 
       - name: Prepare Pages artifact
         run: touch dist/.nojekyll
@@ -266,7 +263,7 @@ jobs:
         env:
           APPHUB_MAINTENANCE_ASSIGNEE: ${{ vars.MAINTENANCE_ASSIGNEE || 'xlc-dev' }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: bun scripts/refresh/issue.ts
+        run: node scripts/refresh/issue.ts
 
   deploy:
     needs: finalize

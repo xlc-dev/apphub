@@ -1,8 +1,9 @@
 import { createHash } from "node:crypto";
-import { readFileSync } from "node:fs";
+import { readFileSync, readdirSync } from "node:fs";
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { githubMediaMapSchema } from "#catalog/github-publication";
+import { sitePath } from "#lib/paths";
 
 const repository = process.env.APPHUB_ASSET_REPOSITORY ?? "xlc-dev/apphub";
 
@@ -61,10 +62,28 @@ export function mediaUrl(file: string) {
     return `https://github.com/${repository}/releases/download/${asset.tag}/${file}`;
   }
 
-  const data = unpublishedMedia(file);
-  if (data) return `data:image/webp;base64,${data.toString("base64")}`;
+  if (unpublishedMedia(file)) return sitePath(`/media/${file}`);
 
   throw new Error(`${file}: immutable GitHub media mapping is missing`);
+}
+
+export function unpublishedMediaFiles() {
+  if (!allowUnpublished) return [];
+
+  let files: string[];
+
+  try {
+    files = readdirSync(resolve(".generated/media"));
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === "ENOENT") return [];
+    throw error;
+  }
+
+  return files.filter((file) => {
+    if (mapping.assets[file]?.sha256 === sha256Of(file)) return false;
+
+    return Boolean(unpublishedMedia(file));
+  });
 }
 
 export async function mediaBytes(file: string) {

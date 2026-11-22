@@ -11,8 +11,8 @@ test("production always signs published catalog state", async () => {
 
 test("production publishes media before building", async () => {
   const workflow = await readFile(".github/workflows/pages.yml", "utf8");
-  const publish = workflow.indexOf("run: bun run publish-github-media");
-  const build = workflow.indexOf("run: bun run build");
+  const publish = workflow.indexOf("run: pnpm run publish-github-media");
+  const build = workflow.indexOf("run: pnpm run build");
 
   assert.notEqual(publish, -1);
   assert.ok(build > publish);
@@ -47,6 +47,6 @@ test("repository statistics use the public GitHub token", async () => {
   assert.ok(token > statistics);
   assert.match(
     workflow.slice(statistics),
-    /GITHUB_TOKEN: \$\{\{ secrets\.PUBLIC_GITHUB_TOKEN \}\}\n\s+run: bun run update-downloads/
+    /GITHUB_TOKEN: \$\{\{ secrets\.PUBLIC_GITHUB_TOKEN \}\}\n\s+run: pnpm run update-downloads/
   );
 });

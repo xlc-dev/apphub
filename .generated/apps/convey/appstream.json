@@ -1,0 +1,192 @@
+{
+  "id": "net.donnybeelo.Convey",
+  "name": "Convey",
+  "summary": "Send and receive email",
+  "description": [
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "value": "Convey is an email application built around conversations, for the GNOME desktop. It allows you to read, find and send email with a straightforward, modern interface."
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "value": "Conversations allow you to read a complete discussion without having to find and click from message to message."
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "value": "Convey is a fork of Geary, originally developed by the Geary Development Team and the Software Freedom Conservancy."
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "value": "Convey’s features include:"
+        }
+      ]
+    },
+    {
+      "type": "unordered-list",
+      "items": [
+        [
+          {
+            "type": "text",
+            "value": "Quick email account setup"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "value": "Shows related messages together in conversations"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "value": "Fast, full text and keyword search"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "value": "Full-featured HTML and plain text message composer"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "value": "Desktop notification of new mail"
+          }
+        ],
+        [
+          {
+            "type": "text",
+            "value": "Compatible with GMail, Yahoo! Mail, Outlook.com and other IMAP servers"
+          }
+        ]
+      ]
+    }
+  ],
+  "projectLicense": "LGPL-2.1-or-later",
+  "developer": {
+    "name": "Daniel Elia",
+    "url": "https://gitlab.gnome.org/donnybeelo"
+  },
+  "homepage": "https://gitlab.gnome.org/donnybeelo/convey",
+  "repository": "https://gitlab.gnome.org/donnybeelo/convey",
+  "links": {
+    "bugtracker": "https://gitlab.gnome.org/donnybeelo/convey/-/work_items",
+    "contact": "https://gitlab.gnome.org/donnybeelo"
+  },
+  "contentRating": {
+    "label": "Everyone 10+",
+    "minimumAge": 12,
+    "warnings": [
+      "Sharing social network usernames or email addresses"
+    ]
+  },
+  "keywords": [
+    "Mail",
+    "E-mail",
+    "email"
+  ],
+  "categories": [
+    "Network",
+    "Email"
+  ],
+  "translations": {
+    "nl": {
+      "summary": "E-mail verzenden en ontvangen",
+      "description": [
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "value": "Convey is een e-mailtoepassing die draait om gesprekken, voor de GNOME-bureaubladomgeving. Via de duidelijke, moderne interface kunt u e-mails lezen, zoeken en verzenden."
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "value": "Met gesprekken kunt u een volledige discussie lezen zonder te hoeven zoeken of van bericht naar bericht te hoeven klikken."
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "value": "Functies van Convey zijn:"
+            }
+          ]
+        },
+        {
+          "type": "unordered-list",
+          "items": [
+            [
+              {
+                "type": "text",
+                "value": "Snel instellen van e-mailaccount"
+              }
+            ],
+            [
+              {
+                "type": "text",
+                "value": "Groepeert gerelateerde berichten in gesprekken"
+              }
+            ],
+            [
+              {
+                "type": "text",
+                "value": "Snel zoeken in volledige tekst met zoekwoorden"
+              }
+            ],
+            [
+              {
+                "type": "text",
+                "value": "Berichten opstellen in HTML en platte tekst met veel functies"
+              }
+            ],
+            [
+              {
+                "type": "text",
+                "value": "Bureaubladmelding voor nieuwe e-mail"
+              }
+            ],
+            [
+              {
+                "type": "text",
+                "value": "Werkt met Gmail, Yahoo! Mail, Outlook.com en andere IMAP-servers"
+              }
+            ]
+          ]
+        }
+      ],
+      "contentRating": {
+        "label": "12",
+        "warnings": [
+          "Uitwisseling van gebruikersnamen van sociale netwerken of e-mailadressen"
+        ]
+      }
+    }
+  }
+}

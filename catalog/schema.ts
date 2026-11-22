@@ -110,6 +110,12 @@ function isSpdxExpression(value: string) {
   }
 }
 
+function withoutLicenseLink(value: string) {
+  const separator = value.indexOf("=");
+
+  return value.startsWith("LicenseRef-") && separator > 0 ? value.slice(0, separator) : value;
+}
+
 const mimeTypeSchema = z
   .string()
   .regex(/^[a-z0-9][a-z0-9!#$&^_.+-]*\/[a-z0-9][a-z0-9!#$&^_.+-]*$/i);
@@ -225,8 +231,8 @@ const generatedAppstreamFields = {
     .refine((blocks) => JSON.stringify(blocks).length <= 100_000, "Description is too large"),
   projectLicense: z
     .string()
-    .min(1)
-    .max(100)
+    .transform(withoutLicenseLink)
+    .pipe(z.string().min(1).max(100))
     .refine(isSpdxExpression, "Must be a valid SPDX license expression"),
   developer: developerSchema,
   homepage: httpsUrlSchema,
