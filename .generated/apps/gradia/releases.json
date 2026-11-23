@@ -2,18 +2,18 @@
   "appId": "be.alexandervanhee.gradia",
   "releases": [
     {
-      "version": "1.13.0@2026-11-01_1793557258",
-      "publishedAt": "2026-11-01T18:21:00Z",
-      "page": "https://github.com/pkgforge-dev/Gradia-AppImage/releases/tag/1.13.0%402026-11-01_1793557258",
-      "releaseId": "430768687",
+      "version": "1.13.0@2026-11-22_1795372782",
+      "publishedAt": "2026-11-22T18:39:43Z",
+      "page": "https://github.com/pkgforge-dev/Gradia-AppImage/releases/tag/1.13.0%402026-11-22_1795372782",
+      "releaseId": "454663618",
       "artifacts": [
         {
           "architecture": "x86_64",
           "name": "Gradia-1.13.0-anylinux-x86_64.AppImage",
-          "url": "https://github.com/pkgforge-dev/Gradia-AppImage/releases/download/1.13.0%402026-11-01_1793557258/Gradia-1.13.0-anylinux-x86_64.AppImage",
-          "assetId": "699134671",
-          "size": 69180678,
-          "sha256": "4751c2a3d6ace4567c63f77aac32815899bbd8afa8d10025478e4f43e13d3b4c",
+          "url": "https://github.com/pkgforge-dev/Gradia-AppImage/releases/download/1.13.0%402026-11-22_1795372782/Gradia-1.13.0-anylinux-x86_64.AppImage",
+          "assetId": "780063254",
+          "size": 70701027,
+          "sha256": "f052750bf4c766cd4ae8f14501d30c25e47aa1d2957b4864e7cf319960d5846b",
           "capabilities": {
             "runtimeType": 2,
             "fuse": false,
@@ -27,21 +27,21 @@
             "elfMachine": 62,
             "archive": {
               "format": "dwarfs",
-              "offset": 1507016,
-              "bytesUsed": 67673662
+              "offset": 1500392,
+              "bytesUsed": 69200635
             }
           },
           "checksumEvidence": {
-            "sourceUrl": "https://github.com/pkgforge-dev/Gradia-AppImage/releases/tag/1.13.0%402026-11-01_1793557258"
+            "sourceUrl": "https://github.com/pkgforge-dev/Gradia-AppImage/releases/tag/1.13.0%402026-11-22_1795372782"
           }
         },
         {
           "architecture": "aarch64",
           "name": "Gradia-1.13.0-anylinux-aarch64.AppImage",
-          "url": "https://github.com/pkgforge-dev/Gradia-AppImage/releases/download/1.13.0%402026-11-01_1793557258/Gradia-1.13.0-anylinux-aarch64.AppImage",
-          "assetId": "699134673",
-          "size": 65811329,
-          "sha256": "5aaaae834b17bc926ab4083b737b5f46ca63361fe547981474a0d79f3ca65a18",
+          "url": "https://github.com/pkgforge-dev/Gradia-AppImage/releases/download/1.13.0%402026-11-22_1795372782/Gradia-1.13.0-anylinux-aarch64.AppImage",
+          "assetId": "780063235",
+          "size": 67965963,
+          "sha256": "082f927652cc1a8754080f95c77fd2869524c1d1feca1943f8155c602d2576d7",
           "capabilities": {
             "runtimeType": 2,
             "fuse": false,
@@ -55,12 +55,12 @@
             "elfMachine": 183,
             "archive": {
               "format": "dwarfs",
-              "offset": 1378048,
-              "bytesUsed": 64433281
+              "offset": 1373592,
+              "bytesUsed": 66592371
             }
           },
           "checksumEvidence": {
-            "sourceUrl": "https://github.com/pkgforge-dev/Gradia-AppImage/releases/tag/1.13.0%402026-11-01_1793557258"
+            "sourceUrl": "https://github.com/pkgforge-dev/Gradia-AppImage/releases/tag/1.13.0%402026-11-22_1795372782"
           }
         }
       ]

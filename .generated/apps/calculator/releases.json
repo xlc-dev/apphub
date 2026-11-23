@@ -2,18 +2,18 @@
   "appId": "org.gnome.Calculator",
   "releases": [
     {
-      "version": "51.1-1@2026-11-01_1793555877",
-      "publishedAt": "2026-11-01T17:57:58Z",
-      "page": "https://github.com/pkgforge-dev/Gnome-Calculator-AppImage/releases/tag/51.1-1%402026-11-01_1793555877",
-      "releaseId": "430756126",
+      "version": "51.1-1@2026-11-22_1795373270",
+      "publishedAt": "2026-11-22T18:47:52Z",
+      "page": "https://github.com/pkgforge-dev/Gnome-Calculator-AppImage/releases/tag/51.1-1%402026-11-22_1795373270",
+      "releaseId": "454668581",
       "artifacts": [
         {
           "architecture": "x86_64",
           "name": "Calculator-51.1-1-anylinux-x86_64.AppImage",
-          "url": "https://github.com/pkgforge-dev/Gnome-Calculator-AppImage/releases/download/51.1-1%402026-11-01_1793555877/Calculator-51.1-1-anylinux-x86_64.AppImage",
-          "assetId": "699077569",
-          "size": 33637743,
-          "sha256": "1336c5f626a46ee9dd32fa67862113e135d761e8d65191b2487272d620e9ad00",
+          "url": "https://github.com/pkgforge-dev/Gnome-Calculator-AppImage/releases/download/51.1-1%402026-11-22_1795373270/Calculator-51.1-1-anylinux-x86_64.AppImage",
+          "assetId": "780085185",
+          "size": 33790291,
+          "sha256": "9d6a9cf62af6f568f00d2a80a9094acf980ad2f0e9324774c2a311d61764274a",
           "capabilities": {
             "runtimeType": 2,
             "fuse": false,
@@ -27,21 +27,21 @@
             "elfMachine": 62,
             "archive": {
               "format": "dwarfs",
-              "offset": 1507016,
-              "bytesUsed": 32130727
+              "offset": 1500392,
+              "bytesUsed": 32289899
             }
           },
           "checksumEvidence": {
-            "sourceUrl": "https://github.com/pkgforge-dev/Gnome-Calculator-AppImage/releases/tag/51.1-1%402026-11-01_1793555877"
+            "sourceUrl": "https://github.com/pkgforge-dev/Gnome-Calculator-AppImage/releases/tag/51.1-1%402026-11-22_1795373270"
           }
         },
         {
           "architecture": "aarch64",
           "name": "Calculator-51.1-1-anylinux-aarch64.AppImage",
-          "url": "https://github.com/pkgforge-dev/Gnome-Calculator-AppImage/releases/download/51.1-1%402026-11-01_1793555877/Calculator-51.1-1-anylinux-aarch64.AppImage",
-          "assetId": "699077572",
-          "size": 33382057,
-          "sha256": "e9f9f8bb6e4cc80bdb7f6f66b02d09c62a8e533849ce9354248ab7cacc65b311",
+          "url": "https://github.com/pkgforge-dev/Gnome-Calculator-AppImage/releases/download/51.1-1%402026-11-22_1795373270/Calculator-51.1-1-anylinux-aarch64.AppImage",
+          "assetId": "780085189",
+          "size": 33505444,
+          "sha256": "05ffae110ebcd5d538a66994dc5f0dc535c30809b89c00dd7a335035b3e1afb8",
           "capabilities": {
             "runtimeType": 2,
             "fuse": false,
@@ -55,12 +55,12 @@
             "elfMachine": 183,
             "archive": {
               "format": "dwarfs",
-              "offset": 1378048,
-              "bytesUsed": 32004009
+              "offset": 1373592,
+              "bytesUsed": 32131852
             }
           },
           "checksumEvidence": {
-            "sourceUrl": "https://github.com/pkgforge-dev/Gnome-Calculator-AppImage/releases/tag/51.1-1%402026-11-01_1793555877"
+            "sourceUrl": "https://github.com/pkgforge-dev/Gnome-Calculator-AppImage/releases/tag/51.1-1%402026-11-22_1795373270"
           }
         }
       ]

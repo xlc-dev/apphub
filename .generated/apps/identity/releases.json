@@ -2,18 +2,18 @@
   "appId": "org.gnome.gitlab.YaLTeR.Identity",
   "releases": [
     {
-      "version": "26.03-2@2026-11-01_1793557849",
-      "publishedAt": "2026-11-01T18:30:50Z",
-      "page": "https://github.com/pkgforge-dev/Identity-AppImage/releases/tag/26.03-2%402026-11-01_1793557849",
-      "releaseId": "430774198",
+      "version": "26.03-2@2026-11-22_1795373040",
+      "publishedAt": "2026-11-22T18:44:01Z",
+      "page": "https://github.com/pkgforge-dev/Identity-AppImage/releases/tag/26.03-2%402026-11-22_1795373040",
+      "releaseId": "454666249",
       "artifacts": [
         {
           "architecture": "x86_64",
           "name": "Identity-26.03-2-anylinux-x86_64.AppImage",
-          "url": "https://github.com/pkgforge-dev/Identity-AppImage/releases/download/26.03-2%402026-11-01_1793557849/Identity-26.03-2-anylinux-x86_64.AppImage",
-          "assetId": "699159141",
-          "size": 97737288,
-          "sha256": "53c93af5704e470b04a6a416cf1839eb53b42c4e9dc6772740f4ae8d332891e7",
+          "url": "https://github.com/pkgforge-dev/Identity-AppImage/releases/download/26.03-2%402026-11-22_1795373040/Identity-26.03-2-anylinux-x86_64.AppImage",
+          "assetId": "780075176",
+          "size": 99051113,
+          "sha256": "73ddd94797ce3c9d6e9d4afbe54b2988b14e32d47ec1611ae288f354635a793f",
           "capabilities": {
             "runtimeType": 2,
             "fuse": false,
@@ -27,21 +27,21 @@
             "elfMachine": 62,
             "archive": {
               "format": "dwarfs",
-              "offset": 1507016,
-              "bytesUsed": 96230272
+              "offset": 1500392,
+              "bytesUsed": 97550721
             }
           },
           "checksumEvidence": {
-            "sourceUrl": "https://github.com/pkgforge-dev/Identity-AppImage/releases/tag/26.03-2%402026-11-01_1793557849"
+            "sourceUrl": "https://github.com/pkgforge-dev/Identity-AppImage/releases/tag/26.03-2%402026-11-22_1795373040"
           }
         },
         {
           "architecture": "aarch64",
           "name": "Identity-26.03-2-anylinux-aarch64.AppImage",
-          "url": "https://github.com/pkgforge-dev/Identity-AppImage/releases/download/26.03-2%402026-11-01_1793557849/Identity-26.03-2-anylinux-aarch64.AppImage",
-          "assetId": "699159139",
-          "size": 90461026,
-          "sha256": "497393e72856a1b43071480eb38d0daf5bed12a4dc60c87bac9cbfca91ba5a0f",
+          "url": "https://github.com/pkgforge-dev/Identity-AppImage/releases/download/26.03-2%402026-11-22_1795373040/Identity-26.03-2-anylinux-aarch64.AppImage",
+          "assetId": "780075181",
+          "size": 92231746,
+          "sha256": "218bfe0afe098993fead2013dcefcbe64f09fc15956dfad10530f19e7f647792",
           "capabilities": {
             "runtimeType": 2,
             "fuse": false,
@@ -55,12 +55,12 @@
             "elfMachine": 183,
             "archive": {
               "format": "dwarfs",
-              "offset": 1378048,
-              "bytesUsed": 89082978
+              "offset": 1373592,
+              "bytesUsed": 90858154
             }
           },
           "checksumEvidence": {
-            "sourceUrl": "https://github.com/pkgforge-dev/Identity-AppImage/releases/tag/26.03-2%402026-11-01_1793557849"
+            "sourceUrl": "https://github.com/pkgforge-dev/Identity-AppImage/releases/tag/26.03-2%402026-11-22_1795373040"
           }
         }
       ]

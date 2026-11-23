@@ -2,18 +2,18 @@
   "appId": "dev.geopjr.Collision",
   "releases": [
     {
-      "version": "3.14.1-1@2026-11-01_1793557925",
-      "publishedAt": "2026-11-01T18:32:06Z",
-      "page": "https://github.com/pkgforge-dev/Collision-AppImage/releases/tag/3.14.1-1%402026-11-01_1793557925",
-      "releaseId": "430774894",
+      "version": "3.14.1-2@2026-11-22_1795373040",
+      "publishedAt": "2026-11-22T18:44:02Z",
+      "page": "https://github.com/pkgforge-dev/Collision-AppImage/releases/tag/3.14.1-2%402026-11-22_1795373040",
+      "releaseId": "454666256",
       "artifacts": [
         {
           "architecture": "x86_64",
-          "name": "Collision-3.14.1-1-anylinux-x86_64.AppImage",
-          "url": "https://github.com/pkgforge-dev/Collision-AppImage/releases/download/3.14.1-1%402026-11-01_1793557925/Collision-3.14.1-1-anylinux-x86_64.AppImage",
-          "assetId": "699162833",
-          "size": 25620815,
-          "sha256": "5933ff1fb9f0a02594a16190bcc3c239405620f02c0009da1d9875a212365553",
+          "name": "Collision-3.14.1-2-anylinux-x86_64.AppImage",
+          "url": "https://github.com/pkgforge-dev/Collision-AppImage/releases/download/3.14.1-2%402026-11-22_1795373040/Collision-3.14.1-2-anylinux-x86_64.AppImage",
+          "assetId": "780075200",
+          "size": 25664540,
+          "sha256": "169987b963997ccd84315f09bb6aad55f514e6a4e703d89d4a85f662dbcfcadd",
           "capabilities": {
             "runtimeType": 2,
             "fuse": false,
@@ -27,21 +27,21 @@
             "elfMachine": 62,
             "archive": {
               "format": "dwarfs",
-              "offset": 1507016,
-              "bytesUsed": 24113799
+              "offset": 1500392,
+              "bytesUsed": 24164148
             }
           },
           "checksumEvidence": {
-            "sourceUrl": "https://github.com/pkgforge-dev/Collision-AppImage/releases/tag/3.14.1-1%402026-11-01_1793557925"
+            "sourceUrl": "https://github.com/pkgforge-dev/Collision-AppImage/releases/tag/3.14.1-2%402026-11-22_1795373040"
           }
         },
         {
           "architecture": "aarch64",
-          "name": "Collision-3.14.1-1-anylinux-aarch64.AppImage",
-          "url": "https://github.com/pkgforge-dev/Collision-AppImage/releases/download/3.14.1-1%402026-11-01_1793557925/Collision-3.14.1-1-anylinux-aarch64.AppImage",
-          "assetId": "699162829",
-          "size": 25416652,
-          "sha256": "a2b6fe0d2d7b64022ee2844d94ba8b03ecd0f4c8f54d34b6f53d04ccd294cf9d",
+          "name": "Collision-3.14.1-2-anylinux-aarch64.AppImage",
+          "url": "https://github.com/pkgforge-dev/Collision-AppImage/releases/download/3.14.1-2%402026-11-22_1795373040/Collision-3.14.1-2-anylinux-aarch64.AppImage",
+          "assetId": "780075197",
+          "size": 25505702,
+          "sha256": "f6d8451908a22fe04f7dcdc384c75bf115c33cb1974aee7fdd3bad9d71cd7b81",
           "capabilities": {
             "runtimeType": 2,
             "fuse": false,
@@ -55,12 +55,12 @@
             "elfMachine": 183,
             "archive": {
               "format": "dwarfs",
-              "offset": 1378048,
-              "bytesUsed": 24038604
+              "offset": 1373592,
+              "bytesUsed": 24132110
             }
           },
           "checksumEvidence": {
-            "sourceUrl": "https://github.com/pkgforge-dev/Collision-AppImage/releases/tag/3.14.1-1%402026-11-01_1793557925"
+            "sourceUrl": "https://github.com/pkgforge-dev/Collision-AppImage/releases/tag/3.14.1-2%402026-11-22_1795373040"
           }
         }
       ]
