@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "revision": "c10ad7b4e62465aad5140be21f2d3ba3af7b3b366fd7b83f49f4fbe96328b3c1",
-  "generatedAt": "2026-11-23T14:17:47.020Z",
+  "revision": "c8f750032ac6d76d8f1205abca2d1a799cf5e18d62e12536d1ad15342760cbca",
+  "generatedAt": "2026-11-24T14:43:23.202Z",
   "apps": [
     {
       "id": "com.belmoussaoui.Authenticator",
@@ -113,14 +113,14 @@
         }
       },
       "release": {
-        "version": "1.100.58-1@2026-11-22_1795359471",
-        "publishedAt": "2026-11-22T14:57:52Z",
+        "version": "1.100.58-1@2026-11-23_1795460603",
+        "publishedAt": "2026-11-23T19:03:25Z",
         "artifacts": [
           {
             "architecture": "x86_64",
-            "url": "https://github.com/pkgforge-dev/Brave-Origin-AppImage/releases/download/1.100.58-1%402026-11-22_1795359471/Brave_Origin-1.100.58-1-anylinux-x86_64.AppImage",
-            "size": 211378184,
-            "sha256": "b93fa6e2131271670bc0da8d9d8d6f5ac61d546521a5ff66843ae190b9c48a6f",
+            "url": "https://github.com/pkgforge-dev/Brave-Origin-AppImage/releases/download/1.100.58-1%402026-11-23_1795460603/Brave_Origin-1.100.58-1-anylinux-x86_64.AppImage",
+            "size": 211373490,
+            "sha256": "1dd539fad27f491d642be2c819719985c4b4f714e75b12cb276a928657a52058",
             "inspection": {
               "format": "appimage",
               "runtimeType": 2,
@@ -129,16 +129,16 @@
               "archive": {
                 "format": "dwarfs",
                 "offset": 1500392,
-                "bytesUsed": 209877792
+                "bytesUsed": 209873098
               }
             },
             "installable": true
           },
           {
             "architecture": "aarch64",
-            "url": "https://github.com/pkgforge-dev/Brave-Origin-AppImage/releases/download/1.100.58-1%402026-11-22_1795359471/Brave_Origin-1.100.58-1-anylinux-aarch64.AppImage",
-            "size": 203249738,
-            "sha256": "8635d13be1fca66afb6a6d85bbad0d4f930149d43814e42b6d10acd6645298b2",
+            "url": "https://github.com/pkgforge-dev/Brave-Origin-AppImage/releases/download/1.100.58-1%402026-11-23_1795460603/Brave_Origin-1.100.58-1-anylinux-aarch64.AppImage",
+            "size": 203216361,
+            "sha256": "379e5a71a6e5d2e807147da546e62d683dac1088640d7f6911efa8de41d2bdb3",
             "inspection": {
               "format": "appimage",
               "runtimeType": 2,
@@ -147,7 +147,7 @@
               "archive": {
                 "format": "dwarfs",
                 "offset": 1373592,
-                "bytesUsed": 201876146
+                "bytesUsed": 201842769
               }
             },
             "installable": true
@@ -2226,7 +2226,7 @@
     {
       "id": "app.zen_browser.zen",
       "slug": "zen-browser",
-      "status": "current",
+      "status": "stale",
       "publisher": {
         "identity": "{\"provider\":\"github\",\"ownerId\":\"165225155\",\"projectId\":\"778556932\",\"configuredUrl\":\"https://github.com/zen-browser/desktop\"}",
         "evidence": "https://github.com/zen-browser/desktop"

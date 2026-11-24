@@ -17,11 +17,11 @@
       "lastSuccessAt": "2026-11-21T12:22:37.246Z"
     },
     "releases": {
-      "lastAttemptAt": "2026-11-23T14:16:55.254Z",
+      "lastAttemptAt": "2026-11-24T14:42:32.480Z",
       "lastSuccessAt": "2026-11-21T12:22:44.260Z",
       "incident": {
         "category": "integrity",
-        "consecutiveFailures": 1
+        "consecutiveFailures": 2
       }
     }
   }
