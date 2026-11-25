@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "revision": "c8f750032ac6d76d8f1205abca2d1a799cf5e18d62e12536d1ad15342760cbca",
-  "generatedAt": "2026-11-24T14:43:23.202Z",
+  "revision": "4300f125d0317bab02004a7f37d8b8cff5f9c17f3472ff5f59904525412d154b",
+  "generatedAt": "2026-11-25T14:05:59.352Z",
   "apps": [
     {
       "id": "com.belmoussaoui.Authenticator",
@@ -1498,7 +1498,7 @@
     {
       "id": "md.obsidian.Obsidian",
       "slug": "obsidian",
-      "status": "quarantined",
+      "status": "stale",
       "publisher": {
         "identity": "{\"provider\":\"github\",\"ownerId\":\"65011256\",\"projectId\":\"262342594\",\"configuredUrl\":\"https://github.com/obsidianmd/obsidian-releases\"}",
         "evidence": "https://github.com/obsidianmd/obsidian-releases"
@@ -1598,7 +1598,7 @@
                 "blockSize": 131072
               }
             },
-            "installable": false
+            "installable": true
           }
         ]
       }
