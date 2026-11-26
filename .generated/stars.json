@@ -1,91 +1,91 @@
 {
   "values": {
-    "brave-origin": 24314,
+    "brave-origin": 24319,
     "collision": 10,
-    "dolphin-emulator": 15894,
+    "dolphin-emulator": 15901,
     "eyedropper": 341,
-    "freecad": 35776,
-    "gear-lever": 2430,
+    "freecad": 35808,
+    "gear-lever": 2433,
     "gradia": 1206,
-    "htop": 8475,
+    "htop": 8476,
     "impression": 58,
-    "librecad": 6642,
-    "localsend": 100793,
+    "librecad": 6645,
+    "localsend": 100981,
     "mousai": 1224,
     "newsflash": 595,
     "onlyoffice-desktop-editors": 30,
     "planify": 5820,
-    "rnote": 11914,
+    "rnote": 11916,
     "stirling-pdf": 8
   },
   "refresh": {
     "brave-origin": {
-      "lastAttemptAt": "2026-11-25T14:05:57.302Z",
-      "lastSuccessAt": "2026-11-25T14:05:57.302Z"
+      "lastAttemptAt": "2026-11-26T13:43:45.644Z",
+      "lastSuccessAt": "2026-11-26T13:43:45.644Z"
     },
     "collision": {
-      "lastAttemptAt": "2026-11-25T14:05:57.381Z",
-      "lastSuccessAt": "2026-11-25T14:05:57.381Z"
+      "lastAttemptAt": "2026-11-26T13:43:45.883Z",
+      "lastSuccessAt": "2026-11-26T13:43:45.883Z"
     },
     "dolphin-emulator": {
-      "lastAttemptAt": "2026-11-25T14:05:57.249Z",
-      "lastSuccessAt": "2026-11-25T14:05:57.249Z"
+      "lastAttemptAt": "2026-11-26T13:43:45.598Z",
+      "lastSuccessAt": "2026-11-26T13:43:45.598Z"
     },
     "eyedropper": {
-      "lastAttemptAt": "2026-11-25T14:05:57.566Z",
-      "lastSuccessAt": "2026-11-25T14:05:57.566Z"
+      "lastAttemptAt": "2026-11-26T13:43:45.822Z",
+      "lastSuccessAt": "2026-11-26T13:43:45.822Z"
     },
     "freecad": {
-      "lastAttemptAt": "2026-11-25T14:05:57.617Z",
-      "lastSuccessAt": "2026-11-25T14:05:57.617Z"
+      "lastAttemptAt": "2026-11-26T13:43:45.887Z",
+      "lastSuccessAt": "2026-11-26T13:43:45.887Z"
     },
     "gear-lever": {
-      "lastAttemptAt": "2026-11-25T14:05:57.852Z",
-      "lastSuccessAt": "2026-11-25T14:05:57.852Z"
+      "lastAttemptAt": "2026-11-26T13:43:46.062Z",
+      "lastSuccessAt": "2026-11-26T13:43:46.062Z"
     },
     "gradia": {
-      "lastAttemptAt": "2026-11-25T14:05:57.913Z",
-      "lastSuccessAt": "2026-11-25T14:05:57.913Z"
+      "lastAttemptAt": "2026-11-26T13:43:46.123Z",
+      "lastSuccessAt": "2026-11-26T13:43:46.123Z"
     },
     "htop": {
-      "lastAttemptAt": "2026-11-25T14:05:58.233Z",
-      "lastSuccessAt": "2026-11-25T14:05:58.233Z"
+      "lastAttemptAt": "2026-11-26T13:43:46.338Z",
+      "lastSuccessAt": "2026-11-26T13:43:46.338Z"
     },
     "impression": {
-      "lastAttemptAt": "2026-11-25T14:05:57.923Z",
-      "lastSuccessAt": "2026-11-25T14:05:57.923Z"
+      "lastAttemptAt": "2026-11-26T13:43:46.173Z",
+      "lastSuccessAt": "2026-11-26T13:43:46.173Z"
     },
     "librecad": {
-      "lastAttemptAt": "2026-11-25T14:05:58.301Z",
-      "lastSuccessAt": "2026-11-25T14:05:58.301Z"
+      "lastAttemptAt": "2026-11-26T13:43:46.372Z",
+      "lastSuccessAt": "2026-11-26T13:43:46.372Z"
     },
     "localsend": {
-      "lastAttemptAt": "2026-11-25T14:05:58.565Z",
-      "lastSuccessAt": "2026-11-25T14:05:58.565Z"
+      "lastAttemptAt": "2026-11-26T13:43:46.625Z",
+      "lastSuccessAt": "2026-11-26T13:43:46.625Z"
     },
     "mousai": {
-      "lastAttemptAt": "2026-11-25T14:05:58.639Z",
-      "lastSuccessAt": "2026-11-25T14:05:58.639Z"
+      "lastAttemptAt": "2026-11-26T13:43:46.616Z",
+      "lastSuccessAt": "2026-11-26T13:43:46.616Z"
     },
     "newsflash": {
-      "lastAttemptAt": "2026-11-25T14:05:58.492Z",
-      "lastSuccessAt": "2026-11-25T14:05:58.492Z"
+      "lastAttemptAt": "2026-11-26T13:43:46.570Z",
+      "lastSuccessAt": "2026-11-26T13:43:46.570Z"
     },
     "onlyoffice-desktop-editors": {
-      "lastAttemptAt": "2026-11-25T14:05:58.881Z",
-      "lastSuccessAt": "2026-11-25T14:05:58.881Z"
+      "lastAttemptAt": "2026-11-26T13:43:47.012Z",
+      "lastSuccessAt": "2026-11-26T13:43:47.012Z"
     },
     "planify": {
-      "lastAttemptAt": "2026-11-25T14:05:58.957Z",
-      "lastSuccessAt": "2026-11-25T14:05:58.957Z"
+      "lastAttemptAt": "2026-11-26T13:43:46.898Z",
+      "lastSuccessAt": "2026-11-26T13:43:46.898Z"
     },
     "rnote": {
-      "lastAttemptAt": "2026-11-25T14:05:59.138Z",
-      "lastSuccessAt": "2026-11-25T14:05:59.138Z"
+      "lastAttemptAt": "2026-11-26T13:43:47.201Z",
+      "lastSuccessAt": "2026-11-26T13:43:47.201Z"
     },
     "stirling-pdf": {
-      "lastAttemptAt": "2026-11-25T14:05:59.351Z",
-      "lastSuccessAt": "2026-11-25T14:05:59.351Z"
+      "lastAttemptAt": "2026-11-26T13:43:47.332Z",
+      "lastSuccessAt": "2026-11-26T13:43:47.332Z"
     }
   }
 }
