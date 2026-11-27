@@ -70,5 +70,8 @@
         }
       ]
     }
+  },
+  "assets": {
+    "x86_64": "oss-Bitwarden-*-x86_64.AppImage"
   }
 }
