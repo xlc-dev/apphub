@@ -2,18 +2,18 @@
   "appId": "io.github.stirling_tools.stirling_pdf",
   "releases": [
     {
-      "version": "v3.2.2@2026-11-01_1793557704",
-      "publishedAt": "2026-11-01T18:28:25Z",
-      "page": "https://github.com/pkgforge-dev/Stirling-PDF-AppImage/releases/tag/v3.2.2%402026-11-01_1793557704",
-      "releaseId": "430772780",
+      "version": "v3.5.0@2026-11-22_1795372866",
+      "publishedAt": "2026-11-22T18:41:08Z",
+      "page": "https://github.com/pkgforge-dev/Stirling-PDF-AppImage/releases/tag/v3.5.0%402026-11-22_1795372866",
+      "releaseId": "454664496",
       "artifacts": [
         {
           "architecture": "x86_64",
-          "name": "Stirling-PDF-v3.2.2-anylinux-x86_64.AppImage",
-          "url": "https://github.com/pkgforge-dev/Stirling-PDF-AppImage/releases/download/v3.2.2%402026-11-01_1793557704/Stirling-PDF-v3.2.2-anylinux-x86_64.AppImage",
-          "assetId": "699153156",
-          "size": 329116266,
-          "sha256": "7720b2c94bbb11e9b8c30a4101f07f5fba17dcd37da30b058d8b72f61bfedc2d",
+          "name": "Stirling-PDF-v3.5.0-anylinux-x86_64.AppImage",
+          "url": "https://github.com/pkgforge-dev/Stirling-PDF-AppImage/releases/download/v3.5.0%402026-11-22_1795372866/Stirling-PDF-v3.5.0-anylinux-x86_64.AppImage",
+          "assetId": "780067405",
+          "size": 315729675,
+          "sha256": "636f0117baf99d1114f1c1674760c40d3bd625fd77a8d9d61e05dc58b7a77d1c",
           "capabilities": {
             "runtimeType": 2,
             "fuse": false,
@@ -27,12 +27,12 @@
             "elfMachine": 62,
             "archive": {
               "format": "dwarfs",
-              "offset": 1507016,
-              "bytesUsed": 327609250
+              "offset": 1500392,
+              "bytesUsed": 314229283
             }
           },
           "checksumEvidence": {
-            "sourceUrl": "https://github.com/pkgforge-dev/Stirling-PDF-AppImage/releases/tag/v3.2.2%402026-11-01_1793557704"
+            "sourceUrl": "https://github.com/pkgforge-dev/Stirling-PDF-AppImage/releases/tag/v3.5.0%402026-11-22_1795372866"
           }
         }
       ]

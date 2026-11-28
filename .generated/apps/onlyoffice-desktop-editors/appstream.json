@@ -1,0 +1,81 @@
+{
+  "id": "org.onlyoffice.desktopeditors",
+  "name": "ONLYOFFICE Desktop Editors",
+  "summary": "Office productivity suite",
+  "description": [
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "value": "ONLYOFFICE Desktop Editors is a free and open-source office suite pack that comprises editors for text documents, spreadsheets, presentations, PDFs and PDF forms, along with a Diagram Viewer. It allows you to create, view and edit office docs stored on your Windows/Linux PC or Mac without an Internet connection. The suite is fully compatible with Office Open XML formats: .docx, .xlsx, .pptx."
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "value": "Thanks to the tab-based user interface, you can deal with multiple files within one and the same window. Multiple plugins allow adding any extra functionality you might need. Password protection and digital signatures ensure a higher level of security while working with files."
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "value": "Boost productivity with AI integration. Connect any AI model (local or cloud-based) for tasks like chatbot requests, translation, OCR, etc. Use AI agents to generate new files, list folder contents, preview file details without opening them in the editor, auto-fill forms with provided data, and much more."
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "value": "Switch between various interface themes to comfortably work in any environment. Extend your capabilities further with plugins to add any extra functionality you might need: edit images and photos, highlight code, convert docs to Markdown or HTML, etc."
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "value": "Along with offline work, it’s possible to connect the application to the cloud for online document collaboration. Available options include ONLYOFFICE cloud, Moodle, Nextcloud, Seafile, ownCloud, kDrive, and Liferay."
+        }
+      ]
+    }
+  ],
+  "projectLicense": "AGPL-3.0-only",
+  "developer": {
+    "name": "ONLYOFFICE",
+    "url": "https://github.com/flathub"
+  },
+  "homepage": "https://onlyoffice.com",
+  "repository": "https://github.com/flathub/org.onlyoffice.desktopeditors",
+  "contentRating": {
+    "label": "Early Childhood",
+    "minimumAge": 3
+  },
+  "keywords": [
+    "Text",
+    "Document",
+    "odt"
+  ],
+  "categories": [
+    "Office",
+    "WordProcessor",
+    "Spreadsheet",
+    "Presentation"
+  ],
+  "translations": {
+    "nl": {
+      "contentRating": {
+        "label": "3"
+      }
+    }
+  }
+}

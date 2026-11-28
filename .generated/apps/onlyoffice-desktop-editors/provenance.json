@@ -1,0 +1,24 @@
+{
+  "metadata": {
+    "provider": "flathub",
+    "sourceUrl": "https://flathub.org/api/v2/appstream/org.onlyoffice.desktopeditors",
+    "providerId": "org.onlyoffice.desktopeditors"
+  },
+  "releaseSource": {
+    "provider": "github",
+    "configuredUrl": "https://github.com/ONLYOFFICE/DesktopEditors",
+    "sourceUrl": "https://github.com/ONLYOFFICE/DesktopEditors",
+    "projectId": "69867298",
+    "ownerId": "1426033"
+  },
+  "refresh": {
+    "metadata": {
+      "lastAttemptAt": "2026-11-21T12:22:36.742Z",
+      "lastSuccessAt": "2026-11-21T12:22:36.742Z"
+    },
+    "releases": {
+      "lastAttemptAt": "2026-11-27T13:40:07.126Z",
+      "lastSuccessAt": "2026-11-27T13:40:07.126Z"
+    }
+  }
+}

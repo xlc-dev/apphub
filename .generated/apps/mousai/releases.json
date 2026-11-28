@@ -2,18 +2,18 @@
   "appId": "io.github.seadve.Mousai",
   "releases": [
     {
-      "version": "0.7.10-1@2026-11-01_1793557862",
-      "publishedAt": "2026-11-01T18:31:03Z",
-      "page": "https://github.com/pkgforge-dev/Mousai-AppImage/releases/tag/0.7.10-1%402026-11-01_1793557862",
-      "releaseId": "430774316",
+      "version": "0.7.10-1@2026-11-22_1795373507",
+      "publishedAt": "2026-11-22T18:51:48Z",
+      "page": "https://github.com/pkgforge-dev/Mousai-AppImage/releases/tag/0.7.10-1%402026-11-22_1795373507",
+      "releaseId": "454670935",
       "artifacts": [
         {
           "architecture": "x86_64",
           "name": "Mousai-0.7.10-1-anylinux-x86_64.AppImage",
-          "url": "https://github.com/pkgforge-dev/Mousai-AppImage/releases/download/0.7.10-1%402026-11-01_1793557862/Mousai-0.7.10-1-anylinux-x86_64.AppImage",
-          "assetId": "699159655",
-          "size": 54861905,
-          "sha256": "ad0f6d0edc088f59a0ae0cb13320d8741767f5579bb0a9e7321a2aa020c36745",
+          "url": "https://github.com/pkgforge-dev/Mousai-AppImage/releases/download/0.7.10-1%402026-11-22_1795373507/Mousai-0.7.10-1-anylinux-x86_64.AppImage",
+          "assetId": "780094693",
+          "size": 54799682,
+          "sha256": "46f40ebd6c90823079bde8b00d9c49b1a57847ac19c18adfe480525b8575aad6",
           "capabilities": {
             "runtimeType": 2,
             "fuse": false,
@@ -27,21 +27,21 @@
             "elfMachine": 62,
             "archive": {
               "format": "dwarfs",
-              "offset": 1507016,
-              "bytesUsed": 53354889
+              "offset": 1500392,
+              "bytesUsed": 53299290
             }
           },
           "checksumEvidence": {
-            "sourceUrl": "https://github.com/pkgforge-dev/Mousai-AppImage/releases/tag/0.7.10-1%402026-11-01_1793557862"
+            "sourceUrl": "https://github.com/pkgforge-dev/Mousai-AppImage/releases/tag/0.7.10-1%402026-11-22_1795373507"
           }
         },
         {
           "architecture": "aarch64",
           "name": "Mousai-0.7.10-1-anylinux-aarch64.AppImage",
-          "url": "https://github.com/pkgforge-dev/Mousai-AppImage/releases/download/0.7.10-1%402026-11-01_1793557862/Mousai-0.7.10-1-anylinux-aarch64.AppImage",
-          "assetId": "699159657",
-          "size": 53740402,
-          "sha256": "15105e01c139255d5cc95a55389e3d7dee757bc2d9b3f4dfc490ac377a564b57",
+          "url": "https://github.com/pkgforge-dev/Mousai-AppImage/releases/download/0.7.10-1%402026-11-22_1795373507/Mousai-0.7.10-1-anylinux-aarch64.AppImage",
+          "assetId": "780094697",
+          "size": 53826030,
+          "sha256": "96ea02304a61f15cddc0b6b2510b757a699e766f39fd666d5599702cd40e6820",
           "capabilities": {
             "runtimeType": 2,
             "fuse": false,
@@ -55,12 +55,12 @@
             "elfMachine": 183,
             "archive": {
               "format": "dwarfs",
-              "offset": 1378048,
-              "bytesUsed": 52362354
+              "offset": 1373592,
+              "bytesUsed": 52452438
             }
           },
           "checksumEvidence": {
-            "sourceUrl": "https://github.com/pkgforge-dev/Mousai-AppImage/releases/tag/0.7.10-1%402026-11-01_1793557862"
+            "sourceUrl": "https://github.com/pkgforge-dev/Mousai-AppImage/releases/tag/0.7.10-1%402026-11-22_1795373507"
           }
         }
       ]

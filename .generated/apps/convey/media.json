@@ -1,11 +1,11 @@
 {
   "icon": {
     "file": "59def061bdaa5052271a437c2aff3d7018dd45d196ac4cddd210bba3265f43c7.webp",
+    "source": "https://dl.flathub.org/media/net/donnybeelo/Convey/4edc3a3639f7af64f1fea683b00737a4/icons/128x128/net.donnybeelo.Convey.png",
     "validator": {
       "etag": "\"6adc229d-e9e\"",
       "lastModified": "Sat, 24 Oct 2026 03:14:37 GMT"
-    },
-    "source": "https://dl.flathub.org/media/net/donnybeelo/Convey/4edc3a3639f7af64f1fea683b00737a4/icons/128x128/net.donnybeelo.Convey.png"
+    }
   },
   "screenshots": [
     {
