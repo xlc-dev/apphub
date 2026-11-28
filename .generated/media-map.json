@@ -665,6 +665,11 @@
       "tag": "media-0012",
       "sha256": "f9fbea10152584a51dead2211e2e973244e59c76b7991cf6a3e1024b3af9f2de",
       "size": 5864
+    },
+    "a8647e80a6cdd881fef2ebdce10db19fbd9eb646d185965484278bd3341a9761.webp": {
+      "tag": "media-0013",
+      "sha256": "a8647e80a6cdd881fef2ebdce10db19fbd9eb646d185965484278bd3341a9761",
+      "size": 4242
     }
   }
 }
